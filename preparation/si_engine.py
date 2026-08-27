@@ -259,10 +259,27 @@ def main() -> None:
                 union_find.union(int(first), int(second))
             matrix = block["similarity"]
             start_i, start_j = bi * args.block_size, bj * args.block_size
-            for li, lj in np.argwhere(np.isfinite(matrix)):
-                value, i, j = matrix[li, lj], start_i + int(li), start_j + int(lj)
-                if value > nearest_score[i]: nearest_score[i], nearest_index[i] = value, j
-                if value > nearest_score[j]: nearest_score[j], nearest_index[j] = value, i
+            # Reduce one candidate per row/column. Iterating every finite matrix
+            # element here would turn the final 8.8-billion-pair audit into a
+            # second, Python-bound all-pairs pass.
+            valid_rows = np.any(np.isfinite(matrix), axis=1)
+            if np.any(valid_rows):
+                row_matrix = np.where(np.isfinite(matrix), matrix, -np.inf)
+                row_argmax = np.argmax(row_matrix, axis=1)
+                row_values = row_matrix[np.arange(matrix.shape[0]), row_argmax]
+                for local_i in np.flatnonzero(valid_rows):
+                    i, value = start_i + int(local_i), row_values[local_i]
+                    if value > nearest_score[i]:
+                        nearest_score[i], nearest_index[i] = value, start_j + int(row_argmax[local_i])
+            valid_columns = np.any(np.isfinite(matrix), axis=0)
+            if np.any(valid_columns):
+                column_matrix = np.where(np.isfinite(matrix), matrix, -np.inf)
+                column_argmax = np.argmax(column_matrix, axis=0)
+                column_values = column_matrix[column_argmax, np.arange(matrix.shape[1])]
+                for local_j in np.flatnonzero(valid_columns):
+                    j, value = start_j + int(local_j), column_values[local_j]
+                    if value > nearest_score[j]:
+                        nearest_score[j], nearest_index[j] = value, start_i + int(column_argmax[local_j])
 
     with (args.output_dir / "components.csv").open("w", newline="", encoding="utf-8") as handle:
         writer = csv.writer(handle); writer.writerow(["sequence_sha256", "component_root_sha256"])

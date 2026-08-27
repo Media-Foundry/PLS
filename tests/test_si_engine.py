@@ -3,6 +3,7 @@ import json
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 from pathlib import Path
 
@@ -27,6 +28,14 @@ class SequenceIdentityTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             parse_shard_indices("3", 3)
 
+    def test_logical_shards_cover_every_block_once(self):
+        blocks = [(i, j) for i in range(17) for j in range(i, 17)]
+        assignments = [[pair for ordinal, pair in enumerate(blocks) if ordinal % 11 == shard]
+                       for shard in range(11)]
+        flattened = [pair for assignment in assignments for pair in assignment]
+        self.assertEqual(len(flattened), len(set(flattened)))
+        self.assertEqual(set(flattened), set(blocks))
+
     def test_resumable_blocks_match_straightforward(self):
         sequences = ["AAAA", "AAAT", "GGGG", "A"]
         with tempfile.TemporaryDirectory() as temporary:
@@ -49,6 +58,25 @@ class SequenceIdentityTests(unittest.TestCase):
                 with np.load(path) as block: observed.extend(block["similarity"][np.isfinite(block["similarity"])])
             expected = [sequence_identity(a, b) for i, a in enumerate([s for _, s in rows]) for b in [s for _, s in rows][i + 1:]]
             self.assertEqual(sorted(observed), sorted(expected))
+            with (output / "nearest_neighbors.csv").open(newline="") as handle:
+                nearest = list(csv.DictReader(handle))
+            ordered_sequences = [sequence for _, sequence in rows]
+            for i, row in enumerate(nearest):
+                candidates = [(sequence_identity(ordered_sequences[i], other), j)
+                              for j, other in enumerate(ordered_sequences) if j != i]
+                best_score = max(score for score, _ in candidates)
+                self.assertAlmostEqual(float(row["identity"]), best_score, places=7)
+
+            # A corrupted completed block must be detected and recomputed, while
+            # every intact block remains untouched.
+            damaged = blocks[0]
+            with damaged.open("ab") as handle:
+                handle.write(b"corruption")
+            time.sleep(0.002)
+            subprocess.run(command, check=True, capture_output=True, text=True)
+            self.assertNotEqual(mtimes[damaged], damaged.stat().st_mtime_ns)
+            for path in blocks[1:]:
+                self.assertEqual(mtimes[path], path.stat().st_mtime_ns)
 
 
 if __name__ == "__main__":
