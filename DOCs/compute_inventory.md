@@ -16,6 +16,17 @@ SMT improves throughput by 18.1% on DiamondHill and 9.3% on star, so the initial
 production setting should use all hardware threads unless concurrent host load
 changes materially.
 
+Correctness checks pass on both hosts under Biopython 1.85. They cover direct
+gap-denominator examples, empty-sequence behavior, exact logical-shard coverage,
+resume without rewriting intact blocks, forced checksum corruption and selective
+recomputation, and nearest-neighbor reduction against straightforward exhaustive
+results. A seeded 10,000-pair random short-sequence differential test found zero
+SI differences between historical `pairwise2.align.globalxx(...)[0]` semantics
+and the configured `PairwiseAligner` first traceback. The canonical entity table
+contains no empty sequences or hash mismatches; its 132,781 sorted unique hashes
+imply exactly 8,815,330,590 unordered pairs. Noncanonical residues are limited to
+1,082 `X` and 2 `B` occurrences and are matched only by exact character equality.
+
 ## Storage
 
 - DiamondHill workspace: `/media/PM983/Code/PLS`, ext4 NVMe, about 2.8 TiB free.
