@@ -1,0 +1,18 @@
+# Downloaded third-party repositories and source archives are tracked by manifest.
+preparation/external/
+preparation/raw/
+
+# Generated benchmark manifests can be reproduced from preparation scripts.
+benchmark/generated/
+
+# Large model/feature artifacts.
+artifacts/
+data/
+*.pt
+*.pth
+*.pkl
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+

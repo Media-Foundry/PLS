@@ -1,0 +1,59 @@
+schema_version: 1
+retrieved_at: "2026-08-27"
+sources:
+  - name: esol_raw
+    kind: archive
+    url: https://dbarchive.biosciencedbc.jp/data/esol/LATEST/esol.zip
+    local_path: preparation/raw/esol.zip
+    sha256: 29afdd2fa5be4947c9cbb1756197f4382e5184f8a2e4ae9162689ad74643d54b
+    note: Official archive; 4,132 database rows, not all rows have a usable quantitative target.
+
+  - name: FGNNSol
+    kind: git
+    url: https://github.com/SCrownJ/FGNNSol.git
+    local_path: preparation/external/FGNNSol
+    revision: c6639ed41aa1f89cf235cf37dca5d9ed3ee939e2
+    checkout: sparse
+    license: not_found_at_repository_root
+    publication:
+      journal: Journal of Chemical Information and Modeling
+      year: 2026
+      volume: 66
+      issue: 2
+      pages: 894-909
+      doi: 10.1021/acs.jcim.5c02262
+
+  - name: SurfSol
+    kind: git
+    url: https://github.com/hehe00110001/SurfSol.git
+    local_path: preparation/external/SurfSol
+    revision: fe65cfc6712a968171257a12d2636f9f32baef0b
+    license: not_found_at_repository_root
+
+  - name: ProtSolM
+    kind: git
+    url: https://github.com/tyang816/ProtSolM.git
+    local_path: preparation/external/ProtSolM
+    revision: 3ae6593826851a3c2642023e03d22a3ecc72c727
+    license: MIT
+
+  - name: ProSolNet
+    kind: git
+    url: https://github.com/zchwang/ProSolNet.git
+    local_path: preparation/external/ProSolNet
+    revision: 01eafd50a4daf40c8b25354be78fe87a41122148
+    license: MIT
+
+large_sources:
+  - name: ProtSolM_ESMFold_PDB
+    url: https://huggingface.co/datasets/tyang816/ProtSolM_ESMFold_PDB
+    reason: Record and inspect file inventory before downloading tens of thousands of structures.
+  - name: UESolDS_PLM_Sol
+    url: https://zenodo.org/records/12881509
+    file: Violet969/PLM_Sol-V1.1.zip
+    size_bytes: 41511854
+    md5: 2f66b70595087b823d2241ff75c7d21b
+    local_path: preparation/raw/PLM_Sol-V1.1.zip
+    sha256: 24684b8713b752fb612d2c6642e2b6bb3c6be3dcbb1095d189fc08babf0f913d
+    status: downloaded_and_archive_verified
+    reason: Secondary weak supervision; preserve TargetTrack/DNASU/eSOL/PDB provenance where available.
