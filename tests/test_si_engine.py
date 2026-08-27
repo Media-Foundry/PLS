@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "preparation"))
-from si_engine import ScoringConfig, sequence_identity
+from si_engine import ScoringConfig, parse_shard_indices, sequence_identity
 
 
 class SequenceIdentityTests(unittest.TestCase):
@@ -20,6 +20,12 @@ class SequenceIdentityTests(unittest.TestCase):
     def test_empty_sequences(self):
         self.assertEqual(sequence_identity("", ""), 1.0)
         self.assertEqual(sequence_identity("A", ""), 0.0)
+
+    def test_logical_shard_parser(self):
+        self.assertEqual(parse_shard_indices("0-2,5", 8), {0, 1, 2, 5})
+        self.assertEqual(parse_shard_indices("all", 3), {0, 1, 2})
+        with self.assertRaises(ValueError):
+            parse_shard_indices("3", 3)
 
     def test_resumable_blocks_match_straightforward(self):
         sequences = ["AAAA", "AAAT", "GGGG", "A"]

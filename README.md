@@ -31,3 +31,7 @@ conda run -n BIO python -m unittest discover -s tests -v
 can resume without recomputing completed blocks. Do not launch the full 8.8-billion
 pair run until the provisional alignment scoring policy has been scientifically
 frozen and the worker/NUMA benchmark has been completed.
+
+The current two-host hardware inventory, measured throughput, stable 4,096-shard
+allocation, and expansion policy are recorded in
+[`DOCs/compute_inventory.md`](DOCs/compute_inventory.md).

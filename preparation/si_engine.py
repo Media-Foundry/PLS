@@ -177,6 +177,26 @@ def read_entities(path: Path) -> tuple[list[str], list[str]]:
     return hashes, [row["sequence"] for row in rows]
 
 
+def parse_shard_indices(specification: str, logical_shards: int) -> set[int]:
+    """Parse comma-separated indices and inclusive ranges (for example 0-9,12)."""
+    if specification == "all":
+        return set(range(logical_shards))
+    selected: set[int] = set()
+    try:
+        for token in specification.split(","):
+            bounds = token.strip().split("-", 1)
+            start = int(bounds[0])
+            stop = int(bounds[-1])
+            if start > stop:
+                raise ValueError
+            selected.update(range(start, stop + 1))
+    except (ValueError, IndexError) as error:
+        raise ValueError(f"invalid shard specification: {specification!r}") from error
+    if not selected or min(selected) < 0 or max(selected) >= logical_shards:
+        raise ValueError(f"shards must be between 0 and {logical_shards - 1}")
+    return selected
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--entities", type=Path, required=True)
@@ -184,9 +204,17 @@ def main() -> None:
     parser.add_argument("--block-size", type=int, default=256)
     parser.add_argument("--workers", type=int, default=1)
     parser.add_argument("--threshold", type=float, default=0.30)
+    parser.add_argument("--logical-shards", type=int, default=4096)
+    parser.add_argument("--shard-indices", default="all",
+                        help="comma-separated logical indices/ranges, or 'all'")
+    parser.add_argument("--reduce-only", action="store_true")
     args = parser.parse_args()
-    if args.block_size < 1 or args.workers < 1 or not 0 <= args.threshold <= 1:
+    if args.block_size < 1 or args.workers < 1 or args.logical_shards < 1 or not 0 <= args.threshold <= 1:
         parser.error("block-size/workers must be positive and threshold must be in [0,1]")
+    try:
+        selected_shards = parse_shard_indices(args.shard_indices, args.logical_shards)
+    except ValueError as error:
+        parser.error(str(error))
 
     hashes, sequences = read_entities(args.entities)
     scoring = ScoringConfig()
@@ -194,6 +222,7 @@ def main() -> None:
         "schema_version": 1, "biopython_version": Bio.__version__,
         "entity_manifest_sha256": _sha256(args.entities), "entity_count": len(sequences),
         "block_size": args.block_size, "threshold": args.threshold,
+        "logical_shards": args.logical_shards,
         "scoring": asdict(scoring),
     }
     config_path = args.output_dir / "run_config.json"
@@ -203,13 +232,22 @@ def main() -> None:
 
     block_count = (len(sequences) + args.block_size - 1) // args.block_size
     all_blocks = [(bi, bj) for bi in range(block_count) for bj in range(bi, block_count)]
-    pending = [pair for pair in all_blocks if not _valid_block(args.output_dir, *pair)]
-    print(f"entities={len(sequences):,} blocks={len(all_blocks):,} pending={len(pending):,}")
-    if pending:
+    assigned_blocks = [pair for ordinal, pair in enumerate(all_blocks)
+                       if ordinal % args.logical_shards in selected_shards]
+    pending = [pair for pair in assigned_blocks if not _valid_block(args.output_dir, *pair)]
+    print(f"entities={len(sequences):,} blocks={len(all_blocks):,} "
+          f"assigned={len(assigned_blocks):,} pending={len(pending):,} "
+          f"logical_shards={len(selected_shards):,}/{args.logical_shards:,}")
+    if pending and not args.reduce_only:
         with Pool(args.workers, _init_worker, (sequences, scoring, args.threshold, args.block_size, args.output_dir)) as pool:
             for done, _result in enumerate(pool.imap_unordered(_compute_block, pending), 1):
                 if done % 10 == 0 or done == len(pending):
                     print(f"completed {done:,}/{len(pending):,} pending blocks", flush=True)
+
+    missing = [pair for pair in all_blocks if not _valid_block(args.output_dir, *pair)]
+    if missing:
+        print(f"Computation shard complete; global reduction deferred ({len(missing):,} blocks missing)")
+        return
 
     union_find = UnionFind(len(sequences))
     nearest_score = np.full(len(sequences), -1, dtype=np.float32)
