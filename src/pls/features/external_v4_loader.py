@@ -35,7 +35,14 @@ def load_external_v4(source_root: Path):
     if missing: raise FileNotFoundError(f"missing external V4 source files: {missing}")
     root_string = str(source_root)
     if root_string not in sys.path: sys.path.insert(0, root_string)
-    preparation = importlib.import_module("preparation")
+    try:
+        preparation = importlib.import_module("preparation")
+    except ModuleNotFoundError as error:
+        if error.name != "preparation":
+            raise
+        preparation = types.ModuleType("preparation")
+        preparation.__path__ = []
+        sys.modules["preparation"] = preparation
     package = sys.modules.get("preparation.protein")
     if package is None:
         package = types.ModuleType("preparation.protein")
