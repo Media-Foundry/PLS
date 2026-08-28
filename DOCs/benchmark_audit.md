@@ -104,3 +104,8 @@ The primary split will therefore use exhaustive Biopython SI. A packed triangula
 float32 matrix is about 35 GB and fits comfortably; threshold edges and nearest-
 neighbor audit records are stored alongside it. Faster candidate methods remain
 optional comparisons, not part of the scientific guarantee.
+
+The exhaustive run and component audit are now complete. See
+[`si_component_audit.md`](si_component_audit.md) for the construct-tag bridge,
+giant-component sensitivity, and quantified incompatibility between the legacy
+FGNNSol membership and strict SI30 splitting.
