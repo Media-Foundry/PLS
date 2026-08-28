@@ -21,6 +21,14 @@ class PLMHeadTests(unittest.TestCase):
         for task in tasks:
             self.assertIsNotNone(model.heads[task].weight.grad)
 
+    def test_task_adapter_variant(self):
+        model = PLMDatasetHeads(input_dimension=8, hidden_dimension=6,
+                                representation_dimension=4, dropout=0, task_adapters=True)
+        output = model(torch.randn(3, 8), "esol")
+        self.assertEqual(output.shape, (3,))
+        output.sum().backward()
+        self.assertIsNotNone(model.adapters["esol"][1].weight.grad)
+
 
 if __name__ == "__main__":
     unittest.main()
