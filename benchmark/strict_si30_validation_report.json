@@ -1,0 +1,11 @@
+{
+  "block_count": 134940,
+  "cross_split_pair_count": 3575788456,
+  "entity_count": 132781,
+  "entity_manifest_sha256": "7ae6549a4c617a11ebf094c4ff04cdea501d9f0a6ff09aac88ab1ddd1077dd47",
+  "entity_split_sha256": "1dfc29d4d3a5a333235d72f42335b4b7fd6b869c7522529f4690e48fe9ea764c",
+  "maximum_cross_split_identity": 0.2999204397201538,
+  "run_config_sha256": "8e3bf961de0bd0a16de41e7541b75b6a94528085ec3d4ac2a4997f44d283eaca",
+  "schema_version": 1,
+  "threshold_edge_cross_split_violations": 0
+}
