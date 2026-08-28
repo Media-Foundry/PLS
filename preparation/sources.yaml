@@ -46,8 +46,14 @@ sources:
 
 large_sources:
   - name: ProtSolM_ESMFold_PDB
-    url: https://huggingface.co/datasets/tyang816/ProtSolM_ESMFold_PDB
-    reason: Record and inspect file inventory before downloading tens of thousands of structures.
+    url: https://huggingface.co/datasets/AI4Protein/ProtSolM_ESMFold_PDB
+    file: PDBSol_ESMFold_PDB.zip
+    size_bytes: 2273909990
+    sha256: 3eeb012f74587a229bef12ba534bb325f5b6620311dc12bf26cb48d0f7914ffc
+    local_path: preparation/raw/PDBSol_ESMFold_PDB.zip
+    license: Apache-2.0
+    status: download_started_2026-08-29
+    reason: Published ESMFold structures for controlled PDBSol V4/90D structural ablations.
   - name: UESolDS_PLM_Sol
     url: https://zenodo.org/records/12881509
     file: Violet969/PLM_Sol-V1.1.zip
