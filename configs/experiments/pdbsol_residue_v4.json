@@ -11,5 +11,5 @@
     "structure_status": "artifacts/features/pdbsol_structure_v4_pooled/status.npy"
   },
   "model": {"pooling": "attention", "hidden_dimension": 256, "representation_dimension": 256, "dropout": 0.15, "structure_dropout": 0.1},
-  "training": {"hip_device": 7, "batch_size": 48, "workers": 6, "epochs": 20, "patience": 4, "checkpoint_every": 4, "learning_rate": 0.0002, "weight_decay": 0.0001, "seed": 20260829}
+  "training": {"hip_device": 7, "batch_size": 48, "workers": 6, "amp_bfloat16": true, "epochs": 20, "patience": 4, "checkpoint_every": 4, "learning_rate": 0.0002, "weight_decay": 0.0001, "seed": 20260829}
 }
