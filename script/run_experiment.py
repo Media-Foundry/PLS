@@ -22,7 +22,7 @@ def main() -> None:
     parser.add_argument("--seed-override", type=int)
     parser.add_argument("--hip-override", type=int)
     parser.add_argument("--architecture-override", choices=("early", "late", "gated_residual", "film"))
-    parser.add_argument("--pooling-override", choices=("mean", "attention", "conditioned_attention", "multihead_attention", "statistics_attention", "gated_statistics_attention", "multiscale_attention", "conv_attention", "local_attention", "plddt_gate", "dual_patch"))
+    parser.add_argument("--pooling-override", choices=("mean", "attention", "conditioned_attention", "tcn_conditioned_attention", "multihead_attention", "statistics_attention", "gated_statistics_attention", "multiscale_attention", "conv_attention", "local_attention", "plddt_gate", "dual_patch"))
     parser.add_argument("--disable-amp", action="store_true")
     parser.add_argument("--disable-compact", action="store_true")
     parser.add_argument("--geometry-layers-override", type=int)
@@ -32,6 +32,7 @@ def main() -> None:
     parser.add_argument("--use-sequence-separation", action="store_true")
     parser.add_argument("--dropout-override", type=float)
     parser.add_argument("--hidden-dimension-override", type=int)
+    parser.add_argument("--representation-dimension-override", type=int)
     parser.add_argument("--ema-decay-override", type=float)
     parser.add_argument("--label-smoothing-override", type=float)
     parser.add_argument("--global-groups-override", nargs="+", choices=("physchem", "scalar", "vector", "patch"))
@@ -72,6 +73,8 @@ def main() -> None:
         config["model"]["dropout"] = args.dropout_override
     if args.hidden_dimension_override is not None:
         config["model"]["hidden_dimension"] = args.hidden_dimension_override
+    if args.representation_dimension_override is not None:
+        config["model"]["representation_dimension"] = args.representation_dimension_override
     if args.ema_decay_override is not None:
         config["training"]["ema_decay"] = args.ema_decay_override
     if args.label_smoothing_override is not None:
