@@ -31,13 +31,13 @@
       "note": "AUROC/AUPRC/Brier and MCC selections are intentionally distinct; do not select between them on test."
     },
     "uesolds": {
-      "auroc_auprc_report": "outputs/validation_selection/uesolds_conditioned_multiseed_ensembles.json",
-      "auroc": 0.7978996011138089,
-      "auprc": 0.8584354956484839,
-      "mcc_report": "outputs/validation_selection/uesolds_midlayer_ensembles.json",
-      "mcc_at_selected_threshold": 0.4365532589511602,
-      "mcc_threshold": 0.5687823295593262,
-      "calibrated_brier": 0.18410028980460302,
+      "auroc_auprc_report": "outputs/validation_selection/uesolds_shift_tcn_ensembles.json",
+      "auroc": 0.7989875969027243,
+      "auprc": 0.8598751099882649,
+      "mcc_report": "outputs/validation_selection/uesolds_shift_tcn_ensembles.json",
+      "mcc_at_selected_threshold": 0.4421769729358932,
+      "mcc_threshold": 0.5476736426353455,
+      "calibrated_brier": 0.18295041919779248,
       "note": "AUROC/AUPRC and MCC selections are intentionally distinct; do not select between them on test."
     },
     "esol": {
