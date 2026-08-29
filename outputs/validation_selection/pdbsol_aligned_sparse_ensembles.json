@@ -1,0 +1,49 @@
+{
+  "base_report": "outputs/validation_selection/pdbsol_gvp_multiseed_ensembles.json",
+  "base_runs": [
+    "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_v6matched_baseline+08-29-16-23",
+    "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s32+08-29-16-44",
+    "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_seqedge_s29+08-29-16-55",
+    "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_drop03+08-29-19-18",
+    "outputs/pdbsol_geometry_cross_attention_v6_strict_si30_attn_seqsep+08-29-20-09",
+    "outputs/pdbsol_pool_scalar_strict_si30_pred_late_s31+08-29-21-16",
+    "outputs/pdbsol_pool_scalar_strict_si30_pred_gate_s30+08-29-21-16",
+    "outputs/pdbsol_gvp_structure_v8_strict_si30_s192v24+08-29-21-23",
+    "outputs/pdbsol_gvp_structure_v8_strict_si30_drop01+08-29-21-35",
+    "outputs/pdbsol_gvp_structure_v8_strict_si30_ema099+08-29-21-35",
+    "outputs/pdbsol_gvp_structure_v8_strict_si30_s33+08-29-21-35"
+  ],
+  "base_weight": 0.86,
+  "calibrated": {
+    "auprc": 0.9159800856234023,
+    "auroc": 0.9043118395941034,
+    "balanced_accuracy": 0.8158744705115712,
+    "brier": 0.12696309721846422,
+    "ece": 0.026617734741463957,
+    "f1": 0.816162862430592,
+    "mcc": 0.6313517098803542,
+    "n": 6429
+  },
+  "candidate_weights": {
+    "outputs/pdbsol_geometry_aligned_sparse_v10_strict_si30_rsa_base+08-29-22-07": 0.08,
+    "outputs/pdbsol_geometry_aligned_sparse_v10_strict_si30_rsa_deep2_s33+08-29-22-07": 0.05,
+    "outputs/pdbsol_geometry_confidence_moe_v9_strict_si30_rsa_base+08-29-22-07": 0.0,
+    "outputs/pdbsol_geometry_confidence_moe_v9_strict_si30_rsa_drop01_s31+08-29-22-07": 0.01
+  },
+  "entity_count": 6429,
+  "mcc_at_selected_threshold": 0.6352197019383112,
+  "mcc_threshold": 0.45102215022162145,
+  "selection_data": "strict-validation only",
+  "temperature": 1.2714623714339939,
+  "test_evaluated": false,
+  "uncalibrated": {
+    "auprc": 0.9159800856234023,
+    "auroc": 0.9043118395941034,
+    "balanced_accuracy": 0.8158744705115712,
+    "brier": 0.12804302067512102,
+    "ece": 0.03897076596048832,
+    "f1": 0.816162862430592,
+    "mcc": 0.6313517098803542,
+    "n": 6429
+  }
+}
