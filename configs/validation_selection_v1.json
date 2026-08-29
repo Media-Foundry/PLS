@@ -42,8 +42,8 @@
       "note": "AUROC/AUPRC and MCC selections are intentionally distinct; do not select between them on test."
     },
     "esol": {
-      "primary_report": "outputs/validation_selection/esol_structure_cross_ensemble.json",
-      "metrics": {"spearman": 0.7699021197492514, "pearson": 0.7598655526509766, "rmse": 0.2105150665005315, "mae": 0.16514516300225301, "affine_rmse": 0.2092594869792183},
+      "primary_report": "outputs/validation_selection/esol_pooled_v4_trees_v5_strict_si30_rf_leaf3+08-29-21-10_with_geometry.json",
+      "metrics": {"spearman": 0.771705127834681, "pearson": 0.762683088130933, "rmse": 0.20986663939903716, "mae": 0.1666131740582458, "affine_rmse": 0.20819468678965963},
       "runs": [
         "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
         "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
@@ -52,15 +52,15 @@
       ],
       "structure_runs": [
         "outputs/esol_geometry_residue_esm_physchem_v3_strict_si30_dual_seqsep+08-29-19-50",
-        "outputs/esol_geometry_cross_attention_v4_strict_si30_rank005+08-29-19-57"
+        "outputs/esol_pooled_v4_trees_v5_strict_si30_rf_leaf3+08-29-21-10"
       ],
-      "structure_weights": [0.15, 0.068],
+      "structure_weights": [0.13, 0.1914],
       "structure_entities": 266,
       "fallback_entities": 1,
       "fallback_rule": "Use the full-coverage sequence ensemble unchanged when an exact-sequence AlphaFold structure is unavailable.",
-      "affine_slope": 1.0201746928653102,
-      "affine_intercept": 0.01308591337030144,
-      "note": "Rank-correlation selection; the previous single-structure blend remains the uncalibrated-RMSE selection."
+      "affine_slope": 1.0977094816882176,
+      "affine_intercept": -0.031173763456029836,
+      "note": "Rank-correlation selection with heterogeneous neural geometry and pooled-V4 random-forest branches."
     }
   }
 }
