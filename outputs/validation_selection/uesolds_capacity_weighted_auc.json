@@ -1,0 +1,52 @@
+{
+  "calibrated": {
+    "auprc": 0.8639794263665769,
+    "auroc": 0.8037905234314868,
+    "balanced_accuracy": 0.7250453320179125,
+    "brier": 0.18217811488567887,
+    "ece": 0.0681541307738946,
+    "f1": 0.7282818532818458,
+    "mcc": 0.4427177232445432,
+    "n": 7790
+  },
+  "entity_count": 7790,
+  "mcc_at_selected_threshold": 0.449279009522698,
+  "mcc_threshold": 0.5133083337672071,
+  "objective": "auroc",
+  "runs": [
+    "outputs/uesolds_residue_esm_conditioned_v10_strict_si30_concat_s29+08-29-20-20",
+    "outputs/uesolds_residue_esm_layer24_physchem_v5_strict_si30_s20260830+08-29-18-28",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_cap256+08-29-20-39",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4+08-29-20-56",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4wide256+08-29-20-56",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep5_interaction+08-29-20-56",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_drop03+08-29-20-47",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_wide256+08-29-20-56",
+    "outputs/uesolds_residue_esm_tcn_conditioned_v11_strict_si30_cap384+08-29-20-27"
+  ],
+  "selection_data": "strict-validation only",
+  "source_report": "outputs/validation_selection/uesolds_shift_tcn_capacity_ensembles.json",
+  "temperature": 1.2431916528278486,
+  "test_evaluated": false,
+  "uncalibrated": {
+    "auprc": 0.8639794263665769,
+    "auroc": 0.8037905234314868,
+    "balanced_accuracy": 0.7250453320179125,
+    "brier": 0.18349507555142014,
+    "ece": 0.07589446357205779,
+    "f1": 0.7282818532818458,
+    "mcc": 0.4427177232445432,
+    "n": 7790
+  },
+  "weights": [
+    0.1389144219712122,
+    0.10927638601761085,
+    0.015005076523803573,
+    0.17527530016802428,
+    0.0,
+    0.08499954841426632,
+    0.19640108385026586,
+    0.16012818305481683,
+    0.12
+  ]
+}
