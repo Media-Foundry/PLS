@@ -58,6 +58,7 @@ def main() -> None:
     parser.add_argument("--entities", type=Path, default=Path("benchmark/generated/sequence_entities.csv"))
     parser.add_argument("--compact", type=Path, default=Path("artifacts/features/pdbsol_structure_v4_compact"))
     parser.add_argument("--geometry", type=Path, default=Path("artifacts/features/pdbsol_structure_v4_geometry"))
+    parser.add_argument("--structure-stats", type=Path, default=Path("artifacts/features/pdbsol_structure_v4_train_stats.json"))
     parser.add_argument("--output", type=Path, default=Path("artifacts/features/pdbsol_surface_patch_components_v1"))
     parser.add_argument("--rsa-threshold", type=float, default=.25)
     parser.add_argument("--edge-cutoff", type=float, default=8.)
@@ -66,6 +67,7 @@ def main() -> None:
     offsets = np.load(args.compact / "offsets.npy", mmap_mode="r")
     compact_meta = json.loads((args.compact / "metadata.json").read_text())
     geometry_meta = json.loads((args.geometry / "metadata.json").read_text())
+    structure_stats = json.loads(args.structure_stats.read_text())
     shape = tuple(compact_meta["shape"]); neighbor_shape = (geometry_meta["residues"], geometry_meta["neighbors"])
     if len(offsets) != len(rows) + 1 or shape[0] != neighbor_shape[0] or int(offsets[-1]) != shape[0]:
         raise ValueError("entity, compact, and geometry caches are not aligned")
@@ -83,7 +85,8 @@ def main() -> None:
             continue
         if hi - lo != len(sequence):
             raise ValueError(f"sequence/cache length mismatch for entity {entity}")
-        current = components(sequence, np.asarray(features[lo:hi, 21], np.float32),
+        rsa = np.clip(np.asarray(features[lo:hi, 63], np.float32) * structure_stats["scalar_stds"][1] + structure_stats["scalar_means"][1], 0, 1)
+        current = components(sequence, rsa,
                              np.asarray(neighbors[lo:hi], np.int64), np.asarray(distances[lo:hi], np.float32),
                              args.rsa_threshold, args.edge_cutoff)
         labels[lo:hi] = current
@@ -91,7 +94,8 @@ def main() -> None:
     labels.flush(); np.save(args.output / "patch_counts.npy", patch_counts)
     source_digest = hashlib.sha256(args.entities.read_bytes()).hexdigest()
     metadata = {"schema": "PLS_mesh_free_surface_components_v1", "shape": [shape[0], len(CATEGORIES)],
-                "entities": len(rows), "categories": list(CATEGORIES), "rsa_feature_index": 21,
+                "entities": len(rows), "categories": list(CATEGORIES), "standardized_rsa_feature_index": 63,
+                "spatial_scalar_rsa_index": 1, "rsa_inverse_transform_source": str(args.structure_stats),
                 "rsa_threshold": args.rsa_threshold, "edge_cutoff_angstrom": args.edge_cutoff,
                 "source_entities_sha256": source_digest, "coordinate_system": "entity-local component ids",
                 "non_member_value": -1}

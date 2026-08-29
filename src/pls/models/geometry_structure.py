@@ -14,8 +14,8 @@ class KNNMessageLayer(nn.Module):
   edge=torch.cat(parts,-1);edge_product=(confidence[:,:,None] if confidence is not None else torch.ones_like(distances))*(confidence[batch,neighbor_indices] if confidence is not None else torch.ones_like(distances));edge_gate=torch.sqrt(edge_product.clamp_min(1e-8))*valid;message=self.message(edge)*edge_gate[...,None];logits=self.attention(edge).squeeze(-1)+edge_gate.clamp_min(1e-6).log();weights=torch.softmax(logits.masked_fill(~valid,-1e4),2)*valid;weights=weights/weights.sum(2,keepdim=True).clamp_min(1e-8);aggregate=(message*weights[...,None]).sum(2);node_gate=confidence if confidence is not None else mask;return z+self.update(torch.cat((z,aggregate),-1))*node_gate[...,None]
 
 class GeometryLateFusion(nn.Module):
- def __init__(self,seq_dimension=1280,input_dimension=152,hidden_dimension=256,representation_dimension=256,dropout=.15,layers=1,pooling='attention',global_dimension=0,use_sequence_separation=False,fusion='concat',confidence_mode='legacy',residue_sequence_dimension=0):
-  super().__init__();self.pooling=pooling;self.fusion=fusion;self.confidence_mode=confidence_mode;self.residue_sequence_dimension=residue_sequence_dimension
+ def __init__(self,seq_dimension=1280,input_dimension=152,hidden_dimension=256,representation_dimension=256,dropout=.15,layers=1,pooling='attention',global_dimension=0,use_sequence_separation=False,fusion='concat',confidence_mode='legacy',residue_sequence_dimension=0,rsa_mean=0.,rsa_std=1.):
+  super().__init__();self.pooling=pooling;self.fusion=fusion;self.confidence_mode=confidence_mode;self.residue_sequence_dimension=residue_sequence_dimension;self.rsa_mean=float(rsa_mean);self.rsa_std=float(rsa_std)
   if fusion=='residue_aligned_sparse' and residue_sequence_dimension<=0:raise ValueError('residue_aligned_sparse requires residue_sequence_dimension > 0')
   structure_input_dimension=input_dimension-residue_sequence_dimension if fusion=='residue_aligned_sparse' else input_dimension
   if structure_input_dimension<=0:raise ValueError('structure input dimension must be positive')
@@ -30,10 +30,11 @@ class GeometryLateFusion(nn.Module):
    self.aligned_graph=KNNMessageLayer(representation_dimension,16,dropout,use_sequence_separation)
    self.aligned_attention=nn.Linear(representation_dimension+1,1)
   branches=(5 if fusion in ('cross_attention','global_query_pooling','residue_aligned_sparse') else 2)+(1 if global_dimension else 0);self.head=nn.Sequential(nn.LayerNorm(representation_dimension*branches),nn.Linear(representation_dimension*branches,representation_dimension),nn.GELU(),nn.Dropout(dropout),nn.Linear(representation_dimension,1))
+ def residue_rsa(self,residue):return (residue[...,63]*self.rsa_std+self.rsa_mean).clamp(0,1)
  def forward(self,sequence,residue,plddt,patch,mask,neighbors,distances,global_features=None):
   confidence=None
   if self.confidence_mode=='propagated_moe':
-   batch=torch.arange(len(residue),device=residue.device)[:,None,None];valid=mask[batch,neighbors.long()]&mask[:,:,None]&(distances>1e-6);neighbor_conf=(plddt[batch,neighbors.long()]*valid).sum(2)/valid.sum(2).clamp_min(1);rsa=residue[...,21].clamp(0,1);packing=residue[...,141] if residue.shape[-1]>141 else torch.zeros_like(plddt);confidence=self.residue_confidence(torch.stack((plddt,neighbor_conf,rsa,packing),-1)).squeeze(-1)*plddt*mask
+   batch=torch.arange(len(residue),device=residue.device)[:,None,None];valid=mask[batch,neighbors.long()]&mask[:,:,None]&(distances>1e-6);neighbor_conf=(plddt[batch,neighbors.long()]*valid).sum(2)/valid.sum(2).clamp_min(1);rsa=self.residue_rsa(residue);packing=residue[...,141] if residue.shape[-1]>141 else torch.zeros_like(plddt);confidence=self.residue_confidence(torch.stack((plddt,neighbor_conf,rsa,packing),-1)).squeeze(-1)*plddt*mask
   structure_residue=residue[...,:-self.residue_sequence_dimension] if self.fusion=='residue_aligned_sparse' else residue
   z=self.input(structure_residue)*(confidence[...,None] if confidence is not None else mask[...,None])
   for layer in self.layers:z=layer(z,neighbors,distances,mask,confidence)
@@ -41,7 +42,7 @@ class GeometryLateFusion(nn.Module):
   if self.pooling=='dual_patch':
    logits=self.patch_attention(torch.cat((z,patch),-1)).squeeze(-1).masked_fill(~mask,-torch.inf);pw=torch.softmax(logits,1);pooled=self.merge(torch.cat((pooled,(z*pw[...,None]).sum(1)),1))
   quality=torch.stack(((plddt*mask).sum(1)/count,((plddt<.7)&mask).sum(1)/count,torch.log1p(count)/10),1);legacy_gate=self.gate(quality);seq=self.sequence(sequence)
-  if self.confidence_mode=='propagated_moe':protein_quality=torch.cat((quality,(confidence.sum(1)/count)[:,None],((residue[...,21].clamp(0,1)*mask).sum(1)/count)[:,None]),1);protein_gate=quality[:,0:1]*self.protein_confidence(protein_quality)
+  if self.confidence_mode=='propagated_moe':protein_quality=torch.cat((quality,(confidence.sum(1)/count)[:,None],((rsa*mask).sum(1)/count)[:,None]),1);protein_gate=quality[:,0:1]*self.protein_confidence(protein_quality)
   else:protein_gate=legacy_gate;pooled=pooled*legacy_gate
   if self.fusion in ('cross_attention','global_query_pooling'):
    cross_logits=(self.cross_key(z)*self.cross_query(seq)[:,None,:]).sum(-1)*self.cross_scale;cross_logits=cross_logits.masked_fill(~mask,-torch.inf);cross=(z*torch.softmax(cross_logits,1)[...,None]).sum(1);branches=[seq,pooled,cross,seq*cross,(seq-cross).abs()]
