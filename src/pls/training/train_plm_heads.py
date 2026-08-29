@@ -74,6 +74,24 @@ def metrics_from_predictions(predictions, targets):
     return report
 
 
+def entity_macro_metrics(predictions, targets, records):
+    report = {}
+    for task in TASKS:
+        task_records = [(entity, target) for entity, name, target in records if name == task]
+        if task not in predictions or not task_records: continue
+        counts = Counter(entity for entity, _ in task_records)
+        weights = np.asarray([1 / counts[entity] for entity, _ in task_records], dtype=np.float64)
+        if task == "esol":
+            # Exact-repeat observations are collapsed only for reporting; training retains every observation.
+            grouped_prediction, grouped_target = defaultdict(list), defaultdict(list)
+            for (entity, _), prediction, target in zip(task_records, predictions[task], targets[task]):
+                grouped_prediction[entity].append(prediction);grouped_target[entity].append(target)
+            report[task] = regression_metrics([np.mean(grouped_target[e]) for e in grouped_target],
+                                              [np.mean(grouped_prediction[e]) for e in grouped_target])
+        else:report[task] = binary_metrics(targets[task], predictions[task], sample_weight=weights)
+    return report
+
+
 def validation_objective(metrics, selection="balanced"):
     # All endpoints contribute equally. Higher correlations/AUROC become a
     # minimization objective while retaining interpretable endpoint metrics.
@@ -183,6 +201,11 @@ def main() -> None:
         report = metrics_from_predictions(predictions, truth)
         (args.run_dir / f"{split}_metrics.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
         if split == "validation":
+            entity_report = entity_macro_metrics(predictions, truth, records[split])
+            (args.run_dir / "validation_entity_metrics.json").write_text(json.dumps(entity_report, indent=2, sort_keys=True) + "\n")
+            source_macro = {"balanced_objective": validation_objective(report, "balanced"),
+                            "tasks": list(report), "aggregation": "equal endpoint weight"}
+            (args.run_dir / "validation_source_macro.json").write_text(json.dumps(source_macro, indent=2, sort_keys=True) + "\n")
             for task in TASKS:
                 task_entities = np.asarray([entity for entity, name, _ in records[split]
                                             if name == task], dtype=np.int64)
