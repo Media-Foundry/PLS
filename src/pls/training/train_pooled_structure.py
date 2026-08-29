@@ -17,11 +17,11 @@ class D(Dataset):
   if self.cols: parts.append(np.array(self.struct[j,self.cols],copy=True))
   return torch.from_numpy(np.concatenate(parts)),torch.tensor(y,dtype=torch.float32)
 
-def predict(model,loader,device):
+def predict(model,loader,device,raw=False):
  model.eval(); p=[]; y=[]
  with torch.inference_mode():
   for x,t in loader: p.extend(model(x.to(device)).cpu().tolist()); y.extend(t.tolist())
- return binary_metrics(y,p)
+ return (np.asarray(y,np.float32),np.asarray(p,np.float32)) if raw else binary_metrics(y,p)
 
 def main():
  p=argparse.ArgumentParser(); p.add_argument('--config',type=Path,required=True); p.add_argument('--run-dir',type=Path,required=True)
@@ -60,7 +60,7 @@ def main():
   else: stale+=1
   if stale>=tr['patience']: break
  writer.close(); (a.run_dir/'history.json').write_text(json.dumps(history,indent=2)+'\n'); beststate=torch.load(a.run_dir/'checkpoints'/'best.pt',map_location=device,weights_only=False); model.load_state_dict(beststate['model'])
- (a.run_dir/'validation_metrics.json').write_text(json.dumps({'pdbsol':predict(model,loaders['validation'],device)},indent=2,sort_keys=True)+'\n')
+ validation_truth,validation_logits=predict(model,loaders['validation'],device,True);(a.run_dir/'validation_metrics.json').write_text(json.dumps({'pdbsol':binary_metrics(validation_truth,validation_logits)},indent=2,sort_keys=True)+'\n');np.savez_compressed(a.run_dir/'validation_predictions.npz',targets=validation_truth,logits=validation_logits,entity_indices=np.asarray([i for i,_ in rows['validation']],np.int64))
  if c.get('evaluate_test',False): (a.run_dir/'test_metrics.json').write_text(json.dumps({'pdbsol':predict(model,loaders['test'],device)},indent=2,sort_keys=True)+'\n')
  print(json.dumps({'best_epoch':beststate['epoch'],'best_validation_auroc':best,'test_evaluated':c.get('evaluate_test',False)}))
 if __name__=='__main__': main()
