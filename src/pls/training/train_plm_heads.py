@@ -74,9 +74,15 @@ def metrics_from_predictions(predictions, targets):
     return report
 
 
-def validation_objective(metrics):
+def validation_objective(metrics, selection="balanced"):
     # All endpoints contribute equally. Higher correlations/AUROC become a
     # minimization objective while retaining interpretable endpoint metrics.
+    if selection == "esol_spearman":
+        return float(1 - metrics["esol"]["spearman"])
+    if selection == "pdbsol_auroc":
+        return float(1 - metrics["pdbsol"]["auroc"])
+    if selection == "uesolds_auroc":
+        return float(1 - metrics["uesolds"]["auroc"])
     return float(np.mean([1 - metrics["uesolds"]["auroc"], 1 - metrics["pdbsol"]["auroc"],
                           1 - metrics["esol"]["spearman"]]))
 
@@ -141,7 +147,7 @@ def main() -> None:
             loss.backward(); optimizer.step(); loss_sum += loss.item() * len(tasks); count += len(tasks)
         validation_predictions, validation_targets = predict(model, loaders["validation"], device)
         validation_metrics = metrics_from_predictions(validation_predictions, validation_targets)
-        objective = validation_objective(validation_metrics)
+        objective = validation_objective(validation_metrics, training.get("selection_objective", "balanced"))
         row = {"epoch": epoch, "train_loss": loss_sum / count,
                "validation_objective": objective, "validation": validation_metrics}
         history.append(row); print(json.dumps(row, sort_keys=True), flush=True)
