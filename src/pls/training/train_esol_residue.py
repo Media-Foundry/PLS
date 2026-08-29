@@ -9,12 +9,12 @@ from torch.utils.tensorboard import SummaryWriter
 from pls.evaluation.metrics import regression_metrics
 from pls.models.residue_sequence import ResidueSequenceRegressor
 class Data(Dataset):
- def __init__(self,rows,global_esm,offsets,residue_path,shape):self.rows,self.global_esm,self.offsets,self.residue_path,self.shape=rows,global_esm,offsets,residue_path,shape;self._data=None
+ def __init__(self,rows,global_esm,offsets,residue_path,shape,descriptors=None):self.rows,self.global_esm,self.offsets,self.residue_path,self.shape,self.descriptors=rows,global_esm,offsets,residue_path,shape,descriptors;self._data=None
  def __len__(self):return len(self.rows)
  def __getitem__(self,i):
   entity,target=self.rows[i]
   if self._data is None:self._data=np.memmap(self.residue_path,mode='r',dtype=np.float16,shape=self.shape)
-  lo,hi=int(self.offsets[entity]),int(self.offsets[entity+1]);res=torch.from_numpy(np.array(self._data[lo:hi],dtype=np.float32,copy=True));return torch.from_numpy(np.array(self.global_esm[entity],copy=True)),res,torch.tensor(target,dtype=torch.float32)
+  lo,hi=int(self.offsets[entity]),int(self.offsets[entity+1]);res=torch.from_numpy(np.array(self._data[lo:hi],dtype=np.float32,copy=True));global_x=np.array(self.global_esm[entity],copy=True);global_x=np.concatenate((global_x,self.descriptors[entity])) if self.descriptors is not None else global_x;return torch.from_numpy(global_x),res,torch.tensor(target,dtype=torch.float32)
 def collate(batch):
  n=max(len(v[1]) for v in batch);res=torch.zeros(len(batch),n,batch[0][1].shape[1]);mask=torch.zeros(len(batch),n,dtype=torch.bool)
  for i,(_,x,_) in enumerate(batch):res[i,:len(x)]=x;mask[i,:len(x)]=1
