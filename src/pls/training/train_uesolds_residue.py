@@ -13,6 +13,11 @@ from pls.training.train_residue_structure import BalancedLengthBatchSampler
 
 SOURCE='UESolDS_PLM_Sol_1.1'
 
+def binary_rank_loss(logits,targets):
+ positive=logits[targets>.5];negative=logits[targets<=.5]
+ if not len(positive) or not len(negative):return logits.new_zeros(())
+ return nn.functional.softplus(-(positive[:,None]-negative[None,:])).mean()
+
 def infer(model,loader,device,amp=False):
  model.eval();truth=[];logits=[]
  with torch.inference_mode():
@@ -37,7 +42,7 @@ def main():
   started=time.monotonic();model.train();total=count=0
   for global_x,res,mask,y in train:
    global_x,res,mask,y=[v.to(device,non_blocking=True) for v in (global_x,res,mask,y)];opt.zero_grad(set_to_none=True);smooth=float(tr.get('label_smoothing',0));target=y*(1-smooth)+.5*smooth
-   with torch.autocast('cuda',dtype=torch.bfloat16,enabled=tr.get('amp_bfloat16',True)):logits=model(global_x,res,mask);loss=nn.functional.binary_cross_entropy_with_logits(logits,target)
+   with torch.autocast('cuda',dtype=torch.bfloat16,enabled=tr.get('amp_bfloat16',True)):logits=model(global_x,res,mask);loss=nn.functional.binary_cross_entropy_with_logits(logits,target)+float(tr.get('rank_weight',0))*binary_rank_loss(logits,y)
    loss.backward();opt.step()
    if ema:
     with torch.no_grad():
