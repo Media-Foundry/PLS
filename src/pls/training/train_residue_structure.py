@@ -48,14 +48,16 @@ class BalancedLengthBatchSampler(Sampler):
   for start in range(0,len(indices),pool):
    block=sorted(indices[start:start+pool],key=lambda i:self.lengths[i])
    for j in range(0,len(block),self.batch_size): yield block[j:j+self.batch_size]
-def evaluate(model,loader,device,amp=False,geometry=False):
+def infer(model,loader,device,amp=False,geometry=False):
  model.eval(); pred=[]; truth=[]
  with torch.inference_mode():
   for seq,res,p,patch,mask,neighbors,distances,y in loader:
    values=[v.to(device) for v in (seq,res,p,patch,mask,neighbors,distances)]
    with torch.autocast('cuda',dtype=torch.bfloat16,enabled=amp): out=model(*values) if geometry else model(*values[:5])[0]
    pred.extend(out.float().cpu().tolist());truth.extend(y.tolist())
- return binary_metrics(truth,pred)
+ return np.asarray(truth,dtype=np.float32),np.asarray(pred,dtype=np.float32)
+def evaluate(model,loader,device,amp=False,geometry=False):
+ truth,pred=infer(model,loader,device,amp,geometry);return binary_metrics(truth,pred)
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('--config',type=Path,required=True);ap.add_argument('--run-dir',type=Path,required=True);ap.add_argument('--allow-test-evaluation',action='store_true');a=ap.parse_args();c=json.loads(a.config.read_text());d=c['data'];tr=c['training'];mc=c['model']
  if c.get('evaluate_test',False) and not a.allow_test_evaluation: ap.error('test evaluation requires explicit authorization after freeze')
@@ -90,7 +92,7 @@ def main():
   if val['auroc']>best:best=val['auroc'];stale=0;torch.save(state,a.run_dir/'checkpoints'/'best.pt')
   else:stale+=1
   if stale>=tr['patience']:break
- writer.close();(a.run_dir/'history.json').write_text(json.dumps(history,indent=2)+'\n');state=torch.load(a.run_dir/'checkpoints'/'best.pt',map_location=device,weights_only=False);model.load_state_dict(state['model']);amp=tr.get('amp_bfloat16',False);(a.run_dir/'validation_metrics.json').write_text(json.dumps({'pdbsol':evaluate(model,loaders['validation'],device,amp,is_geometry)},indent=2,sort_keys=True)+'\n')
+ writer.close();(a.run_dir/'history.json').write_text(json.dumps(history,indent=2)+'\n');state=torch.load(a.run_dir/'checkpoints'/'best.pt',map_location=device,weights_only=False);model.load_state_dict(state['model']);amp=tr.get('amp_bfloat16',False);validation_truth,validation_logits=infer(model,loaders['validation'],device,amp,is_geometry);(a.run_dir/'validation_metrics.json').write_text(json.dumps({'pdbsol':binary_metrics(validation_truth,validation_logits)},indent=2,sort_keys=True)+'\n');np.savez_compressed(a.run_dir/'validation_predictions.npz',targets=validation_truth,logits=validation_logits,entity_indices=np.asarray([v[0] for v in rows['validation']],dtype=np.int64))
  if c.get('evaluate_test',False):(a.run_dir/'test_metrics.json').write_text(json.dumps({'pdbsol':evaluate(model,loaders['test'],device,amp,is_geometry)},indent=2)+'\n')
  print(json.dumps({'best_epoch':state['epoch'],'best_validation_auroc':best,'test_evaluated':c.get('evaluate_test',False)}))
 if __name__=='__main__':main()
