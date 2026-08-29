@@ -15,7 +15,10 @@ def frozen_components(report):
  if 'reports' in report:
   entry=max(report['reports'],key=lambda row:row['uncalibrated']['auroc'])
   return {str(run):1/len(entry['runs']) for run in entry['runs']}
- components={str(run):float(report['base_weight'])/len(report['base_runs']) for run in report['base_runs']}
+ if 'frozen_run_weights' in report:
+  components={str(run):float(report['base_weight'])*float(weight) for run,weight in report['frozen_run_weights'].items()}
+ else:
+  components={str(run):float(report['base_weight'])/len(report['base_runs']) for run in report['base_runs']}
  for run,weight in report.get('candidate_weights',{}).items():components[str(run)]=components.get(str(run),0)+float(weight)
  return components
 

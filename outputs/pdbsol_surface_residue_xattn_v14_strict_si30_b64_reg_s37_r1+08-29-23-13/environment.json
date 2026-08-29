@@ -1,0 +1,35 @@
+{
+  "command": [
+    "script/run_experiment.py",
+    "--config",
+    "configs/experiments/pdbsol_surface_residue_xattn_v14.json",
+    "--hip-override",
+    "4",
+    "--batch-size-override",
+    "64",
+    "--dropout-override",
+    "0.2",
+    "--learning-rate-override",
+    "0.00007",
+    "--weight-decay-override",
+    "0.0003",
+    "--seed-override",
+    "20260837",
+    "--name-suffix",
+    "_b64_reg_s37_r1"
+  ],
+  "created_at": "2026-08-29T23:13:25.150749+08:00",
+  "git_revision": "41b175d7f5d1b349172cf94de317e96e8d3745b6",
+  "hip_visible_devices": "4",
+  "packages": {
+    "biopython": "1.85",
+    "fair-esm": "2.0.0",
+    "numpy": "2.5.2",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.16.0",
+    "tensorboard": "2.21.0"
+  },
+  "python": "3.12.13 | packaged by Anaconda, Inc. | (main, Jul  9 2026, 14:38:16) [GCC 14.3.0]",
+  "torch": "2.12.0a0+git78258b9",
+  "torch_hip": "7.14.60850"
+}
