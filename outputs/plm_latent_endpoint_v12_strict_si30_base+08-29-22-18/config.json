@@ -1,0 +1,29 @@
+{
+  "data": {
+    "embedding_dir": "artifacts/plm/esm2_t33_650M_UR50D_mean",
+    "entities": "benchmark/generated/sequence_entities.csv",
+    "observation_split": "benchmark/generated/strict_si30_observation_split.csv"
+  },
+  "evaluate_test": false,
+  "experiment_name": "plm_latent_endpoint_v12_strict_si30_base",
+  "model": {
+    "dropout": 0.15,
+    "hidden_dimension": 512,
+    "latent_endpoint": true,
+    "representation_dimension": 256,
+    "task_adapters": false
+  },
+  "trainer_module": "pls.training.train_plm_heads",
+  "training": {
+    "batch_size": 512,
+    "checkpoint_every": 5,
+    "device": "cuda:0",
+    "epochs": 40,
+    "hip_device": 4,
+    "learning_rate": 0.0002,
+    "patience": 6,
+    "seed": 20260829,
+    "selection_objective": "balanced",
+    "weight_decay": 0.0001
+  }
+}
