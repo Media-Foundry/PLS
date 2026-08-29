@@ -1,0 +1,44 @@
+{
+  "data": {
+    "compact_structure_dir": "artifacts/features/pdbsol_structure_v4_compact",
+    "embedding_dir": "artifacts/plm/esm2_t33_650M_UR50D_mean",
+    "entities": "benchmark/generated/sequence_entities.csv",
+    "geometry_dir": "artifacts/features/pdbsol_structure_v4_geometry",
+    "observation_split": "benchmark/generated/strict_si30_observation_split.csv",
+    "residue_esm_dir": "artifacts/plm/esm2_t33_650M_UR50D_residue_pdbsol",
+    "structure_dir": "artifacts/features/pdbsol_structure_v4_raw",
+    "structure_stats": "artifacts/features/pdbsol_structure_v4_train_stats.json",
+    "structure_status": "artifacts/features/pdbsol_structure_v4_pooled/status.npy",
+    "surface_patch_dir": "artifacts/features/pdbsol_surface_patch_components_v1"
+  },
+  "evaluate_test": false,
+  "experiment_name": "pdbsol_surface_residue_xattn_v14_strict_si30_b64_s31",
+  "model": {
+    "confidence_mode": "propagated_moe",
+    "dropout": 0.1,
+    "fusion": "residue_aligned_sparse",
+    "geometry_layers": 1,
+    "hidden_dimension": 192,
+    "neighbors": 8,
+    "pooling": "surface_patches",
+    "representation_dimension": 256,
+    "use_sequence_separation": true,
+    "use_vector_invariants": true
+  },
+  "trainer_module": "pls.training.train_residue_structure",
+  "training": {
+    "amp_bfloat16": true,
+    "batch_size": 64,
+    "checkpoint_every": 4,
+    "ema_decay": 0.995,
+    "epochs": 16,
+    "fused_optimizer": true,
+    "hip_device": 4,
+    "learning_rate": 0.0001,
+    "max_gradient_norm": 5.0,
+    "patience": 4,
+    "seed": 20260831,
+    "weight_decay": 0.0001,
+    "workers": 4
+  }
+}

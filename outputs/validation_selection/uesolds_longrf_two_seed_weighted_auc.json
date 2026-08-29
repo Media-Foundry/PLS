@@ -1,0 +1,72 @@
+{
+  "calibrated": {
+    "auprc": 0.8662094355780281,
+    "auroc": 0.8052267298548,
+    "balanced_accuracy": 0.723320215415912,
+    "brier": 0.1816534581954096,
+    "ece": 0.06847279972549061,
+    "f1": 0.7234507897934318,
+    "mcc": 0.4397850621089824,
+    "n": 7790
+  },
+  "candidate_runs": [
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_drop01_s45+08-29-23-02"
+  ],
+  "entity_count": 7790,
+  "mcc_at_selected_threshold": 0.44831937614883166,
+  "mcc_threshold": 0.5149612603848815,
+  "objective": "auroc",
+  "run_weights": {
+    "outputs/uesolds_residue_esm_conditioned_v10_strict_si30_concat_s29+08-29-20-20": 0.09856457553293904,
+    "outputs/uesolds_residue_esm_layer24_physchem_v5_strict_si30_s20260830+08-29-18-28": 0.11763667147575337,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_cap256+08-29-20-39": 0.005033151980383266,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4+08-29-20-56": 0.14006170031946144,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4wide256+08-29-20-56": 0.0,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep5_interaction+08-29-20-56": 0.054833439023048484,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_drop03+08-29-20-47": 0.12898275870991088,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_drop01_s45+08-29-23-02": 0.025,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_s43+08-29-22-59": 0.26961261487567656,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_wide256+08-29-20-56": 0.09484882686080859,
+    "outputs/uesolds_residue_esm_tcn_conditioned_v11_strict_si30_cap384+08-29-20-27": 0.06542626122201824
+  },
+  "runs": [
+    "outputs/uesolds_residue_esm_conditioned_v10_strict_si30_concat_s29+08-29-20-20",
+    "outputs/uesolds_residue_esm_layer24_physchem_v5_strict_si30_s20260830+08-29-18-28",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_cap256+08-29-20-39",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4+08-29-20-56",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4wide256+08-29-20-56",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep5_interaction+08-29-20-56",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_drop03+08-29-20-47",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_drop01_s45+08-29-23-02",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_s43+08-29-22-59",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_wide256+08-29-20-56",
+    "outputs/uesolds_residue_esm_tcn_conditioned_v11_strict_si30_cap384+08-29-20-27"
+  ],
+  "selection_data": "strict-validation only",
+  "source_report": "outputs/validation_selection/uesolds_longrf_weighted_auc.json",
+  "temperature": 1.2387464188491324,
+  "test_evaluated": false,
+  "uncalibrated": {
+    "auprc": 0.8662094355780281,
+    "auroc": 0.8052267298548,
+    "balanced_accuracy": 0.723320215415912,
+    "brier": 0.1830612970365597,
+    "ece": 0.07733413773254988,
+    "f1": 0.7234507897934318,
+    "mcc": 0.4397850621089824,
+    "n": 7790
+  },
+  "weights": [
+    0.09856457553293904,
+    0.11763667147575337,
+    0.005033151980383266,
+    0.14006170031946144,
+    0.0,
+    0.054833439023048484,
+    0.12898275870991088,
+    0.025,
+    0.26961261487567656,
+    0.09484882686080859,
+    0.06542626122201824
+  ]
+}
