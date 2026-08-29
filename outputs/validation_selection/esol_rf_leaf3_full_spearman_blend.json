@@ -1,0 +1,31 @@
+{
+  "full_run": "outputs/esol_pooled_v4_trees_v5_strict_si30_rf_full+08-29-21-13",
+  "full_structure_weights": [
+    0.14,
+    0.1806
+  ],
+  "full_weight": 0.906,
+  "geometry_run": "outputs/esol_geometry_residue_esm_physchem_v3_strict_si30_dual_seqsep+08-29-19-50",
+  "leaf_run": "outputs/esol_pooled_v4_trees_v5_strict_si30_rf_leaf3+08-29-21-10",
+  "leaf_structure_weights": [
+    0.13,
+    0.1914
+  ],
+  "leaf_weight": 0.09399999999999997,
+  "metrics": {
+    "mae": 0.16675206224659408,
+    "n": 267,
+    "pearson": 0.7620747614356238,
+    "rmse": 0.2099677172009262,
+    "spearman": 0.7719341713814915
+  },
+  "objective": "spearman",
+  "selection_data": "strict-validation only",
+  "sequence_runs": [
+    "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+    "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+    "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+    "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+  ],
+  "test_evaluated": false
+}
