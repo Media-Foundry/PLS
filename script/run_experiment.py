@@ -28,6 +28,7 @@ def main() -> None:
     parser.add_argument("--geometry-layers-override", type=int)
     parser.add_argument("--neighbors-override", type=int)
     parser.add_argument("--use-vector-invariants", action="store_true")
+    parser.add_argument("--disable-vector-invariants", action="store_true")
     parser.add_argument("--name-suffix", type=str, default="")
     args = parser.parse_args()
     config = json.loads(args.config.read_text())
@@ -49,6 +50,8 @@ def main() -> None:
         config["model"]["neighbors"] = args.neighbors_override
     if args.use_vector_invariants:
         config["model"]["use_vector_invariants"] = True
+    if args.disable_vector_invariants:
+        config["model"]["use_vector_invariants"] = False
     if args.name_suffix:
         config["experiment_name"] += args.name_suffix
     timestamp = datetime.now().astimezone().strftime("%m-%d-%H-%M")
