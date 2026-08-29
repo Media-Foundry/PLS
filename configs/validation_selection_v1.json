@@ -5,9 +5,10 @@
   "test_evaluated": false,
   "tasks": {
     "pdbsol": {
-      "auroc_auprc_report": "outputs/validation_selection/pdbsol_pooled_diversity_ensembles.json",
+      "auroc_auprc_report": "outputs/validation_selection/pdbsol_gvp_ensembles.json",
       "mcc_report": "outputs/validation_selection/pdbsol_pooled_diversity_ensembles.json",
-      "metrics": {"auroc": 0.9026870083321696, "auprc": 0.9136074422371618, "mcc_at_selected_threshold": 0.6388089570963087, "brier_calibrated": 0.1275121932929457},
+      "brier_report": "outputs/validation_selection/pdbsol_pooled_diversity_ensembles.json",
+      "metrics": {"auroc": 0.9031476438734503, "auprc": 0.9145705963504756, "mcc_at_selected_threshold": 0.6388089570963087, "brier_calibrated": 0.1275121932929457},
       "mcc_runs": [
         "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_v6matched_baseline+08-29-16-23",
         "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s31+08-29-16-32",
