@@ -22,7 +22,7 @@ def main() -> None:
     parser.add_argument("--seed-override", type=int)
     parser.add_argument("--hip-override", type=int)
     parser.add_argument("--architecture-override", choices=("early", "late", "gated_residual", "film"))
-    parser.add_argument("--pooling-override", choices=("mean", "attention", "plddt_gate", "dual_patch"))
+    parser.add_argument("--pooling-override", choices=("mean", "attention", "conv_attention", "plddt_gate", "dual_patch"))
     parser.add_argument("--disable-amp", action="store_true")
     parser.add_argument("--disable-compact", action="store_true")
     parser.add_argument("--geometry-layers-override", type=int)
@@ -34,6 +34,7 @@ def main() -> None:
     parser.add_argument("--ema-decay-override", type=float)
     parser.add_argument("--label-smoothing-override", type=float)
     parser.add_argument("--global-groups-override", nargs="+", choices=("physchem", "scalar", "vector", "patch"))
+    parser.add_argument("--rank-weight-override", type=float)
     parser.add_argument("--name-suffix", type=str, default="")
     args = parser.parse_args()
     config = json.loads(args.config.read_text())
@@ -67,6 +68,8 @@ def main() -> None:
         config["training"]["label_smoothing"] = args.label_smoothing_override
     if args.global_groups_override is not None:
         config["model"]["global_groups"] = args.global_groups_override
+    if args.rank_weight_override is not None:
+        config["training"]["rank_weight"] = args.rank_weight_override
     if args.name_suffix:
         config["experiment_name"] += args.name_suffix
     timestamp = datetime.now().astimezone().strftime("%m-%d-%H-%M")
