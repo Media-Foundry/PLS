@@ -37,6 +37,7 @@ def main() -> None:
     parser.add_argument("--global-groups-override", nargs="+", choices=("physchem", "scalar", "vector", "patch"))
     parser.add_argument("--rank-weight-override", type=float)
     parser.add_argument("--residue-fusion-override", choices=("concat", "interaction"))
+    parser.add_argument("--descriptor-scale-override", type=float)
     parser.add_argument("--batch-size-override", type=int)
     parser.add_argument("--selection-objective-override", choices=("balanced", "esol_spearman", "pdbsol_auroc", "uesolds_auroc"))
     parser.add_argument("--name-suffix", type=str, default="")
@@ -78,6 +79,8 @@ def main() -> None:
         config["training"]["rank_weight"] = args.rank_weight_override
     if args.residue_fusion_override is not None:
         config["model"]["fusion"] = args.residue_fusion_override
+    if args.descriptor_scale_override is not None:
+        config["data"]["sequence_descriptor_scale"] = args.descriptor_scale_override
     if args.batch_size_override is not None:
         config["training"]["batch_size"] = args.batch_size_override
     if args.selection_objective_override is not None:
