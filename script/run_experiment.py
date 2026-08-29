@@ -29,6 +29,7 @@ def main() -> None:
     parser.add_argument("--neighbors-override", type=int)
     parser.add_argument("--use-vector-invariants", action="store_true")
     parser.add_argument("--disable-vector-invariants", action="store_true")
+    parser.add_argument("--use-sequence-separation", action="store_true")
     parser.add_argument("--dropout-override", type=float)
     parser.add_argument("--hidden-dimension-override", type=int)
     parser.add_argument("--ema-decay-override", type=float)
@@ -60,6 +61,8 @@ def main() -> None:
         config["model"]["use_vector_invariants"] = True
     if args.disable_vector_invariants:
         config["model"]["use_vector_invariants"] = False
+    if args.use_sequence_separation:
+        config["model"]["use_sequence_separation"] = True
     if args.dropout_override is not None:
         config["model"]["dropout"] = args.dropout_override
     if args.hidden_dimension_override is not None:
