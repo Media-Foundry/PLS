@@ -1,0 +1,31 @@
+{
+  "data": {
+    "embedding_dir": "artifacts/plm/esm2_t33_650M_UR50D_mean",
+    "entities": "benchmark/generated/sequence_entities.csv",
+    "observation_split": "benchmark/generated/strict_si30_observation_split.csv",
+    "require_structure_match": true,
+    "structure_dir": "artifacts/features/pdbsol_structure_v4_pooled"
+  },
+  "evaluate_test": false,
+  "experiment_name": "pdbsol_pool_scalar_strict_si30_pred_film_s32",
+  "model": {
+    "architecture": "film",
+    "dropout": 0.15,
+    "hidden_dimension": 512,
+    "representation_dimension": 256,
+    "structure_groups": [
+      "physchem",
+      "scalar"
+    ]
+  },
+  "training": {
+    "batch_size": 1024,
+    "checkpoint_every": 5,
+    "epochs": 30,
+    "hip_device": 5,
+    "learning_rate": 0.0003,
+    "patience": 5,
+    "seed": 20260832,
+    "weight_decay": 0.0001
+  }
+}
