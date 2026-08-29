@@ -15,17 +15,21 @@ def main() -> None:
     parser.add_argument("--observation-split", type=Path, required=True)
     parser.add_argument("--feature-root", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--source-dataset", default="PDBSol_ProtSolM")
     args = parser.parse_args()
     train_hashes = set()
     with args.observation_split.open(newline="", encoding="utf-8") as handle:
         for row in csv.DictReader(handle):
-            if row["split"] == "train" and row["source_dataset"] == "PDBSol_ProtSolM":
+            if row["split"] == "train" and row["source_dataset"] == args.source_dataset:
                 train_hashes.add(row["sequence_sha256"])
     total = torch.zeros(89, dtype=torch.float64)
     total_square = torch.zeros(89, dtype=torch.float64)
-    residues = proteins = mismatches = 0
+    residues = proteins = mismatches = missing = 0
     for index, digest in enumerate(sorted(train_hashes), 1):
         path = args.feature_root / digest[:2] / f"{digest}.pt"
+        if not path.is_file():
+            missing += 1
+            continue
         value = torch.load(path, map_location="cpu", weights_only=False)
         if not value["sequence_exact_match"]:
             mismatches += 1
@@ -44,14 +48,15 @@ def main() -> None:
     near_constant = std < 1e-8
     std[near_constant] = 1.0
     report = {"schema": "PLS_structure_v4_train_scalar_stats_v1", "strict_train_hashes": len(train_hashes),
-              "proteins_used": proteins, "mismatches_excluded": mismatches, "residues_used": residues,
+              "proteins_used": proteins, "missing_excluded": missing, "mismatches_excluded": mismatches, "residues_used": residues,
               "scalar_means": mean.tolist(), "scalar_stds": std.tolist(),
               "near_constant_indices": torch.where(near_constant)[0].tolist(),
+              "source_dataset": args.source_dataset,
               "observation_split": str(args.observation_split.resolve()),
               "feature_root": str(args.feature_root.resolve())}
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
-    print(json.dumps({key: report[key] for key in ("proteins_used", "mismatches_excluded", "residues_used",
+    print(json.dumps({key: report[key] for key in ("proteins_used", "missing_excluded", "mismatches_excluded", "residues_used",
                                                     "near_constant_indices")}, indent=2))
 
 

@@ -1,0 +1,8 @@
+{
+  "trainer_module": "pls.training.train_esol_structure",
+  "experiment_name": "esol_geometry_residue_esm_physchem_v3_strict_si30",
+  "evaluate_test": false,
+  "data": {"entities": "benchmark/generated/sequence_entities.csv", "observation_split": "benchmark/generated/strict_si30_observation_split.csv", "embedding_dir": "artifacts/plm/esm2_t33_650M_UR50D_mean", "structure_dir": "artifacts/features/esol_structure_v4_raw", "structure_stats": "artifacts/features/esol_structure_v4_train_stats.json", "structure_status": "artifacts/features/esol_structure_v4_status/status.npy", "compact_structure_dir": "artifacts/features/esol_structure_v4_compact", "geometry_dir": "artifacts/features/esol_structure_v4_geometry", "residue_esm_dir": "artifacts/plm/esm2_t33_650M_UR50D_residue_esol", "sequence_descriptor_dir": "artifacts/features/sequence_descriptors_v1", "sequence_descriptor_scale": 0.25},
+  "model": {"pooling": "dual_patch", "hidden_dimension": 192, "representation_dimension": 256, "dropout": 0.2, "geometry_layers": 1, "neighbors": 8, "use_vector_invariants": true},
+  "training": {"hip_device": 7, "batch_size": 24, "workers": 4, "amp_bfloat16": true, "fused_optimizer": true, "ema_decay": 0.0, "rank_weight": 0.0, "epochs": 40, "patience": 7, "checkpoint_every": 5, "learning_rate": 0.0002, "weight_decay": 0.0001, "seed": 20260829}
+}
