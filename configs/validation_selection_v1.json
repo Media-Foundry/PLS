@@ -5,10 +5,10 @@
   "test_evaluated": false,
   "tasks": {
     "pdbsol": {
-      "auroc_auprc_report": "outputs/validation_selection/pdbsol_gvp_ensembles.json",
-      "mcc_report": "outputs/validation_selection/pdbsol_pooled_diversity_ensembles.json",
-      "brier_report": "outputs/validation_selection/pdbsol_pooled_diversity_ensembles.json",
-      "metrics": {"auroc": 0.9031476438734503, "auprc": 0.9145705963504756, "mcc_at_selected_threshold": 0.6388089570963087, "brier_calibrated": 0.1275121932929457},
+      "auroc_auprc_report": "outputs/validation_selection/pdbsol_gvp_multiseed_ensembles.json",
+      "mcc_report": "outputs/validation_selection/pdbsol_gvp_multiseed_ensembles.json",
+      "brier_report": "outputs/validation_selection/pdbsol_gvp_multiseed_ensembles.json",
+      "metrics": {"auroc": 0.9041480472932086, "auprc": 0.915808896235081, "mcc_at_selected_threshold": 0.6425591644816286, "brier_calibrated": 0.12681733222417252},
       "mcc_runs": [
         "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_v6matched_baseline+08-29-16-23",
         "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s31+08-29-16-32",
@@ -28,7 +28,7 @@
       ],
       "auroc_auprc_temperature": 1.3404120878780323,
       "mcc_temperature": 1.3166465790461879,
-      "mcc_threshold": 0.43926700949668884,
+      "mcc_threshold": 0.44192126393318176,
       "note": "AUROC/AUPRC/Brier and MCC selections are intentionally distinct; do not select between them on test."
     },
     "uesolds": {
