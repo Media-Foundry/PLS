@@ -94,7 +94,9 @@ def main() -> None:
     labels.flush(); np.save(args.output / "patch_counts.npy", patch_counts)
     source_digest = hashlib.sha256(args.entities.read_bytes()).hexdigest()
     metadata = {"schema": "PLS_mesh_free_surface_components_v1", "shape": [shape[0], len(CATEGORIES)],
-                "entities": len(rows), "categories": list(CATEGORIES), "standardized_rsa_feature_index": 63,
+                "entities": len(rows), "categories": list(CATEGORIES),
+                "category_residues": {name: "".join(sorted(values)) for name, values in CATEGORIES.items()},
+                "standardized_rsa_feature_index": 63,
                 "spatial_scalar_rsa_index": 1, "rsa_inverse_transform_source": str(args.structure_stats),
                 "rsa_threshold": args.rsa_threshold, "edge_cutoff_angstrom": args.edge_cutoff,
                 "source_entities_sha256": source_digest, "coordinate_system": "entity-local component ids",
