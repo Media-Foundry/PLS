@@ -29,18 +29,41 @@ class GeometryLateFusion(nn.Module):
    self.local_mix=nn.Sequential(nn.LayerNorm(representation_dimension*2),nn.Linear(representation_dimension*2,representation_dimension),nn.GELU())
    self.aligned_graph=KNNMessageLayer(representation_dimension,16,dropout,use_sequence_separation)
    self.aligned_attention=nn.Linear(representation_dimension+1,1)
+  if pooling=='surface_patches':
+   self.surface_patch_token=nn.Sequential(nn.LayerNorm(representation_dimension+8),nn.Linear(representation_dimension+8,representation_dimension),nn.GELU(),nn.Dropout(dropout))
+   self.surface_patch_attention=nn.MultiheadAttention(representation_dimension,4,dropout=dropout,batch_first=True)
+   self.surface_patch_query=nn.Parameter(torch.randn(1,1,representation_dimension)*.02)
+   self.surface_patch_merge=nn.Sequential(nn.Linear(representation_dimension*2,representation_dimension),nn.GELU())
   branches=(5 if fusion in ('cross_attention','global_query_pooling','residue_aligned_sparse') else 2)+(1 if global_dimension else 0);self.head=nn.Sequential(nn.LayerNorm(representation_dimension*branches),nn.Linear(representation_dimension*branches,representation_dimension),nn.GELU(),nn.Dropout(dropout),nn.Linear(representation_dimension,1))
  def residue_rsa(self,residue):return (residue[...,63]*self.rsa_std+self.rsa_mean).clamp(0,1)
- def forward(self,sequence,residue,plddt,patch,mask,neighbors,distances,global_features=None):
-  confidence=None
+ def pool_surface_patches(self,z,patch,plddt,rsa,mask,component_ids,confidence):
+  batches=[]
+  for batch_index in range(len(z)):
+   tokens=[];scores=[]
+   for category in range(component_ids.shape[-1]):
+    ids=component_ids[batch_index,:,category];valid=(ids>=0)&mask[batch_index]
+    if not valid.any():continue
+    _,inverse=torch.unique(ids[valid],sorted=True,return_inverse=True);count=int(inverse.max())+1;weights=(rsa[batch_index,valid]*(confidence[batch_index,valid] if confidence is not None else 1)).clamp_min(1e-6);denominator=torch.zeros(count,device=z.device,dtype=z.dtype).index_add_(0,inverse,weights.to(z.dtype));embedding=torch.zeros(count,z.shape[-1],device=z.device,dtype=z.dtype).index_add_(0,inverse,z[batch_index,valid]*weights[:,None].to(z.dtype))/denominator[:,None].clamp_min(1e-6)
+    size=torch.zeros(count,device=z.device,dtype=z.dtype).index_add_(0,inverse,torch.ones_like(weights,dtype=z.dtype));rsa_sum=torch.zeros_like(size).index_add_(0,inverse,rsa[batch_index,valid].to(z.dtype));confidence_sum=torch.zeros_like(size).index_add_(0,inverse,plddt[batch_index,valid].to(z.dtype));hydropathy_sum=torch.zeros_like(size).index_add_(0,inverse,patch[batch_index,valid,0].to(z.dtype));category_feature=torch.full_like(size,float(category)/max(component_ids.shape[-1]-1,1));descriptors=torch.stack((torch.log1p(size)/5,rsa_sum/size,rsa_sum/10,confidence_sum/size,hydropathy_sum/size,category_feature,(category==0)*torch.ones_like(size),(category==1)*torch.ones_like(size)),-1);tokens.append(self.surface_patch_token(torch.cat((embedding,descriptors),-1)));scores.append(rsa_sum*confidence_sum/size.clamp_min(1))
+   if tokens:
+    current=torch.cat(tokens,0);score=torch.cat(scores);keep=torch.topk(score,min(64,len(score))).indices;batches.append(current[keep])
+   else:batches.append(z.new_zeros(1,z.shape[-1]))
+  maximum=max(len(tokens) for tokens in batches);padded=z.new_zeros(len(z),maximum,z.shape[-1]);patch_mask=torch.zeros(len(z),maximum,dtype=torch.bool,device=z.device)
+  for batch_index,tokens in enumerate(batches):padded[batch_index,:len(tokens)]=tokens;patch_mask[batch_index,:len(tokens)]=True
+  contextual,_=self.surface_patch_attention(padded,padded,padded,key_padding_mask=~patch_mask,need_weights=False);query=self.surface_patch_query.expand(len(z),-1,-1);pooled,_=self.surface_patch_attention(query,contextual,contextual,key_padding_mask=~patch_mask,need_weights=False);return pooled[:,0]
+ def forward(self,sequence,residue,plddt,patch,mask,neighbors,distances,global_features=None,patch_components=None):
+  confidence=None;rsa=self.residue_rsa(residue) if residue.shape[-1]>63 else torch.zeros_like(plddt)
   if self.confidence_mode=='propagated_moe':
-   batch=torch.arange(len(residue),device=residue.device)[:,None,None];valid=mask[batch,neighbors.long()]&mask[:,:,None]&(distances>1e-6);neighbor_conf=(plddt[batch,neighbors.long()]*valid).sum(2)/valid.sum(2).clamp_min(1);rsa=self.residue_rsa(residue);packing=residue[...,141] if residue.shape[-1]>141 else torch.zeros_like(plddt);confidence=self.residue_confidence(torch.stack((plddt,neighbor_conf,rsa,packing),-1)).squeeze(-1)*plddt*mask
+   batch=torch.arange(len(residue),device=residue.device)[:,None,None];valid=mask[batch,neighbors.long()]&mask[:,:,None]&(distances>1e-6);neighbor_conf=(plddt[batch,neighbors.long()]*valid).sum(2)/valid.sum(2).clamp_min(1);packing=residue[...,141] if residue.shape[-1]>141 else torch.zeros_like(plddt);confidence=self.residue_confidence(torch.stack((plddt,neighbor_conf,rsa,packing),-1)).squeeze(-1)*plddt*mask
   structure_residue=residue[...,:-self.residue_sequence_dimension] if self.fusion=='residue_aligned_sparse' else residue
   z=self.input(structure_residue)*(confidence[...,None] if confidence is not None else mask[...,None])
   for layer in self.layers:z=layer(z,neighbors,distances,mask,confidence)
   z=self.project(z);count=mask.sum(1).clamp_min(1);logits=self.attention(torch.cat((z,plddt[...,None]),-1)).squeeze(-1).masked_fill(~mask,-torch.inf);weight=torch.softmax(logits,1);pooled=(z*weight[...,None]).sum(1)
   if self.pooling=='dual_patch':
    logits=self.patch_attention(torch.cat((z,patch),-1)).squeeze(-1).masked_fill(~mask,-torch.inf);pw=torch.softmax(logits,1);pooled=self.merge(torch.cat((pooled,(z*pw[...,None]).sum(1)),1))
+  if self.pooling=='surface_patches':
+   if patch_components is None:raise ValueError('surface_patches pooling requires patch component ids')
+   pooled=self.surface_patch_merge(torch.cat((pooled,self.pool_surface_patches(z,patch,plddt,rsa,mask,patch_components,confidence)),1))
   quality=torch.stack(((plddt*mask).sum(1)/count,((plddt<.7)&mask).sum(1)/count,torch.log1p(count)/10),1);legacy_gate=self.gate(quality);seq=self.sequence(sequence)
   if self.confidence_mode=='propagated_moe':protein_quality=torch.cat((quality,(confidence.sum(1)/count)[:,None],((rsa*mask).sum(1)/count)[:,None]),1);protein_gate=quality[:,0:1]*self.protein_confidence(protein_quality)
   else:protein_gate=legacy_gate;pooled=pooled*legacy_gate
