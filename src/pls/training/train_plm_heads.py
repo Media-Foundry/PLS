@@ -87,6 +87,14 @@ def validation_objective(metrics, selection="balanced"):
                           1 - metrics["esol"]["spearman"]]))
 
 
+def entity_task_weights(records):
+    """Balance endpoints while giving each canonical entity equal mass within an endpoint."""
+    observation_counts = Counter((task, entity) for entity, task, _ in records)
+    entity_counts = Counter(task for task, _ in observation_counts)
+    return [1 / observation_counts[(task, entity)] / entity_counts[task]
+            for entity, task, _ in records]
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, required=True)
@@ -122,7 +130,7 @@ def main() -> None:
                                           SOURCE_TASK[row["source_dataset"]], float(row["target_value"])))
     datasets = {split: ObservationDataset(rows, embeddings) for split, rows in records.items()}
     task_counts = Counter(task for _, task, _ in records["train"])
-    weights = [1 / task_counts[task] for _, task, _ in records["train"]]
+    weights = entity_task_weights(records["train"])
     sampler = WeightedRandomSampler(weights, len(weights), replacement=True,
                                     generator=torch.Generator().manual_seed(seed))
     batch_size = int(training["batch_size"])
