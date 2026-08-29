@@ -46,6 +46,10 @@ def main() -> None:
     parser.add_argument("--weight-decay-override", type=float)
     parser.add_argument("--fused-optimizer", action="store_true")
     parser.add_argument("--selection-objective-override", choices=("balanced", "esol_spearman", "pdbsol_auroc", "uesolds_auroc"))
+    parser.add_argument("--model-kind-override", choices=("extra_trees", "random_forest", "hist_gradient_boosting"))
+    parser.add_argument("--trees-override", type=int)
+    parser.add_argument("--max-features-override", type=float)
+    parser.add_argument("--min-samples-leaf-override", type=int)
     parser.add_argument("--name-suffix", type=str, default="")
     args = parser.parse_args()
     config = json.loads(args.config.read_text())
@@ -103,6 +107,14 @@ def main() -> None:
         config["training"]["fused_optimizer"] = True
     if args.selection_objective_override is not None:
         config["training"]["selection_objective"] = args.selection_objective_override
+    if args.model_kind_override is not None:
+        config["model"]["kind"] = args.model_kind_override
+    if args.trees_override is not None:
+        config["model"]["trees"] = args.trees_override
+    if args.max_features_override is not None:
+        config["model"]["max_features"] = args.max_features_override
+    if args.min_samples_leaf_override is not None:
+        config["model"]["min_samples_leaf"] = args.min_samples_leaf_override
     if args.name_suffix:
         config["experiment_name"] += args.name_suffix
     timestamp = datetime.now().astimezone().strftime("%m-%d-%H-%M")
