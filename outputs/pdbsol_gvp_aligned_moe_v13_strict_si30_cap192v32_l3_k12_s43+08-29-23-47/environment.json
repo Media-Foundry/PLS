@@ -1,0 +1,41 @@
+{
+  "command": [
+    "script/run_experiment.py",
+    "--config",
+    "configs/experiments/pdbsol_gvp_aligned_moe_v13.json",
+    "--hip-override",
+    "5",
+    "--scalar-dimension-override",
+    "192",
+    "--vector-dimension-override",
+    "32",
+    "--representation-dimension-override",
+    "384",
+    "--layers-override",
+    "3",
+    "--neighbors-override",
+    "12",
+    "--batch-size-override",
+    "24",
+    "--dropout-override",
+    "0.15",
+    "--seed-override",
+    "20260843",
+    "--name-suffix",
+    "_cap192v32_l3_k12_s43"
+  ],
+  "created_at": "2026-08-29T23:47:04.329921+08:00",
+  "git_revision": "c944fe355a10389d9253b068a61d2c895171b05d",
+  "hip_visible_devices": "5",
+  "packages": {
+    "biopython": "1.85",
+    "fair-esm": "2.0.0",
+    "numpy": "2.5.2",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.16.0",
+    "tensorboard": "2.21.0"
+  },
+  "python": "3.12.13 | packaged by Anaconda, Inc. | (main, Jul  9 2026, 14:38:16) [GCC 14.3.0]",
+  "torch": "2.12.0a0+git78258b9",
+  "torch_hip": "7.14.60850"
+}
