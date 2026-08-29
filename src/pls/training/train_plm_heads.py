@@ -85,12 +85,16 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--run-dir", type=Path, required=True)
+    parser.add_argument("--allow-test-evaluation", action="store_true")
     args = parser.parse_args()
     config = json.loads(args.config.read_text())
+    if config.get("evaluate_test", False) and not args.allow_test_evaluation:
+        parser.error("test evaluation requires explicit --allow-test-evaluation after model freeze")
     data_config, model_config, training = config["data"], config["model"], config["training"]
     device_name = training.get("device", "cuda:0")
-    if device_name.startswith("cuda") and os.environ.get("HIP_VISIBLE_DEVICES") != "7":
-        parser.error("GPU training is pinned to physical HIP ordinal 7; set HIP_VISIBLE_DEVICES=7")
+    expected_hip = str(training.get("hip_device", 7))
+    if device_name.startswith("cuda") and os.environ.get("HIP_VISIBLE_DEVICES") != expected_hip:
+        parser.error(f"HIP_VISIBLE_DEVICES must equal configured physical ordinal {expected_hip}")
     seed = int(training["seed"])
     random.seed(seed); np.random.seed(seed); torch.manual_seed(seed)
     if torch.cuda.is_available(): torch.cuda.manual_seed_all(seed)
@@ -159,11 +163,19 @@ def main() -> None:
     (args.run_dir / "history.json").write_text(json.dumps(history, indent=2) + "\n")
     best_state = torch.load(checkpoint_dir / "best.pt", map_location=device, weights_only=False)
     model.load_state_dict(best_state["model"])
-    for split in ("validation", "test"):
+    evaluation_splits = ("validation", "test") if config.get("evaluate_test", False) else ("validation",)
+    for split in evaluation_splits:
         predictions, truth = predict(model, loaders[split], device)
         report = metrics_from_predictions(predictions, truth)
         (args.run_dir / f"{split}_metrics.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
-    print(json.dumps({"best_epoch": best_state["epoch"], "best_objective": best_state["validation_objective"]}), flush=True)
+        if split == "validation":
+            esol_entities = np.asarray([entity for entity, task, _ in records[split] if task == "esol"], dtype=np.int64)
+            np.savez_compressed(args.run_dir / "validation_esol_predictions.npz",
+                                entity_indices=esol_entities,
+                                targets=np.asarray(truth.get("esol", []), dtype=np.float32),
+                                predictions=np.asarray(predictions.get("esol", []), dtype=np.float32))
+    print(json.dumps({"best_epoch": best_state["epoch"], "best_objective": best_state["validation_objective"],
+                      "test_evaluated": config.get("evaluate_test", False)}), flush=True)
 
 
 if __name__ == "__main__":

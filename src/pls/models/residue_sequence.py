@@ -8,6 +8,8 @@ class ResidueSequenceRegressor(nn.Module):
  def forward(self,global_embedding,residues,mask):
   z=self.residue_encoder(residues)
   if self.pooling=='conv_attention':z=z+self.local(z.transpose(1,2)).transpose(1,2)*mask[...,None]
+  if self.pooling=='local_attention':
+   left=torch.roll(z,1,1);right=torch.roll(z,-1,1);left[:,0]=0;right[:,-1]=0;z=z+(left+right)*.5*mask[...,None]
   if self.pooling=='mean':pooled=(z*mask[...,None]).sum(1)/mask.sum(1).clamp_min(1)[:,None]
   else:
    logits=self.attention(z).squeeze(-1).masked_fill(~mask,-torch.inf);pooled=(z*torch.softmax(logits,1)[...,None]).sum(1)
