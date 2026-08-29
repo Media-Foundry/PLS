@@ -10,7 +10,7 @@ def best_mcc_threshold(targets,probabilities):
 def main():
  p=argparse.ArgumentParser();p.add_argument('run_dirs',nargs='+',type=Path);p.add_argument('--output',type=Path,required=True);p.add_argument('--task',choices=('pdbsol','uesolds'));a=p.parse_args();loaded=[]
  for run in a.run_dirs:
-  path=run/(f'validation_{a.task}_predictions.npz' if a.task else 'validation_predictions.npz');x=np.load(path);key='logits' if 'logits' in x else 'predictions';loaded.append((run,x['entity_indices'],x['targets'],x[key]))
+  task_path=run/f'validation_{a.task}_predictions.npz' if a.task else None;path=task_path if task_path is not None and task_path.exists() else run/'validation_predictions.npz';x=np.load(path);key='logits' if 'logits' in x else 'predictions';loaded.append((run,x['entity_indices'],x['targets'],x[key]))
  entities,targets=loaded[0][1],loaded[0][2]
  for run,e,t,_ in loaded[1:]:
   if not np.array_equal(e,entities) or not np.array_equal(t,targets):raise ValueError(f'unaligned validation predictions: {run}')
