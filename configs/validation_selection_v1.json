@@ -1,0 +1,43 @@
+{
+  "schema": "PLS_strict_validation_selection_v1",
+  "protocol": "strict_si30",
+  "selection_data": "validation_only",
+  "test_evaluated": false,
+  "tasks": {
+    "pdbsol": {
+      "primary_report": "outputs/validation_selection/pdbsol_optsweep_ensembles.json",
+      "metrics": {"auroc": 0.9012922039131717, "auprc": 0.9127987923820632, "mcc_at_selected_threshold": 0.6304347983175149, "brier_calibrated": 0.12914741135984076},
+      "runs": [
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_v6matched_baseline+08-29-16-23",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s31+08-29-16-32",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s32+08-29-16-44",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_seqedge_s29+08-29-16-55",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_seqedge_s30+08-29-16-55",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_drop02+08-29-19-18",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_drop03+08-29-19-18"
+      ],
+      "temperature": 1.3328530054555547,
+      "mcc_threshold": 0.4134804904460907
+    },
+    "uesolds": {
+      "auroc_report": "outputs/validation_selection/uesolds_optsweep_ensembles.json",
+      "auroc": 0.7972625486980198,
+      "auprc_mcc_report": "outputs/validation_selection/uesolds_midlayer_ensembles.json",
+      "auprc": 0.8578182056604542,
+      "mcc_at_selected_threshold": 0.43308826513046617,
+      "note": "Metric-specific selections are intentionally distinct; do not select between them on test."
+    },
+    "esol": {
+      "primary_report": "outputs/validation_selection/esol_physchem_ensembles.json",
+      "metrics": {"spearman": 0.7656680724911805, "pearson": 0.7541631694523576, "rmse": 0.21215129052973805, "mae": 0.16728936383423956, "affine_rmse": 0.2113862075031652},
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ],
+      "affine_slope": 1.011880462256598,
+      "affine_intercept": 0.012208739821070723
+    }
+  }
+}
