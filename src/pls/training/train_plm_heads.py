@@ -175,11 +175,13 @@ def main() -> None:
         report = metrics_from_predictions(predictions, truth)
         (args.run_dir / f"{split}_metrics.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
         if split == "validation":
-            esol_entities = np.asarray([entity for entity, task, _ in records[split] if task == "esol"], dtype=np.int64)
-            np.savez_compressed(args.run_dir / "validation_esol_predictions.npz",
-                                entity_indices=esol_entities,
-                                targets=np.asarray(truth.get("esol", []), dtype=np.float32),
-                                predictions=np.asarray(predictions.get("esol", []), dtype=np.float32))
+            for task in TASKS:
+                task_entities = np.asarray([entity for entity, name, _ in records[split]
+                                            if name == task], dtype=np.int64)
+                np.savez_compressed(args.run_dir / f"validation_{task}_predictions.npz",
+                                    entity_indices=task_entities,
+                                    targets=np.asarray(truth.get(task, []), dtype=np.float32),
+                                    predictions=np.asarray(predictions.get(task, []), dtype=np.float32))
     print(json.dumps({"best_epoch": best_state["epoch"], "best_objective": best_state["validation_objective"],
                       "test_evaluated": config.get("evaluate_test", False)}), flush=True)
 
