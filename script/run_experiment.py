@@ -22,7 +22,7 @@ def main() -> None:
     parser.add_argument("--seed-override", type=int)
     parser.add_argument("--hip-override", type=int)
     parser.add_argument("--architecture-override", choices=("early", "late", "gated_residual", "film"))
-    parser.add_argument("--pooling-override", choices=("mean", "attention", "conditioned_attention", "tcn_conditioned_attention", "shift_tcn_conditioned_attention", "multihead_attention", "multi_query_pooling", "statistics_attention", "gated_statistics_attention", "multiscale_attention", "conv_attention", "local_attention", "plddt_gate", "dual_patch", "surface_patches"))
+    parser.add_argument("--pooling-override", choices=("mean", "attention", "conditioned_attention", "tcn_conditioned_attention", "shift_tcn_conditioned_attention", "bilstm_textcnn", "multihead_attention", "multi_query_pooling", "statistics_attention", "gated_statistics_attention", "multiscale_attention", "conv_attention", "local_attention", "plddt_gate", "dual_patch", "surface_patches"))
     parser.add_argument("--disable-amp", action="store_true")
     parser.add_argument("--disable-compact", action="store_true")
     parser.add_argument("--geometry-layers-override", type=int)
