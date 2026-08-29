@@ -39,6 +39,9 @@ def main() -> None:
     parser.add_argument("--residue-fusion-override", choices=("concat", "interaction"))
     parser.add_argument("--descriptor-scale-override", type=float)
     parser.add_argument("--batch-size-override", type=int)
+    parser.add_argument("--learning-rate-override", type=float)
+    parser.add_argument("--weight-decay-override", type=float)
+    parser.add_argument("--fused-optimizer", action="store_true")
     parser.add_argument("--selection-objective-override", choices=("balanced", "esol_spearman", "pdbsol_auroc", "uesolds_auroc"))
     parser.add_argument("--name-suffix", type=str, default="")
     args = parser.parse_args()
@@ -83,6 +86,12 @@ def main() -> None:
         config["data"]["sequence_descriptor_scale"] = args.descriptor_scale_override
     if args.batch_size_override is not None:
         config["training"]["batch_size"] = args.batch_size_override
+    if args.learning_rate_override is not None:
+        config["training"]["learning_rate"] = args.learning_rate_override
+    if args.weight_decay_override is not None:
+        config["training"]["weight_decay"] = args.weight_decay_override
+    if args.fused_optimizer:
+        config["training"]["fused_optimizer"] = True
     if args.selection_objective_override is not None:
         config["training"]["selection_objective"] = args.selection_objective_override
     if args.name_suffix:
