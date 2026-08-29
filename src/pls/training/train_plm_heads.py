@@ -117,11 +117,10 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--run-dir", type=Path, required=True)
-    parser.add_argument("--allow-test-evaluation", action="store_true")
     args = parser.parse_args()
     config = json.loads(args.config.read_text())
-    if config.get("evaluate_test", False) and not args.allow_test_evaluation:
-        parser.error("test evaluation requires explicit --allow-test-evaluation after model freeze")
+    if config.get("evaluate_test", False):
+        parser.error("test evaluation is permanently disabled")
     data_config, model_config, training = config["data"], config["model"], config["training"]
     device_name = training.get("device", "cuda:0")
     expected_hip = str(training.get("hip_device", 7))
@@ -141,9 +140,10 @@ def main() -> None:
     status = np.load(embedding_dir / "status.npy", mmap_mode="r")
     if len(embeddings) != len(hashes) or np.any(status != 1):
         raise ValueError("complete embeddings for every entity are required")
-    records = {split: [] for split in ("train", "validation", "test")}
+    records = {split: [] for split in ("train", "validation")}
     with split_path.open(newline="", encoding="utf-8") as handle:
         for row in csv.DictReader(handle):
+            if row["split"] not in records: continue
             records[row["split"]].append((index_by_hash[row["sequence_sha256"]],
                                           SOURCE_TASK[row["source_dataset"]], float(row["target_value"])))
     datasets = {split: ObservationDataset(rows, embeddings) for split, rows in records.items()}
@@ -195,8 +195,7 @@ def main() -> None:
     (args.run_dir / "history.json").write_text(json.dumps(history, indent=2) + "\n")
     best_state = torch.load(checkpoint_dir / "best.pt", map_location=device, weights_only=False)
     model.load_state_dict(best_state["model"])
-    evaluation_splits = ("validation", "test") if config.get("evaluate_test", False) else ("validation",)
-    for split in evaluation_splits:
+    for split in ("validation",):
         predictions, truth = predict(model, loaders[split], device)
         report = metrics_from_predictions(predictions, truth)
         (args.run_dir / f"{split}_metrics.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")

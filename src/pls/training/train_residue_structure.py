@@ -71,15 +71,15 @@ def infer(model,loader,device,amp=False,geometry=False):
 def evaluate(model,loader,device,amp=False,geometry=False):
  truth,pred=infer(model,loader,device,amp,geometry);return binary_metrics(truth,pred)
 def main():
- ap=argparse.ArgumentParser();ap.add_argument('--config',type=Path,required=True);ap.add_argument('--run-dir',type=Path,required=True);ap.add_argument('--allow-test-evaluation',action='store_true');a=ap.parse_args();c=json.loads(a.config.read_text());d=c['data'];tr=c['training'];mc=c['model']
- if c.get('evaluate_test',False) and not a.allow_test_evaluation: ap.error('test evaluation requires explicit authorization after freeze')
+ ap=argparse.ArgumentParser();ap.add_argument('--config',type=Path,required=True);ap.add_argument('--run-dir',type=Path,required=True);a=ap.parse_args();c=json.loads(a.config.read_text());d=c['data'];tr=c['training'];mc=c['model']
+ if c.get('evaluate_test',False):ap.error('test evaluation is permanently disabled')
  if os.environ.get('HIP_VISIBLE_DEVICES')!=str(tr['hip_device']): ap.error('HIP device mismatch')
  seed=tr['seed'];random.seed(seed);np.random.seed(seed);torch.manual_seed(seed)
  with open(d['entities'],newline='',encoding='utf-8') as h: entity_rows=list(csv.DictReader(h));hashes=[r['sequence_sha256'] for r in entity_rows];length_by_hash={r['sequence_sha256']:int(r['length']) for r in entity_rows};ix={v:i for i,v in enumerate(hashes)}
- esm=np.load(Path(d['embedding_dir'])/'embeddings.npy',mmap_mode='r');root=Path(d['structure_dir']);stats=json.loads(Path(d['structure_stats']).read_text());mean=torch.tensor(stats['scalar_means']);std=torch.tensor(stats['scalar_stds']);rows={s:[] for s in ('train','validation','test')}
+ esm=np.load(Path(d['embedding_dir'])/'embeddings.npy',mmap_mode='r');root=Path(d['structure_dir']);stats=json.loads(Path(d['structure_stats']).read_text());mean=torch.tensor(stats['scalar_means']);std=torch.tensor(stats['scalar_stds']);rows={s:[] for s in ('train','validation')}
  with open(d['observation_split'],newline='',encoding='utf-8') as h:
   for r in csv.DictReader(h):
-   if r['source_dataset']!='PDBSol_ProtSolM':continue
+   if r['source_dataset']!='PDBSol_ProtSolM' or r['split'] not in rows:continue
    digest=r['sequence_sha256'];path=root/digest[:2]/f'{digest}.pt'
    if not path.exists():continue
    # Status was audited when pooled cache was built; enforce exact sequence again without loading 21 GB here.
@@ -92,7 +92,7 @@ def main():
  if d.get('sequence_descriptor_dir'):
   raw=np.load(Path(d['sequence_descriptor_dir'])/'descriptors.npy',mmap_mode='r');train_entities=np.unique([v[0] for v in rows['train']]);descriptor_mean=np.asarray(raw[train_entities],np.float64).mean(0);descriptor_std=np.maximum(np.asarray(raw[train_entities],np.float64).std(0),1e-6);descriptor_scale=float(d.get('sequence_descriptor_scale',1));sequence_descriptors=(((np.asarray(raw,np.float32)-descriptor_mean)/descriptor_std)*descriptor_scale).astype(np.float32);np.savez(a.run_dir/'descriptor_stats.npz',mean=descriptor_mean.astype(np.float32),std=descriptor_std.astype(np.float32),scale=np.float32(descriptor_scale),train_entity_indices=train_entities)
  use_vectors=mc.get('use_vector_invariants',False);neighbor_count=mc.get('neighbors',16);sets={s:Data(v,esm,root,mean,std,compact,geometry,use_vectors,neighbor_count,residue_esm,global_structure,global_columns,sequence_descriptors,surface_patches) for s,v in rows.items()};labels=np.array([v[2] for v in rows['train']]);lengths=[length_by_hash[v[1]] for v in rows['train']];batch_sampler=BalancedLengthBatchSampler(labels,lengths,tr['batch_size'],seed,[v[0] for v in rows['train']])
- train=DataLoader(sets['train'],batch_sampler=batch_sampler,num_workers=tr['workers'],collate_fn=collate,persistent_workers=tr['workers']>0,pin_memory=True);loaders={s:DataLoader(sets[s],batch_size=tr['batch_size'],num_workers=tr['workers'],collate_fn=collate,persistent_workers=tr['workers']>0,pin_memory=True) for s in ('validation','test')}
+ train=DataLoader(sets['train'],batch_sampler=batch_sampler,num_workers=tr['workers'],collate_fn=collate,persistent_workers=tr['workers']>0,pin_memory=True);loaders={'validation':DataLoader(sets['validation'],batch_size=tr['batch_size'],num_workers=tr['workers'],collate_fn=collate,persistent_workers=tr['workers']>0,pin_memory=True)}
  device=torch.device('cuda:0');residue_sequence_dimension=int(json.loads((residue_esm/'pca_metadata.json').read_text())['shape'][1]) if residue_esm else 0;input_dimension=152+(44 if use_vectors else 0)+residue_sequence_dimension;global_dimension=(len(global_columns) if global_structure else 0)+(sequence_descriptors.shape[1] if sequence_descriptors is not None else 0);is_geometry=geometry is not None;model=(GeometryLateFusion(esm.shape[1],input_dimension,mc['hidden_dimension'],mc['representation_dimension'],mc['dropout'],mc.get('geometry_layers',1),mc['pooling'],global_dimension,mc.get('use_sequence_separation',False),mc.get('fusion','concat'),mc.get('confidence_mode','legacy'),residue_sequence_dimension,stats['scalar_means'][1],stats['scalar_stds'][1]) if is_geometry else ResidueLateFusion(esm.shape[1],input_dimension,mc['hidden_dimension'],mc['representation_dimension'],mc['dropout'],mc['pooling'])).to(device);ema_decay=float(tr.get('ema_decay',0));ema_model=copy.deepcopy(model).eval().requires_grad_(False) if ema_decay else None;opt=torch.optim.AdamW(model.parameters(),lr=tr['learning_rate'],weight_decay=tr['weight_decay'],fused=tr.get('fused_optimizer',False));writer=SummaryWriter(a.run_dir/'tensorboard');best=-1;stale=0;history=[]
  for epoch in range(1,tr['epochs']+1):
   epoch_started=time.monotonic();model.train();total=n=0
@@ -114,6 +114,5 @@ def main():
   else:stale+=1
   if stale>=tr['patience']:break
  writer.close();(a.run_dir/'history.json').write_text(json.dumps(history,indent=2)+'\n');state=torch.load(a.run_dir/'checkpoints'/'best.pt',map_location=device,weights_only=False);model.load_state_dict(state['model']);amp=tr.get('amp_bfloat16',False);validation_truth,validation_logits=infer(model,loaders['validation'],device,amp,is_geometry);(a.run_dir/'validation_metrics.json').write_text(json.dumps({'pdbsol':binary_metrics(validation_truth,validation_logits)},indent=2,sort_keys=True)+'\n');np.savez_compressed(a.run_dir/'validation_predictions.npz',targets=validation_truth,logits=validation_logits,entity_indices=np.asarray([v[0] for v in rows['validation']],dtype=np.int64))
- if c.get('evaluate_test',False):(a.run_dir/'test_metrics.json').write_text(json.dumps({'pdbsol':evaluate(model,loaders['test'],device,amp,is_geometry)},indent=2)+'\n')
- print(json.dumps({'best_epoch':state['epoch'],'best_validation_auroc':best,'test_evaluated':c.get('evaluate_test',False)}))
+ print(json.dumps({'best_epoch':state['epoch'],'best_validation_auroc':best,'test_evaluated':False}))
 if __name__=='__main__':main()

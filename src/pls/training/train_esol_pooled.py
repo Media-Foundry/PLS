@@ -9,8 +9,8 @@ from pls.evaluation.metrics import regression_metrics
 
 SOURCE='eSOL_FGNNSol'
 def main():
- p=argparse.ArgumentParser();p.add_argument('--config',type=Path,required=True);p.add_argument('--run-dir',type=Path,required=True);p.add_argument('--allow-test-evaluation',action='store_true');a=p.parse_args();c=json.loads(a.config.read_text());d=c['data'];mc=c['model'];tr=c['training']
- if c.get('evaluate_test',False) or a.allow_test_evaluation:p.error('this validation-selection trainer never evaluates test')
+ p=argparse.ArgumentParser();p.add_argument('--config',type=Path,required=True);p.add_argument('--run-dir',type=Path,required=True);a=p.parse_args();c=json.loads(a.config.read_text());d=c['data'];mc=c['model'];tr=c['training']
+ if c.get('evaluate_test',False):p.error('test evaluation is permanently disabled')
  if os.environ.get('HIP_VISIBLE_DEVICES')!=str(tr['hip_device']):p.error('HIP device mismatch')
  with open(d['entities'],newline='',encoding='utf-8') as h:entities=list(csv.DictReader(h));index={r['sequence_sha256']:i for i,r in enumerate(entities)}
  rows={s:[] for s in ('train','validation')}

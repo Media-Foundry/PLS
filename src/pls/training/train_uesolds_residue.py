@@ -27,15 +27,15 @@ def infer(model,loader,device,amp=False):
  return np.asarray(truth,np.float32),np.asarray(logits,np.float32)
 
 def main():
- p=argparse.ArgumentParser();p.add_argument('--config',type=Path,required=True);p.add_argument('--run-dir',type=Path,required=True);p.add_argument('--allow-test-evaluation',action='store_true');a=p.parse_args();c=json.loads(a.config.read_text());d=c['data'];mc=c['model'];tr=c['training']
- if c.get('evaluate_test',False) and not a.allow_test_evaluation:p.error('test evaluation requires explicit authorization after freeze')
+ p=argparse.ArgumentParser();p.add_argument('--config',type=Path,required=True);p.add_argument('--run-dir',type=Path,required=True);a=p.parse_args();c=json.loads(a.config.read_text());d=c['data'];mc=c['model'];tr=c['training']
+ if c.get('evaluate_test',False):p.error('test evaluation is permanently disabled')
  if os.environ.get('HIP_VISIBLE_DEVICES')!=str(tr['hip_device']):p.error('HIP device mismatch')
  seed=tr['seed'];random.seed(seed);np.random.seed(seed);torch.manual_seed(seed)
  with open(d['entities'],newline='',encoding='utf-8') as h:entities=list(csv.DictReader(h));index={r['sequence_sha256']:i for i,r in enumerate(entities)}
- rows={s:[] for s in ('train','validation','test')}
+ rows={s:[] for s in ('train','validation')}
  with open(d['observation_split'],newline='',encoding='utf-8') as h:
   for r in csv.DictReader(h):
-   if r['source_dataset']==SOURCE:rows[r['split']].append((index[r['sequence_sha256']],float(r['target_value'])))
+   if r['source_dataset']==SOURCE and r['split'] in rows:rows[r['split']].append((index[r['sequence_sha256']],float(r['target_value'])))
  global_esm=np.load(Path(d['embedding_dir'])/'embeddings.npy',mmap_mode='r')
  if 'embedding_segment' in d:
   metadata=json.loads((Path(d['embedding_dir'])/'metadata.json').read_text());segment=int(d['embedding_segment']);layer_dimension=int(metadata['layer_dimension']);layers=metadata['layers']
@@ -44,7 +44,7 @@ def main():
  descriptors=None
  if d.get('sequence_descriptor_dir'):
   raw=np.load(Path(d['sequence_descriptor_dir'])/'descriptors.npy',mmap_mode='r');train_entities=np.unique([i for i,_ in rows['train']]);mean=np.asarray(raw[train_entities],np.float64).mean(0);std=np.asarray(raw[train_entities],np.float64).std(0);std=np.maximum(std,1e-6);scale=float(d.get('sequence_descriptor_scale',1));descriptors=(((np.asarray(raw,np.float32)-mean)/std)*scale).astype(np.float32);np.savez(a.run_dir/'descriptor_stats.npz',mean=mean.astype(np.float32),std=std.astype(np.float32),scale=np.float32(scale),train_entity_indices=train_entities)
- root=Path(d['residue_esm_dir']);offsets=np.load(Path(d['selection_dir'])/'offsets.npy',mmap_mode='r');shape=tuple(json.loads((root/'pca_metadata.json').read_text())['shape']);sets={s:Data(v,global_esm,offsets,root/'residue_esm2_pca.f16',shape,descriptors) for s,v in rows.items()};labels=np.asarray([y for _,y in rows['train']],np.int64);lengths=np.asarray([int(entities[i]['length']) for i,_ in rows['train']]);batch_sampler=BalancedLengthBatchSampler(labels,lengths,tr['batch_size'],seed);train=DataLoader(sets['train'],batch_sampler=batch_sampler,num_workers=tr['workers'],collate_fn=collate,persistent_workers=tr['workers']>0,pin_memory=True);loaders={s:DataLoader(sets[s],batch_size=tr['batch_size'],num_workers=tr['workers'],collate_fn=collate,persistent_workers=tr['workers']>0,pin_memory=True) for s in ('validation','test')}
+ root=Path(d['residue_esm_dir']);offsets=np.load(Path(d['selection_dir'])/'offsets.npy',mmap_mode='r');shape=tuple(json.loads((root/'pca_metadata.json').read_text())['shape']);sets={s:Data(v,global_esm,offsets,root/'residue_esm2_pca.f16',shape,descriptors) for s,v in rows.items()};labels=np.asarray([y for _,y in rows['train']],np.int64);lengths=np.asarray([int(entities[i]['length']) for i,_ in rows['train']]);batch_sampler=BalancedLengthBatchSampler(labels,lengths,tr['batch_size'],seed);train=DataLoader(sets['train'],batch_sampler=batch_sampler,num_workers=tr['workers'],collate_fn=collate,persistent_workers=tr['workers']>0,pin_memory=True);loaders={'validation':DataLoader(sets['validation'],batch_size=tr['batch_size'],num_workers=tr['workers'],collate_fn=collate,persistent_workers=tr['workers']>0,pin_memory=True)}
  device=torch.device('cuda:0');global_dimension=global_esm.shape[1]+(descriptors.shape[1] if descriptors is not None else 0);model=ResidueSequenceRegressor(global_dimension,shape[1],mc['hidden_dimension'],mc['representation_dimension'],mc['dropout'],mc['pooling'],mc.get('fusion','concat'),mc.get('global_segments',1),mc.get('global_segment_fusion','weighted_sum'),mc.get('tcn_bottleneck'),mc.get('tcn_dilations',(1,2,4))).to(device);decay=float(tr.get('ema_decay',0));ema=copy.deepcopy(model).eval().requires_grad_(False) if decay else None;opt=torch.optim.AdamW(model.parameters(),lr=tr['learning_rate'],weight_decay=tr['weight_decay'],fused=tr.get('fused_optimizer',False));writer=SummaryWriter(a.run_dir/'tensorboard');best=-1;stale=0;history=[]
  for epoch in range(1,tr['epochs']+1):
   started=time.monotonic();model.train();total=count=0
@@ -68,7 +68,5 @@ def main():
   else:stale+=1
   if stale>=tr['patience']:break
  writer.close();(a.run_dir/'history.json').write_text(json.dumps(history,indent=2)+'\n');state=torch.load(a.run_dir/'checkpoints'/'best.pt',map_location=device,weights_only=False);model.load_state_dict(state['model']);truth,logits=infer(model,loaders['validation'],device,tr.get('amp_bfloat16',False));(a.run_dir/'validation_metrics.json').write_text(json.dumps({'uesolds':binary_metrics(truth,logits)},indent=2,sort_keys=True)+'\n');np.savez_compressed(a.run_dir/'validation_predictions.npz',targets=truth,logits=logits,entity_indices=np.asarray([v[0] for v in rows['validation']],np.int64))
- if c.get('evaluate_test',False):
-  truth,logits=infer(model,loaders['test'],device,tr.get('amp_bfloat16',False));(a.run_dir/'test_metrics.json').write_text(json.dumps({'uesolds':binary_metrics(truth,logits)},indent=2,sort_keys=True)+'\n')
- print(json.dumps({'best_epoch':state['epoch'],'best_validation_auroc':best,'test_evaluated':c.get('evaluate_test',False)}))
+ print(json.dumps({'best_epoch':state['epoch'],'best_validation_auroc':best,'test_evaluated':False}))
 if __name__=='__main__':main()

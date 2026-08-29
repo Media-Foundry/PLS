@@ -25,8 +25,8 @@ def predict(model,loader,device,raw=False):
 
 def main():
  p=argparse.ArgumentParser(); p.add_argument('--config',type=Path,required=True); p.add_argument('--run-dir',type=Path,required=True)
- p.add_argument('--allow-test-evaluation',action='store_true'); a=p.parse_args(); c=json.loads(a.config.read_text()); d=c['data']; tr=c['training']
- if c.get('evaluate_test',False) and not a.allow_test_evaluation: p.error('test evaluation requires explicit --allow-test-evaluation after model freeze')
+ a=p.parse_args(); c=json.loads(a.config.read_text()); d=c['data']; tr=c['training']
+ if c.get('evaluate_test',False):p.error('test evaluation is permanently disabled')
  hip=str(tr['hip_device']);
  if os.environ.get('HIP_VISIBLE_DEVICES')!=hip: p.error(f'HIP_VISIBLE_DEVICES must equal configured {hip}')
  seed=int(tr['seed']); random.seed(seed); np.random.seed(seed); torch.manual_seed(seed)
@@ -36,17 +36,17 @@ def main():
  cols=[]
  for group in c['model']['structure_groups']:
   lo,hi=meta['slices'][group]; cols.extend(range(lo,hi))
- rows={s:[] for s in ('train','validation','test')}
+ rows={s:[] for s in ('train','validation')}
  with open(d['observation_split'],newline='',encoding='utf-8') as h:
   for r in csv.DictReader(h):
-   if r['source_dataset']!='PDBSol_ProtSolM': continue
+   if r['source_dataset']!='PDBSol_ProtSolM' or r['split'] not in rows: continue
    j=ix[r['sequence_sha256']]
    if d.get('require_structure_match',True) and status[j]!=1: continue
    rows[r['split']].append((j,float(r['target_value'])))
  sets={s:D(v,esm,struct,cols) for s,v in rows.items()}; batch=int(tr['batch_size'])
  labels=np.array([y for _,y in rows['train']]); count=np.bincount(labels.astype(int),minlength=2); weights=[1/count[int(y)] for y in labels]
  sampler=WeightedRandomSampler(weights,len(weights),replacement=True,generator=torch.Generator().manual_seed(seed))
- train=DataLoader(sets['train'],batch_size=batch,sampler=sampler); loaders={s:DataLoader(sets[s],batch_size=batch) for s in ('validation','test')}
+ train=DataLoader(sets['train'],batch_size=batch,sampler=sampler); loaders={'validation':DataLoader(sets['validation'],batch_size=batch)}
  device=torch.device('cuda:0'); mconf=c['model']; model=build_fusion(mconf.get('architecture','early'),esm.shape[1],len(cols),mconf['hidden_dimension'],mconf['representation_dimension'],mconf['dropout']).to(device)
  opt=torch.optim.AdamW(model.parameters(),lr=tr['learning_rate'],weight_decay=tr['weight_decay']); writer=SummaryWriter(a.run_dir/'tensorboard'); best=-1.; stale=0; history=[]
  for epoch in range(1,tr['epochs']+1):
@@ -61,6 +61,5 @@ def main():
   if stale>=tr['patience']: break
  writer.close(); (a.run_dir/'history.json').write_text(json.dumps(history,indent=2)+'\n'); beststate=torch.load(a.run_dir/'checkpoints'/'best.pt',map_location=device,weights_only=False); model.load_state_dict(beststate['model'])
  validation_truth,validation_logits=predict(model,loaders['validation'],device,True);(a.run_dir/'validation_metrics.json').write_text(json.dumps({'pdbsol':binary_metrics(validation_truth,validation_logits)},indent=2,sort_keys=True)+'\n');np.savez_compressed(a.run_dir/'validation_predictions.npz',targets=validation_truth,logits=validation_logits,entity_indices=np.asarray([i for i,_ in rows['validation']],np.int64))
- if c.get('evaluate_test',False): (a.run_dir/'test_metrics.json').write_text(json.dumps({'pdbsol':predict(model,loaders['test'],device)},indent=2,sort_keys=True)+'\n')
- print(json.dumps({'best_epoch':beststate['epoch'],'best_validation_auroc':best,'test_evaluated':c.get('evaluate_test',False)}))
+ print(json.dumps({'best_epoch':beststate['epoch'],'best_validation_auroc':best,'test_evaluated':False}))
 if __name__=='__main__': main()

@@ -23,3 +23,7 @@ python -m pip install --no-build-isolation <requirements>
 ```
 
 This contract applies to the primary agent, sub-agents and all automated scripts.
+
+## Permanent test-set freeze
+
+The test split must never be evaluated, inferred, scored, calibrated, inspected, or used for model selection. Training entrypoints must hard-fail when `evaluate_test` is true. There is no command-line override or authorization bypass. Only validation outputs may be produced.
