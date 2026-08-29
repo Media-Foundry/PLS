@@ -1,0 +1,27 @@
+{
+  "command": [
+    "script/run_experiment.py",
+    "--config",
+    "configs/experiments/uesolds_residue_esm_physchem_gatedstats_v8.json",
+    "--hip-override",
+    "5",
+    "--seed-override",
+    "20260830",
+    "--name-suffix",
+    "_s20260830"
+  ],
+  "created_at": "2026-08-29T18:52:45.169130+08:00",
+  "git_revision": "4894074cd1f6002bb0c806a85fe838adeb5036c6",
+  "hip_visible_devices": "5",
+  "packages": {
+    "biopython": "1.85",
+    "fair-esm": "2.0.0",
+    "numpy": "2.5.2",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.16.0",
+    "tensorboard": "2.21.0"
+  },
+  "python": "3.12.13 | packaged by Anaconda, Inc. | (main, Jul  9 2026, 14:38:16) [GCC 14.3.0]",
+  "torch": "2.12.0a0+git78258b9",
+  "torch_hip": "7.14.60850"
+}

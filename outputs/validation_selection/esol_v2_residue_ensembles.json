@@ -1,0 +1,352 @@
+{
+  "reports": [
+    {
+      "affine_intercept": 0.033906989615059654,
+      "affine_metrics": {
+        "mae": 0.17501465721303644,
+        "n": 267,
+        "pearson": 0.7187313425695899,
+        "rmse": 0.22381173163197934,
+        "spearman": 0.7279212139043072
+      },
+      "affine_slope": 0.995582330639134,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.17510534777595532,
+        "n": 267,
+        "pearson": 0.7187313425695898,
+        "rmse": 0.22607598935500262,
+        "spearman": 0.7279212139043072
+      },
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_valonly_s29+08-29-16-38",
+        "outputs/esm2_mean_adapters_v2_strict_si30_valonly_s30+08-29-16-38",
+        "outputs/esol_residue_esm_v1_strict_si30_mean+08-29-16-34"
+      ]
+    },
+    {
+      "affine_intercept": 0.03498798117590063,
+      "affine_metrics": {
+        "mae": 0.175118442526328,
+        "n": 267,
+        "pearson": 0.7184353210627868,
+        "rmse": 0.22391019130681308,
+        "spearman": 0.7274019223367453
+      },
+      "affine_slope": 0.9955904588714822,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.17543101252129908,
+        "n": 267,
+        "pearson": 0.7184353210627868,
+        "rmse": 0.22632968660582237,
+        "spearman": 0.7274019223367453
+      },
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_valonly_s29+08-29-16-38",
+        "outputs/esm2_mean_adapters_v2_strict_si30_valonly_s30+08-29-16-38",
+        "outputs/esol_residue_esm_v1_strict_si30_attention+08-29-16-34"
+      ]
+    },
+    {
+      "affine_intercept": 0.02303066023720775,
+      "affine_metrics": {
+        "mae": 0.1751155303515069,
+        "n": 267,
+        "pearson": 0.7177515651577889,
+        "rmse": 0.22413729508503422,
+        "spearman": 0.7265352796052186
+      },
+      "affine_slope": 1.02722502354726,
+      "ensemble_size": 4,
+      "metrics": {
+        "mae": 0.17640509604291524,
+        "n": 267,
+        "pearson": 0.7177515651577888,
+        "rmse": 0.22698367173887216,
+        "spearman": 0.7265352796052186
+      },
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_valonly_s29+08-29-16-38",
+        "outputs/esm2_mean_adapters_v2_strict_si30_valonly_s30+08-29-16-38",
+        "outputs/esol_residue_esm_v1_strict_si30_mean+08-29-16-34",
+        "outputs/esol_residue_esm_v1_strict_si30_attention+08-29-16-34"
+      ]
+    },
+    {
+      "affine_intercept": 0.033546975283557476,
+      "affine_metrics": {
+        "mae": 0.17470682420241537,
+        "n": 267,
+        "pearson": 0.7197566665035129,
+        "rmse": 0.22347004932517217,
+        "spearman": 0.7259901181053722
+      },
+      "affine_slope": 1.0471462592750393,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.17959448151736893,
+        "n": 267,
+        "pearson": 0.7197566665035127,
+        "rmse": 0.2301214586672311,
+        "spearman": 0.7259901181053722
+      },
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_valonly_s29+08-29-16-38",
+        "outputs/esol_residue_esm_v1_strict_si30_mean+08-29-16-34"
+      ]
+    },
+    {
+      "affine_intercept": 0.035440638991002554,
+      "affine_metrics": {
+        "mae": 0.17496106889738014,
+        "n": 267,
+        "pearson": 0.7191401578458353,
+        "rmse": 0.2236756176349764,
+        "spearman": 0.7252730162019284
+      },
+      "affine_slope": 1.0467227597695616,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.18017544263227378,
+        "n": 267,
+        "pearson": 0.7191401578458354,
+        "rmse": 0.23070477653427668,
+        "spearman": 0.7252730162019284
+      },
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_valonly_s29+08-29-16-38",
+        "outputs/esol_residue_esm_v1_strict_si30_attention+08-29-16-34"
+      ]
+    },
+    {
+      "affine_intercept": 0.02009895789129046,
+      "affine_metrics": {
+        "mae": 0.17815257963547396,
+        "n": 267,
+        "pearson": 0.7095751891912244,
+        "rmse": 0.2268188476227103,
+        "spearman": 0.7225819122703948
+      },
+      "affine_slope": 0.9892870545293269,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.17689743633155297,
+        "n": 267,
+        "pearson": 0.7095751891912243,
+        "rmse": 0.22733114997703627,
+        "spearman": 0.7225819122703948
+      },
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_valonly_s30+08-29-16-38",
+        "outputs/esol_residue_esm_v1_strict_si30_mean+08-29-16-34"
+      ]
+    },
+    {
+      "affine_intercept": 0.011436505243105508,
+      "affine_metrics": {
+        "mae": 0.17766271323752025,
+        "n": 267,
+        "pearson": 0.7097398298929065,
+        "rmse": 0.22676546568452732,
+        "spearman": 0.7216947628852279
+      },
+      "affine_slope": 1.029876742084778,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.17819700191278806,
+        "n": 267,
+        "pearson": 0.7097398298929066,
+        "rmse": 0.22825871836674466,
+        "spearman": 0.7216947628852279
+      },
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_valonly_s30+08-29-16-38",
+        "outputs/esol_residue_esm_v1_strict_si30_mean+08-29-16-34",
+        "outputs/esol_residue_esm_v1_strict_si30_attention+08-29-16-34"
+      ]
+    },
+    {
+      "affine_intercept": 0.0217517678510767,
+      "affine_metrics": {
+        "mae": 0.17841783507587455,
+        "n": 267,
+        "pearson": 0.7090962477919918,
+        "rmse": 0.2269739944576106,
+        "spearman": 0.7213177559452302
+      },
+      "affine_slope": 0.9892102040283113,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.17705118930323072,
+        "n": 267,
+        "pearson": 0.7090962477919919,
+        "rmse": 0.22760009364713507,
+        "spearman": 0.7213177559452302
+      },
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_valonly_s30+08-29-16-38",
+        "outputs/esol_residue_esm_v1_strict_si30_attention+08-29-16-34"
+      ]
+    },
+    {
+      "affine_intercept": 0.02284427761227356,
+      "affine_metrics": {
+        "mae": 0.17613088994356105,
+        "n": 267,
+        "pearson": 0.7147122324322278,
+        "rmse": 0.22514140770825403,
+        "spearman": 0.7213127081535649
+      },
+      "affine_slope": 1.0650055367439886,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.180766718197014,
+        "n": 267,
+        "pearson": 0.7147122324322278,
+        "rmse": 0.23130039228618754,
+        "spearman": 0.7213127081535649
+      },
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_valonly_s29+08-29-16-38",
+        "outputs/esol_residue_esm_v1_strict_si30_mean+08-29-16-34",
+        "outputs/esol_residue_esm_v1_strict_si30_attention+08-29-16-34"
+      ]
+    },
+    {
+      "affine_intercept": 0.06360028605524481,
+      "affine_metrics": {
+        "mae": 0.17778298752132318,
+        "n": 267,
+        "pearson": 0.7131254730350782,
+        "rmse": 0.22566216928078175,
+        "spearman": 0.7198280264300249
+      },
+      "affine_slope": 0.9197391690390949,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.17624653554225012,
+        "n": 267,
+        "pearson": 0.713125473035078,
+        "rmse": 0.22811990264732532,
+        "spearman": 0.7198280264300249
+      },
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_valonly_s29+08-29-16-38",
+        "outputs/esm2_mean_adapters_v2_strict_si30_valonly_s30+08-29-16-38"
+      ]
+    },
+    {
+      "affine_intercept": 0.08433399789628414,
+      "affine_metrics": {
+        "mae": 0.17847331769161434,
+        "n": 267,
+        "pearson": 0.717429618805919,
+        "rmse": 0.2242440724110454,
+        "spearman": 0.7170530029620565
+      },
+      "affine_slope": 0.9554541847875513,
+      "ensemble_size": 1,
+      "metrics": {
+        "mae": 0.18251185001254305,
+        "n": 267,
+        "pearson": 0.7174296188059189,
+        "rmse": 0.2338895381153501,
+        "spearman": 0.7170530029620565
+      },
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_valonly_s29+08-29-16-38"
+      ]
+    },
+    {
+      "affine_intercept": 0.009744494869834957,
+      "affine_metrics": {
+        "mae": 0.1825879403550639,
+        "n": 267,
+        "pearson": 0.6955281946484743,
+        "rmse": 0.23128327484090672,
+        "spearman": 0.7041640194959276
+      },
+      "affine_slope": 1.0732364864361268,
+      "ensemble_size": 1,
+      "metrics": {
+        "mae": 0.1857416212544794,
+        "n": 267,
+        "pearson": 0.6955281946484743,
+        "rmse": 0.23560803787696452,
+        "spearman": 0.7041640194959276
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_mean+08-29-16-34"
+      ]
+    },
+    {
+      "affine_intercept": 0.011881630007206446,
+      "affine_metrics": {
+        "mae": 0.18298563444154048,
+        "n": 267,
+        "pearson": 0.6947479949743265,
+        "rmse": 0.23152612647768023,
+        "spearman": 0.7040080807235872
+      },
+      "affine_slope": 1.0723701176273062,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.1861286344362444,
+        "n": 267,
+        "pearson": 0.6947479949743266,
+        "rmse": 0.2361328003334084,
+        "spearman": 0.7040080807235872
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_mean+08-29-16-34",
+        "outputs/esol_residue_esm_v1_strict_si30_attention+08-29-16-34"
+      ]
+    },
+    {
+      "affine_intercept": 0.014355369398513174,
+      "affine_metrics": {
+        "mae": 0.18345761553549414,
+        "n": 267,
+        "pearson": 0.6937182564813562,
+        "rmse": 0.2318458457914323,
+        "spearman": 0.7031682267922899
+      },
+      "affine_slope": 1.0707335118477719,
+      "ensemble_size": 1,
+      "metrics": {
+        "mae": 0.18651564761800934,
+        "n": 267,
+        "pearson": 0.6937182564813561,
+        "rmse": 0.2367336357323745,
+        "spearman": 0.7031682267922899
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_attention+08-29-16-34"
+      ]
+    },
+    {
+      "affine_intercept": 0.06934079961414015,
+      "affine_metrics": {
+        "mae": 0.18654631348536757,
+        "n": 267,
+        "pearson": 0.6887720971128318,
+        "rmse": 0.23336889209998699,
+        "spearman": 0.6998318307221163
+      },
+      "affine_slope": 0.8364748571450381,
+      "ensemble_size": 1,
+      "metrics": {
+        "mae": 0.18411558263757255,
+        "n": 267,
+        "pearson": 0.6887720971128317,
+        "rmse": 0.23767093219883415,
+        "spearman": 0.6998318307221163
+      },
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_valonly_s30+08-29-16-38"
+      ]
+    }
+  ],
+  "selection_data": "strict-validation only"
+}

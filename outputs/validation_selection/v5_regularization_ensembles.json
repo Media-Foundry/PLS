@@ -1,0 +1,457 @@
+{
+  "reports": [
+    {
+      "calibrated": {
+        "auprc": 0.9063037729292707,
+        "auroc": 0.8942358007882202,
+        "balanced_accuracy": 0.8054783142484755,
+        "brier": 0.13420583007757475,
+        "ece": 0.035360481385626065,
+        "f1": 0.8023164814524965,
+        "mcc": 0.6113492288300978,
+        "n": 6429
+      },
+      "ensemble_size": 3,
+      "mcc_at_selected_threshold": 0.614735823172696,
+      "mcc_threshold": 0.5059999999999999,
+      "runs": [
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema99_drop25+08-29-16-07",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema98+08-29-16-11",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema99_smooth04+08-29-16-11"
+      ],
+      "temperature": 1.1028099556971436,
+      "uncalibrated": {
+        "auprc": 0.9063037729292707,
+        "auroc": 0.8942358007882202,
+        "balanced_accuracy": 0.8054783142484755,
+        "brier": 0.13446112689231837,
+        "ece": 0.035915912716765856,
+        "f1": 0.8023164814524965,
+        "mcc": 0.6113492288300978,
+        "n": 6429
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.906489446620582,
+        "auroc": 0.8941974953063663,
+        "balanced_accuracy": 0.8074051284736768,
+        "brier": 0.13437765191911089,
+        "ece": 0.03348501909053234,
+        "f1": 0.8039492242595204,
+        "mcc": 0.6152959145988018,
+        "n": 6429
+      },
+      "ensemble_size": 4,
+      "mcc_at_selected_threshold": 0.6168252208389637,
+      "mcc_threshold": 0.4889999999999999,
+      "runs": [
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema99_drop25+08-29-16-07",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema995+08-29-16-09",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema98+08-29-16-11",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema99_smooth04+08-29-16-11"
+      ],
+      "temperature": 1.1393808880624343,
+      "uncalibrated": {
+        "auprc": 0.906489446620582,
+        "auroc": 0.8941974953063663,
+        "balanced_accuracy": 0.8074051284736768,
+        "brier": 0.1347882564825426,
+        "ece": 0.03803924037196235,
+        "f1": 0.8039492242595204,
+        "mcc": 0.6152959145988018,
+        "n": 6429
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.9064286768617626,
+        "auroc": 0.8939228595478594,
+        "balanced_accuracy": 0.8068098903784388,
+        "brier": 0.13443404771673684,
+        "ece": 0.03283412971496596,
+        "f1": 0.8031989963932884,
+        "mcc": 0.6141511476443662,
+        "n": 6429
+      },
+      "ensemble_size": 3,
+      "mcc_at_selected_threshold": 0.616053925180114,
+      "mcc_threshold": 0.4809999999999999,
+      "runs": [
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema99_drop25+08-29-16-07",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema995+08-29-16-09",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema99_smooth04+08-29-16-11"
+      ],
+      "temperature": 1.1711717362479628,
+      "uncalibrated": {
+        "auprc": 0.9064286768617626,
+        "auroc": 0.8939228595478594,
+        "balanced_accuracy": 0.8068098903784388,
+        "brier": 0.1351276517047184,
+        "ece": 0.040607291166175966,
+        "f1": 0.8031989963932884,
+        "mcc": 0.6141511476443662,
+        "n": 6429
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.9062944756694782,
+        "auroc": 0.8938041125541125,
+        "balanced_accuracy": 0.8066829004329004,
+        "brier": 0.13432994371611487,
+        "ece": 0.03218642663323825,
+        "f1": 0.8037529319781079,
+        "mcc": 0.6136947016302043,
+        "n": 6429
+      },
+      "ensemble_size": 2,
+      "mcc_at_selected_threshold": 0.6157637408156686,
+      "mcc_threshold": 0.48299999999999993,
+      "runs": [
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema99_drop25+08-29-16-07",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema99_smooth04+08-29-16-11"
+      ],
+      "temperature": 1.132954151868564,
+      "uncalibrated": {
+        "auprc": 0.9062944756694782,
+        "auroc": 0.8938041125541125,
+        "balanced_accuracy": 0.8066829004329004,
+        "brier": 0.134881948215387,
+        "ece": 0.03654381860053104,
+        "f1": 0.8037529319781079,
+        "mcc": 0.6136947016302043,
+        "n": 6429
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.9056322027395287,
+        "auroc": 0.8936565152290958,
+        "balanced_accuracy": 0.8037644591072011,
+        "brier": 0.13453009081712028,
+        "ece": 0.032476697891675184,
+        "f1": 0.8014350335361098,
+        "mcc": 0.6076928289913441,
+        "n": 6429
+      },
+      "ensemble_size": 3,
+      "mcc_at_selected_threshold": 0.6136609470092533,
+      "mcc_threshold": 0.4489999999999999,
+      "runs": [
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema995+08-29-16-09",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema98+08-29-16-11",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema99_smooth04+08-29-16-11"
+      ],
+      "temperature": 1.1471590727493106,
+      "uncalibrated": {
+        "auprc": 0.9056322027395287,
+        "auroc": 0.8936565152290958,
+        "balanced_accuracy": 0.8037644591072011,
+        "brier": 0.13502476475618186,
+        "ece": 0.037471745215490765,
+        "f1": 0.8014350335361098,
+        "mcc": 0.6076928289913441,
+        "n": 6429
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.9052735266122689,
+        "auroc": 0.8931351727722696,
+        "balanced_accuracy": 0.8051524752129591,
+        "brier": 0.13472876038834067,
+        "ece": 0.031174556396499957,
+        "f1": 0.802065404475043,
+        "mcc": 0.6106752518199609,
+        "n": 6429
+      },
+      "ensemble_size": 2,
+      "mcc_at_selected_threshold": 0.6112909104229034,
+      "mcc_threshold": 0.4969999999999999,
+      "runs": [
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema995+08-29-16-09",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema99_smooth04+08-29-16-11"
+      ],
+      "temperature": 1.1991527163477136,
+      "uncalibrated": {
+        "auprc": 0.9052735266122689,
+        "auroc": 0.8931351727722696,
+        "balanced_accuracy": 0.8051524752129591,
+        "brier": 0.13574237963366095,
+        "ece": 0.03980814539140245,
+        "f1": 0.802065404475043,
+        "mcc": 0.6106752518199609,
+        "n": 6429
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.9032534911588037,
+        "auroc": 0.8925756218094928,
+        "balanced_accuracy": 0.8036592887399339,
+        "brier": 0.13490275430102056,
+        "ece": 0.033122520650354086,
+        "f1": 0.8027295285359801,
+        "mcc": 0.6071664492874256,
+        "n": 6429
+      },
+      "ensemble_size": 2,
+      "mcc_at_selected_threshold": 0.6127961098637963,
+      "mcc_threshold": 0.4619999999999999,
+      "runs": [
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema98+08-29-16-11",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema99_smooth04+08-29-16-11"
+      ],
+      "temperature": 1.1046116261797538,
+      "uncalibrated": {
+        "auprc": 0.9032534911588037,
+        "auroc": 0.8925756218094928,
+        "balanced_accuracy": 0.8036592887399339,
+        "brier": 0.13523521229877022,
+        "ece": 0.03303985233863744,
+        "f1": 0.8027295285359801,
+        "mcc": 0.6071664492874256,
+        "n": 6429
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.9051138608329501,
+        "auroc": 0.892456002032615,
+        "balanced_accuracy": 0.80371180119164,
+        "brier": 0.13589810542921663,
+        "ece": 0.035226664355628,
+        "f1": 0.7974001268230818,
+        "mcc": 0.6088972249606687,
+        "n": 6429
+      },
+      "ensemble_size": 3,
+      "mcc_at_selected_threshold": 0.6138200277395001,
+      "mcc_threshold": 0.4779999999999999,
+      "runs": [
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema99_drop25+08-29-16-07",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema995+08-29-16-09",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema98+08-29-16-11"
+      ],
+      "temperature": 1.1637053151266852,
+      "uncalibrated": {
+        "auprc": 0.9051138608329501,
+        "auroc": 0.892456002032615,
+        "balanced_accuracy": 0.80371180119164,
+        "brier": 0.1363319328083986,
+        "ece": 0.0426546736191236,
+        "f1": 0.7974001268230818,
+        "mcc": 0.6088972249606687,
+        "n": 6429
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.9042492262296491,
+        "auroc": 0.8916255003956617,
+        "balanced_accuracy": 0.8021185355862774,
+        "brier": 0.13635212266006158,
+        "ece": 0.035747336125511,
+        "f1": 0.7968429360694554,
+        "mcc": 0.6053001727617658,
+        "n": 6429
+      },
+      "ensemble_size": 2,
+      "mcc_at_selected_threshold": 0.6137544621034148,
+      "mcc_threshold": 0.4629999999999999,
+      "runs": [
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema99_drop25+08-29-16-07",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema98+08-29-16-11"
+      ],
+      "temperature": 1.119151414028868,
+      "uncalibrated": {
+        "auprc": 0.9042492262296491,
+        "auroc": 0.8916255003956617,
+        "balanced_accuracy": 0.8021185355862774,
+        "brier": 0.1365421902934095,
+        "ece": 0.039656186653247306,
+        "f1": 0.7968429360694554,
+        "mcc": 0.6053001727617658,
+        "n": 6429
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.9045460578659682,
+        "auroc": 0.8914683994321091,
+        "balanced_accuracy": 0.8002122317646512,
+        "brier": 0.1364745867223016,
+        "ece": 0.03604925158890242,
+        "f1": 0.7942386831275721,
+        "mcc": 0.6017277909447459,
+        "n": 6429
+      },
+      "ensemble_size": 2,
+      "mcc_at_selected_threshold": 0.612430370664843,
+      "mcc_threshold": 0.4679999999999999,
+      "runs": [
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema99_drop25+08-29-16-07",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema995+08-29-16-09"
+      ],
+      "temperature": 1.2213622723728954,
+      "uncalibrated": {
+        "auprc": 0.9045460578659682,
+        "auroc": 0.8914683994321091,
+        "balanced_accuracy": 0.8002122317646512,
+        "brier": 0.13736888173511208,
+        "ece": 0.04572983047759739,
+        "f1": 0.7942386831275721,
+        "mcc": 0.6017277909447459,
+        "n": 6429
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.9037937159057449,
+        "auroc": 0.891399158637062,
+        "balanced_accuracy": 0.8015515174789368,
+        "brier": 0.13642991300210228,
+        "ece": 0.034598760775459494,
+        "f1": 0.7959538485854275,
+        "mcc": 0.6042787079340287,
+        "n": 6429
+      },
+      "ensemble_size": 2,
+      "mcc_at_selected_threshold": 0.6109127002352276,
+      "mcc_threshold": 0.4639999999999999,
+      "runs": [
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema995+08-29-16-09",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema98+08-29-16-11"
+      ],
+      "temperature": 1.1796542021816243,
+      "uncalibrated": {
+        "auprc": 0.9037937159057449,
+        "auroc": 0.891399158637062,
+        "balanced_accuracy": 0.8015515174789368,
+        "brier": 0.13694361203653171,
+        "ece": 0.042711818260089005,
+        "f1": 0.7959538485854275,
+        "mcc": 0.6042787079340287,
+        "n": 6429
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.9025579179452956,
+        "auroc": 0.8897846553088489,
+        "balanced_accuracy": 0.7988870560443141,
+        "brier": 0.13740085494986737,
+        "ece": 0.03394759634098491,
+        "f1": 0.7924528301886793,
+        "mcc": 0.5992399162343206,
+        "n": 6429
+      },
+      "ensemble_size": 1,
+      "mcc_at_selected_threshold": 0.6039079310653251,
+      "mcc_threshold": 0.4559999999999999,
+      "runs": [
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema995+08-29-16-09"
+      ],
+      "temperature": 1.299951000328469,
+      "uncalibrated": {
+        "auprc": 0.9025579179452956,
+        "auroc": 0.8897846553088489,
+        "balanced_accuracy": 0.7988870560443141,
+        "brier": 0.13897621771809174,
+        "ece": 0.05113253206905685,
+        "f1": 0.7924528301886793,
+        "mcc": 0.5992399162343206,
+        "n": 6429
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.9029826778508059,
+        "auroc": 0.8893307595928563,
+        "balanced_accuracy": 0.7964997032537355,
+        "brier": 0.13773457301658765,
+        "ece": 0.03638184669273058,
+        "f1": 0.7903072537218878,
+        "mcc": 0.5943464755050862,
+        "n": 6429
+      },
+      "ensemble_size": 1,
+      "mcc_at_selected_threshold": 0.5976318191889317,
+      "mcc_threshold": 0.5429999999999999,
+      "runs": [
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema99_drop25+08-29-16-07"
+      ],
+      "temperature": 1.1852931719438877,
+      "uncalibrated": {
+        "auprc": 0.9029826778508059,
+        "auroc": 0.8893307595928563,
+        "balanced_accuracy": 0.7964997032537355,
+        "brier": 0.13840605047055218,
+        "ece": 0.04449115838936012,
+        "f1": 0.7903072537218878,
+        "mcc": 0.5943464755050862,
+        "n": 6429
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.8983024142267082,
+        "auroc": 0.8889163815575106,
+        "balanced_accuracy": 0.8009961364800074,
+        "brier": 0.13693098039812968,
+        "ece": 0.029608334858473657,
+        "f1": 0.8009888751545118,
+        "mcc": 0.6016812387157083,
+        "n": 6429
+      },
+      "ensemble_size": 1,
+      "mcc_at_selected_threshold": 0.6045052015166725,
+      "mcc_threshold": 0.5339999999999999,
+      "runs": [
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema99_smooth04+08-29-16-11"
+      ],
+      "temperature": 1.1751535372125521,
+      "uncalibrated": {
+        "auprc": 0.8983024142267082,
+        "auroc": 0.8889163815575106,
+        "balanced_accuracy": 0.8009961364800074,
+        "brier": 0.13812861749323896,
+        "ece": 0.036233190618454605,
+        "f1": 0.8009888751545118,
+        "mcc": 0.6016812387157083,
+        "n": 6429
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.8979398579763078,
+        "auroc": 0.8869002040373009,
+        "balanced_accuracy": 0.7979326676907321,
+        "brier": 0.13896581506164096,
+        "ece": 0.03443930151275394,
+        "f1": 0.794228356336261,
+        "mcc": 0.5963927991513205,
+        "n": 6429
+      },
+      "ensemble_size": 1,
+      "mcc_at_selected_threshold": 0.6000241502781455,
+      "mcc_threshold": 0.4459999999999999,
+      "runs": [
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_reg_ema98+08-29-16-11"
+      ],
+      "temperature": 1.1252959930636095,
+      "uncalibrated": {
+        "auprc": 0.8979398579763078,
+        "auroc": 0.8869002040373009,
+        "balanced_accuracy": 0.7979326676907321,
+        "brier": 0.13913231044139945,
+        "ece": 0.037753073498472255,
+        "f1": 0.794228356336261,
+        "mcc": 0.5963927991513205,
+        "n": 6429
+      }
+    }
+  ],
+  "selection_data": "strict-validation only"
+}

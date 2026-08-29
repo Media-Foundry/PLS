@@ -1,0 +1,31 @@
+{
+  "command": [
+    "script/run_experiment.py",
+    "--config",
+    "configs/experiments/uesolds_residue_esm_physchem_v2.json",
+    "--hip-override",
+    "7",
+    "--seed-override",
+    "20260830",
+    "--pooling-override",
+    "local_attention",
+    "--descriptor-scale-override",
+    "0.25",
+    "--name-suffix",
+    "_local_scale0p25_s30"
+  ],
+  "created_at": "2026-08-29T18:00:41.186336+08:00",
+  "git_revision": "e01b4006b75c430ba492228b5a886a1a09364740",
+  "hip_visible_devices": "7",
+  "packages": {
+    "biopython": "1.85",
+    "fair-esm": "2.0.0",
+    "numpy": "2.5.2",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.16.0",
+    "tensorboard": "2.21.0"
+  },
+  "python": "3.12.13 | packaged by Anaconda, Inc. | (main, Jul  9 2026, 14:38:16) [GCC 14.3.0]",
+  "torch": "2.12.0a0+git78258b9",
+  "torch_hip": "7.14.60850"
+}

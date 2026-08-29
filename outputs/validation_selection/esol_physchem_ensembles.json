@@ -1,0 +1,1520 @@
+{
+  "reports": [
+    {
+      "affine_intercept": 0.012208739821070723,
+      "affine_metrics": {
+        "mae": 0.1670687439562336,
+        "n": 267,
+        "pearson": 0.7541631694523578,
+        "rmse": 0.2113862075031652,
+        "spearman": 0.7656680724911805
+      },
+      "affine_slope": 1.011880462256598,
+      "ensemble_size": 4,
+      "metrics": {
+        "mae": 0.16728936383423956,
+        "n": 267,
+        "pearson": 0.7541631694523576,
+        "rmse": 0.21215129052973805,
+        "spearman": 0.7656680724911805
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.021007663263561373,
+      "affine_metrics": {
+        "mae": 0.16664278430592602,
+        "n": 267,
+        "pearson": 0.7542842283270323,
+        "rmse": 0.21134144622273768,
+        "spearman": 0.7648740345639446
+      },
+      "affine_slope": 1.0173084271537194,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.16780211520468474,
+        "n": 267,
+        "pearson": 0.7542842283270322,
+        "rmse": 0.21335134300102612,
+        "spearman": 0.7648740345639446
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.012049186156796392,
+      "affine_metrics": {
+        "mae": 0.1660205394618977,
+        "n": 267,
+        "pearson": 0.7555238419386949,
+        "rmse": 0.2108821404053661,
+        "spearman": 0.7636862204712355
+      },
+      "affine_slope": 1.025883078980272,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.16690891930198626,
+        "n": 267,
+        "pearson": 0.7555238419386948,
+        "rmse": 0.21233352565832983,
+        "spearman": 0.7636862204712355
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.021701233236963238,
+      "affine_metrics": {
+        "mae": 0.16732463945562126,
+        "n": 267,
+        "pearson": 0.7533900151424854,
+        "rmse": 0.21167168729897354,
+        "spearman": 0.7628503856424264
+      },
+      "affine_slope": 0.9921299146037341,
+      "ensemble_size": 5,
+      "metrics": {
+        "mae": 0.16706812587542258,
+        "n": 267,
+        "pearson": 0.7533900151424854,
+        "rmse": 0.21244574979883446,
+        "spearman": 0.7628503856424264
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.023743310508732723,
+      "affine_metrics": {
+        "mae": 0.16659851751017324,
+        "n": 267,
+        "pearson": 0.7544104879065945,
+        "rmse": 0.21129474423312614,
+        "spearman": 0.7621191139910214
+      },
+      "affine_slope": 0.9978693915486987,
+      "ensemble_size": 4,
+      "metrics": {
+        "mae": 0.16651702018573267,
+        "n": 267,
+        "pearson": 0.7544104879065946,
+        "rmse": 0.21251721521887873,
+        "spearman": 0.7621191139910214
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.019559809534583146,
+      "affine_metrics": {
+        "mae": 0.16890455535025767,
+        "n": 267,
+        "pearson": 0.751045972731111,
+        "rmse": 0.21253307763334303,
+        "spearman": 0.7617970684579924
+      },
+      "affine_slope": 0.9729655514541404,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.16856919797590833,
+        "n": 267,
+        "pearson": 0.751045972731111,
+        "rmse": 0.2127414082981799,
+        "spearman": 0.7617970684579924
+      },
+      "runs": [
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.012067151418609971,
+      "affine_metrics": {
+        "mae": 0.1680143159864659,
+        "n": 267,
+        "pearson": 0.751754856777507,
+        "rmse": 0.21227322804578733,
+        "spearman": 0.7617220953056323
+      },
+      "affine_slope": 1.0068149572944531,
+      "ensemble_size": 4,
+      "metrics": {
+        "mae": 0.1677692032136609,
+        "n": 267,
+        "pearson": 0.751754856777507,
+        "rmse": 0.21282852386414283,
+        "spearman": 0.7617220953056323
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.030880125031397906,
+      "affine_metrics": {
+        "mae": 0.16730188070510513,
+        "n": 267,
+        "pearson": 0.7529658706120431,
+        "rmse": 0.21182801095810266,
+        "spearman": 0.7616828100570628
+      },
+      "affine_slope": 0.9903397301357556,
+      "ensemble_size": 4,
+      "metrics": {
+        "mae": 0.16730169010826487,
+        "n": 267,
+        "pearson": 0.752965870612043,
+        "rmse": 0.21348464200323708,
+        "spearman": 0.7616828100570628
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.020242546121507842,
+      "affine_metrics": {
+        "mae": 0.167486676031517,
+        "n": 267,
+        "pearson": 0.7523726003332677,
+        "rmse": 0.21204632716936048,
+        "spearman": 0.7616405654233723
+      },
+      "affine_slope": 0.9984088950807839,
+      "ensemble_size": 5,
+      "metrics": {
+        "mae": 0.16753914291632085,
+        "n": 267,
+        "pearson": 0.7523726003332677,
+        "rmse": 0.2129414048024077,
+        "spearman": 0.7616405654233723
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.026463702548030456,
+      "affine_metrics": {
+        "mae": 0.16759714554078983,
+        "n": 267,
+        "pearson": 0.752211896400906,
+        "rmse": 0.21210539597757702,
+        "spearman": 0.7616269548113145
+      },
+      "affine_slope": 0.9848985347553268,
+      "ensemble_size": 6,
+      "metrics": {
+        "mae": 0.1671820456015595,
+        "n": 267,
+        "pearson": 0.752211896400906,
+        "rmse": 0.21302440639358916,
+        "spearman": 0.7616269548113145
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": -0.007756549224491161,
+      "affine_metrics": {
+        "mae": 0.16724444422816695,
+        "n": 267,
+        "pearson": 0.7545228004241454,
+        "rmse": 0.21125318585588043,
+        "spearman": 0.761437408216618
+      },
+      "affine_slope": 1.0546089229970461,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.16787584825708401,
+        "n": 267,
+        "pearson": 0.7545228004241453,
+        "rmse": 0.2123763240736363,
+        "spearman": 0.761437408216618
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.02091896074295044,
+      "affine_metrics": {
+        "mae": 0.16801543857937018,
+        "n": 267,
+        "pearson": 0.7509305001356873,
+        "rmse": 0.2125753521545965,
+        "spearman": 0.761411593137867
+      },
+      "affine_slope": 1.0101466438660098,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.16809226506239688,
+        "n": 267,
+        "pearson": 0.7509305001356873,
+        "rmse": 0.2141241806585111,
+        "spearman": 0.761411593137867
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.0269791950044124,
+      "affine_metrics": {
+        "mae": 0.1652022833895583,
+        "n": 267,
+        "pearson": 0.7551868851155641,
+        "rmse": 0.2110071644112213,
+        "spearman": 0.7613483889489846
+      },
+      "affine_slope": 1.0381484601723425,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.1690867899495006,
+        "n": 267,
+        "pearson": 0.7551868851155641,
+        "rmse": 0.21570129645713512,
+        "spearman": 0.7613483889489846
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": -0.009828477397693098,
+      "affine_metrics": {
+        "mae": 0.16936315760691595,
+        "n": 267,
+        "pearson": 0.750932889959933,
+        "rmse": 0.21257447739091778,
+        "spearman": 0.7613273165107862
+      },
+      "affine_slope": 0.9883571641536764,
+      "ensemble_size": 1,
+      "metrics": {
+        "mae": 0.17064906619768241,
+        "n": 267,
+        "pearson": 0.7509328899599329,
+        "rmse": 0.21317041269130318,
+        "spearman": 0.7613273165107862
+      },
+      "runs": [
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.03740357385032839,
+      "affine_metrics": {
+        "mae": 0.1663368443126417,
+        "n": 267,
+        "pearson": 0.7536309845184704,
+        "rmse": 0.21158278439244374,
+        "spearman": 0.7612731313897871
+      },
+      "affine_slope": 0.9959204251654342,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.16724331649752816,
+        "n": 267,
+        "pearson": 0.7536309845184704,
+        "rmse": 0.2145533472675595,
+        "spearman": 0.7612731313897871
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.011385059000190642,
+      "affine_metrics": {
+        "mae": 0.16707467557076194,
+        "n": 267,
+        "pearson": 0.752644752809996,
+        "rmse": 0.2119462276653354,
+        "spearman": 0.7611430745456459
+      },
+      "affine_slope": 1.0199715524467103,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.16723793638305048,
+        "n": 267,
+        "pearson": 0.752644752809996,
+        "rmse": 0.21300580711116457,
+        "spearman": 0.7611430745456459
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.035272695226309436,
+      "affine_metrics": {
+        "mae": 0.16904184538514874,
+        "n": 267,
+        "pearson": 0.7499716809828023,
+        "rmse": 0.21292580105830922,
+        "spearman": 0.7608103546611363
+      },
+      "affine_slope": 0.9625466065149704,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.1690718670783753,
+        "n": 267,
+        "pearson": 0.7499716809828024,
+        "rmse": 0.2138687721991369,
+        "spearman": 0.7608103546611363
+      },
+      "runs": [
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.034648964057164625,
+      "affine_metrics": {
+        "mae": 0.16757430986004745,
+        "n": 267,
+        "pearson": 0.7516700475078174,
+        "rmse": 0.21230434552230892,
+        "spearman": 0.7607325604304042
+      },
+      "affine_slope": 0.9821276914665019,
+      "ensemble_size": 5,
+      "metrics": {
+        "mae": 0.1674415601508113,
+        "n": 267,
+        "pearson": 0.7516700475078174,
+        "rmse": 0.21398866389524487,
+        "spearman": 0.7607325604304042
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.02886109289173046,
+      "affine_metrics": {
+        "mae": 0.16737174398455099,
+        "n": 267,
+        "pearson": 0.7519110210119908,
+        "rmse": 0.21221590850550023,
+        "spearman": 0.7607168238781822
+      },
+      "affine_slope": 0.9987592216319294,
+      "ensemble_size": 4,
+      "metrics": {
+        "mae": 0.16788001946602646,
+        "n": 267,
+        "pearson": 0.7519110210119908,
+        "rmse": 0.2140938369275698,
+        "spearman": 0.7607168238781822
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.02416498208359488,
+      "affine_metrics": {
+        "mae": 0.16771514484937008,
+        "n": 267,
+        "pearson": 0.7515323347721172,
+        "rmse": 0.2123548566866228,
+        "spearman": 0.7605734787837085
+      },
+      "affine_slope": 0.9916160068595837,
+      "ensemble_size": 4,
+      "metrics": {
+        "mae": 0.167130971745996,
+        "n": 267,
+        "pearson": 0.7515323347721172,
+        "rmse": 0.2133287860098883,
+        "spearman": 0.7605734787837085
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.02821762198300734,
+      "affine_metrics": {
+        "mae": 0.16828722017155298,
+        "n": 267,
+        "pearson": 0.7516600805447129,
+        "rmse": 0.2123080019833505,
+        "spearman": 0.7605362133245651
+      },
+      "affine_slope": 0.9611226946255269,
+      "ensemble_size": 4,
+      "metrics": {
+        "mae": 0.16792370872188372,
+        "n": 267,
+        "pearson": 0.7516600805447127,
+        "rmse": 0.21275432602151761,
+        "spearman": 0.7605362133245651
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.0010631970272446717,
+      "affine_metrics": {
+        "mae": 0.16869390324822597,
+        "n": 267,
+        "pearson": 0.7517653989186412,
+        "rmse": 0.21226935945133457,
+        "spearman": 0.7605078256347245
+      },
+      "affine_slope": 1.0221309009451633,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.1686218874773171,
+        "n": 267,
+        "pearson": 0.7517653989186412,
+        "rmse": 0.2126488739111007,
+        "spearman": 0.7605078256347245
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.04164303755633706,
+      "affine_metrics": {
+        "mae": 0.16832306065335106,
+        "n": 267,
+        "pearson": 0.7508765123885242,
+        "rmse": 0.21259511195729383,
+        "spearman": 0.7602119795329382
+      },
+      "affine_slope": 0.9498004602835846,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.16794839161640027,
+        "n": 267,
+        "pearson": 0.7508765123885243,
+        "rmse": 0.2137502219320362,
+        "spearman": 0.7602119795329382
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.03345668524877537,
+      "affine_metrics": {
+        "mae": 0.16766289649894955,
+        "n": 267,
+        "pearson": 0.7520028383470523,
+        "rmse": 0.21218219448326486,
+        "spearman": 0.7600360627545956
+      },
+      "affine_slope": 0.9572481112407806,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.1673965673363499,
+        "n": 267,
+        "pearson": 0.7520028383470523,
+        "rmse": 0.2128693264851899,
+        "spearman": 0.7600360627545956
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.022104474584624455,
+      "affine_metrics": {
+        "mae": 0.16827284668054202,
+        "n": 267,
+        "pearson": 0.7510543908456716,
+        "rmse": 0.21252999517821441,
+        "spearman": 0.7600302961830805
+      },
+      "affine_slope": 0.9870565425166018,
+      "ensemble_size": 5,
+      "metrics": {
+        "mae": 0.16769223973461975,
+        "n": 267,
+        "pearson": 0.7510543908456714,
+        "rmse": 0.2131563772035257,
+        "spearman": 0.7600302961830805
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.029540623123732544,
+      "affine_metrics": {
+        "mae": 0.16711227753264557,
+        "n": 267,
+        "pearson": 0.7523787270610779,
+        "rmse": 0.2120440746359777,
+        "spearman": 0.7599446673062441
+      },
+      "affine_slope": 0.9869141542297778,
+      "ensemble_size": 5,
+      "metrics": {
+        "mae": 0.16700594842238595,
+        "n": 267,
+        "pearson": 0.752378727061078,
+        "rmse": 0.2133648640088707,
+        "spearman": 0.7599446673062441
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.00423180995797048,
+      "affine_metrics": {
+        "mae": 0.17027268366879666,
+        "n": 267,
+        "pearson": 0.7484945035465599,
+        "rmse": 0.21346371085776317,
+        "spearman": 0.7597859818924898
+      },
+      "affine_slope": 0.9746456386120678,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.17058846055205618,
+        "n": 267,
+        "pearson": 0.7484945035465599,
+        "rmse": 0.21371719415070234,
+        "spearman": 0.7597859818924898
+      },
+      "runs": [
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.01706651262958979,
+      "affine_metrics": {
+        "mae": 0.16783690992309594,
+        "n": 267,
+        "pearson": 0.7518737178745791,
+        "rmse": 0.2122296029823333,
+        "spearman": 0.7597521989882584
+      },
+      "affine_slope": 1.002443339227337,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.16742544592626757,
+        "n": 267,
+        "pearson": 0.7518737178745789,
+        "rmse": 0.21301022734116762,
+        "spearman": 0.7597521989882584
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.02300954577336756,
+      "affine_metrics": {
+        "mae": 0.1671570867526828,
+        "n": 267,
+        "pearson": 0.7522569093574105,
+        "rmse": 0.2120888538141575,
+        "spearman": 0.7596462974958803
+      },
+      "affine_slope": 1.0034676283173762,
+      "ensemble_size": 4,
+      "metrics": {
+        "mae": 0.16740507012309877,
+        "n": 267,
+        "pearson": 0.7522569093574105,
+        "rmse": 0.21351357195042933,
+        "spearman": 0.7596462974958803
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.01677686087530569,
+      "affine_metrics": {
+        "mae": 0.16858369801238757,
+        "n": 267,
+        "pearson": 0.7507977708491367,
+        "rmse": 0.21262392594069107,
+        "spearman": 0.7595635635954012
+      },
+      "affine_slope": 0.9929046615022262,
+      "ensemble_size": 4,
+      "metrics": {
+        "mae": 0.16804103120073174,
+        "n": 267,
+        "pearson": 0.7507977708491367,
+        "rmse": 0.2130541541617753,
+        "spearman": 0.7595635635954012
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.025854419661360904,
+      "affine_metrics": {
+        "mae": 0.16695294215888679,
+        "n": 267,
+        "pearson": 0.7508177508046061,
+        "rmse": 0.21261661530806508,
+        "spearman": 0.759292015675137
+      },
+      "affine_slope": 1.0290713516421965,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.16807633595827143,
+        "n": 267,
+        "pearson": 0.750817750804606,
+        "rmse": 0.21624643125342066,
+        "spearman": 0.759292015675137
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.033093479968616966,
+      "affine_metrics": {
+        "mae": 0.168498607862661,
+        "n": 267,
+        "pearson": 0.7501117853018113,
+        "rmse": 0.21287465676505538,
+        "spearman": 0.7590660663538729
+      },
+      "affine_slope": 0.9576073177923191,
+      "ensemble_size": 5,
+      "metrics": {
+        "mae": 0.16810957422612535,
+        "n": 267,
+        "pearson": 0.7501117853018114,
+        "rmse": 0.21354101291325886,
+        "spearman": 0.7590660663538729
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.028512966649647798,
+      "affine_metrics": {
+        "mae": 0.16937977835855358,
+        "n": 267,
+        "pearson": 0.7489626156719842,
+        "rmse": 0.21329351077599637,
+        "spearman": 0.7590337288722585
+      },
+      "affine_slope": 0.9554951597969292,
+      "ensemble_size": 4,
+      "metrics": {
+        "mae": 0.16889256983297818,
+        "n": 267,
+        "pearson": 0.7489626156719842,
+        "rmse": 0.2137100297734384,
+        "spearman": 0.7590337288722585
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.041044288951680115,
+      "affine_metrics": {
+        "mae": 0.16699456363824813,
+        "n": 267,
+        "pearson": 0.7513233021910194,
+        "rmse": 0.21243148637508533,
+        "spearman": 0.7589563305560806
+      },
+      "affine_slope": 0.9828464238995496,
+      "ensemble_size": 4,
+      "metrics": {
+        "mae": 0.16746509004705185,
+        "n": 267,
+        "pearson": 0.7513233021910194,
+        "rmse": 0.2150631514801324,
+        "spearman": 0.7589563305560806
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.05714835515444148,
+      "affine_metrics": {
+        "mae": 0.16785669749768697,
+        "n": 267,
+        "pearson": 0.7498475972034453,
+        "rmse": 0.21297107891323602,
+        "spearman": 0.7588250545103113
+      },
+      "affine_slope": 0.9357537963739253,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.16859329613937196,
+        "n": 267,
+        "pearson": 0.7498475972034454,
+        "rmse": 0.21540202865654567,
+        "spearman": 0.7588250545103113
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.0187843971701842,
+      "affine_metrics": {
+        "mae": 0.1696405034163857,
+        "n": 267,
+        "pearson": 0.7484066475850035,
+        "rmse": 0.21349562727985352,
+        "spearman": 0.7582670943080513
+      },
+      "affine_slope": 0.9678625317113143,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.16916216846401996,
+        "n": 267,
+        "pearson": 0.7484066475850035,
+        "rmse": 0.21367035954395158,
+        "spearman": 0.7582670943080513
+      },
+      "runs": [
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.03157595737026413,
+      "affine_metrics": {
+        "mae": 0.16846164491390112,
+        "n": 267,
+        "pearson": 0.7498476123020724,
+        "rmse": 0.2129710734048267,
+        "spearman": 0.7581766875607371
+      },
+      "affine_slope": 0.9834841406971423,
+      "ensemble_size": 4,
+      "metrics": {
+        "mae": 0.16790510805442316,
+        "n": 267,
+        "pearson": 0.7498476123020725,
+        "rmse": 0.2143508418011765,
+        "spearman": 0.7581766875607371
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.022622690972150153,
+      "affine_metrics": {
+        "mae": 0.1697405865348811,
+        "n": 267,
+        "pearson": 0.7489011361105578,
+        "rmse": 0.2133158778420639,
+        "spearman": 0.7580840916945457
+      },
+      "affine_slope": 0.9550257097986907,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.16946593803887286,
+        "n": 267,
+        "pearson": 0.7489011361105575,
+        "rmse": 0.21361921474095857,
+        "spearman": 0.7580840916945457
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.044509083732507795,
+      "affine_metrics": {
+        "mae": 0.1686241052916346,
+        "n": 267,
+        "pearson": 0.748982942791122,
+        "rmse": 0.2132861145851055,
+        "spearman": 0.7579943166168968
+      },
+      "affine_slope": 0.9478577438234108,
+      "ensemble_size": 4,
+      "metrics": {
+        "mae": 0.16829046782120113,
+        "n": 267,
+        "pearson": 0.748982942791122,
+        "rmse": 0.21465165176371748,
+        "spearman": 0.7579943166168968
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.02825071384601872,
+      "affine_metrics": {
+        "mae": 0.16925491773182585,
+        "n": 267,
+        "pearson": 0.7489789433533015,
+        "rmse": 0.213287569849857,
+        "spearman": 0.757896835515253
+      },
+      "affine_slope": 0.9648077431617876,
+      "ensemble_size": 4,
+      "metrics": {
+        "mae": 0.1687464170674148,
+        "n": 267,
+        "pearson": 0.7489789433533017,
+        "rmse": 0.21378080789965728,
+        "spearman": 0.757896835515253
+      },
+      "runs": [
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.02553318500352418,
+      "affine_metrics": {
+        "mae": 0.16911873893829965,
+        "n": 267,
+        "pearson": 0.7498081848300882,
+        "rmse": 0.2129854568061961,
+        "spearman": 0.7573975334339668
+      },
+      "affine_slope": 0.9507262016431026,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.16883732268956494,
+        "n": 267,
+        "pearson": 0.7498081848300882,
+        "rmse": 0.21335892371142753,
+        "spearman": 0.7573975334339668
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.03900787089617027,
+      "affine_metrics": {
+        "mae": 0.16835385096509137,
+        "n": 267,
+        "pearson": 0.7493153907776433,
+        "rmse": 0.213165085703488,
+        "spearman": 0.7572087523055729
+      },
+      "affine_slope": 0.9521383447976175,
+      "ensemble_size": 4,
+      "metrics": {
+        "mae": 0.16794072534568077,
+        "n": 267,
+        "pearson": 0.7493153907776434,
+        "rmse": 0.21414837954535296,
+        "spearman": 0.7572087523055729
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.02110358894913451,
+      "affine_metrics": {
+        "mae": 0.1718929229405302,
+        "n": 267,
+        "pearson": 0.7435646798673908,
+        "rmse": 0.21524156026367808,
+        "spearman": 0.7572075559359501
+      },
+      "affine_slope": 0.9547482964419758,
+      "ensemble_size": 1,
+      "metrics": {
+        "mae": 0.1712570216869482,
+        "n": 267,
+        "pearson": 0.7435646798673906,
+        "rmse": 0.21554236546078925,
+        "spearman": 0.7572075559359501
+      },
+      "runs": [
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.02529855276490401,
+      "affine_metrics": {
+        "mae": 0.16903332931580198,
+        "n": 267,
+        "pearson": 0.749572398190275,
+        "rmse": 0.21307143728049888,
+        "spearman": 0.7572045306145976
+      },
+      "affine_slope": 0.9686085905019297,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.16873694640280826,
+        "n": 267,
+        "pearson": 0.749572398190275,
+        "rmse": 0.2134664642246844,
+        "spearman": 0.7572045306145976
+      },
+      "runs": [
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.033627804230843716,
+      "affine_metrics": {
+        "mae": 0.1689524449431199,
+        "n": 267,
+        "pearson": 0.748573057890639,
+        "rmse": 0.21343516632411325,
+        "spearman": 0.7571992233303716
+      },
+      "affine_slope": 0.9501965998621728,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.1684897764191757,
+        "n": 267,
+        "pearson": 0.748573057890639,
+        "rmse": 0.21403786946272677,
+        "spearman": 0.7571992233303716
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.04226910917578698,
+      "affine_metrics": {
+        "mae": 0.16970836734094955,
+        "n": 267,
+        "pearson": 0.7470423158851469,
+        "rmse": 0.21399017275273924,
+        "spearman": 0.7571734684909947
+      },
+      "affine_slope": 0.9417630013144638,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.16909475841521102,
+        "n": 267,
+        "pearson": 0.7470423158851467,
+        "rmse": 0.21501729792812865,
+        "spearman": 0.7571734684909947
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.038264895124249375,
+      "affine_metrics": {
+        "mae": 0.1678800054949539,
+        "n": 267,
+        "pearson": 0.7494618989217072,
+        "rmse": 0.21311171000936188,
+        "spearman": 0.7571196050284051
+      },
+      "affine_slope": 0.9867180867822507,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.1677329590132509,
+        "n": 267,
+        "pearson": 0.7494618989217072,
+        "rmse": 0.21556031885709265,
+        "spearman": 0.7571196050284051
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.03653691385992716,
+      "affine_metrics": {
+        "mae": 0.16709886407618194,
+        "n": 267,
+        "pearson": 0.7507417541265283,
+        "rmse": 0.21264441998940573,
+        "spearman": 0.7568529748427736
+      },
+      "affine_slope": 1.0033484038714497,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.1685864743375488,
+        "n": 267,
+        "pearson": 0.7507417541265284,
+        "rmse": 0.21602119988527857,
+        "spearman": 0.7568529748427736
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.03393441369355238,
+      "affine_metrics": {
+        "mae": 0.17012203161163575,
+        "n": 267,
+        "pearson": 0.7461209963184458,
+        "rmse": 0.21432297982924398,
+        "spearman": 0.7565806577230253
+      },
+      "affine_slope": 0.9552188723389079,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.16931591148763783,
+        "n": 267,
+        "pearson": 0.7461209963184455,
+        "rmse": 0.2149958118053249,
+        "spearman": 0.7565806577230253
+      },
+      "runs": [
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.01074014043282355,
+      "affine_metrics": {
+        "mae": 0.16935800667225767,
+        "n": 267,
+        "pearson": 0.7491001354412266,
+        "rmse": 0.213243464148863,
+        "spearman": 0.756023846462241
+      },
+      "affine_slope": 1.0313368749115417,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.16946654794005195,
+        "n": 267,
+        "pearson": 0.7491001354412266,
+        "rmse": 0.2148507868035917,
+        "spearman": 0.756023846462241
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.042045783646841306,
+      "affine_metrics": {
+        "mae": 0.1695489207301031,
+        "n": 267,
+        "pearson": 0.7470849079690549,
+        "rmse": 0.21397476481068095,
+        "spearman": 0.7559704096317498
+      },
+      "affine_slope": 0.9539792352017595,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.1693399493488368,
+        "n": 267,
+        "pearson": 0.7470849079690549,
+        "rmse": 0.2152786883271019,
+        "spearman": 0.7559704096317498
+      },
+      "runs": [
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.028722774244648173,
+      "affine_metrics": {
+        "mae": 0.16915977568062757,
+        "n": 267,
+        "pearson": 0.7482843072562829,
+        "rmse": 0.2135400570398748,
+        "spearman": 0.7557462448711512
+      },
+      "affine_slope": 0.9879020657337106,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.16868610223162264,
+        "n": 267,
+        "pearson": 0.7482843072562828,
+        "rmse": 0.21480829400028914,
+        "spearman": 0.7557462448711512
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.022757266005363905,
+      "affine_metrics": {
+        "mae": 0.16975736638151354,
+        "n": 267,
+        "pearson": 0.7467232407528089,
+        "rmse": 0.21410553690569045,
+        "spearman": 0.755187493202252
+      },
+      "affine_slope": 0.9638319508658919,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.16917220692146806,
+        "n": 267,
+        "pearson": 0.746723240752809,
+        "rmse": 0.21436261657813382,
+        "spearman": 0.755187493202252
+      },
+      "runs": [
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.05691368765395218,
+      "affine_metrics": {
+        "mae": 0.16871904777274485,
+        "n": 267,
+        "pearson": 0.7467060934821865,
+        "rmse": 0.21411173348280335,
+        "spearman": 0.7546174217198927
+      },
+      "affine_slope": 0.9353909753982989,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.16902417012172916,
+        "n": 267,
+        "pearson": 0.7467060934821865,
+        "rmse": 0.21647778379681853,
+        "spearman": 0.7546174217198927
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.036030569970116076,
+      "affine_metrics": {
+        "mae": 0.16968444288319964,
+        "n": 267,
+        "pearson": 0.746367060269347,
+        "rmse": 0.2142341852497938,
+        "spearman": 0.7537943500089301
+      },
+      "affine_slope": 0.9568079658675985,
+      "ensemble_size": 3,
+      "metrics": {
+        "mae": 0.16932066345119967,
+        "n": 267,
+        "pearson": 0.7463670602693468,
+        "rmse": 0.21508292055939168,
+        "spearman": 0.7537943500089301
+      },
+      "runs": [
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.04123588452611526,
+      "affine_metrics": {
+        "mae": 0.1705473661043635,
+        "n": 267,
+        "pearson": 0.7452633029065098,
+        "rmse": 0.2146319711735831,
+        "spearman": 0.753742543936083
+      },
+      "affine_slope": 0.9324941230533713,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.16999679845007842,
+        "n": 267,
+        "pearson": 0.7452633029065099,
+        "rmse": 0.21552238410199284,
+        "spearman": 0.753742543936083
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.05774755281708687,
+      "affine_metrics": {
+        "mae": 0.16964476143163978,
+        "n": 267,
+        "pearson": 0.7443146431626952,
+        "rmse": 0.21497280364496707,
+        "spearman": 0.7521981820367801
+      },
+      "affine_slope": 0.9243773667778883,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.1691567170806927,
+        "n": 267,
+        "pearson": 0.7443146431626952,
+        "rmse": 0.2170542698001007,
+        "spearman": 0.7521981820367801
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.03731901382058811,
+      "affine_metrics": {
+        "mae": 0.1688672381007098,
+        "n": 267,
+        "pearson": 0.7469525716361763,
+        "rmse": 0.21402263176761616,
+        "spearman": 0.752197910730076
+      },
+      "affine_slope": 0.9951935014437785,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.1688019179212355,
+        "n": 267,
+        "pearson": 0.7469525716361766,
+        "rmse": 0.21689312058219073,
+        "spearman": 0.752197910730076
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46",
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50"
+      ]
+    },
+    {
+      "affine_intercept": 0.009608418830922448,
+      "affine_metrics": {
+        "mae": 0.16886123093279445,
+        "n": 267,
+        "pearson": 0.7469483074275516,
+        "rmse": 0.21402417384200537,
+        "spearman": 0.7493671241163106
+      },
+      "affine_slope": 1.0959010417489197,
+      "ensemble_size": 1,
+      "metrics": {
+        "mae": 0.17261023799215586,
+        "n": 267,
+        "pearson": 0.7469483074275517,
+        "rmse": 0.22109360366019518,
+        "spearman": 0.7493671241163106
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50"
+      ]
+    },
+    {
+      "affine_intercept": 0.06804303083373604,
+      "affine_metrics": {
+        "mae": 0.17125903189449268,
+        "n": 267,
+        "pearson": 0.7401920297627735,
+        "rmse": 0.21644272921553334,
+        "spearman": 0.7481179801874176
+      },
+      "affine_slope": 0.8950048508546218,
+      "ensemble_size": 1,
+      "metrics": {
+        "mae": 0.17081932424243246,
+        "n": 267,
+        "pearson": 0.7401920297627737,
+        "rmse": 0.21906440849758196,
+        "spearman": 0.7481179801874176
+      },
+      "runs": [
+        "outputs/esol_residue_esm_v1_strict_si30_statistics_s32+08-29-16-46"
+      ]
+    },
+    {
+      "affine_intercept": 0.06320571509152974,
+      "affine_metrics": {
+        "mae": 0.171388908494129,
+        "n": 267,
+        "pearson": 0.7395405587595093,
+        "rmse": 0.21667335633416962,
+        "spearman": 0.7442264062757268
+      },
+      "affine_slope": 0.9300660593800049,
+      "ensemble_size": 2,
+      "metrics": {
+        "mae": 0.17182454787027301,
+        "n": 267,
+        "pearson": 0.7395405587595093,
+        "rmse": 0.21966706104091455,
+        "spearman": 0.7442264062757268
+      },
+      "runs": [
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07",
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.06174108142372727,
+      "affine_metrics": {
+        "mae": 0.17190086741788754,
+        "n": 267,
+        "pearson": 0.7358143362742944,
+        "rmse": 0.21798390966326622,
+        "spearman": 0.7434940391365877
+      },
+      "affine_slope": 0.9231480634482087,
+      "ensemble_size": 1,
+      "metrics": {
+        "mae": 0.17135464137050319,
+        "n": 267,
+        "pearson": 0.7358143362742944,
+        "rmse": 0.2204607495882404,
+        "spearman": 0.7434940391365877
+      },
+      "runs": [
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale05+08-29-19-07"
+      ]
+    },
+    {
+      "affine_intercept": 0.06948269863325571,
+      "affine_metrics": {
+        "mae": 0.17228665416554134,
+        "n": 267,
+        "pearson": 0.7390684034500212,
+        "rmse": 0.21684022387401466,
+        "spearman": 0.7427388167654395
+      },
+      "affine_slope": 0.9264393943183714,
+      "ensemble_size": 1,
+      "metrics": {
+        "mae": 0.1736346497950371,
+        "n": 267,
+        "pearson": 0.7390684034500212,
+        "rmse": 0.22068301201261395,
+        "spearman": 0.7427388167654395
+      },
+      "runs": [
+        "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+      ]
+    }
+  ],
+  "selection_data": "strict-validation only"
+}

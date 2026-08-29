@@ -1,0 +1,50 @@
+{
+  "calibrated": {
+    "auprc": 0.8570640980411613,
+    "auroc": 0.7962610070913632,
+    "balanced_accuracy": 0.7129486204299578,
+    "brier": 0.18468722024352371,
+    "ece": 0.06752304248528686,
+    "f1": 0.7266706091070373,
+    "mcc": 0.41817953746490044,
+    "n": 7790
+  },
+  "mcc_at_selected_threshold": 0.4295010856947907,
+  "mcc_threshold": 0.5618039063521888,
+  "objective": "rank",
+  "optimizer_success": true,
+  "rank_pairs": 200000,
+  "regularization": 10.0,
+  "runs": [
+    "outputs/esm2_mean_adapters_v2_strict_si30_uesolselect_pred_s29+08-29-16-47",
+    "outputs/uesolds_residue_esm_v1_strict_si30_stats_s29+08-29-17-11",
+    "outputs/uesolds_residue_esm_v1_strict_si30_attn_s30+08-29-17-17",
+    "outputs/uesolds_residue_esm_physchem_v2_strict_si30_attn_s29+08-29-17-40",
+    "outputs/uesolds_residue_esm_physchem_v2_strict_si30_stats_s29+08-29-17-40",
+    "outputs/uesolds_residue_esm_physchem_v2_strict_si30_multi_s29+08-29-17-40",
+    "outputs/uesolds_residue_esm_physchem_v2_strict_si30_attn_scale0p25+08-29-17-47",
+    "outputs/uesolds_residue_esm_physchem_v2_strict_si30_attn_scale0p25_s31+08-29-17-52"
+  ],
+  "selection_data": "strict-validation only",
+  "temperature": 1.189186588870086,
+  "uncalibrated": {
+    "auprc": 0.8570640980411613,
+    "auroc": 0.7962610070913632,
+    "balanced_accuracy": 0.7129486204299578,
+    "brier": 0.1854665226822702,
+    "ece": 0.07263303829724554,
+    "f1": 0.7266706091070373,
+    "mcc": 0.41817953746490044,
+    "n": 7790
+  },
+  "weights": [
+    0.12576789249119424,
+    0.12494846831348536,
+    0.12580105578691705,
+    0.12494186958230526,
+    0.12390460949202725,
+    0.12447118804014261,
+    0.12473460251643466,
+    0.12543031377749359
+  ]
+}

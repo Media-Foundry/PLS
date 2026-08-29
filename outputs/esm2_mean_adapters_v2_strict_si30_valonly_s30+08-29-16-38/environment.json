@@ -1,0 +1,27 @@
+{
+  "command": [
+    "script/run_experiment.py",
+    "--config",
+    "configs/experiments/esm2_mean_adapters_v2.json",
+    "--seed-override",
+    "20260830",
+    "--hip-override",
+    "7",
+    "--name-suffix",
+    "_valonly_s30"
+  ],
+  "created_at": "2026-08-29T16:38:45.983656+08:00",
+  "git_revision": "71ab464bab29385b8abba1369d1871e7ce10186e",
+  "hip_visible_devices": "7",
+  "packages": {
+    "biopython": "1.85",
+    "fair-esm": "2.0.0",
+    "numpy": "2.5.2",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.16.0",
+    "tensorboard": "2.21.0"
+  },
+  "python": "3.12.13 | packaged by Anaconda, Inc. | (main, Jul  9 2026, 14:38:16) [GCC 14.3.0]",
+  "torch": "2.12.0a0+git78258b9",
+  "torch_hip": "7.14.60850"
+}

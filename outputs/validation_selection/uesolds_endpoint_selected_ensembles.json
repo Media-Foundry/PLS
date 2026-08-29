@@ -1,0 +1,213 @@
+{
+  "reports": [
+    {
+      "calibrated": {
+        "auprc": 0.8311769376435935,
+        "auroc": 0.7692000956741378,
+        "balanced_accuracy": 0.6841917638575145,
+        "brier": 0.18958673812829796,
+        "ece": 0.012761340048664626,
+        "f1": 0.7615591955214597,
+        "mcc": 0.37740245898665914,
+        "n": 7790
+      },
+      "ensemble_size": 3,
+      "mcc_at_selected_threshold": 0.38276517423105655,
+      "mcc_threshold": 0.5525168180465698,
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_uesolselect_pred_s29+08-29-16-47",
+        "outputs/esm2_mean_adapters_v2_strict_si30_uesolselect_pred_s30+08-29-16-47",
+        "outputs/esm2_mean_adapters_v2_strict_si30_uesolselect_pred_s31+08-29-16-47"
+      ],
+      "temperature": 1.3357801610259008,
+      "uncalibrated": {
+        "auprc": 0.8311769376435935,
+        "auroc": 0.7692000956741378,
+        "balanced_accuracy": 0.6841917638575145,
+        "brier": 0.19099497922569805,
+        "ece": 0.03557349354246499,
+        "f1": 0.7615591955214597,
+        "mcc": 0.37740245898665914,
+        "n": 7790
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.830734892804536,
+        "auroc": 0.7682527931232812,
+        "balanced_accuracy": 0.6823777991678921,
+        "brier": 0.19010748367346933,
+        "ece": 0.014526695334125874,
+        "f1": 0.7581753801291398,
+        "mcc": 0.3724034083095587,
+        "n": 7790
+      },
+      "ensemble_size": 2,
+      "mcc_at_selected_threshold": 0.3820930818272199,
+      "mcc_threshold": 0.5380382537841797,
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_uesolselect_pred_s29+08-29-16-47",
+        "outputs/esm2_mean_adapters_v2_strict_si30_uesolselect_pred_s31+08-29-16-47"
+      ],
+      "temperature": 1.2712042892504178,
+      "uncalibrated": {
+        "auprc": 0.830734892804536,
+        "auroc": 0.7682527931232812,
+        "balanced_accuracy": 0.6823777991678921,
+        "brier": 0.19101284351949166,
+        "ece": 0.030899123178076165,
+        "f1": 0.7581753801291398,
+        "mcc": 0.3724034083095587,
+        "n": 7790
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.8297912082198335,
+        "auroc": 0.7670773855899619,
+        "balanced_accuracy": 0.6817565465275001,
+        "brier": 0.19052787160867013,
+        "ece": 0.016991071997515064,
+        "f1": 0.752581664910432,
+        "mcc": 0.3681658247469308,
+        "n": 7790
+      },
+      "ensemble_size": 2,
+      "mcc_at_selected_threshold": 0.37840463144743774,
+      "mcc_threshold": 0.5561401844024658,
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_uesolselect_pred_s29+08-29-16-47",
+        "outputs/esm2_mean_adapters_v2_strict_si30_uesolselect_pred_s30+08-29-16-47"
+      ],
+      "temperature": 1.3809861068031408,
+      "uncalibrated": {
+        "auprc": 0.8297912082198335,
+        "auroc": 0.7670773855899619,
+        "balanced_accuracy": 0.6817565465275001,
+        "brier": 0.19243589201602013,
+        "ece": 0.045146366565755096,
+        "f1": 0.752581664910432,
+        "mcc": 0.3681658247469308,
+        "n": 7790
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.8286135258984524,
+        "auroc": 0.7669917863739044,
+        "balanced_accuracy": 0.6760340867500689,
+        "brier": 0.19053723163403177,
+        "ece": 0.010956243746050089,
+        "f1": 0.762487257900102,
+        "mcc": 0.3658762338245071,
+        "n": 7790
+      },
+      "ensemble_size": 2,
+      "mcc_at_selected_threshold": 0.37865831133225597,
+      "mcc_threshold": 0.5803571939468384,
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_uesolselect_pred_s30+08-29-16-47",
+        "outputs/esm2_mean_adapters_v2_strict_si30_uesolselect_pred_s31+08-29-16-47"
+      ],
+      "temperature": 1.429912954504331,
+      "uncalibrated": {
+        "auprc": 0.8286135258984524,
+        "auroc": 0.7669917863739044,
+        "balanced_accuracy": 0.6760340867500689,
+        "brier": 0.1926347309406695,
+        "ece": 0.043038050804618797,
+        "f1": 0.762487257900102,
+        "mcc": 0.3658762338245071,
+        "n": 7790
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.8261036601946135,
+        "auroc": 0.7633984318278337,
+        "balanced_accuracy": 0.6687644801350655,
+        "brier": 0.19201916988782983,
+        "ece": 0.012844518553339056,
+        "f1": 0.7634538152610442,
+        "mcc": 0.35614657083759765,
+        "n": 7790
+      },
+      "ensemble_size": 1,
+      "mcc_at_selected_threshold": 0.3762404642396556,
+      "mcc_threshold": 0.6124118566513062,
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_uesolselect_pred_s31+08-29-16-47"
+      ],
+      "temperature": 1.3756914089651027,
+      "uncalibrated": {
+        "auprc": 0.8261036601946135,
+        "auroc": 0.7633984318278337,
+        "balanced_accuracy": 0.6687644801350655,
+        "brier": 0.19362249612951082,
+        "ece": 0.03958706349864858,
+        "f1": 0.7634538152610442,
+        "mcc": 0.35614657083759765,
+        "n": 7790
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.8259236059900706,
+        "auroc": 0.7617411653435552,
+        "balanced_accuracy": 0.6851128360453203,
+        "brier": 0.19387957116491647,
+        "ece": 0.036165018743316076,
+        "f1": 0.7433149290895312,
+        "mcc": 0.3695496592338536,
+        "n": 7790
+      },
+      "ensemble_size": 1,
+      "mcc_at_selected_threshold": 0.37524638621877193,
+      "mcc_threshold": 0.5305594205856323,
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_uesolselect_pred_s29+08-29-16-47"
+      ],
+      "temperature": 1.3373080496929968,
+      "uncalibrated": {
+        "auprc": 0.8259236059900706,
+        "auroc": 0.7617411653435552,
+        "balanced_accuracy": 0.6851128360453203,
+        "brier": 0.1953251270002517,
+        "ece": 0.046524999943892614,
+        "f1": 0.7433149290895312,
+        "mcc": 0.3695496592338536,
+        "n": 7790
+      }
+    },
+    {
+      "calibrated": {
+        "auprc": 0.8243127879684687,
+        "auroc": 0.7615845355355074,
+        "balanced_accuracy": 0.6775695376500098,
+        "brier": 0.19250231285678465,
+        "ece": 0.011046405403772943,
+        "f1": 0.7577511368334022,
+        "mcc": 0.36472162863378726,
+        "n": 7790
+      },
+      "ensemble_size": 1,
+      "mcc_at_selected_threshold": 0.3743458033875684,
+      "mcc_threshold": 0.6029972434043884,
+      "runs": [
+        "outputs/esm2_mean_adapters_v2_strict_si30_uesolselect_pred_s30+08-29-16-47"
+      ],
+      "temperature": 1.599245587167462,
+      "uncalibrated": {
+        "auprc": 0.8243127879684687,
+        "auroc": 0.7615845355355074,
+        "balanced_accuracy": 0.6775695376500098,
+        "brier": 0.1964657692047002,
+        "ece": 0.05735996756136855,
+        "f1": 0.7577511368334022,
+        "mcc": 0.36472162863378726,
+        "n": 7790
+      }
+    }
+  ],
+  "selection_data": "strict-validation only"
+}

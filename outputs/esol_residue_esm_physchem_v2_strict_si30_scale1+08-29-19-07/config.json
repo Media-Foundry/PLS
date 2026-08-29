@@ -1,0 +1,36 @@
+{
+  "data": {
+    "embedding_dir": "artifacts/plm/esm2_t33_650M_UR50D_mean",
+    "entities": "benchmark/generated/sequence_entities.csv",
+    "observation_split": "benchmark/generated/strict_si30_observation_split.csv",
+    "residue_esm_dir": "artifacts/plm/esm2_t33_650M_UR50D_residue_esol",
+    "selection_dir": "artifacts/features/esol_selection",
+    "sequence_descriptor_dir": "artifacts/features/sequence_descriptors_v1",
+    "sequence_descriptor_scale": 1.0
+  },
+  "evaluate_test": false,
+  "experiment_name": "esol_residue_esm_physchem_v2_strict_si30_scale1",
+  "model": {
+    "dropout": 0.2,
+    "fusion": "concat",
+    "hidden_dimension": 256,
+    "pooling": "statistics_attention",
+    "representation_dimension": 256
+  },
+  "trainer_module": "pls.training.train_esol_residue",
+  "training": {
+    "amp_bfloat16": true,
+    "batch_size": 64,
+    "checkpoint_every": 5,
+    "ema_decay": 0.0,
+    "epochs": 40,
+    "fused_optimizer": true,
+    "hip_device": 7,
+    "learning_rate": 0.0002,
+    "patience": 7,
+    "rank_weight": 0.0,
+    "seed": 20260829,
+    "weight_decay": 0.0001,
+    "workers": 4
+  }
+}

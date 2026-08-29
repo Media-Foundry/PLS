@@ -5,8 +5,9 @@
   "test_evaluated": false,
   "tasks": {
     "pdbsol": {
-      "primary_report": "outputs/validation_selection/pdbsol_optsweep_ensembles.json",
-      "metrics": {"auroc": 0.9012922039131717, "auprc": 0.9127987923820632, "mcc_at_selected_threshold": 0.6304347983175149, "brier_calibrated": 0.12914741135984076},
+      "auroc_auprc_report": "outputs/validation_selection/pdbsol_cross_ensembles.json",
+      "mcc_report": "outputs/validation_selection/pdbsol_optsweep_ensembles.json",
+      "metrics": {"auroc": 0.9015234429548946, "auprc": 0.913057155211914, "mcc_at_selected_threshold": 0.6304347983175149, "brier_calibrated": 0.1287858571440985},
       "runs": [
         "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_v6matched_baseline+08-29-16-23",
         "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s31+08-29-16-32",
@@ -16,8 +17,17 @@
         "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_drop02+08-29-19-18",
         "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_drop03+08-29-19-18"
       ],
-      "temperature": 1.3328530054555547,
-      "mcc_threshold": 0.4134804904460907
+      "auroc_auprc_runs": [
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_v6matched_baseline+08-29-16-23",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s32+08-29-16-44",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_seqedge_s29+08-29-16-55",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_seqedge_s30+08-29-16-55",
+        "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_drop03+08-29-19-18",
+        "outputs/pdbsol_geometry_cross_attention_v6_strict_si30_attn_seqsep+08-29-20-09"
+      ],
+      "temperature": 1.3404120878780323,
+      "mcc_threshold": 0.4134804904460907,
+      "note": "AUROC/AUPRC/Brier and MCC selections are intentionally distinct; do not select between them on test."
     },
     "uesolds": {
       "auroc_auprc_report": "outputs/validation_selection/uesolds_conditioned_ensembles.json",

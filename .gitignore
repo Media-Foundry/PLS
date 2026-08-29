@@ -8,7 +8,24 @@ benchmark/generated/
 # Large model/feature artifacts.
 artifacts/
 data/
-outputs/
+# Keep reproducible experiment metadata and logs in Git, but never checkpoints or
+# prediction arrays.  The two-level rules avoid accidentally adding arbitrary
+# generated files when a trainer gains a new output.
+outputs/*
+!outputs/*/
+outputs/*/*
+!outputs/*/config.json
+!outputs/*/environment.json
+!outputs/*/history.json
+!outputs/*/output.log
+!outputs/*/validation_metrics.json
+!outputs/*/tensorboard/
+outputs/*/tensorboard/*
+!outputs/*/tensorboard/events.out.tfevents.*
+!outputs/validation_selection/*.json
+outputs/**/checkpoints/
+outputs/**/*predictions*.npz
+outputs/**/descriptor_stats.npz
 *.pt
 *.pth
 *.pkl
