@@ -35,11 +35,11 @@ class BalancedLengthBatchSampler(Sampler):
   for start in range(0,len(indices),pool):
    block=sorted(indices[start:start+pool],key=lambda i:self.lengths[i])
    for j in range(0,len(block),self.batch_size): yield block[j:j+self.batch_size]
-def evaluate(model,loader,device):
+def evaluate(model,loader,device,amp=False):
  model.eval(); pred=[]; truth=[]
  with torch.inference_mode():
   for seq,res,p,patch,mask,y in loader:
-   with torch.autocast('cuda',dtype=torch.bfloat16,enabled=True): out,_=model(seq.to(device),res.to(device),p.to(device),patch.to(device),mask.to(device))
+   with torch.autocast('cuda',dtype=torch.bfloat16,enabled=amp): out,_=model(seq.to(device),res.to(device),p.to(device),patch.to(device),mask.to(device))
    pred.extend(out.float().cpu().tolist());truth.extend(y.tolist())
  return binary_metrics(truth,pred)
 def main():
@@ -66,12 +66,12 @@ def main():
    seq,res,p,patch,mask,y=[v.to(device,non_blocking=True) for v in (seq,res,p,patch,mask,y)];opt.zero_grad(set_to_none=True)
    with torch.autocast('cuda',dtype=torch.bfloat16,enabled=tr.get('amp_bfloat16',True)): out,_=model(seq,res,p,patch,mask,mc.get('structure_dropout',0));loss=nn.functional.binary_cross_entropy_with_logits(out,y)
    loss.backward();opt.step();total+=loss.item()*len(y);n+=len(y)
-  train_seconds=time.monotonic()-epoch_started;val=evaluate(model,loaders['validation'],device);row={'epoch':epoch,'train_loss':total/n,'train_seconds':train_seconds,'train_samples_per_second':n/train_seconds,'epoch_seconds':time.monotonic()-epoch_started,'validation':val};history.append(row);print(json.dumps(row),flush=True);writer.add_scalar('validation/auroc',val['auroc'],epoch);writer.add_scalar('throughput/train_samples_per_second',row['train_samples_per_second'],epoch);state={'model':model.state_dict(),'epoch':epoch,'validation':val,'config':c}
+  train_seconds=time.monotonic()-epoch_started;val=evaluate(model,loaders['validation'],device,tr.get('amp_bfloat16',False));row={'epoch':epoch,'train_loss':total/n,'train_seconds':train_seconds,'train_samples_per_second':n/train_seconds,'epoch_seconds':time.monotonic()-epoch_started,'validation':val};history.append(row);print(json.dumps(row),flush=True);writer.add_scalar('validation/auroc',val['auroc'],epoch);writer.add_scalar('throughput/train_samples_per_second',row['train_samples_per_second'],epoch);state={'model':model.state_dict(),'epoch':epoch,'validation':val,'config':c}
   if epoch%tr['checkpoint_every']==0:torch.save(state,a.run_dir/'checkpoints'/f'epoch_{epoch:03d}.pt')
   if val['auroc']>best:best=val['auroc'];stale=0;torch.save(state,a.run_dir/'checkpoints'/'best.pt')
   else:stale+=1
   if stale>=tr['patience']:break
- writer.close();(a.run_dir/'history.json').write_text(json.dumps(history,indent=2)+'\n');state=torch.load(a.run_dir/'checkpoints'/'best.pt',map_location=device,weights_only=False);model.load_state_dict(state['model']);(a.run_dir/'validation_metrics.json').write_text(json.dumps({'pdbsol':evaluate(model,loaders['validation'],device)},indent=2,sort_keys=True)+'\n')
- if c.get('evaluate_test',False):(a.run_dir/'test_metrics.json').write_text(json.dumps({'pdbsol':evaluate(model,loaders['test'],device)},indent=2)+'\n')
+ writer.close();(a.run_dir/'history.json').write_text(json.dumps(history,indent=2)+'\n');state=torch.load(a.run_dir/'checkpoints'/'best.pt',map_location=device,weights_only=False);model.load_state_dict(state['model']);amp=tr.get('amp_bfloat16',False);(a.run_dir/'validation_metrics.json').write_text(json.dumps({'pdbsol':evaluate(model,loaders['validation'],device,amp)},indent=2,sort_keys=True)+'\n')
+ if c.get('evaluate_test',False):(a.run_dir/'test_metrics.json').write_text(json.dumps({'pdbsol':evaluate(model,loaders['test'],device,amp)},indent=2)+'\n')
  print(json.dumps({'best_epoch':state['epoch'],'best_validation_auroc':best,'test_evaluated':c.get('evaluate_test',False)}))
 if __name__=='__main__':main()
