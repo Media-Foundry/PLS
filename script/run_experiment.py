@@ -126,6 +126,7 @@ def main() -> None:
         config["model"]["layers"] = args.layers_override
     if args.name_suffix:
         config["experiment_name"] += args.name_suffix
+    selected_hip_device = str(config["training"]["hip_device"])
     timestamp = datetime.now().astimezone().strftime("%m-%d-%H-%M")
     run_dir = args.outputs_root / f"{config['experiment_name']}+{timestamp}"
     run_dir.mkdir(parents=True, exist_ok=False)
@@ -135,7 +136,7 @@ def main() -> None:
         "created_at": datetime.now().astimezone().isoformat(), "command": sys.argv,
         "git_revision": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
         "python": sys.version, "torch": torch.__version__, "torch_hip": torch.version.hip,
-        "hip_visible_devices": os.environ.get("HIP_VISIBLE_DEVICES"),
+        "hip_visible_devices": selected_hip_device,
         "packages": {name: importlib.metadata.version(name) for name in
                      ("biopython", "fair-esm", "numpy", "scikit-learn", "scipy", "tensorboard")},
     }
@@ -146,6 +147,9 @@ def main() -> None:
     command = [sys.executable, "-m", trainer_module, "--config", str(run_dir / "config.json"),
                "--run-dir", str(run_dir)]
     child_environment = os.environ.copy()
+    # The config records a physical ROCm ordinal. Make the launcher authoritative
+    # so detached tmux jobs do not depend on the parent's shell environment.
+    child_environment["HIP_VISIBLE_DEVICES"] = selected_hip_device
     source_path = str((Path.cwd() / "src").resolve())
     child_environment["PYTHONPATH"] = source_path + (os.pathsep + child_environment["PYTHONPATH"]
                                                         if child_environment.get("PYTHONPATH") else "")
