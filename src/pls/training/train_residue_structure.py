@@ -11,13 +11,15 @@ from pls.models.residue_structure import ResidueLateFusion
 from pls.models.geometry_structure import GeometryLateFusion
 
 class Data(Dataset):
- def __init__(self,rows,esm,root,mean,std,compact=None,geometry=None,use_vectors=False,neighbors=16,residue_esm=None):
-  self.rows,self.esm,self.root,self.mean,self.std,self.compact,self.geometry,self.use_vectors,self.neighbor_count,self.residue_esm=rows,esm,root,mean,std,compact,geometry,use_vectors,neighbors,residue_esm;self._compact_data=None;self._neighbor_data=None;self._residue_esm_data=None
+ def __init__(self,rows,esm,root,mean,std,compact=None,geometry=None,use_vectors=False,neighbors=16,residue_esm=None,global_structure=None,global_columns=None):
+  self.rows,self.esm,self.root,self.mean,self.std,self.compact,self.geometry,self.use_vectors,self.neighbor_count,self.residue_esm,self.global_structure,self.global_columns=rows,esm,root,mean,std,compact,geometry,use_vectors,neighbors,residue_esm,global_structure,global_columns;self._compact_data=None;self._neighbor_data=None;self._residue_esm_data=None
   if compact:
    self.offsets=np.load(compact/'offsets.npy',mmap_mode='r');self.compact_shape=tuple(json.loads((compact/'metadata.json').read_text())['shape'])
   if geometry:
    meta=json.loads((geometry/'metadata.json').read_text());self.geometry_shape=(meta['residues'],meta['neighbors'])
   if residue_esm:self.residue_esm_shape=tuple(json.loads((residue_esm/'pca_metadata.json').read_text())['shape'])
+  if global_structure:
+   self.global_dimension=int(json.loads((global_structure/'metadata.json').read_text())['dimension']);self.global_data=np.load(global_structure/'descriptors.npy',mmap_mode='r')
  def __len__(self): return len(self.rows)
  def __getitem__(self,i):
   j,d,y=self.rows[i]
@@ -35,11 +37,12 @@ class Data(Dataset):
     if self._residue_esm_data is None:self._residue_esm_data=np.memmap(self.residue_esm/'residue_esm2_pca.f16',mode='r',dtype=np.float16,shape=self.residue_esm_shape)
     residue=torch.cat((residue,torch.from_numpy(np.array(self._residue_esm_data[lo:hi],dtype=np.float32,copy=True))),1)
   else:neighbors=torch.zeros(len(residue),1,dtype=torch.long);distances=torch.zeros(len(residue),1)
-  return torch.from_numpy(np.array(self.esm[j],copy=True)),residue,p,patch,neighbors,distances,torch.tensor(y,dtype=torch.float32)
+  global_features=torch.from_numpy(np.array(self.global_data[j,self.global_columns],copy=True)) if self.global_structure else torch.empty(0)
+  return torch.from_numpy(np.array(self.esm[j],copy=True)),residue,p,patch,neighbors,distances,global_features,torch.tensor(y,dtype=torch.float32)
 def collate(batch):
  n=max(len(v[1]) for v in batch); b=len(batch);dim=batch[0][1].shape[1];k=batch[0][4].shape[1];residue=torch.zeros(b,n,dim); p=torch.zeros(b,n); patch=torch.zeros(b,n,5);mask=torch.zeros(b,n,dtype=torch.bool);neighbors=torch.zeros(b,n,k,dtype=torch.long);distances=torch.zeros(b,n,k)
- for i,(_,r,q,h,nb,ds,_) in enumerate(batch): residue[i,:len(r)]=r;p[i,:len(r)]=q;patch[i,:len(r)]=h;neighbors[i,:len(r)]=nb;distances[i,:len(r)]=ds;mask[i,:len(r)]=1
- return torch.stack([v[0] for v in batch]),residue,p,patch,mask,neighbors,distances,torch.stack([v[6] for v in batch])
+ for i,(_,r,q,h,nb,ds,_,_) in enumerate(batch): residue[i,:len(r)]=r;p[i,:len(r)]=q;patch[i,:len(r)]=h;neighbors[i,:len(r)]=nb;distances[i,:len(r)]=ds;mask[i,:len(r)]=1
+ return torch.stack([v[0] for v in batch]),residue,p,patch,mask,neighbors,distances,torch.stack([v[6] for v in batch]),torch.stack([v[7] for v in batch])
 class BalancedLengthBatchSampler(Sampler):
  def __init__(self,labels,lengths,batch_size,seed,pool_factor=20): self.labels,self.lengths,self.batch_size,self.seed,self.pool_factor=labels,lengths,batch_size,seed,pool_factor;self.epoch=0
  def __len__(self): return (len(self.labels)+self.batch_size-1)//self.batch_size
@@ -51,8 +54,8 @@ class BalancedLengthBatchSampler(Sampler):
 def infer(model,loader,device,amp=False,geometry=False):
  model.eval(); pred=[]; truth=[]
  with torch.inference_mode():
-  for seq,res,p,patch,mask,neighbors,distances,y in loader:
-   values=[v.to(device) for v in (seq,res,p,patch,mask,neighbors,distances)]
+  for seq,res,p,patch,mask,neighbors,distances,global_features,y in loader:
+   values=[v.to(device) for v in (seq,res,p,patch,mask,neighbors,distances,global_features)]
    with torch.autocast('cuda',dtype=torch.bfloat16,enabled=amp): out=model(*values) if geometry else model(*values[:5])[0]
    pred.extend(out.float().cpu().tolist());truth.extend(y.tolist())
  return np.asarray(truth,dtype=np.float32),np.asarray(pred,dtype=np.float32)
@@ -73,15 +76,18 @@ def main():
    # Status was audited when pooled cache was built; enforce exact sequence again without loading 21 GB here.
    entity=ix[digest];rows[r['split']].append((entity,digest,float(r['target_value'])))
  status=np.load(Path(d['structure_status']),mmap_mode='r');rows={s:[v for v in values if status[v[0]]==1] for s,values in rows.items()}
- compact=Path(d['compact_structure_dir']) if d.get('compact_structure_dir') else None;geometry=Path(d['geometry_dir']) if d.get('geometry_dir') else None;residue_esm=Path(d['residue_esm_dir']) if d.get('residue_esm_dir') else None;use_vectors=mc.get('use_vector_invariants',False);neighbor_count=mc.get('neighbors',16);sets={s:Data(v,esm,root,mean,std,compact,geometry,use_vectors,neighbor_count,residue_esm) for s,v in rows.items()};labels=np.array([v[2] for v in rows['train']]);lengths=[length_by_hash[v[1]] for v in rows['train']];batch_sampler=BalancedLengthBatchSampler(labels,lengths,tr['batch_size'],seed)
+ compact=Path(d['compact_structure_dir']) if d.get('compact_structure_dir') else None;geometry=Path(d['geometry_dir']) if d.get('geometry_dir') else None;residue_esm=Path(d['residue_esm_dir']) if d.get('residue_esm_dir') else None;global_structure=Path(d['global_structure_dir']) if d.get('global_structure_dir') else None;global_columns=None
+ if global_structure:
+  global_meta=json.loads((global_structure/'metadata.json').read_text());groups=mc.get('global_groups',list(global_meta['slices']));global_columns=np.asarray([i for group in groups for i in range(*global_meta['slices'][group])],dtype=np.int64)
+ use_vectors=mc.get('use_vector_invariants',False);neighbor_count=mc.get('neighbors',16);sets={s:Data(v,esm,root,mean,std,compact,geometry,use_vectors,neighbor_count,residue_esm,global_structure,global_columns) for s,v in rows.items()};labels=np.array([v[2] for v in rows['train']]);lengths=[length_by_hash[v[1]] for v in rows['train']];batch_sampler=BalancedLengthBatchSampler(labels,lengths,tr['batch_size'],seed)
  train=DataLoader(sets['train'],batch_sampler=batch_sampler,num_workers=tr['workers'],collate_fn=collate,persistent_workers=tr['workers']>0,pin_memory=True);loaders={s:DataLoader(sets[s],batch_size=tr['batch_size'],num_workers=tr['workers'],collate_fn=collate,persistent_workers=tr['workers']>0,pin_memory=True) for s in ('validation','test')}
- device=torch.device('cuda:0');input_dimension=152+(44 if use_vectors else 0)+(int(json.loads((residue_esm/'pca_metadata.json').read_text())['shape'][1]) if residue_esm else 0);is_geometry=geometry is not None;model=(GeometryLateFusion(esm.shape[1],input_dimension,mc['hidden_dimension'],mc['representation_dimension'],mc['dropout'],mc.get('geometry_layers',1),mc['pooling']) if is_geometry else ResidueLateFusion(esm.shape[1],input_dimension,mc['hidden_dimension'],mc['representation_dimension'],mc['dropout'],mc['pooling'])).to(device);ema_decay=float(tr.get('ema_decay',0));ema_model=copy.deepcopy(model).eval().requires_grad_(False) if ema_decay else None;opt=torch.optim.AdamW(model.parameters(),lr=tr['learning_rate'],weight_decay=tr['weight_decay']);writer=SummaryWriter(a.run_dir/'tensorboard');best=-1;stale=0;history=[]
+ device=torch.device('cuda:0');input_dimension=152+(44 if use_vectors else 0)+(int(json.loads((residue_esm/'pca_metadata.json').read_text())['shape'][1]) if residue_esm else 0);global_dimension=len(global_columns) if global_structure else 0;is_geometry=geometry is not None;model=(GeometryLateFusion(esm.shape[1],input_dimension,mc['hidden_dimension'],mc['representation_dimension'],mc['dropout'],mc.get('geometry_layers',1),mc['pooling'],global_dimension) if is_geometry else ResidueLateFusion(esm.shape[1],input_dimension,mc['hidden_dimension'],mc['representation_dimension'],mc['dropout'],mc['pooling'])).to(device);ema_decay=float(tr.get('ema_decay',0));ema_model=copy.deepcopy(model).eval().requires_grad_(False) if ema_decay else None;opt=torch.optim.AdamW(model.parameters(),lr=tr['learning_rate'],weight_decay=tr['weight_decay']);writer=SummaryWriter(a.run_dir/'tensorboard');best=-1;stale=0;history=[]
  for epoch in range(1,tr['epochs']+1):
   epoch_started=time.monotonic();model.train();total=n=0
-  for seq,res,p,patch,mask,neighbors,distances,y in train:
-   seq,res,p,patch,mask,neighbors,distances,y=[v.to(device,non_blocking=True) for v in (seq,res,p,patch,mask,neighbors,distances,y)];opt.zero_grad(set_to_none=True)
+  for seq,res,p,patch,mask,neighbors,distances,global_features,y in train:
+   seq,res,p,patch,mask,neighbors,distances,global_features,y=[v.to(device,non_blocking=True) for v in (seq,res,p,patch,mask,neighbors,distances,global_features,y)];opt.zero_grad(set_to_none=True)
    smooth=float(tr.get('label_smoothing',0));target=y*(1-smooth)+.5*smooth
-   with torch.autocast('cuda',dtype=torch.bfloat16,enabled=tr.get('amp_bfloat16',True)): out=model(seq,res,p,patch,mask,neighbors,distances) if is_geometry else model(seq,res,p,patch,mask,mc.get('structure_dropout',0))[0];loss=nn.functional.binary_cross_entropy_with_logits(out,target)
+   with torch.autocast('cuda',dtype=torch.bfloat16,enabled=tr.get('amp_bfloat16',True)): out=model(seq,res,p,patch,mask,neighbors,distances,global_features) if is_geometry else model(seq,res,p,patch,mask,mc.get('structure_dropout',0))[0];loss=nn.functional.binary_cross_entropy_with_logits(out,target)
    loss.backward();opt.step()
    if ema_model:
     with torch.no_grad():

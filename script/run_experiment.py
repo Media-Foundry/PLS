@@ -33,6 +33,7 @@ def main() -> None:
     parser.add_argument("--hidden-dimension-override", type=int)
     parser.add_argument("--ema-decay-override", type=float)
     parser.add_argument("--label-smoothing-override", type=float)
+    parser.add_argument("--global-groups-override", nargs="+", choices=("physchem", "scalar", "vector", "patch"))
     parser.add_argument("--name-suffix", type=str, default="")
     args = parser.parse_args()
     config = json.loads(args.config.read_text())
@@ -64,6 +65,8 @@ def main() -> None:
         config["training"]["ema_decay"] = args.ema_decay_override
     if args.label_smoothing_override is not None:
         config["training"]["label_smoothing"] = args.label_smoothing_override
+    if args.global_groups_override is not None:
+        config["model"]["global_groups"] = args.global_groups_override
     if args.name_suffix:
         config["experiment_name"] += args.name_suffix
     timestamp = datetime.now().astimezone().strftime("%m-%d-%H-%M")
