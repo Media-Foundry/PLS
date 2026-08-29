@@ -23,6 +23,8 @@ def main() -> None:
     parser.add_argument("--hip-override", type=int)
     parser.add_argument("--architecture-override", choices=("early", "late", "gated_residual", "film"))
     parser.add_argument("--pooling-override", choices=("mean", "attention", "plddt_gate", "dual_patch"))
+    parser.add_argument("--disable-amp", action="store_true")
+    parser.add_argument("--disable-compact", action="store_true")
     parser.add_argument("--name-suffix", type=str, default="")
     args = parser.parse_args()
     config = json.loads(args.config.read_text())
@@ -34,6 +36,10 @@ def main() -> None:
         config["model"]["architecture"] = args.architecture_override
     if args.pooling_override is not None:
         config["model"]["pooling"] = args.pooling_override
+    if args.disable_amp:
+        config["training"]["amp_bfloat16"] = False
+    if args.disable_compact:
+        config["data"].pop("compact_structure_dir", None)
     if args.name_suffix:
         config["experiment_name"] += args.name_suffix
     timestamp = datetime.now().astimezone().strftime("%m-%d-%H-%M")
