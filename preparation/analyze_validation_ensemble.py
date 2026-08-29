@@ -4,8 +4,9 @@ import argparse,itertools,json
 from pathlib import Path
 import numpy as np
 from scipy.optimize import minimize_scalar
-from sklearn.metrics import matthews_corrcoef
 from pls.evaluation.metrics import binary_metrics
+def best_mcc_threshold(targets,probabilities):
+ order=np.argsort(-probabilities,kind='stable');scores=probabilities[order];truth=targets[order].astype(np.int64);tp=np.cumsum(truth);fp=np.cumsum(1-truth);fn=tp[-1]-tp;tn=fp[-1]-fp;den=np.sqrt((tp+fp)*(tp+fn)*(tn+fp)*(tn+fn));mcc=np.divide(tp*tn-fp*fn,den,out=np.zeros_like(den,dtype=np.float64),where=den>0);last=np.r_[scores[1:]<scores[:-1],True];candidates=np.flatnonzero(last);best=candidates[np.argmax(mcc[candidates])];return float(scores[best]),float(mcc[best])
 def main():
  p=argparse.ArgumentParser();p.add_argument('run_dirs',nargs='+',type=Path);p.add_argument('--output',type=Path,required=True);p.add_argument('--task',choices=('pdbsol','uesolds'));a=p.parse_args();loaded=[]
  for run in a.run_dirs:
@@ -16,6 +17,6 @@ def main():
  reports=[]
  for size in range(1,len(loaded)+1):
   for chosen in itertools.combinations(range(len(loaded)),size):
-   logits=np.mean([loaded[i][3] for i in chosen],axis=0);objective=lambda log_t:np.mean(np.logaddexp(0,logits/np.exp(log_t))-targets*logits/np.exp(log_t));fit=minimize_scalar(objective,bounds=(-3,3),method='bounded');temperature=float(np.exp(fit.x));scaled=logits/temperature;prob=1/(1+np.exp(-np.clip(scaled,-50,50)));thresholds=np.linspace(.05,.95,901);mcc=np.array([matthews_corrcoef(targets,prob>=v) for v in thresholds]);best=int(mcc.argmax());report={'runs':[str(loaded[i][0]) for i in chosen],'ensemble_size':size,'uncalibrated':binary_metrics(targets,logits),'temperature':temperature,'calibrated':binary_metrics(targets,scaled),'mcc_threshold':float(thresholds[best]),'mcc_at_selected_threshold':float(mcc[best])};reports.append(report)
+   logits=np.mean([loaded[i][3] for i in chosen],axis=0);objective=lambda log_t:np.mean(np.logaddexp(0,logits/np.exp(log_t))-targets*logits/np.exp(log_t));fit=minimize_scalar(objective,bounds=(-3,3),method='bounded');temperature=float(np.exp(fit.x));scaled=logits/temperature;prob=1/(1+np.exp(-np.clip(scaled,-50,50)));threshold,mcc=best_mcc_threshold(targets,prob);report={'runs':[str(loaded[i][0]) for i in chosen],'ensemble_size':size,'uncalibrated':binary_metrics(targets,logits),'temperature':temperature,'calibrated':binary_metrics(targets,scaled),'mcc_threshold':threshold,'mcc_at_selected_threshold':mcc};reports.append(report)
  reports.sort(key=lambda x:(x['calibrated']['auroc'],x['calibrated']['auprc']),reverse=True);a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps({'selection_data':'strict-validation only','reports':reports},indent=2,sort_keys=True)+'\n');print(json.dumps(reports[0],indent=2))
 if __name__=='__main__':main()
