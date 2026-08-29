@@ -1,0 +1,81 @@
+{
+  "calibrated": {
+    "auprc": 0.8675258171047845,
+    "auroc": 0.8063086382843632,
+    "balanced_accuracy": 0.7278681226262249,
+    "brier": 0.18074091221452038,
+    "ece": 0.06679669512417213,
+    "f1": 0.7284414796846499,
+    "mcc": 0.4486098701759787,
+    "n": 7790
+  },
+  "candidate_runs": [
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_s61+08-29-23-56"
+  ],
+  "entity_count": 7790,
+  "mcc_at_selected_threshold": 0.44907534246351627,
+  "mcc_threshold": 0.49890179213191316,
+  "objective": "auroc",
+  "run_weights": {
+    "outputs/uesolds_residue_esm_conditioned_v10_strict_si30_concat_s29+08-29-20-20": 0.07381570399687366,
+    "outputs/uesolds_residue_esm_layer24_physchem_v5_strict_si30_s20260830+08-29-18-28": 0.11535706175564593,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_cap256+08-29-20-39": 0.003097274580187465,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4+08-29-20-56": 0.10187938363590456,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4wide256+08-29-20-56": 0.0,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep5_interaction+08-29-20-56": 0.0,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_drop03+08-29-20-47": 0.07501905876721486,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_drop01_s45+08-29-23-02": 0.0,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_s51_r1+08-29-23-13": 0.13556204982366596,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_s61+08-29-23-56": 0.09500929720182055,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_s43+08-29-22-59": 0.1351237451629748,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_s47_r1+08-29-23-13": 0.12500212758676135,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_wide256+08-29-20-56": 0.1,
+    "outputs/uesolds_residue_esm_tcn_conditioned_v11_strict_si30_cap384+08-29-20-27": 0.04013429748895082
+  },
+  "runs": [
+    "outputs/uesolds_residue_esm_conditioned_v10_strict_si30_concat_s29+08-29-20-20",
+    "outputs/uesolds_residue_esm_layer24_physchem_v5_strict_si30_s20260830+08-29-18-28",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_cap256+08-29-20-39",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4+08-29-20-56",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4wide256+08-29-20-56",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep5_interaction+08-29-20-56",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_drop03+08-29-20-47",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_drop01_s45+08-29-23-02",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_s51_r1+08-29-23-13",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_s61+08-29-23-56",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_s43+08-29-22-59",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_s47_r1+08-29-23-13",
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_wide256+08-29-20-56",
+    "outputs/uesolds_residue_esm_tcn_conditioned_v11_strict_si30_cap384+08-29-20-27"
+  ],
+  "selection_data": "strict-validation only",
+  "source_report": "outputs/validation_selection/uesolds_longrf_rank_weighted_auc.json",
+  "temperature": 1.2361660810857589,
+  "test_evaluated": false,
+  "uncalibrated": {
+    "auprc": 0.8675258171047845,
+    "auroc": 0.8063086382843632,
+    "balanced_accuracy": 0.7278681226262249,
+    "brier": 0.18218115582872393,
+    "ece": 0.0747951478327471,
+    "f1": 0.7284414796846499,
+    "mcc": 0.4486098701759787,
+    "n": 7790
+  },
+  "weights": [
+    0.07381570399687366,
+    0.11535706175564593,
+    0.003097274580187465,
+    0.10187938363590456,
+    0.0,
+    0.0,
+    0.07501905876721486,
+    0.0,
+    0.13556204982366596,
+    0.09500929720182055,
+    0.1351237451629748,
+    0.12500212758676135,
+    0.1,
+    0.04013429748895082
+  ]
+}
