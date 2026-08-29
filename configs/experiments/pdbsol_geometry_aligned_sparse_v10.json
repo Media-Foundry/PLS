@@ -1,8 +1,8 @@
 {
   "trainer_module": "pls.training.train_residue_structure",
-  "experiment_name": "pdbsol_geometry_confidence_moe_v9_strict_si30",
+  "experiment_name": "pdbsol_geometry_aligned_sparse_v10_strict_si30",
   "evaluate_test": false,
   "data": {"entities": "benchmark/generated/sequence_entities.csv", "observation_split": "benchmark/generated/strict_si30_observation_split.csv", "embedding_dir": "artifacts/plm/esm2_t33_650M_UR50D_mean", "structure_dir": "artifacts/features/pdbsol_structure_v4_raw", "structure_stats": "artifacts/features/pdbsol_structure_v4_train_stats.json", "structure_status": "artifacts/features/pdbsol_structure_v4_pooled/status.npy", "compact_structure_dir": "artifacts/features/pdbsol_structure_v4_compact", "geometry_dir": "artifacts/features/pdbsol_structure_v4_geometry", "residue_esm_dir": "artifacts/plm/esm2_t33_650M_UR50D_residue_pdbsol"},
-  "model": {"pooling": "dual_patch", "fusion": "global_query_pooling", "confidence_mode": "propagated_moe", "hidden_dimension": 192, "representation_dimension": 256, "dropout": 0.2, "geometry_layers": 1, "neighbors": 8, "use_vector_invariants": true, "use_sequence_separation": true},
-  "training": {"hip_device": 7, "batch_size": 24, "workers": 4, "amp_bfloat16": true, "fused_optimizer": true, "ema_decay": 0.995, "epochs": 16, "patience": 4, "checkpoint_every": 4, "learning_rate": 0.0001, "weight_decay": 0.0001, "max_gradient_norm": 5.0, "seed": 20260829}
+  "model": {"pooling": "attention", "fusion": "residue_aligned_sparse", "confidence_mode": "propagated_moe", "hidden_dimension": 192, "representation_dimension": 256, "dropout": 0.15, "geometry_layers": 1, "neighbors": 8, "use_vector_invariants": true, "use_sequence_separation": true},
+  "training": {"hip_device": 7, "batch_size": 20, "workers": 4, "amp_bfloat16": true, "fused_optimizer": true, "ema_decay": 0.995, "epochs": 16, "patience": 4, "checkpoint_every": 4, "learning_rate": 0.0001, "weight_decay": 0.0001, "max_gradient_norm": 5.0, "seed": 20260829}
 }
