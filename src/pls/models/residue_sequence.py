@@ -7,7 +7,7 @@ class LightweightTCN(nn.Module):
  def __init__(self,dimension,bottleneck=64,dropout=.1):
   super().__init__();self.down=nn.Conv1d(dimension,bottleneck,1);self.blocks=nn.ModuleList([nn.Sequential(nn.Conv1d(bottleneck,bottleneck,3,padding=dilation,dilation=dilation,groups=bottleneck),nn.GELU(),nn.Conv1d(bottleneck,bottleneck,1),nn.Dropout(dropout)) for dilation in (1,2,4)]);self.up=nn.Conv1d(bottleneck,dimension,1)
  def forward(self,z,mask):
-  x=self.down(z.transpose(1,2));channel_mask=mask[:,None].to(x.dtype)
+  channel_mask=mask[:,None].to(z.dtype);x=self.down((z*mask[...,None]).transpose(1,2))*channel_mask
   for block in self.blocks:x=(x+block(x))*channel_mask
   return z+self.up(x).transpose(1,2)*mask[...,None]
 class ShiftTCN(nn.Module):
@@ -21,6 +21,7 @@ class ShiftTCN(nn.Module):
 class ResidueSequenceRegressor(nn.Module):
  def __init__(self,global_dimension=1280,residue_dimension=256,hidden_dimension=256,representation_dimension=256,dropout=.2,pooling='attention',fusion='concat',global_segments=1,global_segment_fusion='weighted_sum',tcn_bottleneck=None,tcn_dilations=(1,2,4)):
   super().__init__();self.pooling,self.fusion,self.global_segments,self.global_segment_fusion=pooling,fusion,global_segments,global_segment_fusion
+  if pooling in ('conditioned_attention','tcn_conditioned_attention','shift_tcn_conditioned_attention') and global_segments>1:raise ValueError('conditioned pooling requires global_segments=1; fuse segments before conditioning')
   if global_segment_fusion not in ('weighted_sum','concat','logit_mixture'):raise ValueError('global segment fusion must be weighted_sum, concat or logit_mixture')
   if global_segments==1 and global_segment_fusion!='weighted_sum':raise ValueError('specialized global segment fusion requires multiple segments')
   if global_segments>1 and global_segment_fusion=='concat' and fusion=='interaction':raise ValueError('interaction fusion requires equally sized global and residue representations')
@@ -32,7 +33,7 @@ class ResidueSequenceRegressor(nn.Module):
   self.residue_encoder=nn.Sequential(nn.LayerNorm(residue_dimension),nn.Linear(residue_dimension,representation_dimension),nn.GELU(),nn.Dropout(dropout));self.local=nn.Sequential(nn.Conv1d(representation_dimension,representation_dimension,5,padding=2,groups=representation_dimension),nn.GELU(),nn.Conv1d(representation_dimension,representation_dimension,1),nn.Dropout(dropout));self.multiscale_logits=nn.Parameter(torch.zeros(4)) if pooling=='multiscale_attention' else None;self.attention=nn.Linear(representation_dimension,1);self.multi_attention=nn.Linear(representation_dimension,4);self.statistics_projection=nn.Sequential(nn.LayerNorm(representation_dimension*4),nn.Linear(representation_dimension*4,representation_dimension),nn.GELU(),nn.Dropout(dropout));self.statistic_encoders=nn.ModuleList([nn.Sequential(nn.LayerNorm(representation_dimension),nn.Linear(representation_dimension,representation_dimension),nn.GELU(),nn.Dropout(dropout)) for _ in range(4)]) if pooling=='gated_statistics_attention' else None;self.statistic_logits=nn.Parameter(torch.zeros(4)) if pooling=='gated_statistics_attention' else None;self.multi_projection=nn.Sequential(nn.LayerNorm(representation_dimension*4),nn.Linear(representation_dimension*4,representation_dimension),nn.GELU(),nn.Dropout(dropout));global_output_dimension=representation_dimension*(global_segments if global_segments>1 and global_segment_fusion=='concat' else 1);head_dimension=representation_dimension*4 if fusion=='interaction' else global_output_dimension+representation_dimension;self.head=None if global_segment_fusion=='logit_mixture' else nn.Sequential(nn.LayerNorm(head_dimension),nn.Linear(head_dimension,representation_dimension),nn.GELU(),nn.Dropout(dropout),nn.Linear(representation_dimension,1));self.expert_heads=nn.ModuleList([nn.Sequential(nn.LayerNorm(representation_dimension*2),nn.Linear(representation_dimension*2,representation_dimension),nn.GELU(),nn.Dropout(dropout),nn.Linear(representation_dimension,1)) for _ in range(global_segments)]) if global_segment_fusion=='logit_mixture' else None;self.last_expert_logits=None
   conditioned=pooling in ('conditioned_attention','tcn_conditioned_attention','shift_tcn_conditioned_attention');self.condition_query=nn.Linear(representation_dimension,representation_dimension,bias=False) if conditioned else None;self.condition_key=nn.Linear(representation_dimension,representation_dimension,bias=False) if conditioned else None;self.condition_scale=representation_dimension**-.5;shift_width=int(tcn_bottleneck or min(128,representation_dimension//2));self.tcn=LightweightTCN(representation_dimension,min(64,representation_dimension//4),dropout) if pooling=='tcn_conditioned_attention' else (ShiftTCN(representation_dimension,shift_width,dropout,tcn_dilations) if pooling=='shift_tcn_conditioned_attention' else None)
  def forward(self,global_embedding,residues,mask):
-  z=self.residue_encoder(residues)
+  z=self.residue_encoder(residues)*mask[...,None]
   global_encoded=self.global_encoder(global_embedding) if self.global_segments==1 else None
   if self.pooling in ('tcn_conditioned_attention','shift_tcn_conditioned_attention'):z=self.tcn(z,mask)
   if self.pooling=='conv_attention':z=z+self.local(z.transpose(1,2)).transpose(1,2)*mask[...,None]
@@ -45,7 +46,7 @@ class ResidueSequenceRegressor(nn.Module):
    z=(torch.stack(values,1)*torch.softmax(self.multiscale_logits,0)[None,:,None,None]).sum(1)*mask[...,None]
   count=mask.sum(1).clamp_min(1)[:,None];mean=(z*mask[...,None]).sum(1)/count
   if self.pooling=='mean':pooled=mean
-  elif self.pooling=='multihead_attention':
+  elif self.pooling in ('multihead_attention','multi_query_pooling'):
    logits=self.multi_attention(z).masked_fill(~mask[...,None],-torch.inf);weights=torch.softmax(logits,1);pooled=self.multi_projection(torch.einsum('bnh,bnd->bhd',weights,z).flatten(1))
   elif self.pooling in ('conditioned_attention','tcn_conditioned_attention','shift_tcn_conditioned_attention'):
    logits=(self.condition_key(z)*self.condition_query(global_encoded)[:,None]).sum(-1)*self.condition_scale;logits=logits.masked_fill(~mask,-torch.inf);pooled=(z*torch.softmax(logits,1)[...,None]).sum(1)
