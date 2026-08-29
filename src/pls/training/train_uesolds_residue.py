@@ -36,7 +36,12 @@ def main():
  with open(d['observation_split'],newline='',encoding='utf-8') as h:
   for r in csv.DictReader(h):
    if r['source_dataset']==SOURCE:rows[r['split']].append((index[r['sequence_sha256']],float(r['target_value'])))
- global_esm=np.load(Path(d['embedding_dir'])/'embeddings.npy',mmap_mode='r');descriptors=None
+ global_esm=np.load(Path(d['embedding_dir'])/'embeddings.npy',mmap_mode='r')
+ if 'embedding_segment' in d:
+  metadata=json.loads((Path(d['embedding_dir'])/'metadata.json').read_text());segment=int(d['embedding_segment']);layer_dimension=int(metadata['layer_dimension']);layers=metadata['layers']
+  if segment<0 or segment>=len(layers):raise ValueError(f'embedding segment {segment} outside available layers {layers}')
+  global_esm=global_esm[:,segment*layer_dimension:(segment+1)*layer_dimension]
+ descriptors=None
  if d.get('sequence_descriptor_dir'):
   raw=np.load(Path(d['sequence_descriptor_dir'])/'descriptors.npy',mmap_mode='r');train_entities=np.unique([i for i,_ in rows['train']]);mean=np.asarray(raw[train_entities],np.float64).mean(0);std=np.asarray(raw[train_entities],np.float64).std(0);std=np.maximum(std,1e-6);scale=float(d.get('sequence_descriptor_scale',1));descriptors=(((np.asarray(raw,np.float32)-mean)/std)*scale).astype(np.float32);np.savez(a.run_dir/'descriptor_stats.npz',mean=mean.astype(np.float32),std=std.astype(np.float32),scale=np.float32(scale),train_entity_indices=train_entities)
  root=Path(d['residue_esm_dir']);offsets=np.load(Path(d['selection_dir'])/'offsets.npy',mmap_mode='r');shape=tuple(json.loads((root/'pca_metadata.json').read_text())['shape']);sets={s:Data(v,global_esm,offsets,root/'residue_esm2_pca.f16',shape,descriptors) for s,v in rows.items()};labels=np.asarray([y for _,y in rows['train']],np.int64);lengths=np.asarray([int(entities[i]['length']) for i,_ in rows['train']]);batch_sampler=BalancedLengthBatchSampler(labels,lengths,tr['batch_size'],seed);train=DataLoader(sets['train'],batch_sampler=batch_sampler,num_workers=tr['workers'],collate_fn=collate,persistent_workers=tr['workers']>0,pin_memory=True);loaders={s:DataLoader(sets[s],batch_size=tr['batch_size'],num_workers=tr['workers'],collate_fn=collate,persistent_workers=tr['workers']>0,pin_memory=True) for s in ('validation','test')}
