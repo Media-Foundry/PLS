@@ -15,8 +15,10 @@ class ResidueSequenceRegressor(nn.Module):
   else:
    segment_dimension=global_dimension//global_segments;self.global_encoder=None;self.global_segment_encoders=nn.ModuleList([nn.Sequential(nn.LayerNorm(segment_dimension),nn.Linear(segment_dimension,representation_dimension),nn.GELU(),nn.Dropout(dropout)) for _ in range(global_segments)]);self.global_segment_logits=nn.Parameter(torch.zeros(global_segments))
   self.residue_encoder=nn.Sequential(nn.LayerNorm(residue_dimension),nn.Linear(residue_dimension,representation_dimension),nn.GELU(),nn.Dropout(dropout));self.local=nn.Sequential(nn.Conv1d(representation_dimension,representation_dimension,5,padding=2,groups=representation_dimension),nn.GELU(),nn.Conv1d(representation_dimension,representation_dimension,1),nn.Dropout(dropout));self.multiscale_logits=nn.Parameter(torch.zeros(4)) if pooling=='multiscale_attention' else None;self.attention=nn.Linear(representation_dimension,1);self.multi_attention=nn.Linear(representation_dimension,4);self.statistics_projection=nn.Sequential(nn.LayerNorm(representation_dimension*4),nn.Linear(representation_dimension*4,representation_dimension),nn.GELU(),nn.Dropout(dropout));self.statistic_encoders=nn.ModuleList([nn.Sequential(nn.LayerNorm(representation_dimension),nn.Linear(representation_dimension,representation_dimension),nn.GELU(),nn.Dropout(dropout)) for _ in range(4)]) if pooling=='gated_statistics_attention' else None;self.statistic_logits=nn.Parameter(torch.zeros(4)) if pooling=='gated_statistics_attention' else None;self.multi_projection=nn.Sequential(nn.LayerNorm(representation_dimension*4),nn.Linear(representation_dimension*4,representation_dimension),nn.GELU(),nn.Dropout(dropout));global_output_dimension=representation_dimension*(global_segments if global_segments>1 and global_segment_fusion=='concat' else 1);head_dimension=representation_dimension*4 if fusion=='interaction' else global_output_dimension+representation_dimension;self.head=None if global_segment_fusion=='logit_mixture' else nn.Sequential(nn.LayerNorm(head_dimension),nn.Linear(head_dimension,representation_dimension),nn.GELU(),nn.Dropout(dropout),nn.Linear(representation_dimension,1));self.expert_heads=nn.ModuleList([nn.Sequential(nn.LayerNorm(representation_dimension*2),nn.Linear(representation_dimension*2,representation_dimension),nn.GELU(),nn.Dropout(dropout),nn.Linear(representation_dimension,1)) for _ in range(global_segments)]) if global_segment_fusion=='logit_mixture' else None;self.last_expert_logits=None
+  self.condition_query=nn.Linear(representation_dimension,representation_dimension,bias=False) if pooling=='conditioned_attention' else None;self.condition_key=nn.Linear(representation_dimension,representation_dimension,bias=False) if pooling=='conditioned_attention' else None;self.condition_scale=representation_dimension**-.5
  def forward(self,global_embedding,residues,mask):
   z=self.residue_encoder(residues)
+  global_encoded=self.global_encoder(global_embedding) if self.global_segments==1 else None
   if self.pooling=='conv_attention':z=z+self.local(z.transpose(1,2)).transpose(1,2)*mask[...,None]
   if self.pooling=='local_attention':
    left=torch.roll(z,1,1);right=torch.roll(z,-1,1);left[:,0]=0;right[:,-1]=0;z=z+(left+right)*.5*mask[...,None]
@@ -29,6 +31,8 @@ class ResidueSequenceRegressor(nn.Module):
   if self.pooling=='mean':pooled=mean
   elif self.pooling=='multihead_attention':
    logits=self.multi_attention(z).masked_fill(~mask[...,None],-torch.inf);weights=torch.softmax(logits,1);pooled=self.multi_projection(torch.einsum('bnh,bnd->bhd',weights,z).flatten(1))
+  elif self.pooling=='conditioned_attention':
+   logits=(self.condition_key(z)*self.condition_query(global_encoded)[:,None]).sum(-1)*self.condition_scale;logits=logits.masked_fill(~mask,-torch.inf);pooled=(z*torch.softmax(logits,1)[...,None]).sum(1)
   else:
    logits=self.attention(z).squeeze(-1).masked_fill(~mask,-torch.inf);attention=(z*torch.softmax(logits,1)[...,None]).sum(1)
    if self.pooling in ('statistics_attention','gated_statistics_attention'):
@@ -39,8 +43,7 @@ class ResidueSequenceRegressor(nn.Module):
      encoded_statistics=torch.stack([encoder(value) for encoder,value in zip(self.statistic_encoders,statistics)],1);pooled=(encoded_statistics*torch.softmax(self.statistic_logits,0)[None,:,None]).sum(1)
     else:pooled=self.statistics_projection(torch.cat(statistics,1))
    else:pooled=attention
-  if self.global_segments==1:global_encoded=self.global_encoder(global_embedding)
-  else:
+  if self.global_segments>1:
    segments=global_embedding.chunk(self.global_segments,1);encoded=torch.stack([encoder(segment) for encoder,segment in zip(self.global_segment_encoders,segments)],1)
    if self.global_segment_fusion=='logit_mixture':
     expert_logits=torch.stack([head(torch.cat((encoded[:,i],pooled),1)).squeeze(-1) for i,head in enumerate(self.expert_heads)],1);self.last_expert_logits=expert_logits;return (expert_logits*torch.softmax(self.global_segment_logits,0)[None]).sum(1)
