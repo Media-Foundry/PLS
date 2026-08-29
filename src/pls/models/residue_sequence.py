@@ -20,7 +20,7 @@ class ShiftTCN(nn.Module):
   return z+self.up(x)*mask[...,None]
 class MaskedBiLSTMTextCNN(nn.Module):
  def __init__(self,dimension,dropout=.2):
-  super().__init__();hidden=max(64,dimension//2);self.lstm=nn.LSTM(dimension,hidden,batch_first=True,bidirectional=True);lstm_dimension=hidden*2;channels=max(64,dimension//2);self.convs=nn.ModuleList([nn.Conv1d(lstm_dimension,channels,k,padding=k//2) for k in (3,7,11)]);self.projection=nn.Sequential(nn.LayerNorm(channels*3),nn.Linear(channels*3,dimension),nn.GELU(),nn.Dropout(dropout))
+  super().__init__();hidden=max(64,dimension//2);self.lstm=nn.LSTM(dimension,hidden,batch_first=True,bidirectional=True);lstm_dimension=hidden*2;channels=dimension;self.convs=nn.ModuleList([nn.Conv1d(lstm_dimension,channels,k,padding=k//2) for k in (3,7,11)]);self.projection=nn.Sequential(nn.LayerNorm(channels*3),nn.Linear(channels*3,dimension),nn.GELU(),nn.Dropout(dropout))
  def forward(self,z,mask):
   lengths=mask.sum(1).to(torch.int64).clamp_min(1);packed=nn.utils.rnn.pack_padded_sequence(z,lengths.cpu(),batch_first=True,enforce_sorted=False);encoded,_=self.lstm(packed);encoded,_=nn.utils.rnn.pad_packed_sequence(encoded,batch_first=True,total_length=z.shape[1]);channel_mask=mask[:,None];encoded=encoded*mask[...,None];pooled=[]
   for conv in self.convs:
