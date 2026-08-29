@@ -1,0 +1,25 @@
+{
+  "data": {
+    "embedding_dir": "artifacts/plm/esm2_t33_650M_UR50D_mean",
+    "entities": "benchmark/generated/sequence_entities.csv",
+    "observation_split": "benchmark/generated/strict_si30_observation_split.csv"
+  },
+  "experiment_name": "esm2_mean_adapters_v2_strict_si30_entityaware",
+  "model": {
+    "dropout": 0.15,
+    "hidden_dimension": 512,
+    "representation_dimension": 256,
+    "task_adapters": true
+  },
+  "training": {
+    "batch_size": 1024,
+    "checkpoint_every": 5,
+    "device": "cuda:0",
+    "epochs": 40,
+    "hip_device": 4,
+    "learning_rate": 0.0002,
+    "patience": 7,
+    "seed": 20260829,
+    "weight_decay": 0.0001
+  }
+}
