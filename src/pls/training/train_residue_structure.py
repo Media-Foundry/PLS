@@ -1,6 +1,6 @@
 """Leakage-safe residue V4 + frozen ESM training on PDBSol."""
 from __future__ import annotations
-import argparse,csv,json,os,random,time
+import argparse,copy,csv,json,os,random,time
 from pathlib import Path
 import numpy as np,torch
 from torch import nn
@@ -73,14 +73,19 @@ def main():
  status=np.load(Path(d['structure_status']),mmap_mode='r');rows={s:[v for v in values if status[v[0]]==1] for s,values in rows.items()}
  compact=Path(d['compact_structure_dir']) if d.get('compact_structure_dir') else None;geometry=Path(d['geometry_dir']) if d.get('geometry_dir') else None;residue_esm=Path(d['residue_esm_dir']) if d.get('residue_esm_dir') else None;use_vectors=mc.get('use_vector_invariants',False);neighbor_count=mc.get('neighbors',16);sets={s:Data(v,esm,root,mean,std,compact,geometry,use_vectors,neighbor_count,residue_esm) for s,v in rows.items()};labels=np.array([v[2] for v in rows['train']]);lengths=[length_by_hash[v[1]] for v in rows['train']];batch_sampler=BalancedLengthBatchSampler(labels,lengths,tr['batch_size'],seed)
  train=DataLoader(sets['train'],batch_sampler=batch_sampler,num_workers=tr['workers'],collate_fn=collate,persistent_workers=tr['workers']>0,pin_memory=True);loaders={s:DataLoader(sets[s],batch_size=tr['batch_size'],num_workers=tr['workers'],collate_fn=collate,persistent_workers=tr['workers']>0,pin_memory=True) for s in ('validation','test')}
- device=torch.device('cuda:0');input_dimension=152+(44 if use_vectors else 0)+(int(json.loads((residue_esm/'pca_metadata.json').read_text())['shape'][1]) if residue_esm else 0);is_geometry=geometry is not None;model=(GeometryLateFusion(esm.shape[1],input_dimension,mc['hidden_dimension'],mc['representation_dimension'],mc['dropout'],mc.get('geometry_layers',1),mc['pooling']) if is_geometry else ResidueLateFusion(esm.shape[1],input_dimension,mc['hidden_dimension'],mc['representation_dimension'],mc['dropout'],mc['pooling'])).to(device);opt=torch.optim.AdamW(model.parameters(),lr=tr['learning_rate'],weight_decay=tr['weight_decay']);writer=SummaryWriter(a.run_dir/'tensorboard');best=-1;stale=0;history=[]
+ device=torch.device('cuda:0');input_dimension=152+(44 if use_vectors else 0)+(int(json.loads((residue_esm/'pca_metadata.json').read_text())['shape'][1]) if residue_esm else 0);is_geometry=geometry is not None;model=(GeometryLateFusion(esm.shape[1],input_dimension,mc['hidden_dimension'],mc['representation_dimension'],mc['dropout'],mc.get('geometry_layers',1),mc['pooling']) if is_geometry else ResidueLateFusion(esm.shape[1],input_dimension,mc['hidden_dimension'],mc['representation_dimension'],mc['dropout'],mc['pooling'])).to(device);ema_decay=float(tr.get('ema_decay',0));ema_model=copy.deepcopy(model).eval().requires_grad_(False) if ema_decay else None;opt=torch.optim.AdamW(model.parameters(),lr=tr['learning_rate'],weight_decay=tr['weight_decay']);writer=SummaryWriter(a.run_dir/'tensorboard');best=-1;stale=0;history=[]
  for epoch in range(1,tr['epochs']+1):
   epoch_started=time.monotonic();model.train();total=n=0
   for seq,res,p,patch,mask,neighbors,distances,y in train:
    seq,res,p,patch,mask,neighbors,distances,y=[v.to(device,non_blocking=True) for v in (seq,res,p,patch,mask,neighbors,distances,y)];opt.zero_grad(set_to_none=True)
-   with torch.autocast('cuda',dtype=torch.bfloat16,enabled=tr.get('amp_bfloat16',True)): out=model(seq,res,p,patch,mask,neighbors,distances) if is_geometry else model(seq,res,p,patch,mask,mc.get('structure_dropout',0))[0];loss=nn.functional.binary_cross_entropy_with_logits(out,y)
-   loss.backward();opt.step();total+=loss.item()*len(y);n+=len(y)
-  train_seconds=time.monotonic()-epoch_started;val=evaluate(model,loaders['validation'],device,tr.get('amp_bfloat16',False),is_geometry);row={'epoch':epoch,'train_loss':total/n,'train_seconds':train_seconds,'train_samples_per_second':n/train_seconds,'epoch_seconds':time.monotonic()-epoch_started,'validation':val};history.append(row);print(json.dumps(row),flush=True);writer.add_scalar('validation/auroc',val['auroc'],epoch);writer.add_scalar('throughput/train_samples_per_second',row['train_samples_per_second'],epoch);state={'model':model.state_dict(),'epoch':epoch,'validation':val,'config':c}
+   smooth=float(tr.get('label_smoothing',0));target=y*(1-smooth)+.5*smooth
+   with torch.autocast('cuda',dtype=torch.bfloat16,enabled=tr.get('amp_bfloat16',True)): out=model(seq,res,p,patch,mask,neighbors,distances) if is_geometry else model(seq,res,p,patch,mask,mc.get('structure_dropout',0))[0];loss=nn.functional.binary_cross_entropy_with_logits(out,target)
+   loss.backward();opt.step()
+   if ema_model:
+    with torch.no_grad():
+     for ema_parameter,parameter in zip(ema_model.parameters(),model.parameters()):ema_parameter.mul_(ema_decay).add_(parameter,alpha=1-ema_decay)
+   total+=loss.item()*len(y);n+=len(y)
+  train_seconds=time.monotonic()-epoch_started;validation_model=ema_model or model;val=evaluate(validation_model,loaders['validation'],device,tr.get('amp_bfloat16',False),is_geometry);row={'epoch':epoch,'train_loss':total/n,'train_seconds':train_seconds,'train_samples_per_second':n/train_seconds,'epoch_seconds':time.monotonic()-epoch_started,'validation':val};history.append(row);print(json.dumps(row),flush=True);writer.add_scalar('validation/auroc',val['auroc'],epoch);writer.add_scalar('throughput/train_samples_per_second',row['train_samples_per_second'],epoch);state={'model':validation_model.state_dict(),'epoch':epoch,'validation':val,'config':c}
   if epoch%tr['checkpoint_every']==0:torch.save(state,a.run_dir/'checkpoints'/f'epoch_{epoch:03d}.pt')
   if val['auroc']>best:best=val['auroc'];stale=0;torch.save(state,a.run_dir/'checkpoints'/'best.pt')
   else:stale+=1
