@@ -35,7 +35,10 @@ def main() -> None:
                      ("biopython", "fair-esm", "numpy", "scikit-learn", "scipy", "tensorboard")},
     }
     (run_dir / "environment.json").write_text(json.dumps(environment, indent=2, sort_keys=True) + "\n")
-    command = [sys.executable, "-m", "pls.training.train_plm_heads", "--config", str(run_dir / "config.json"),
+    default_trainer = ("pls.training.train_pooled_structure" if "structure_groups" in config["model"]
+                       else "pls.training.train_plm_heads")
+    trainer_module = config.get("trainer_module", default_trainer)
+    command = [sys.executable, "-m", trainer_module, "--config", str(run_dir / "config.json"),
                "--run-dir", str(run_dir)]
     child_environment = os.environ.copy()
     source_path = str((Path.cwd() / "src").resolve())
