@@ -5,10 +5,18 @@ from pathlib import Path
 import numpy as np
 from pls.evaluation.metrics import regression_metrics
 def main():
- p=argparse.ArgumentParser();p.add_argument('run_dirs',nargs='+',type=Path);p.add_argument('--output',type=Path,required=True);a=p.parse_args();loaded=[]
+ p=argparse.ArgumentParser();p.add_argument('run_dirs',nargs='+',type=Path);p.add_argument('--output',type=Path,required=True);p.add_argument('--intersect-entities',action='store_true');a=p.parse_args();loaded=[]
  for run in a.run_dirs:
   path=run/('validation_esol_predictions.npz' if (run/'validation_esol_predictions.npz').exists() else 'validation_predictions.npz');x=np.load(path);loaded.append((run,x['entity_indices'],x['targets'],x['predictions']))
- entities,targets=loaded[0][1],loaded[0][2]
+ if a.intersect_entities:
+  entities=loaded[0][1]
+  for _,e,_,_ in loaded[1:]:entities=np.intersect1d(entities,e)
+  aligned=[]
+  for run,e,t,pred in loaded:
+   positions={int(value):i for i,value in enumerate(e)};take=np.asarray([positions[int(value)] for value in entities]);aligned.append((run,entities,t[take],pred[take]))
+  loaded=aligned
+ else:entities=loaded[0][1]
+ targets=loaded[0][2]
  for run,e,t,_ in loaded[1:]:
   if not np.array_equal(e,entities) or not np.allclose(t,targets):raise ValueError(f'unaligned predictions: {run}')
  reports=[]

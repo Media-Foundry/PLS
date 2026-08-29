@@ -28,16 +28,21 @@
       "note": "Metric-specific selections are intentionally distinct; do not select between them on test."
     },
     "esol": {
-      "primary_report": "outputs/validation_selection/esol_physchem_ensembles.json",
-      "metrics": {"spearman": 0.7656680724911805, "pearson": 0.7541631694523576, "rmse": 0.21215129052973805, "mae": 0.16728936383423956, "affine_rmse": 0.2113862075031652},
+      "primary_report": "outputs/validation_selection/esol_structure_blend_dual_seqsep.json",
+      "metrics": {"spearman": 0.7693670538327355, "pearson": 0.7591642635395314, "rmse": 0.21009433386702706, "mae": 0.16540644760854012, "affine_rmse": 0.20952306620126177},
       "runs": [
         "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
         "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
         "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
         "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
       ],
-      "affine_slope": 1.011880462256598,
-      "affine_intercept": 0.012208739821070723
+      "structure_run": "outputs/esol_geometry_residue_esm_physchem_v3_strict_si30_dual_seqsep+08-29-19-50",
+      "structure_weight": 0.23,
+      "structure_entities": 266,
+      "fallback_entities": 1,
+      "fallback_rule": "Use the full-coverage sequence ensemble unchanged when an exact-sequence AlphaFold structure is unavailable.",
+      "affine_slope": 1.0175477063600755,
+      "affine_intercept": 0.006627551850205634
     }
   }
 }
