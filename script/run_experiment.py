@@ -33,6 +33,8 @@ def main() -> None:
     parser.add_argument("--dropout-override", type=float)
     parser.add_argument("--hidden-dimension-override", type=int)
     parser.add_argument("--representation-dimension-override", type=int)
+    parser.add_argument("--tcn-bottleneck-override", type=int)
+    parser.add_argument("--tcn-dilations-override", nargs="+", type=int)
     parser.add_argument("--ema-decay-override", type=float)
     parser.add_argument("--label-smoothing-override", type=float)
     parser.add_argument("--global-groups-override", nargs="+", choices=("physchem", "scalar", "vector", "patch"))
@@ -75,6 +77,10 @@ def main() -> None:
         config["model"]["hidden_dimension"] = args.hidden_dimension_override
     if args.representation_dimension_override is not None:
         config["model"]["representation_dimension"] = args.representation_dimension_override
+    if args.tcn_bottleneck_override is not None:
+        config["model"]["tcn_bottleneck"] = args.tcn_bottleneck_override
+    if args.tcn_dilations_override is not None:
+        config["model"]["tcn_dilations"] = args.tcn_dilations_override
     if args.ema_decay_override is not None:
         config["training"]["ema_decay"] = args.ema_decay_override
     if args.label_smoothing_override is not None:
