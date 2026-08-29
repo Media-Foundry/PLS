@@ -34,6 +34,7 @@ class GeometryLateFusion(nn.Module):
    self.surface_patch_attention=nn.MultiheadAttention(representation_dimension,4,dropout=dropout,batch_first=True)
    self.surface_patch_query=nn.Parameter(torch.randn(1,1,representation_dimension)*.02)
    self.surface_patch_merge=nn.Sequential(nn.Linear(representation_dimension*2,representation_dimension),nn.GELU())
+   if fusion=='residue_aligned_sparse':self.surface_residue_attention=nn.MultiheadAttention(representation_dimension,4,dropout=dropout,batch_first=True);self.surface_residue_merge=nn.Sequential(nn.LayerNorm(representation_dimension*2),nn.Linear(representation_dimension*2,representation_dimension),nn.GELU())
   branches=(5 if fusion in ('cross_attention','global_query_pooling','residue_aligned_sparse') else 2)+(1 if global_dimension else 0);self.head=nn.Sequential(nn.LayerNorm(representation_dimension*branches),nn.Linear(representation_dimension*branches,representation_dimension),nn.GELU(),nn.Dropout(dropout),nn.Linear(representation_dimension,1))
  def residue_rsa(self,residue):return (residue[...,63]*self.rsa_std+self.rsa_mean).clamp(0,1)
  def pool_surface_patches(self,z,patch,plddt,rsa,mask,component_ids,confidence):
@@ -45,7 +46,7 @@ class GeometryLateFusion(nn.Module):
    else:batches.append(z.new_zeros(1,z.shape[-1]))
   maximum=max(len(tokens) for tokens in batches);padded=z.new_zeros(len(z),maximum,z.shape[-1]);patch_mask=torch.zeros(len(z),maximum,dtype=torch.bool,device=z.device)
   for batch_index,tokens in enumerate(batches):padded[batch_index,:len(tokens)]=tokens;patch_mask[batch_index,:len(tokens)]=True
-  contextual,_=self.surface_patch_attention(padded,padded,padded,key_padding_mask=~patch_mask,need_weights=False);query=self.surface_patch_query.expand(len(z),-1,-1);pooled,_=self.surface_patch_attention(query,contextual,contextual,key_padding_mask=~patch_mask,need_weights=False);return pooled[:,0]
+  contextual,_=self.surface_patch_attention(padded,padded,padded,key_padding_mask=~patch_mask,need_weights=False);query=self.surface_patch_query.expand(len(z),-1,-1);pooled,_=self.surface_patch_attention(query,contextual,contextual,key_padding_mask=~patch_mask,need_weights=False);return pooled[:,0],contextual,patch_mask
  def forward(self,sequence,residue,plddt,patch,mask,neighbors,distances,global_features=None,patch_components=None):
   confidence=None;rsa=self.residue_rsa(residue) if residue.shape[-1]>63 else torch.zeros_like(plddt)
   if self.confidence_mode=='propagated_moe':
@@ -56,9 +57,10 @@ class GeometryLateFusion(nn.Module):
   z=self.project(z);count=mask.sum(1).clamp_min(1);logits=self.attention(torch.cat((z,plddt[...,None]),-1)).squeeze(-1).masked_fill(~mask,-torch.inf);weight=torch.softmax(logits,1);pooled=(z*weight[...,None]).sum(1)
   if self.pooling=='dual_patch':
    logits=self.patch_attention(torch.cat((z,patch),-1)).squeeze(-1).masked_fill(~mask,-torch.inf);pw=torch.softmax(logits,1);pooled=self.merge(torch.cat((pooled,(z*pw[...,None]).sum(1)),1))
+  surface_tokens=surface_mask=None
   if self.pooling=='surface_patches':
    if patch_components is None:raise ValueError('surface_patches pooling requires patch component ids')
-   pooled=self.surface_patch_merge(torch.cat((pooled,self.pool_surface_patches(z,patch,plddt,rsa,mask,patch_components,confidence)),1))
+   surface_pooled,surface_tokens,surface_mask=self.pool_surface_patches(z,patch,plddt,rsa,mask,patch_components,confidence);pooled=self.surface_patch_merge(torch.cat((pooled,surface_pooled),1))
   quality=torch.stack(((plddt*mask).sum(1)/count,((plddt<.7)&mask).sum(1)/count,torch.log1p(count)/10),1);legacy_gate=self.gate(quality);seq=self.sequence(sequence)
   if self.confidence_mode=='propagated_moe':protein_quality=torch.cat((quality,(confidence.sum(1)/count)[:,None],((rsa*mask).sum(1)/count)[:,None]),1);protein_gate=quality[:,0:1]*self.protein_confidence(protein_quality)
   else:protein_gate=legacy_gate;pooled=pooled*legacy_gate
@@ -66,6 +68,8 @@ class GeometryLateFusion(nn.Module):
    cross_logits=(self.cross_key(z)*self.cross_query(seq)[:,None,:]).sum(-1)*self.cross_scale;cross_logits=cross_logits.masked_fill(~mask,-torch.inf);cross=(z*torch.softmax(cross_logits,1)[...,None]).sum(1);branches=[seq,pooled,cross,seq*cross,(seq-cross).abs()]
   elif self.fusion=='residue_aligned_sparse':
    sequence_tokens=self.residue_sequence(residue[...,-self.residue_sequence_dimension:])*mask[...,None]
+   if surface_tokens is not None:
+    surface_context,_=self.surface_residue_attention(sequence_tokens,surface_tokens,surface_tokens,key_padding_mask=~surface_mask,need_weights=False);sequence_tokens=self.surface_residue_merge(torch.cat((sequence_tokens,surface_context),-1))*mask[...,None]
    residue_gate=confidence if confidence is not None else mask.to(z.dtype)
    aligned=self.aligned_fusion(torch.cat((sequence_tokens,z,sequence_tokens*z,(sequence_tokens-z).abs(),residue_gate[...,None]),-1))*residue_gate[...,None]
    local=self.local_sequence(aligned.transpose(1,2)).transpose(1,2)*mask[...,None]
