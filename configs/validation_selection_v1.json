@@ -20,12 +20,13 @@
       "mcc_threshold": 0.4134804904460907
     },
     "uesolds": {
-      "auroc_report": "outputs/validation_selection/uesolds_optsweep_ensembles.json",
-      "auroc": 0.7972625486980198,
-      "auprc_mcc_report": "outputs/validation_selection/uesolds_midlayer_ensembles.json",
-      "auprc": 0.8578182056604542,
+      "auroc_auprc_report": "outputs/validation_selection/uesolds_conditioned_ensembles.json",
+      "auroc": 0.797534838333757,
+      "auprc": 0.8581034488757534,
+      "mcc_report": "outputs/validation_selection/uesolds_midlayer_ensembles.json",
       "mcc_at_selected_threshold": 0.43308826513046617,
-      "note": "Metric-specific selections are intentionally distinct; do not select between them on test."
+      "calibrated_brier": 0.18425723108130038,
+      "note": "AUROC/AUPRC and MCC selections are intentionally distinct; do not select between them on test."
     },
     "esol": {
       "primary_report": "outputs/validation_selection/esol_structure_cross_ensemble.json",
