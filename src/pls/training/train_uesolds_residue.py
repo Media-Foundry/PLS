@@ -50,13 +50,19 @@ def main():
   started=time.monotonic();model.train();total=count=0
   for global_x,res,mask,y in train:
    global_x,res,mask,y=[v.to(device,non_blocking=True) for v in (global_x,res,mask,y)];opt.zero_grad(set_to_none=True);smooth=float(tr.get('label_smoothing',0));target=y*(1-smooth)+.5*smooth
-   with torch.autocast('cuda',dtype=torch.bfloat16,enabled=tr.get('amp_bfloat16',True)):logits=model(global_x,res,mask);loss=nn.functional.binary_cross_entropy_with_logits(logits,target)+float(tr.get('rank_weight',0))*binary_rank_loss(logits,y)
+   with torch.autocast('cuda',dtype=torch.bfloat16,enabled=tr.get('amp_bfloat16',True)):
+    logits=model(global_x,res,mask);loss=nn.functional.binary_cross_entropy_with_logits(logits,target)+float(tr.get('rank_weight',0))*binary_rank_loss(logits,y)
+    if float(tr.get('expert_aux_weight',0)):
+     if model.last_expert_logits is None:raise ValueError('expert auxiliary loss requires logit_mixture segment fusion')
+     auxiliary_target=target[:,None].expand_as(model.last_expert_logits);loss=loss+float(tr['expert_aux_weight'])*nn.functional.binary_cross_entropy_with_logits(model.last_expert_logits,auxiliary_target)
    loss.backward();opt.step()
    if ema:
     with torch.no_grad():
      for ep,pv in zip(ema.parameters(),model.parameters()):ep.mul_(decay).add_(pv,alpha=1-decay)
    total+=loss.item()*len(y);count+=len(y)
-  seconds=time.monotonic()-started;eval_model=ema or model;truth,logits=infer(eval_model,loaders['validation'],device,tr.get('amp_bfloat16',False));metrics=binary_metrics(truth,logits);row={'epoch':epoch,'train_loss':total/count,'train_seconds':seconds,'train_samples_per_second':count/seconds,'validation':metrics};history.append(row);print(json.dumps(row),flush=True);writer.add_scalar('validation/auroc',metrics['auroc'],epoch);writer.add_scalar('throughput/train_samples_per_second',row['train_samples_per_second'],epoch);state={'model':eval_model.state_dict(),'epoch':epoch,'validation':metrics,'config':c}
+  seconds=time.monotonic()-started;eval_model=ema or model;truth,logits=infer(eval_model,loaders['validation'],device,tr.get('amp_bfloat16',False));metrics=binary_metrics(truth,logits);row={'epoch':epoch,'train_loss':total/count,'train_seconds':seconds,'train_samples_per_second':count/seconds,'validation':metrics}
+  if hasattr(eval_model,'global_segment_logits'):row['global_segment_weights']=torch.softmax(eval_model.global_segment_logits.detach().float(),0).cpu().tolist()
+  history.append(row);print(json.dumps(row),flush=True);writer.add_scalar('validation/auroc',metrics['auroc'],epoch);writer.add_scalar('throughput/train_samples_per_second',row['train_samples_per_second'],epoch);state={'model':eval_model.state_dict(),'epoch':epoch,'validation':metrics,'config':c}
   if epoch%tr['checkpoint_every']==0:torch.save(state,a.run_dir/'checkpoints'/f'epoch_{epoch:03d}.pt')
   if metrics['auroc']>best:best=metrics['auroc'];stale=0;torch.save(state,a.run_dir/'checkpoints'/'best.pt')
   else:stale+=1
