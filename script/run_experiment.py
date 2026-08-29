@@ -21,6 +21,7 @@ def main() -> None:
     parser.add_argument("--outputs-root", type=Path, default=Path("outputs"))
     parser.add_argument("--seed-override", type=int)
     parser.add_argument("--hip-override", type=int)
+    parser.add_argument("--architecture-override", choices=("early", "late", "gated_residual", "film"))
     parser.add_argument("--name-suffix", type=str, default="")
     args = parser.parse_args()
     config = json.loads(args.config.read_text())
@@ -28,6 +29,8 @@ def main() -> None:
         config["training"]["seed"] = args.seed_override
     if args.hip_override is not None:
         config["training"]["hip_device"] = args.hip_override
+    if args.architecture_override is not None:
+        config["model"]["architecture"] = args.architecture_override
     if args.name_suffix:
         config["experiment_name"] += args.name_suffix
     timestamp = datetime.now().astimezone().strftime("%m-%d-%H-%M")

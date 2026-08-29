@@ -7,6 +7,7 @@ from torch import nn
 from torch.utils.data import DataLoader,Dataset,WeightedRandomSampler
 from torch.utils.tensorboard import SummaryWriter
 from pls.evaluation.metrics import binary_metrics
+from pls.models.structure_fusion import build_fusion
 
 class D(Dataset):
  def __init__(self,rows,esm,struct,cols): self.rows,self.esm,self.struct,self.cols=rows,esm,struct,cols
@@ -46,7 +47,7 @@ def main():
  labels=np.array([y for _,y in rows['train']]); count=np.bincount(labels.astype(int),minlength=2); weights=[1/count[int(y)] for y in labels]
  sampler=WeightedRandomSampler(weights,len(weights),replacement=True,generator=torch.Generator().manual_seed(seed))
  train=DataLoader(sets['train'],batch_size=batch,sampler=sampler); loaders={s:DataLoader(sets[s],batch_size=batch) for s in ('validation','test')}
- device=torch.device('cuda:0'); inp=esm.shape[1]+len(cols); mconf=c['model']; model=nn.Sequential(nn.LayerNorm(inp),nn.Linear(inp,mconf['hidden_dimension']),nn.GELU(),nn.Dropout(mconf['dropout']),nn.Linear(mconf['hidden_dimension'],mconf['representation_dimension']),nn.GELU(),nn.Dropout(mconf['dropout']),nn.Linear(mconf['representation_dimension'],1),nn.Flatten(0)).to(device)
+ device=torch.device('cuda:0'); mconf=c['model']; model=build_fusion(mconf.get('architecture','early'),esm.shape[1],len(cols),mconf['hidden_dimension'],mconf['representation_dimension'],mconf['dropout']).to(device)
  opt=torch.optim.AdamW(model.parameters(),lr=tr['learning_rate'],weight_decay=tr['weight_decay']); writer=SummaryWriter(a.run_dir/'tensorboard'); best=-1.; stale=0; history=[]
  for epoch in range(1,tr['epochs']+1):
   model.train(); total=n=0
