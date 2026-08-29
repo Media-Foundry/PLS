@@ -50,6 +50,9 @@ def main() -> None:
     parser.add_argument("--trees-override", type=int)
     parser.add_argument("--max-features-override", type=float)
     parser.add_argument("--min-samples-leaf-override", type=int)
+    parser.add_argument("--scalar-dimension-override", type=int)
+    parser.add_argument("--vector-dimension-override", type=int)
+    parser.add_argument("--layers-override", type=int)
     parser.add_argument("--name-suffix", type=str, default="")
     args = parser.parse_args()
     config = json.loads(args.config.read_text())
@@ -115,6 +118,12 @@ def main() -> None:
         config["model"]["max_features"] = args.max_features_override
     if args.min_samples_leaf_override is not None:
         config["model"]["min_samples_leaf"] = args.min_samples_leaf_override
+    if args.scalar_dimension_override is not None:
+        config["model"]["scalar_dimension"] = args.scalar_dimension_override
+    if args.vector_dimension_override is not None:
+        config["model"]["vector_dimension"] = args.vector_dimension_override
+    if args.layers_override is not None:
+        config["model"]["layers"] = args.layers_override
     if args.name_suffix:
         config["experiment_name"] += args.name_suffix
     timestamp = datetime.now().astimezone().strftime("%m-%d-%H-%M")
