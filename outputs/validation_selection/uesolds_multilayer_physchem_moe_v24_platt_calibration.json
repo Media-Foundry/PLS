@@ -1,0 +1,104 @@
+{
+  "calibrated": {
+    "auprc": 0.8676013579550836,
+    "auroc": 0.8064972096296852,
+    "balanced_accuracy": 0.7108965989512934,
+    "brier": 0.17489902292121795,
+    "ece": 0.014428606081601996,
+    "f1": 0.7736128758999989,
+    "mcc": 0.4259086076930665,
+    "n": 7790
+  },
+  "crossfit_calibrated": {
+    "auprc": 0.867512411552521,
+    "auroc": 0.8064167744094827,
+    "balanced_accuracy": 0.7109536764948812,
+    "brier": 0.17492982482000335,
+    "ece": 0.01351223058457868,
+    "f1": 0.7737906213612351,
+    "mcc": 0.4261053209218054,
+    "n": 7790
+  },
+  "crossfit_folds": [
+    {
+      "fold": 0,
+      "heldout_entities": 1558,
+      "intercept": 0.38632714791698064,
+      "optimization_success": true,
+      "slope": 0.8566264691890939,
+      "train_entities": 6232
+    },
+    {
+      "fold": 1,
+      "heldout_entities": 1558,
+      "intercept": 0.3908227790291339,
+      "optimization_success": true,
+      "slope": 0.8788971327961183,
+      "train_entities": 6232
+    },
+    {
+      "fold": 2,
+      "heldout_entities": 1558,
+      "intercept": 0.38353367897656615,
+      "optimization_success": true,
+      "slope": 0.8698688434468355,
+      "train_entities": 6232
+    },
+    {
+      "fold": 3,
+      "heldout_entities": 1558,
+      "intercept": 0.38164550951743514,
+      "optimization_success": true,
+      "slope": 0.8579621149219363,
+      "train_entities": 6232
+    },
+    {
+      "fold": 4,
+      "heldout_entities": 1558,
+      "intercept": 0.40381855740244543,
+      "optimization_success": true,
+      "slope": 0.8773509551019645,
+      "train_entities": 6232
+    }
+  ],
+  "entity_count": 7790,
+  "nll": 0.5155485196388588,
+  "optimization_success": true,
+  "platt_intercept": 0.38915926500127973,
+  "platt_slope": 0.8680203142978608,
+  "run_weights": {
+    "outputs/uesolds_multilayer_physchem_moe_v24_strict_si30_weighted_experts6_s17+08-30-18-51": 0.057178677434306706,
+    "outputs/uesolds_multilayer_physchem_moe_v24_strict_si30_weighted_plain_s19+08-30-18-51": 0.0,
+    "outputs/uesolds_physchem_moe_v22_strict_si30_experts4_s13+08-30-17-10": 0.0,
+    "outputs/uesolds_physchem_moe_v22_strict_si30_experts6_drop015_s17+08-30-17-10": 0.040161763580075144,
+    "outputs/uesolds_residue_esm_conditioned_v10_strict_si30_concat_s29+08-29-20-20": 0.05999980350567524,
+    "outputs/uesolds_residue_esm_layer24_physchem_v5_strict_si30_s20260830+08-29-18-28": 0.1008746749367111,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_cap256+08-29-20-39": 0.0,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4+08-29-20-56": 0.13451933577199437,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4wide256+08-29-20-56": 0.0,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep5_interaction+08-29-20-56": 0.0,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_drop03+08-29-20-47": 0.07721133512839093,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_drop01_s45+08-29-23-02": 0.0,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_desc05_s65+08-30-00-10": 0.0,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_ls001_s63+08-30-00-10": 0.029995839878721352,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_s51_r1+08-29-23-13": 0.11821314122235665,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_s61+08-29-23-56": 0.09688638336705925,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_s43+08-29-22-59": 0.085,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_s47_r1+08-29-23-13": 0.11173742630280889,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_wide256+08-29-20-56": 0.07823370351106934,
+    "outputs/uesolds_residue_esm_tcn_conditioned_v11_strict_si30_cap384+08-29-20-27": 0.009987915360831021
+  },
+  "selection_data": "strict-validation only",
+  "source_report": "outputs/validation_selection/uesolds_multilayer_physchem_moe_v24_weighted_auc.json",
+  "test_evaluated": false,
+  "uncalibrated": {
+    "auprc": 0.8676013579550836,
+    "auroc": 0.8064972096296852,
+    "balanced_accuracy": 0.7287751733683322,
+    "brier": 0.18224023030195097,
+    "ece": 0.07508043974017757,
+    "f1": 0.7293233082706692,
+    "mcc": 0.45038705267950274,
+    "n": 7790
+  }
+}
