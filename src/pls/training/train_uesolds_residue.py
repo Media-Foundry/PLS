@@ -13,10 +13,15 @@ from pls.training.train_residue_structure import BalancedLengthBatchSampler
 
 SOURCE='UESolDS_PLM_Sol_1.1'
 
-def binary_rank_loss(logits,targets):
+def binary_rank_loss(logits,targets,temperature=1.,hard_fraction=1.,margin=0.):
+ if temperature<=0:raise ValueError('rank temperature must be positive')
+ if not 0<hard_fraction<=1:raise ValueError('rank hard fraction must be in (0, 1]')
  positive=logits[targets>.5];negative=logits[targets<=.5]
  if not len(positive) or not len(negative):return logits.new_zeros(())
- return nn.functional.softplus(-(positive[:,None]-negative[None,:])).mean()
+ losses=nn.functional.softplus((margin-(positive[:,None]-negative[None,:]))/temperature)*temperature
+ if hard_fraction<1:
+  flat=losses.flatten();count=max(1,int(np.ceil(len(flat)*hard_fraction)));losses=torch.topk(flat,count,sorted=False).values
+ return losses.mean()
 
 def infer(model,loader,device,amp=False):
  model.eval();truth=[];logits=[]
@@ -54,7 +59,7 @@ def main():
   for global_x,res,mask,y in train:
    global_x,res,mask,y=[v.to(device,non_blocking=True) for v in (global_x,res,mask,y)];opt.zero_grad(set_to_none=True);smooth=float(tr.get('label_smoothing',0));target=y*(1-smooth)+.5*smooth
    with torch.autocast('cuda',dtype=torch.bfloat16,enabled=tr.get('amp_bfloat16',True)):
-    logits=model(global_x,res,mask);loss=nn.functional.binary_cross_entropy_with_logits(logits,target)+float(tr.get('rank_weight',0))*binary_rank_loss(logits,y)
+    logits=model(global_x,res,mask);loss=nn.functional.binary_cross_entropy_with_logits(logits,target)+float(tr.get('rank_weight',0))*binary_rank_loss(logits,y,float(tr.get('rank_temperature',1.)),float(tr.get('rank_hard_fraction',1.)),float(tr.get('rank_margin',0.)))
     if float(tr.get('expert_aux_weight',0)):
      if model.last_expert_logits is None:raise ValueError('expert auxiliary loss requires an expert model')
      auxiliary_target=target[:,None].expand_as(model.last_expert_logits);loss=loss+float(tr['expert_aux_weight'])*nn.functional.binary_cross_entropy_with_logits(model.last_expert_logits,auxiliary_target)
