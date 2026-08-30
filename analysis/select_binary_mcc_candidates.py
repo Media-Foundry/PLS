@@ -12,6 +12,10 @@ def base_components(report):
  if 'reports' in report:
   entry=max(report['reports'],key=lambda row:row['mcc_at_selected_threshold']);return {str(run):1/len(entry['runs']) for run in entry['runs']}
  if 'run_weights' in report:return {str(run):float(weight) for run,weight in report['run_weights'].items() if float(weight)>0}
+ if 'base_run_weights' in report:
+  components={str(run):float(report['base_weight'])*float(weight) for run,weight in report['base_run_weights'].items()}
+  for run,weight in report.get('candidate_weights',{}).items():components[str(run)]=components.get(str(run),0)+float(weight)
+  return {run:weight for run,weight in components.items() if weight>0}
  if 'frozen_run_weights' in report:
   components={str(run):float(report['base_weight'])*float(weight) for run,weight in report['frozen_run_weights'].items()}
   for run,weight in report.get('candidate_weights',{}).items():components[str(run)]=components.get(str(run),0)+float(weight)
