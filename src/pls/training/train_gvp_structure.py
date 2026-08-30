@@ -10,7 +10,7 @@ from pls.evaluation.metrics import binary_metrics
 from pls.models.gvp_structure import GVPStructureFusion
 from pls.training.train_residue_structure import Data,BalancedLengthBatchSampler
 
-def attach_vectors(base,vectors,coords):return (*base[:7],vectors,coords,base[-1])
+def attach_vectors(base,vectors,coords):return (*base[:8],vectors,coords,base[-1])
 
 class GVPData(Data):
  def __init__(self,*args,vector_dir,**kwargs):super().__init__(*args,**kwargs);self.vector_dir=vector_dir;self._vectors=self._coords=None;self.vector_residues=json.loads((vector_dir/'metadata.json').read_text())['residues']
@@ -19,14 +19,14 @@ class GVPData(Data):
   if self._vectors is None:self._vectors=np.memmap(self.vector_dir/'vectors.f16',mode='r',dtype=np.float16,shape=(self.vector_residues,8,3));self._coords=np.memmap(self.vector_dir/'ca_coords.f32',mode='r',dtype=np.float32,shape=(self.vector_residues,3))
   return attach_vectors(base,torch.from_numpy(np.array(self._vectors[lo:hi],dtype=np.float32,copy=True)),torch.from_numpy(np.array(self._coords[lo:hi],copy=True)))
 def collate(batch):
- n=max(len(v[1]) for v in batch);b=len(batch);dim=batch[0][1].shape[1];k=batch[0][4].shape[1];residue=torch.zeros(b,n,dim);plddt=torch.zeros(b,n);patch=torch.zeros(b,n,5);mask=torch.zeros(b,n,dtype=torch.bool);neighbors=torch.zeros(b,n,k,dtype=torch.long);distances=torch.zeros(b,n,k);vectors=torch.zeros(b,n,8,3);coords=torch.zeros(b,n,3)
- for i,(_,r,p,h,nb,ds,_,v,c,_) in enumerate(batch):m=len(r);residue[i,:m]=r;plddt[i,:m]=p;patch[i,:m]=h;neighbors[i,:m]=nb;distances[i,:m]=ds;vectors[i,:m]=v;coords[i,:m]=c;mask[i,:m]=1
- return torch.stack([v[0] for v in batch]),residue,vectors,coords,mask,neighbors,distances,torch.stack([v[-1] for v in batch])
+ n=max(len(v[1]) for v in batch);b=len(batch);dim=batch[0][1].shape[1];k=batch[0][4].shape[1];categories=batch[0][7].shape[1];residue=torch.zeros(b,n,dim);patch=torch.zeros(b,n,5);mask=torch.zeros(b,n,dtype=torch.bool);neighbors=torch.zeros(b,n,k,dtype=torch.long);distances=torch.zeros(b,n,k);components=torch.full((b,n,categories),-1,dtype=torch.long);vectors=torch.zeros(b,n,8,3);coords=torch.zeros(b,n,3)
+ for i,(_,r,_,h,nb,ds,_,pc,v,c,_) in enumerate(batch):m=len(r);residue[i,:m]=r;patch[i,:m]=h;neighbors[i,:m]=nb;distances[i,:m]=ds;components[i,:m]=pc;vectors[i,:m]=v;coords[i,:m]=c;mask[i,:m]=1
+ return torch.stack([v[0] for v in batch]),residue,vectors,coords,mask,neighbors,distances,patch,components,torch.stack([v[-1] for v in batch])
 def infer(model,loader,device,amp=False):
  model.eval();truth=[];pred=[]
  with torch.inference_mode():
-  for seq,res,vectors,coords,mask,neighbors,distances,y in loader:
-   values=[x.to(device,non_blocking=True) for x in (seq,res,vectors,coords,mask,neighbors,distances)]
+  for seq,res,vectors,coords,mask,neighbors,distances,patch,components,y in loader:
+   values=[x.to(device,non_blocking=True) for x in (seq,res,vectors,coords,mask,neighbors,distances,patch,components)]
    with torch.autocast('cuda',dtype=torch.bfloat16,enabled=amp):out=model(*values)
    truth.extend(y.tolist());pred.extend(out.float().cpu().tolist())
  return np.asarray(truth,np.float32),np.asarray(pred,np.float32)
@@ -40,13 +40,13 @@ def main():
  with open(d['observation_split'],newline='',encoding='utf-8') as h:
   for r in csv.DictReader(h):
    if r['source_dataset']=='PDBSol_ProtSolM' and r['split'] in rows:rows[r['split']].append((index[r['sequence_sha256']],r['sequence_sha256'],float(r['target_value'])))
- status=np.load(d['structure_status'],mmap_mode='r');rows={s:[v for v in values if status[v[0]]==1] for s,values in rows.items()};esm=np.load(Path(d['embedding_dir'])/'embeddings.npy',mmap_mode='r');stats=json.loads(Path(d['structure_stats']).read_text());mean=torch.tensor(stats['scalar_means']);std=torch.tensor(stats['scalar_stds']);compact=Path(d['compact_structure_dir']);geometry=Path(d['geometry_dir']);residue_esm=Path(d['residue_esm_dir']);vector_dir=Path(d['vector_dir']);sets={s:GVPData(v,esm,Path(d['structure_dir']),mean,std,compact,geometry,False,mc['neighbors'],residue_esm,None,None,None,vector_dir=vector_dir) for s,v in rows.items()};labels=np.asarray([v[2] for v in rows['train']]);lengths=[int(entities[v[0]]['length']) for v in rows['train']];sampler=BalancedLengthBatchSampler(labels,lengths,tr['batch_size'],seed,[v[0] for v in rows['train']]);train=DataLoader(sets['train'],batch_sampler=sampler,num_workers=tr['workers'],collate_fn=collate,persistent_workers=True,pin_memory=True);validation=DataLoader(sets['validation'],batch_size=tr['batch_size'],num_workers=tr['workers'],collate_fn=collate,persistent_workers=True,pin_memory=True)
- residue_sequence_dimension=int(json.loads((residue_esm/'pca_metadata.json').read_text())['shape'][1]);residue_dimension=152+residue_sequence_dimension;device=torch.device('cuda:0');model=GVPStructureFusion(esm.shape[1],residue_dimension,mc['scalar_dimension'],mc['vector_dimension'],mc['representation_dimension'],mc['dropout'],mc['layers'],mc.get('fusion','interaction'),residue_sequence_dimension,stats['scalar_means'][1],stats['scalar_stds'][1]).to(device);decay=float(tr.get('ema_decay',0));ema=copy.deepcopy(model).eval().requires_grad_(False) if decay else None;opt=torch.optim.AdamW(model.parameters(),lr=tr['learning_rate'],weight_decay=tr['weight_decay'],fused=tr.get('fused_optimizer',False));writer=SummaryWriter(a.run_dir/'tensorboard');best=-1;stale=0;history=[]
+ status=np.load(d['structure_status'],mmap_mode='r');rows={s:[v for v in values if status[v[0]]==1] for s,values in rows.items()};esm=np.load(Path(d['embedding_dir'])/'embeddings.npy',mmap_mode='r');stats=json.loads(Path(d['structure_stats']).read_text());mean=torch.tensor(stats['scalar_means']);std=torch.tensor(stats['scalar_stds']);compact=Path(d['compact_structure_dir']);geometry=Path(d['geometry_dir']);residue_esm=Path(d['residue_esm_dir']);vector_dir=Path(d['vector_dir']);surface_patches=Path(d['surface_patch_dir']) if d.get('surface_patch_dir') else None;sets={s:GVPData(v,esm,Path(d['structure_dir']),mean,std,compact,geometry,False,mc['neighbors'],residue_esm,None,None,None,surface_patches,vector_dir=vector_dir) for s,v in rows.items()};labels=np.asarray([v[2] for v in rows['train']]);lengths=[int(entities[v[0]]['length']) for v in rows['train']];sampler=BalancedLengthBatchSampler(labels,lengths,tr['batch_size'],seed,[v[0] for v in rows['train']]);train=DataLoader(sets['train'],batch_sampler=sampler,num_workers=tr['workers'],collate_fn=collate,persistent_workers=True,pin_memory=True);validation=DataLoader(sets['validation'],batch_size=tr['batch_size'],num_workers=tr['workers'],collate_fn=collate,persistent_workers=True,pin_memory=True)
+ residue_sequence_dimension=int(json.loads((residue_esm/'pca_metadata.json').read_text())['shape'][1]);residue_dimension=152+residue_sequence_dimension;device=torch.device('cuda:0');model=GVPStructureFusion(esm.shape[1],residue_dimension,mc['scalar_dimension'],mc['vector_dimension'],mc['representation_dimension'],mc['dropout'],mc['layers'],mc.get('fusion','interaction'),residue_sequence_dimension,stats['scalar_means'][1],stats['scalar_stds'][1],mc.get('surface_patches',False)).to(device);decay=float(tr.get('ema_decay',0));ema=copy.deepcopy(model).eval().requires_grad_(False) if decay else None;opt=torch.optim.AdamW(model.parameters(),lr=tr['learning_rate'],weight_decay=tr['weight_decay'],fused=tr.get('fused_optimizer',False));writer=SummaryWriter(a.run_dir/'tensorboard');best=-1;stale=0;history=[]
  for epoch in range(1,tr['epochs']+1):
   started=time.monotonic();model.train();total=count=0
-  for seq,res,vectors,coords,mask,neighbors,distances,y in train:
-   seq,res,vectors,coords,mask,neighbors,distances,y=[x.to(device,non_blocking=True) for x in (seq,res,vectors,coords,mask,neighbors,distances,y)];opt.zero_grad(set_to_none=True)
-   with torch.autocast('cuda',dtype=torch.bfloat16,enabled=tr.get('amp_bfloat16',True)):out=model(seq,res,vectors,coords,mask,neighbors,distances);loss=nn.functional.binary_cross_entropy_with_logits(out,y)
+  for seq,res,vectors,coords,mask,neighbors,distances,patch,components,y in train:
+   seq,res,vectors,coords,mask,neighbors,distances,patch,components,y=[x.to(device,non_blocking=True) for x in (seq,res,vectors,coords,mask,neighbors,distances,patch,components,y)];opt.zero_grad(set_to_none=True)
+   with torch.autocast('cuda',dtype=torch.bfloat16,enabled=tr.get('amp_bfloat16',True)):out=model(seq,res,vectors,coords,mask,neighbors,distances,patch,components);loss=nn.functional.binary_cross_entropy_with_logits(out,y)
    if not torch.isfinite(loss):raise FloatingPointError(f'non-finite GVP loss at epoch {epoch}')
    loss.backward();gradient_norm=torch.nn.utils.clip_grad_norm_(model.parameters(),float(tr.get('max_gradient_norm',5.0)))
    if not torch.isfinite(gradient_norm):raise FloatingPointError(f'non-finite GVP gradient norm at epoch {epoch}')
