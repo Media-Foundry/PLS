@@ -1,0 +1,40 @@
+{
+  "affine_intercept": -0.03089823225316562,
+  "affine_metrics": {
+    "mae": 0.16353717087017872,
+    "n": 267,
+    "pearson": 0.7638549005049665,
+    "rmse": 0.20774906394134027,
+    "spearman": 0.770711974824544
+  },
+  "affine_slope": 1.1006289211130005,
+  "base_report": "outputs/validation_selection/esol_late_stack_v40_rmse.json",
+  "candidate_entities": {
+    "outputs/esol_pooled_v4_trees_v5_strict_si30_histgb+08-29-21-13": 266,
+    "outputs/esol_pooled_v4_trees_v5_strict_si30_rf1536_boot07_leaf2_mf05_s17+08-30-20-29": 266,
+    "outputs/esol_pooled_v4_trees_v5_strict_si30_rf_bootstrap07_leaf2_mf035_s31+08-30-17-29": 266,
+    "outputs/esol_pooled_v4_trees_v5_strict_si30_rf_full+08-29-21-13": 266,
+    "outputs/esol_pooled_v4_trees_v5_strict_si30_rf_leaf2+08-29-21-13": 266,
+    "outputs/esol_pooled_v4_trees_v5_strict_si30_rf_leaf5+08-29-21-13": 266
+  },
+  "candidate_weights": {
+    "outputs/esol_pooled_v4_trees_v5_strict_si30_histgb+08-29-21-13": 0.0,
+    "outputs/esol_pooled_v4_trees_v5_strict_si30_rf1536_boot07_leaf2_mf05_s17+08-30-20-29": 0.0,
+    "outputs/esol_pooled_v4_trees_v5_strict_si30_rf_bootstrap07_leaf2_mf035_s31+08-30-17-29": 0.0,
+    "outputs/esol_pooled_v4_trees_v5_strict_si30_rf_full+08-29-21-13": 0.0,
+    "outputs/esol_pooled_v4_trees_v5_strict_si30_rf_leaf2+08-29-21-13": 0.0,
+    "outputs/esol_pooled_v4_trees_v5_strict_si30_rf_leaf5+08-29-21-13": 0.0
+  },
+  "entity_count": 267,
+  "fallback_rule": "Keep the frozen base prediction for entities absent from each partial candidate.",
+  "metrics": {
+    "mae": 0.16547026947726695,
+    "n": 267,
+    "pearson": 0.7638549005049665,
+    "rmse": 0.209602938044138,
+    "spearman": 0.770711974824544
+  },
+  "objective": "rmse",
+  "selection_data": "strict-validation only",
+  "test_evaluated": false
+}
