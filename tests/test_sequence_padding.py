@@ -3,6 +3,8 @@ import torch
 from pls.models.residue_sequence import ResidueSequenceRegressor
 
 class SequencePaddingTests(unittest.TestCase):
+ def test_multilayer_descriptor_context_changes_prediction(self):
+  torch.manual_seed(3);model=ResidueSequenceRegressor(global_dimension=30,residue_dimension=8,hidden_dimension=12,representation_dimension=12,dropout=0,pooling='mean',global_segments=3,descriptor_dimension=6).eval();global_x=torch.randn(2,30);residue=torch.randn(2,5,8);mask=torch.ones(2,5,dtype=torch.bool);changed=global_x.clone();changed[:,-6:]+=2;self.assertFalse(torch.equal(model(global_x,residue,mask),model(changed,residue,mask)))
  def test_pooling_predictions_ignore_extra_padding(self):
   torch.manual_seed(11);global_x=torch.randn(2,32);short=torch.randn(2,9,12);mask=torch.tensor([[1]*7+[0]*2,[1]*9],dtype=torch.bool);long=torch.zeros(2,48,12);long[:,:9]=short;long_mask=torch.zeros(2,48,dtype=torch.bool);long_mask[:,:9]=mask
   for pooling in ('attention','conditioned_attention','tcn_conditioned_attention','shift_tcn_conditioned_attention','gated_shift_tcn_conditioned_attention','bilstm_textcnn','conv_attention','local_attention','multi_query_pooling','statistics_attention','segment_transformer'):

@@ -1,0 +1,26 @@
+{
+  "trainer_module": "pls.training.train_esol_residue",
+  "experiment_name": "esol_multilayer_physchem_v36_strict_si30_shift_tcn",
+  "evaluate_test": false,
+  "data": {
+    "entities": "benchmark/generated/sequence_entities.csv",
+    "observation_split": "benchmark/generated/strict_si30_observation_split.csv",
+    "embedding_dir": "artifacts/plm/esm2_t33_650M_UR50D_multilayer_uesolds",
+    "selection_dir": "artifacts/features/esol_selection",
+    "residue_esm_dir": "artifacts/plm/esm2_t33_650M_UR50D_residue_esol",
+    "sequence_descriptor_dir": "artifacts/features/sequence_descriptors_v1",
+    "sequence_descriptor_scale": 0.25
+  },
+  "model": {
+    "pooling": "shift_tcn_conditioned_attention", "fusion": "interaction",
+    "global_segments": 3, "global_segment_fusion": "weighted_sum",
+    "hidden_dimension": 384, "representation_dimension": 256,
+    "tcn_bottleneck": 192, "tcn_dilations": [1, 3, 9, 27], "dropout": 0.15
+  },
+  "training": {
+    "hip_device": 7, "batch_size": 64, "workers": 4, "amp_bfloat16": true,
+    "fused_optimizer": true, "ema_decay": 0.0, "rank_weight": 0.05,
+    "epochs": 45, "patience": 8, "checkpoint_every": 5,
+    "learning_rate": 0.00015, "weight_decay": 0.0001, "seed": 20261303
+  }
+}
