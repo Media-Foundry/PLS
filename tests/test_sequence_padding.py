@@ -11,5 +11,7 @@ class SequencePaddingTests(unittest.TestCase):
    self.assertTrue(torch.allclose(a,b,atol=2e-6,rtol=2e-6),pooling)
  def test_segmented_conditioned_pooling_is_rejected(self):
   with self.assertRaisesRegex(ValueError,'global_segments=1'):ResidueSequenceRegressor(64,12,24,16,0,'conditioned_attention','concat',global_segments=2)
+ def test_physchem_experts_are_normalized_and_trainable(self):
+  torch.manual_seed(13);model=ResidueSequenceRegressor(32,12,24,16,0,'shift_tcn_conditioned_attention','concat',descriptor_dimension=5,physchem_experts=4);global_x=torch.randn(3,32);residues=torch.randn(3,11,12);mask=torch.ones(3,11,dtype=torch.bool);output=model(global_x,residues,mask);output.square().mean().backward();torch.testing.assert_close(model.last_expert_weights.sum(1),torch.ones(3));self.assertIsNotNone(model.physchem_gate[-1].weight.grad);self.assertTrue(torch.isfinite(model.physchem_gate[-1].weight.grad).all())
 
 if __name__=='__main__':unittest.main()
