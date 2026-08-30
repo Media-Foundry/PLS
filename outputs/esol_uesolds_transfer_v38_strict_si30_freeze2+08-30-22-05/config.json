@@ -1,0 +1,47 @@
+{
+  "data": {
+    "embedding_dir": "artifacts/plm/esm2_t33_650M_UR50D_mean",
+    "entities": "benchmark/generated/sequence_entities.csv",
+    "observation_split": "benchmark/generated/strict_si30_observation_split.csv",
+    "residue_esm_dir": "artifacts/plm/esm2_t33_650M_UR50D_residue_esol_uesolds_pca",
+    "selection_dir": "artifacts/features/esol_selection",
+    "sequence_descriptor_dir": "artifacts/features/sequence_descriptors_v1",
+    "sequence_descriptor_scale": 0.25
+  },
+  "evaluate_test": false,
+  "experiment_name": "esol_uesolds_transfer_v38_strict_si30_freeze2",
+  "model": {
+    "dropout": 0.3,
+    "fusion": "concat",
+    "hidden_dimension": 256,
+    "pooling": "shift_tcn_conditioned_attention",
+    "representation_dimension": 256,
+    "tcn_dilations": [
+      1,
+      2,
+      4,
+      8
+    ]
+  },
+  "trainer_module": "pls.training.train_esol_residue",
+  "training": {
+    "amp_bfloat16": true,
+    "batch_size": 64,
+    "checkpoint_every": 5,
+    "ema_decay": 0.0,
+    "epochs": 45,
+    "fused_optimizer": true,
+    "hip_device": 7,
+    "learning_rate": 0.00015,
+    "patience": 8,
+    "pretrained_checkpoint": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4+08-29-20-56/checkpoints/best.pt",
+    "pretrained_excluded_prefixes": [
+      "head.4"
+    ],
+    "pretrained_freeze_epochs": 2,
+    "rank_weight": 0.05,
+    "seed": 20261309,
+    "weight_decay": 0.0001,
+    "workers": 4
+  }
+}
