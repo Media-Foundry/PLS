@@ -37,9 +37,9 @@
       "auprc_report": "outputs/validation_selection/uesolds_v41_weighted_auprc.json",
       "auroc": 0.8076030571128803,
       "auprc": 0.8686877437825062,
-      "mcc_report": "outputs/validation_selection/uesolds_specialized_physchem_moe_v26_weighted_auc.json",
-      "mcc_at_selected_threshold": 0.4549385133955476,
-      "mcc_threshold": 0.49628898365793367,
+      "mcc_report": "outputs/validation_selection/uesolds_hard_pair_v43_mcc.json",
+      "mcc_at_selected_threshold": 0.45544353656750236,
+      "mcc_threshold": 0.494721706888232,
       "brier_report": "outputs/validation_selection/uesolds_hard_pair_v43_auroc_beta.json",
       "calibrated_brier": 0.1744588813689561,
       "note": "AUROC, AUPRC, MCC and Brier selections are intentionally distinct; do not select between them on test."

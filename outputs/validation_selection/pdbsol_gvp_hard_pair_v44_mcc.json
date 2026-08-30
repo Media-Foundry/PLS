@@ -1,0 +1,36 @@
+{
+  "base_report": "outputs/validation_selection/pdbsol_gvp_multiseed_ensembles.json",
+  "base_run_weights": {
+    "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s32+08-29-16-44": 0.1111111111111111,
+    "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_drop03+08-29-19-18": 0.1111111111111111,
+    "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_seqedge_s29+08-29-16-55": 0.1111111111111111,
+    "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_v6matched_baseline+08-29-16-23": 0.1111111111111111,
+    "outputs/pdbsol_gvp_structure_v8_strict_si30_drop01+08-29-21-35": 0.1111111111111111,
+    "outputs/pdbsol_gvp_structure_v8_strict_si30_ema099+08-29-21-35": 0.1111111111111111,
+    "outputs/pdbsol_gvp_structure_v8_strict_si30_s192v24+08-29-21-23": 0.1111111111111111,
+    "outputs/pdbsol_pool_scalar_strict_si30_pred_gate_s30+08-29-21-16": 0.1111111111111111,
+    "outputs/pdbsol_pool_scalar_strict_si30_pred_late_s31+08-29-21-16": 0.1111111111111111
+  },
+  "base_weight": 1.0,
+  "candidate_weights": {
+    "outputs/pdbsol_gvp_hard_pair_v44_strict_si30_frac10+08-30-22-38": 0.0,
+    "outputs/pdbsol_gvp_hard_pair_v44_strict_si30_frac25+08-30-22-38": 0.0
+  },
+  "entity_count": 6429,
+  "logit_threshold": -0.30314162373542786,
+  "mcc_at_selected_threshold": 0.6425591644816286,
+  "objective": "mcc",
+  "probability_threshold": 0.42478966735490536,
+  "selection_data": "strict-validation only",
+  "test_evaluated": false,
+  "uncalibrated": {
+    "auprc": 0.915393701259672,
+    "auroc": 0.9039233541249729,
+    "balanced_accuracy": 0.8146288635199964,
+    "brier": 0.12828044713182102,
+    "ece": 0.0405637614253781,
+    "f1": 0.8164828431372485,
+    "mcc": 0.6286785665610566,
+    "n": 6429
+  }
+}

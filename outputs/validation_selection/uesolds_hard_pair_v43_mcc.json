@@ -1,0 +1,43 @@
+{
+  "base_report": "outputs/validation_selection/uesolds_specialized_physchem_moe_v26_weighted_auc.json",
+  "base_run_weights": {
+    "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer12_experts10_desc075_s11+08-30-19-20": 0.010029048803531431,
+    "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer12_experts6_s29+08-30-18-59": 0.03874934094710645,
+    "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer12_experts8_desc05_s03+08-30-19-10": 0.03502491798829508,
+    "outputs/uesolds_physchem_moe_v22_strict_si30_experts6_drop015_s17+08-30-17-10": 0.03501530542665242,
+    "outputs/uesolds_residue_esm_conditioned_v10_strict_si30_concat_s29+08-29-20-20": 0.025287004317699858,
+    "outputs/uesolds_residue_esm_layer24_physchem_v5_strict_si30_s20260830+08-29-18-28": 0.09543673127490394,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4+08-29-20-56": 0.14501786219938909,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_drop03+08-29-20-47": 0.04,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_ls001_s63+08-30-00-10": 0.020001227966066085,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_s51_r1+08-29-23-13": 0.13833754859912645,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_s61+08-29-23-56": 0.07084266087169082,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_s43+08-29-22-59": 0.07514941514864638,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_s47_r1+08-29-23-13": 0.10484470117085039,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_wide256+08-29-20-56": 0.04003770631332794,
+    "outputs/uesolds_residue_esm_tcn_conditioned_v11_strict_si30_cap384+08-29-20-27": 0.005004695929925812,
+    "outputs/uesolds_specialized_physchem_moe_v26_strict_si30_temp05_ent002_bal02_s19+08-30-19-36": 0.12122183304278773
+  },
+  "base_weight": 0.99,
+  "candidate_weights": {
+    "outputs/uesolds_hard_pair_moe_v43_strict_si30_frac10+08-30-22-23": 0.0,
+    "outputs/uesolds_hard_pair_moe_v43_strict_si30_frac25+08-30-22-23": 0.01
+  },
+  "entity_count": 7790,
+  "logit_threshold": -0.021113956794142723,
+  "mcc_at_selected_threshold": 0.45544353656750236,
+  "objective": "mcc",
+  "probability_threshold": 0.494721706888232,
+  "selection_data": "strict-validation only",
+  "test_evaluated": false,
+  "uncalibrated": {
+    "auprc": 0.8681781415794849,
+    "auroc": 0.8074160589053682,
+    "balanced_accuracy": 0.7292381204669223,
+    "brier": 0.1816814762006475,
+    "ece": 0.07512790234141262,
+    "f1": 0.7313595166163064,
+    "mcc": 0.4510631497147411,
+    "n": 7790
+  }
+}
