@@ -1,0 +1,38 @@
+{
+  "command": [
+    "script/run_experiment.py",
+    "--config",
+    "configs/experiments/esol_pooled_v4_trees_v5.json",
+    "--hip-override",
+    "7",
+    "--seed-override",
+    "20260931",
+    "--model-kind-override",
+    "random_forest",
+    "--trees-override",
+    "1024",
+    "--max-features-override",
+    "0.35",
+    "--min-samples-leaf-override",
+    "2",
+    "--bootstrap",
+    "--max-samples-override",
+    "0.7",
+    "--name-suffix",
+    "_rf_bootstrap07_leaf2_mf035_s31"
+  ],
+  "created_at": "2026-08-30T17:29:52.699413+08:00",
+  "git_revision": "7fbd5ad9479c2a2486b4200690741f124f5311c3",
+  "hip_visible_devices": "7",
+  "packages": {
+    "biopython": "1.85",
+    "fair-esm": "2.0.0",
+    "numpy": "2.5.2",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.16.0",
+    "tensorboard": "2.21.0"
+  },
+  "python": "3.12.13 | packaged by Anaconda, Inc. | (main, Jul  9 2026, 14:38:16) [GCC 14.3.0]",
+  "torch": "2.12.0a0+git78258b9",
+  "torch_hip": "7.14.60850"
+}

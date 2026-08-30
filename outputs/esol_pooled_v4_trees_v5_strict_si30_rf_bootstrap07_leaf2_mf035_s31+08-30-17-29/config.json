@@ -1,0 +1,24 @@
+{
+  "data": {
+    "entities": "benchmark/generated/sequence_entities.csv",
+    "observation_split": "benchmark/generated/strict_si30_observation_split.csv",
+    "pooled_structure_dir": "artifacts/features/esol_structure_v4_pooled",
+    "sequence_descriptor_dir": "artifacts/features/sequence_descriptors_v1"
+  },
+  "evaluate_test": false,
+  "experiment_name": "esol_pooled_v4_trees_v5_strict_si30_rf_bootstrap07_leaf2_mf035_s31",
+  "model": {
+    "bootstrap": true,
+    "kind": "random_forest",
+    "max_features": 0.35,
+    "max_samples": 0.7,
+    "min_samples_leaf": 2,
+    "trees": 1024
+  },
+  "trainer_module": "pls.training.train_esol_pooled",
+  "training": {
+    "hip_device": 7,
+    "seed": 20260931,
+    "workers": 64
+  }
+}
