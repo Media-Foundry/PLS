@@ -22,5 +22,9 @@ class SequencePaddingTests(unittest.TestCase):
   torch.manual_seed(19);model=ResidueSequenceRegressor(32,12,24,16,0,'attention','concat',descriptor_dimension=5,physchem_experts=4,physchem_top_k=2);model(torch.randn(3,32),torch.randn(3,7,12),torch.ones(3,7,dtype=torch.bool));self.assertTrue(torch.equal((model.last_expert_weights>0).sum(1),torch.full((3,),2)));torch.testing.assert_close(model.last_expert_weights.sum(1),torch.ones(3))
  def test_sparse_physchem_gate_rejects_excess_top_k(self):
   with self.assertRaisesRegex(ValueError,'top-k'):ResidueSequenceRegressor(32,12,24,16,0,'attention','concat',descriptor_dimension=5,physchem_experts=4,physchem_top_k=5)
+ def test_residual_sparse_gate_keeps_all_experts_trainable(self):
+  torch.manual_seed(23);model=ResidueSequenceRegressor(32,12,24,16,0,'attention','concat',descriptor_dimension=5,physchem_experts=4,physchem_top_k=2,physchem_sparse_residual=.2);model(torch.randn(3,32),torch.randn(3,7,12),torch.ones(3,7,dtype=torch.bool));self.assertTrue(torch.all(model.last_expert_weights>0));torch.testing.assert_close(model.last_expert_weights.sum(1),torch.ones(3))
+ def test_sparse_residual_must_be_a_probability(self):
+  with self.assertRaisesRegex(ValueError,'residual'):ResidueSequenceRegressor(32,12,24,16,0,'attention','concat',descriptor_dimension=5,physchem_experts=4,physchem_top_k=2,physchem_sparse_residual=1.1)
 
 if __name__=='__main__':unittest.main()
