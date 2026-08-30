@@ -4,10 +4,15 @@ import argparse,csv,json,os,pickle,time
 from pathlib import Path
 import numpy as np
 from sklearn.ensemble import ExtraTreesRegressor,RandomForestRegressor,HistGradientBoostingRegressor
+from sklearn.decomposition import PCA
 from torch.utils.tensorboard import SummaryWriter
 from pls.evaluation.metrics import regression_metrics
 
 SOURCE='eSOL_FGNNSol'
+
+def train_only_embedding_projection(embeddings,train_entities,split_entities,components,seed):
+ train=np.asarray(embeddings[train_entities],np.float32);mean=train.mean(0,dtype=np.float64).astype(np.float32);std=np.maximum(train.std(0,dtype=np.float64),1e-6).astype(np.float32);normalized=(train-mean)/std;pca=PCA(n_components=int(components),svd_solver='randomized',random_state=seed);pca.fit(normalized)
+ return {name:pca.transform((np.asarray(embeddings[ids],np.float32)-mean)/std).astype(np.float32) for name,ids in split_entities.items()}, {'mean':mean,'std':std,'components':pca.components_.astype(np.float32),'explained_variance_ratio':pca.explained_variance_ratio_.astype(np.float32)}
 def main():
  p=argparse.ArgumentParser();p.add_argument('--config',type=Path,required=True);p.add_argument('--run-dir',type=Path,required=True);a=p.parse_args();c=json.loads(a.config.read_text());d=c['data'];mc=c['model'];tr=c['training']
  if c.get('evaluate_test',False):p.error('test evaluation is permanently disabled')
@@ -17,19 +22,23 @@ def main():
  with open(d['observation_split'],newline='',encoding='utf-8') as h:
   for r in csv.DictReader(h):
    if r['source_dataset']==SOURCE and r['split'] in rows:rows[r['split']].append((index[r['sequence_sha256']],float(r['target_value'])))
- pooled=Path(d['pooled_structure_dir']);status=np.load(pooled/'status.npy',mmap_mode='r');structure=np.load(pooled/'descriptors.npy',mmap_mode='r');sequence=np.load(Path(d['sequence_descriptor_dir'])/'descriptors.npy',mmap_mode='r') if d.get('sequence_descriptor_dir') else None
+ pooled=Path(d['pooled_structure_dir']);status=np.load(pooled/'status.npy',mmap_mode='r');structure=np.load(pooled/'descriptors.npy',mmap_mode='r');sequence=np.load(Path(d['sequence_descriptor_dir'])/'descriptors.npy',mmap_mode='r') if d.get('sequence_descriptor_dir') else None;embeddings=np.load(Path(d['embedding_dir'])/'embeddings.npy',mmap_mode='r') if d.get('embedding_dir') else None
  rows={s:[v for v in values if status[v[0]]==1] for s,values in rows.items()};train_entities=np.asarray([i for i,_ in rows['train']]);columns=np.asarray(mc.get('columns',list(range(structure.shape[1]))),dtype=np.int64)
  mean=np.asarray(structure[train_entities][:,columns],np.float64).mean(0);std=np.maximum(np.asarray(structure[train_entities][:,columns],np.float64).std(0),1e-6)
- def matrix(values):
+ split_ids={name:np.asarray([i for i,_ in values],dtype=np.int64) for name,values in rows.items()};embedding_features=embedding_transform=None
+ if embeddings is not None:
+  embedding_features,embedding_transform=train_only_embedding_projection(embeddings,train_entities,split_ids,mc.get('embedding_components',64),tr['seed']);np.savez_compressed(a.run_dir/'embedding_transform.npz',**embedding_transform,train_entity_indices=train_entities)
+ def matrix(values,name):
   ids=np.asarray([i for i,_ in values]);parts=[(np.asarray(structure[ids][:,columns],np.float32)-mean)/std]
   if sequence is not None:
    sm=np.asarray(sequence[train_entities],np.float64).mean(0);ss=np.maximum(np.asarray(sequence[train_entities],np.float64).std(0),1e-6);parts.append((np.asarray(sequence[ids],np.float32)-sm)/ss)
+  if embedding_features is not None:parts.append(embedding_features[name])
   return np.concatenate(parts,1),np.asarray([y for _,y in values],np.float32),ids
- x,y,_=matrix(rows['train']);vx,vy,vid=matrix(rows['validation']);kind=mc['kind'];common={'random_state':tr['seed']}
+ x,y,_=matrix(rows['train'],'train');vx,vy,vid=matrix(rows['validation'],'validation');kind=mc['kind'];common={'random_state':tr['seed']}
  forest={'n_estimators':mc.get('trees',512),'max_features':mc.get('max_features',1.0),'min_samples_leaf':mc.get('min_samples_leaf',2),'n_jobs':tr.get('workers',-1),'bootstrap':mc.get('bootstrap',False),'criterion':mc.get('criterion','squared_error'),**common};forest['max_samples']=mc.get('max_samples') if forest['bootstrap'] else None
  if kind=='extra_trees':model=ExtraTreesRegressor(**forest)
  elif kind=='random_forest':forest['max_features']=mc.get('max_features',.5);forest['bootstrap']=mc.get('bootstrap',True);forest['max_samples']=mc.get('max_samples') if forest['bootstrap'] else None;model=RandomForestRegressor(**forest)
  elif kind=='hist_gradient_boosting':model=HistGradientBoostingRegressor(max_iter=mc.get('iterations',300),learning_rate=mc.get('learning_rate',.05),max_leaf_nodes=mc.get('max_leaf_nodes',15),l2_regularization=mc.get('l2_regularization',1.),**common)
  else:raise ValueError(kind)
- started=time.monotonic();model.fit(x,y);seconds=time.monotonic()-started;pred=model.predict(vx);metrics=regression_metrics(vy,pred);history=[{'fit_seconds':seconds,'train_entities':len(y),'validation_entities':len(vy),'validation':metrics}];(a.run_dir/'history.json').write_text(json.dumps(history,indent=2)+'\n');(a.run_dir/'validation_metrics.json').write_text(json.dumps({'esol':metrics},indent=2,sort_keys=True)+'\n');np.savez_compressed(a.run_dir/'validation_predictions.npz',targets=vy,predictions=pred,entity_indices=vid);pickle.dump(model,(a.run_dir/'checkpoints'/'best.pkl').open('wb'));writer=SummaryWriter(a.run_dir/'tensorboard');writer.add_scalar('validation/spearman',metrics['spearman'],0);writer.close();print(json.dumps({'fit_seconds':seconds,'validation':metrics,'test_evaluated':False}))
+ started=time.monotonic();model.fit(x,y);seconds=time.monotonic()-started;pred=model.predict(vx);metrics=regression_metrics(vy,pred);history=[{'fit_seconds':seconds,'train_entities':len(y),'validation_entities':len(vy),'feature_dimension':int(x.shape[1]),'embedding_components':int(mc.get('embedding_components',0)) if embeddings is not None else 0,'embedding_explained_variance':float(embedding_transform['explained_variance_ratio'].sum()) if embedding_transform is not None else 0.,'validation':metrics}];(a.run_dir/'history.json').write_text(json.dumps(history,indent=2)+'\n');(a.run_dir/'validation_metrics.json').write_text(json.dumps({'esol':metrics},indent=2,sort_keys=True)+'\n');np.savez_compressed(a.run_dir/'validation_predictions.npz',targets=vy,predictions=pred,entity_indices=vid);pickle.dump(model,(a.run_dir/'checkpoints'/'best.pkl').open('wb'));writer=SummaryWriter(a.run_dir/'tensorboard');writer.add_scalar('validation/spearman',metrics['spearman'],0);writer.close();print(json.dumps({'fit_seconds':seconds,'validation':metrics,'test_evaluated':False}))
 if __name__=='__main__':main()
