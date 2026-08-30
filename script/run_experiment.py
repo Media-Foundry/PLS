@@ -44,6 +44,7 @@ def main() -> None:
     parser.add_argument("--segment-window-override", type=int)
     parser.add_argument("--segment-layers-override", type=int)
     parser.add_argument("--physchem-experts-override", type=int)
+    parser.add_argument("--expert-aux-weight-override", type=float)
     parser.add_argument("--residue-fusion-override", choices=("concat", "interaction"))
     parser.add_argument("--descriptor-scale-override", type=float)
     parser.add_argument("--batch-size-override", type=int)
@@ -111,6 +112,8 @@ def main() -> None:
         config["model"]["segment_layers"] = args.segment_layers_override
     if args.physchem_experts_override is not None:
         config["model"]["physchem_experts"] = args.physchem_experts_override
+    if args.expert_aux_weight_override is not None:
+        config["training"]["expert_aux_weight"] = args.expert_aux_weight_override
     if args.residue_fusion_override is not None:
         config["model"]["fusion"] = args.residue_fusion_override
     if args.descriptor_scale_override is not None:
