@@ -5,7 +5,7 @@ from pls.models.residue_sequence import ResidueSequenceRegressor
 class SequencePaddingTests(unittest.TestCase):
  def test_pooling_predictions_ignore_extra_padding(self):
   torch.manual_seed(11);global_x=torch.randn(2,32);short=torch.randn(2,9,12);mask=torch.tensor([[1]*7+[0]*2,[1]*9],dtype=torch.bool);long=torch.zeros(2,48,12);long[:,:9]=short;long_mask=torch.zeros(2,48,dtype=torch.bool);long_mask[:,:9]=mask
-  for pooling in ('attention','conditioned_attention','tcn_conditioned_attention','shift_tcn_conditioned_attention','bilstm_textcnn','conv_attention','local_attention','multi_query_pooling','statistics_attention','segment_transformer'):
+  for pooling in ('attention','conditioned_attention','tcn_conditioned_attention','shift_tcn_conditioned_attention','gated_shift_tcn_conditioned_attention','bilstm_textcnn','conv_attention','local_attention','multi_query_pooling','statistics_attention','segment_transformer'):
    model=ResidueSequenceRegressor(32,12,24,16,0,pooling,'concat').eval()
    with torch.inference_mode():a=model(global_x,short,mask);b=model(global_x,long,long_mask)
    self.assertTrue(torch.allclose(a,b,atol=2e-6,rtol=2e-6),pooling)
