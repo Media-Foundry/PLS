@@ -12,6 +12,13 @@ import select_esol_partial_candidates as selector
 
 
 class EsRecursiveSelectionTests(unittest.TestCase):
+ def test_legacy_structure_sweep_uses_frozen_first_report(self):
+  with tempfile.TemporaryDirectory() as directory:
+   report=Path(directory)/'report.json';report.write_text(json.dumps({'sequence_runs':['sequence'],'structure_runs':['geometry','tree'],'reports':[{'structure_weights':[.1,.2]}]}));expected=(np.asarray([.2]),np.asarray([.3]),np.asarray([4]))
+   with patch.object(selector,'selected_prediction',return_value=expected) as selected:self.assertIs(selector.frozen_prediction(report),expected);selected.assert_called_once_with(['sequence'],'geometry','tree',[.1,.2])
+ def test_objectives_have_higher_is_better_orientation(self):
+  truth=np.asarray([0.,1.,2.]);good=np.asarray([0.,1.,2.]);bad=np.asarray([2.,1.,0.])
+  for objective in ('spearman','pearson','rmse','mae'):self.assertGreater(selector.objective_score(truth,good,objective),selector.objective_score(truth,bad,objective))
  def test_recursive_report_reconstructs_frozen_partial_candidate(self):
   with tempfile.TemporaryDirectory() as directory:
    root=Path(directory);base=root/'base.json';nested=root/'nested.json'

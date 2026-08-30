@@ -47,7 +47,11 @@
     "esol": {
       "primary_report": "outputs/validation_selection/esol_pooled_v4_trees_v5_strict_si30_rf_leaf3+08-29-21-10_with_geometry.json",
       "spearman_report": "outputs/validation_selection/esol_multilayer_physchem_v36.json",
-      "metrics": {"spearman": 0.7720613126340597, "pearson": 0.762683088130933, "rmse": 0.20986663939903716, "mae": 0.1666131740582458, "affine_rmse": 0.20819468678965963},
+      "pearson_report": "outputs/validation_selection/esol_late_stack_v40_pearson.json",
+      "rmse_report": "outputs/validation_selection/esol_late_stack_v40_rmse.json",
+      "mae_report": "outputs/validation_selection/esol_late_stack_v40_mae.json",
+      "affine_rmse_report": "outputs/validation_selection/esol_late_stack_v40_pearson.json",
+      "metrics": {"spearman": 0.7720613126340597, "pearson": 0.764157309662461, "rmse": 0.20960293808531577, "mae": 0.16463879263551717, "affine_rmse": 0.2076337957314021},
       "runs": [
         "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
         "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
@@ -64,7 +68,7 @@
       "fallback_rule": "Use the full-coverage sequence ensemble unchanged when an exact-sequence AlphaFold structure is unavailable.",
       "affine_slope": 1.0977094816882176,
       "affine_intercept": -0.031173763456029836,
-      "note": "Spearman and error/correlation selections are intentionally distinct and use validation only."
+      "note": "Spearman, Pearson, RMSE, MAE and affine-RMSE selections are intentionally distinct and use validation only; do not select between them on test."
     }
   }
 }

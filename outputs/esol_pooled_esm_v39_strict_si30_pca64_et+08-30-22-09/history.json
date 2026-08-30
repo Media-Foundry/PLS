@@ -1,0 +1,17 @@
+[
+  {
+    "fit_seconds": 1.6561040579690598,
+    "train_entities": 1995,
+    "validation_entities": 266,
+    "feature_dimension": 703,
+    "embedding_components": 64,
+    "embedding_explained_variance": 0.6949442028999329,
+    "validation": {
+      "n": 266,
+      "pearson": 0.7069189055918496,
+      "spearman": 0.7093240323982684,
+      "rmse": 0.23505963701943056,
+      "mae": 0.1972699568631262
+    }
+  }
+]

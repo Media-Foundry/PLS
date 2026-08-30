@@ -1,0 +1,24 @@
+{
+  "data": {
+    "embedding_dir": "artifacts/plm/esm2_t33_650M_UR50D_mean",
+    "entities": "benchmark/generated/sequence_entities.csv",
+    "observation_split": "benchmark/generated/strict_si30_observation_split.csv",
+    "pooled_structure_dir": "artifacts/features/esol_structure_v4_pooled",
+    "sequence_descriptor_dir": "artifacts/features/sequence_descriptors_v1"
+  },
+  "evaluate_test": false,
+  "experiment_name": "esol_pooled_esm_v39_strict_si30_pca64_et",
+  "model": {
+    "embedding_components": 64,
+    "kind": "extra_trees",
+    "max_features": 0.5,
+    "min_samples_leaf": 2,
+    "trees": 1024
+  },
+  "trainer_module": "pls.training.train_esol_pooled",
+  "training": {
+    "hip_device": 6,
+    "seed": 20261311,
+    "workers": 64
+  }
+}
