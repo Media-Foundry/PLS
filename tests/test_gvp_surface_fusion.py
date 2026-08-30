@@ -9,7 +9,7 @@ class GVPSurfaceFusionTests(unittest.TestCase):
  def inputs(self):
   torch.manual_seed(71);b,n,k=2,9,4;sequence=torch.randn(b,16);residue=torch.randn(b,n,160);residue[...,63]=torch.rand(b,n);residue[...,151]=torch.rand(b,n);vectors=torch.randn(b,n,8,3);coords=torch.randn(b,n,3);mask=torch.ones(b,n,dtype=torch.bool);neighbors=torch.randint(0,n,(b,n,k));distances=torch.rand(b,n,k)*6+2;patch=torch.randn(b,n,5);components=torch.randint(-1,4,(b,n,5));return sequence,residue,vectors,coords,mask,neighbors,distances,patch,components
 
- def model(self):return GVPStructureFusion(16,160,24,8,16,0,1,'aligned_moe',8,0,1,True).eval()
+ def model(self):return GVPStructureFusion(16,160,24,8,16,0,1,'aligned_moe',8,0,1,True,1).eval()
 
  def test_component_relabeling_and_padding_are_invariant(self):
   model=self.model();values=list(self.inputs())
@@ -24,6 +24,15 @@ class GVPSurfaceFusionTests(unittest.TestCase):
 
  def test_patch_cross_attention_receives_gradients(self):
   model=self.model().train();output=model(*self.inputs());loss=output.square().mean()+model.last_surface_patch_logit.square().mean();loss.backward();gradient=model.surface_residue_attention.in_proj_weight.grad;self.assertIsNotNone(gradient);self.assertTrue(torch.isfinite(gradient).all());self.assertIsNotNone(model.surface_patch_head[-1].weight.grad)
+  self.assertIsNotNone(model.patch_spatial_layers[0].message[1].weight.grad)
+
+ def test_rigid_motion_is_invariant(self):
+  model=self.model();values=list(self.inputs())
+  with torch.inference_mode():expected=model(*values)
+  rotation=torch.tensor([[0.,-1.,0.],[1.,0.,0.],[0.,0.,1.]])
+  values[2]=values[2]@rotation;values[3]=values[3]@rotation+torch.tensor([7.,-3.,11.])
+  with torch.inference_mode():actual=model(*values)
+  torch.testing.assert_close(actual,expected,atol=2e-6,rtol=2e-6)
 
 
 if __name__=='__main__':unittest.main()
