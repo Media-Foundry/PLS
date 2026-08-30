@@ -1,0 +1,6 @@
+{
+  "trainer_module":"pls.training.train_esol_pooled","experiment_name":"esol_pooled_l1_v46_strict_si30_random_forest","evaluate_test":false,
+  "data":{"entities":"benchmark/generated/sequence_entities.csv","observation_split":"benchmark/generated/strict_si30_observation_split.csv","pooled_structure_dir":"artifacts/features/esol_structure_v4_pooled","sequence_descriptor_dir":"artifacts/features/sequence_descriptors_v1"},
+  "model":{"kind":"random_forest","criterion":"absolute_error","trees":1024,"max_features":0.5,"min_samples_leaf":3,"bootstrap":true,"max_samples":0.8},
+  "training":{"hip_device":7,"workers":64,"seed":20261401}
+}
