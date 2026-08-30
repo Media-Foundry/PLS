@@ -47,11 +47,11 @@
     "esol": {
       "primary_report": "outputs/validation_selection/esol_pooled_v4_trees_v5_strict_si30_rf_leaf3+08-29-21-10_with_geometry.json",
       "spearman_report": "outputs/validation_selection/esol_multilayer_physchem_v36.json",
-      "pearson_report": "outputs/validation_selection/esol_classical_residual_v45_pearson.json",
+      "pearson_report": "outputs/validation_selection/esol_pooled_l1_v46_pearson.json",
       "rmse_report": "outputs/validation_selection/esol_late_stack_v40_rmse.json",
       "mae_report": "outputs/validation_selection/esol_late_stack_v40_mae.json",
-      "affine_rmse_report": "outputs/validation_selection/esol_classical_residual_v45_pearson.json",
-      "metrics": {"spearman": 0.7720613126340597, "pearson": 0.7642191691934216, "rmse": 0.20960293808531577, "mae": 0.16463879263551717, "affine_rmse": 0.2076102034488491},
+      "affine_rmse_report": "outputs/validation_selection/esol_pooled_l1_v46_pearson.json",
+      "metrics": {"spearman": 0.7720613126340597, "pearson": 0.7642754764631866, "rmse": 0.20960293808531577, "mae": 0.16463879263551717, "affine_rmse": 0.20758872472246875},
       "runs": [
         "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
         "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",

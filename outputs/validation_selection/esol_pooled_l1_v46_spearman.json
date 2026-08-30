@@ -1,0 +1,32 @@
+{
+  "affine_intercept": -0.030278754320488106,
+  "affine_metrics": {
+    "mae": 0.16484510208957953,
+    "n": 267,
+    "pearson": 0.7621105871965316,
+    "rmse": 0.20841180567751746,
+    "spearman": 0.7720613126340597
+  },
+  "affine_slope": 1.0951019194499587,
+  "base_report": "outputs/validation_selection/esol_multilayer_physchem_v36.json",
+  "candidate_entities": {
+    "outputs/esol_pooled_l1_v46_strict_si30_extra_trees+08-30-23-12": 266,
+    "outputs/esol_pooled_l1_v46_strict_si30_random_forest+08-30-23-12": 266
+  },
+  "candidate_weights": {
+    "outputs/esol_pooled_l1_v46_strict_si30_extra_trees+08-30-23-12": 0.0,
+    "outputs/esol_pooled_l1_v46_strict_si30_random_forest+08-30-23-12": 0.0
+  },
+  "entity_count": 267,
+  "fallback_rule": "Keep the frozen base prediction for entities absent from each partial candidate.",
+  "metrics": {
+    "mae": 0.16681716570888788,
+    "n": 267,
+    "pearson": 0.7621105871965316,
+    "rmse": 0.21000428779612343,
+    "spearman": 0.7720613126340597
+  },
+  "objective": "spearman",
+  "selection_data": "strict-validation only",
+  "test_evaluated": false
+}
