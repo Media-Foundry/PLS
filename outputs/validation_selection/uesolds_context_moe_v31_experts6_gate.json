@@ -1,0 +1,38 @@
+{
+  "argmax_fraction": [
+    0.1706033376123235,
+    0.11771501925545572,
+    0.22387676508344032,
+    0.1970474967907574,
+    0.12118100128369705,
+    0.16957637997432606
+  ],
+  "effective_experts": 4.175077438354492,
+  "entity_count": 7790,
+  "experts": 6,
+  "gate_context": true,
+  "gate_temperature": 0.5,
+  "maximum_entropy": 1.791759469228055,
+  "mean_entropy": 1.4291328191757202,
+  "mean_weights": [
+    0.15796518325805664,
+    0.14944644272327423,
+    0.17967867851257324,
+    0.18040646612644196,
+    0.15758176147937775,
+    0.17492152750492096
+  ],
+  "run": "outputs/uesolds_specialized_physchem_moe_v26_strict_si30_context_experts6_temp05_s67+08-30-21-18",
+  "selection_data": "strict-validation only",
+  "sparse_residual": 0.0,
+  "std_weights": [
+    0.17781761288642883,
+    0.1254359483718872,
+    0.17333285510540009,
+    0.13605138659477234,
+    0.10977908223867416,
+    0.16096879541873932
+  ],
+  "test_evaluated": false,
+  "top_k": 0
+}
