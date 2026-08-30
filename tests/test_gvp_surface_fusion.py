@@ -23,7 +23,7 @@ class GVPSurfaceFusionTests(unittest.TestCase):
   torch.testing.assert_close(padded,expected,atol=2e-6,rtol=2e-6)
 
  def test_patch_cross_attention_receives_gradients(self):
-  model=self.model().train();output=model(*self.inputs());output.square().mean().backward();gradient=model.surface_residue_attention.in_proj_weight.grad;self.assertIsNotNone(gradient);self.assertTrue(torch.isfinite(gradient).all())
+  model=self.model().train();output=model(*self.inputs());loss=output.square().mean()+model.last_surface_patch_logit.square().mean();loss.backward();gradient=model.surface_residue_attention.in_proj_weight.grad;self.assertIsNotNone(gradient);self.assertTrue(torch.isfinite(gradient).all());self.assertIsNotNone(model.surface_patch_head[-1].weight.grad)
 
 
 if __name__=='__main__':unittest.main()

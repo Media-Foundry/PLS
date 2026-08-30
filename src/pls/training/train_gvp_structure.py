@@ -46,7 +46,11 @@ def main():
   started=time.monotonic();model.train();total=count=0
   for seq,res,vectors,coords,mask,neighbors,distances,patch,components,y in train:
    seq,res,vectors,coords,mask,neighbors,distances,patch,components,y=[x.to(device,non_blocking=True) for x in (seq,res,vectors,coords,mask,neighbors,distances,patch,components,y)];opt.zero_grad(set_to_none=True)
-   with torch.autocast('cuda',dtype=torch.bfloat16,enabled=tr.get('amp_bfloat16',True)):out=model(seq,res,vectors,coords,mask,neighbors,distances,patch,components);loss=nn.functional.binary_cross_entropy_with_logits(out,y)
+   with torch.autocast('cuda',dtype=torch.bfloat16,enabled=tr.get('amp_bfloat16',True)):
+    out=model(seq,res,vectors,coords,mask,neighbors,distances,patch,components);loss=nn.functional.binary_cross_entropy_with_logits(out,y);patch_aux_weight=float(tr.get('patch_aux_weight',0))
+    if patch_aux_weight:
+     if model.last_surface_patch_logit is None:raise ValueError('patch auxiliary loss requires surface patch tokens')
+     loss=loss+patch_aux_weight*nn.functional.binary_cross_entropy_with_logits(model.last_surface_patch_logit,y)
    if not torch.isfinite(loss):raise FloatingPointError(f'non-finite GVP loss at epoch {epoch}')
    loss.backward();gradient_norm=torch.nn.utils.clip_grad_norm_(model.parameters(),float(tr.get('max_gradient_norm',5.0)))
    if not torch.isfinite(gradient_norm):raise FloatingPointError(f'non-finite GVP gradient norm at epoch {epoch}')
