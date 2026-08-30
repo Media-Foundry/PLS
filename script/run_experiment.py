@@ -40,6 +40,7 @@ def main() -> None:
     parser.add_argument("--global-groups-override", nargs="+", choices=("physchem", "scalar", "vector", "patch"))
     parser.add_argument("--rank-weight-override", type=float)
     parser.add_argument("--patch-aux-weight-override", type=float)
+    parser.add_argument("--patch-spatial-layers-override", type=int)
     parser.add_argument("--residue-fusion-override", choices=("concat", "interaction"))
     parser.add_argument("--descriptor-scale-override", type=float)
     parser.add_argument("--batch-size-override", type=int)
@@ -99,6 +100,8 @@ def main() -> None:
         config["training"]["rank_weight"] = args.rank_weight_override
     if args.patch_aux_weight_override is not None:
         config["training"]["patch_aux_weight"] = args.patch_aux_weight_override
+    if args.patch_spatial_layers_override is not None:
+        config["model"]["patch_spatial_layers"] = args.patch_spatial_layers_override
     if args.residue_fusion_override is not None:
         config["model"]["fusion"] = args.residue_fusion_override
     if args.descriptor_scale_override is not None:
