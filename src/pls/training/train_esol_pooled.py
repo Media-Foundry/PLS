@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse,csv,json,os,pickle,time
 from pathlib import Path
 import numpy as np
-from sklearn.ensemble import ExtraTreesRegressor,RandomForestRegressor,HistGradientBoostingRegressor
+from sklearn.ensemble import ExtraTreesRegressor,GradientBoostingRegressor,RandomForestRegressor,HistGradientBoostingRegressor
 from sklearn.decomposition import PCA
 from torch.utils.tensorboard import SummaryWriter
 from pls.evaluation.metrics import regression_metrics
@@ -39,6 +39,7 @@ def main():
  if kind=='extra_trees':model=ExtraTreesRegressor(**forest)
  elif kind=='random_forest':forest['max_features']=mc.get('max_features',.5);forest['bootstrap']=mc.get('bootstrap',True);forest['max_samples']=mc.get('max_samples') if forest['bootstrap'] else None;model=RandomForestRegressor(**forest)
  elif kind=='hist_gradient_boosting':model=HistGradientBoostingRegressor(max_iter=mc.get('iterations',300),learning_rate=mc.get('learning_rate',.05),max_leaf_nodes=mc.get('max_leaf_nodes',15),l2_regularization=mc.get('l2_regularization',1.),**common)
+ elif kind=='gradient_boosting':model=GradientBoostingRegressor(loss=mc.get('loss','huber'),n_estimators=mc.get('trees',300),learning_rate=mc.get('learning_rate',.03),max_depth=mc.get('max_depth',3),min_samples_leaf=mc.get('min_samples_leaf',3),max_features=mc.get('max_features'),subsample=mc.get('subsample',1.),alpha=mc.get('alpha',.9),**common)
  else:raise ValueError(kind)
  started=time.monotonic();model.fit(x,y);seconds=time.monotonic()-started;pred=model.predict(vx);metrics=regression_metrics(vy,pred);history=[{'fit_seconds':seconds,'train_entities':len(y),'validation_entities':len(vy),'feature_dimension':int(x.shape[1]),'embedding_components':int(mc.get('embedding_components',0)) if embeddings is not None else 0,'embedding_explained_variance':float(embedding_transform['explained_variance_ratio'].sum()) if embedding_transform is not None else 0.,'validation':metrics}];(a.run_dir/'history.json').write_text(json.dumps(history,indent=2)+'\n');(a.run_dir/'validation_metrics.json').write_text(json.dumps({'esol':metrics},indent=2,sort_keys=True)+'\n');np.savez_compressed(a.run_dir/'validation_predictions.npz',targets=vy,predictions=pred,entity_indices=vid);pickle.dump(model,(a.run_dir/'checkpoints'/'best.pkl').open('wb'));writer=SummaryWriter(a.run_dir/'tensorboard');writer.add_scalar('validation/spearman',metrics['spearman'],0);writer.close();print(json.dumps({'fit_seconds':seconds,'validation':metrics,'test_evaluated':False}))
 if __name__=='__main__':main()

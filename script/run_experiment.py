@@ -61,7 +61,7 @@ def main() -> None:
     parser.add_argument("--weight-decay-override", type=float)
     parser.add_argument("--fused-optimizer", action="store_true")
     parser.add_argument("--selection-objective-override", choices=("balanced", "esol_spearman", "pdbsol_auroc", "uesolds_auroc"))
-    parser.add_argument("--model-kind-override", choices=("extra_trees", "random_forest", "hist_gradient_boosting"))
+    parser.add_argument("--model-kind-override", choices=("extra_trees", "random_forest", "hist_gradient_boosting", "gradient_boosting"))
     parser.add_argument("--trees-override", type=int)
     parser.add_argument("--max-features-override", type=float)
     parser.add_argument("--min-samples-leaf-override", type=int)
