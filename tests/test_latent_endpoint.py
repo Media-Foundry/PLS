@@ -17,6 +17,10 @@ class LatentEndpointTests(unittest.TestCase):
   torch.manual_seed(11);model=LatentEndpointModel(12,16,0,3);features=torch.randn(6,12);endpoint=torch.tensor([0,1,2,0,1,2]);model(features,endpoint).sum().backward();self.assertTrue(torch.isfinite(model.raw_slopes.grad).all());self.assertTrue(torch.isfinite(model.encoder[1].weight.grad).all())
  def test_sampling_weights_are_source_balanced_and_entity_aware(self):
   rows=[(1,0,0.),(1,0,1.),(2,0,0.),(3,1,0.),(4,2,.5)];weights=source_entity_weights(rows);self.assertAlmostEqual(float(weights[:3].sum()),1/3);self.assertAlmostEqual(float(weights[3]),1/3);self.assertAlmostEqual(float(weights[4]),1/3);self.assertAlmostEqual(float(weights[0]),float(weights[1]))
+ def test_noise_layer_preserves_monotonic_endpoint_ordering(self):
+  model=LatentEndpointModel(12,16,0,3,label_noise_max=.2);logits=torch.tensor([-2.,2.]);fp=model.false_positive[0];fn=model.false_negative[0];observed=fp+(1-fp-fn)*torch.sigmoid(logits);self.assertGreater(float(observed[1].detach()),float(observed[0].detach()));self.assertTrue(torch.all(model.false_positive<.2));self.assertTrue(torch.all(model.false_negative<.2))
+ def test_noise_maximum_rejects_non_monotonic_range(self):
+  with self.assertRaisesRegex(ValueError,'noise'):LatentEndpointModel(12,16,0,3,label_noise_max=.5)
 
 
 if __name__=='__main__':unittest.main()

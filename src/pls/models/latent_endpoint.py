@@ -7,7 +7,7 @@ from torch.nn import functional as F
 
 
 class LatentEndpointModel(nn.Module):
-    def __init__(self, input_dimension: int, hidden_dimension: int = 512, dropout: float = .2, endpoints: int = 3):
+    def __init__(self, input_dimension: int, hidden_dimension: int = 512, dropout: float = .2, endpoints: int = 3, label_noise_max: float = 0.):
         super().__init__()
         self.encoder = nn.Sequential(
             nn.LayerNorm(input_dimension),
@@ -21,6 +21,11 @@ class LatentEndpointModel(nn.Module):
         )
         self.raw_slopes = nn.Parameter(torch.zeros(endpoints))
         self.intercepts = nn.Parameter(torch.zeros(endpoints))
+        self.label_noise_max = float(label_noise_max)
+        if not 0 <= self.label_noise_max < .5:
+            raise ValueError("label noise maximum must be in [0, 0.5)")
+        self.raw_false_positive = nn.Parameter(torch.full((endpoints,), -3.))
+        self.raw_false_negative = nn.Parameter(torch.full((endpoints,), -3.))
 
     @property
     def slopes(self) -> torch.Tensor:
@@ -33,6 +38,18 @@ class LatentEndpointModel(nn.Module):
         score = self.latent(features)
         return self.slopes[endpoint] * score + self.intercepts[endpoint]
 
+    @property
+    def false_positive(self) -> torch.Tensor:
+        return self.label_noise_max * torch.sigmoid(self.raw_false_positive)
+
+    @property
+    def false_negative(self) -> torch.Tensor:
+        return self.label_noise_max * torch.sigmoid(self.raw_false_negative)
+
     def forward(self, features: torch.Tensor, endpoint: torch.Tensor, continuous_endpoint: int = 2) -> torch.Tensor:
         logits = self.observation_logits(features, endpoint)
-        return torch.where(endpoint == continuous_endpoint, torch.sigmoid(logits), logits)
+        if self.label_noise_max:
+            probability = torch.sigmoid(logits); observed = self.false_positive[endpoint] + (1 - self.false_positive[endpoint] - self.false_negative[endpoint]) * probability; noisy_logits = torch.logit(observed.clamp(1e-6, 1 - 1e-6))
+        else:
+            noisy_logits = logits
+        return torch.where(endpoint == continuous_endpoint, torch.sigmoid(logits), noisy_logits)
