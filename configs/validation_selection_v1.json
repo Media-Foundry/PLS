@@ -46,8 +46,8 @@
     },
     "esol": {
       "primary_report": "outputs/validation_selection/esol_pooled_v4_trees_v5_strict_si30_rf_leaf3+08-29-21-10_with_geometry.json",
-      "spearman_report": "outputs/validation_selection/esol_bootstrap_forests_v23_ensembles.json",
-      "metrics": {"spearman": 0.7720341807538591, "pearson": 0.762683088130933, "rmse": 0.20986663939903716, "mae": 0.1666131740582458, "affine_rmse": 0.20819468678965963},
+      "spearman_report": "outputs/validation_selection/esol_multilayer_physchem_v36.json",
+      "metrics": {"spearman": 0.7720613126340597, "pearson": 0.762683088130933, "rmse": 0.20986663939903716, "mae": 0.1666131740582458, "affine_rmse": 0.20819468678965963},
       "runs": [
         "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
         "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
