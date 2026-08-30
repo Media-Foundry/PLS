@@ -1,0 +1,14 @@
+[
+  {
+    "fit_seconds": 2.230720793013461,
+    "train_entities": 1995,
+    "validation_entities": 266,
+    "validation": {
+      "n": 266,
+      "pearson": 0.7103272142486442,
+      "spearman": 0.7123110857661858,
+      "rmse": 0.2371391352115691,
+      "mae": 0.20093195042704995
+    }
+  }
+]

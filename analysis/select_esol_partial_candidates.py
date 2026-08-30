@@ -7,10 +7,22 @@ from scipy.stats import spearmanr
 from pls.evaluation.metrics import regression_metrics
 from select_esol_aligned_candidate import load,selected_prediction
 
+def frozen_prediction(report_path):
+ source=json.loads(Path(report_path).read_text())
+ if 'sequence_runs' in source:
+  targets,leaf,entities=selected_prediction(source['sequence_runs'],source['geometry_run'],source['leaf_run'],source['leaf_structure_weights']);observed,full,full_entities=selected_prediction(source['sequence_runs'],source['geometry_run'],source['full_run'],source['full_structure_weights'])
+  if not np.array_equal(targets,observed) or not np.array_equal(entities,full_entities):raise ValueError('frozen base arrays do not align')
+  return targets,source['leaf_weight']*leaf+source['full_weight']*full,entities
+ if 'base_report' not in source or 'candidate_weights' not in source:raise ValueError(f'unsupported eSOL selection report: {report_path}')
+ targets,base,entities=frozen_prediction(source['base_report']);positions={entity:index for index,entity in enumerate(entities)};prediction=base.copy()
+ for run,weight in source['candidate_weights'].items():
+  candidate_targets,values,candidate_entities=load(Path(run));selected=np.asarray([positions[entity] for entity in candidate_entities])
+  if not np.array_equal(targets[selected],candidate_targets):raise ValueError(f'validation target mismatch: {run}')
+  prediction[selected]+=float(weight)*(values-base[selected])
+ return targets,prediction,entities
+
 def main():
- parser=argparse.ArgumentParser();parser.add_argument('--base-report',type=Path,required=True);parser.add_argument('--candidate',type=Path,action='append',required=True);parser.add_argument('--output',type=Path,required=True);args=parser.parse_args();source=json.loads(args.base_report.read_text());targets,leaf,entities=selected_prediction(source['sequence_runs'],source['geometry_run'],source['leaf_run'],source['leaf_structure_weights']);observed,full,full_entities=selected_prediction(source['sequence_runs'],source['geometry_run'],source['full_run'],source['full_structure_weights'])
- if not np.array_equal(targets,observed) or not np.array_equal(entities,full_entities):raise ValueError('frozen base arrays do not align')
- base=source['leaf_weight']*leaf+source['full_weight']*full;positions={entity:index for index,entity in enumerate(entities)};candidate_values=[];candidate_positions=[]
+ parser=argparse.ArgumentParser();parser.add_argument('--base-report',type=Path,required=True);parser.add_argument('--candidate',type=Path,action='append',required=True);parser.add_argument('--output',type=Path,required=True);args=parser.parse_args();targets,base,entities=frozen_prediction(args.base_report);positions={entity:index for index,entity in enumerate(entities)};candidate_values=[];candidate_positions=[]
  for run in args.candidate:
   candidate_targets,prediction,candidate_entities=load(run);selected=np.asarray([positions[entity] for entity in candidate_entities])
   if not np.array_equal(targets[selected],candidate_targets):raise ValueError(f'validation target mismatch: {run}')
