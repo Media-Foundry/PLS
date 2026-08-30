@@ -1,3 +1,4 @@
+import os
 import unittest
 
 import torch
@@ -34,7 +35,7 @@ class GVPSurfaceFusionTests(unittest.TestCase):
   with torch.inference_mode():actual=model(*values)
   torch.testing.assert_close(actual,expected,atol=2e-6,rtol=2e-6)
 
- @unittest.skipUnless(torch.cuda.is_available(),'CUDA/ROCm is unavailable')
+ @unittest.skipUnless(torch.cuda.is_available() and os.environ.get('HIP_VISIBLE_DEVICES') in {'6','7'},'authorized ROCm device 6/7 is unavailable')
  def test_bfloat16_autocast_forward_backward(self):
   model=self.model().cuda().train();values=[value.cuda() for value in self.inputs()]
   with torch.autocast('cuda',dtype=torch.bfloat16):output=model(*values);loss=output.square().mean()+model.last_surface_patch_logit.square().mean()
