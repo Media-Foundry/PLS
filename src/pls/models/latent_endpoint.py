@@ -7,7 +7,7 @@ from torch.nn import functional as F
 
 
 class LatentEndpointModel(nn.Module):
-    def __init__(self, input_dimension: int, hidden_dimension: int = 512, dropout: float = .2, endpoints: int = 3, label_noise_max: float = 0.):
+    def __init__(self, input_dimension: int, hidden_dimension: int = 512, dropout: float = .2, endpoints: int = 3, label_noise_max: float = 0., assay_residual_dimension: int = 0, assay_residual_scale: float = 0.):
         super().__init__()
         self.encoder = nn.Sequential(
             nn.LayerNorm(input_dimension),
@@ -21,6 +21,19 @@ class LatentEndpointModel(nn.Module):
         )
         self.raw_slopes = nn.Parameter(torch.zeros(endpoints))
         self.intercepts = nn.Parameter(torch.zeros(endpoints))
+        self.assay_residual_dimension = int(assay_residual_dimension)
+        self.assay_residual_scale = float(assay_residual_scale)
+        if self.assay_residual_dimension < 0 or self.assay_residual_scale < 0:
+            raise ValueError("assay residual dimension and scale must be non-negative")
+        if bool(self.assay_residual_dimension) != bool(self.assay_residual_scale):
+            raise ValueError("assay residual dimension and scale must both be enabled")
+        if self.assay_residual_dimension:
+            self.assay_residual_encoder = nn.Sequential(
+                nn.LayerNorm(input_dimension),
+                nn.Linear(input_dimension, self.assay_residual_dimension),
+                nn.Tanh(),
+            )
+            self.assay_residual_weights = nn.Parameter(torch.zeros(endpoints, self.assay_residual_dimension))
         self.label_noise_max = float(label_noise_max)
         if not 0 <= self.label_noise_max < .5:
             raise ValueError("label noise maximum must be in [0, 0.5)")
@@ -36,7 +49,17 @@ class LatentEndpointModel(nn.Module):
 
     def observation_logits(self, features: torch.Tensor, endpoint: torch.Tensor) -> torch.Tensor:
         score = self.latent(features)
-        return self.slopes[endpoint] * score + self.intercepts[endpoint]
+        logits = self.slopes[endpoint] * score + self.intercepts[endpoint]
+        if self.assay_residual_dimension:
+            residual_features = self.assay_residual_encoder(features)
+            residual = (residual_features * self.assay_residual_weights[endpoint]).sum(-1)
+            logits = logits + self.assay_residual_scale * torch.tanh(residual)
+        return logits
+
+    def assay_residual_penalty(self) -> torch.Tensor:
+        if not self.assay_residual_dimension:
+            return self.raw_slopes.new_zeros(())
+        return self.assay_residual_weights.square().mean()
 
     @property
     def false_positive(self) -> torch.Tensor:

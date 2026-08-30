@@ -91,7 +91,7 @@ def main() -> None:
     weights = source_entity_weights(rows["train"]); sampler = WeightedRandomSampler(weights, len(weights), replacement=True, generator=torch.Generator().manual_seed(seed))
     train_loader = DataLoader(sets["train"], batch_size=training["batch_size"], sampler=sampler, num_workers=training["workers"], persistent_workers=training["workers"] > 0, pin_memory=True)
     validation_loader = DataLoader(sets["validation"], batch_size=training["batch_size"], num_workers=training["workers"], persistent_workers=training["workers"] > 0, pin_memory=True)
-    device = torch.device("cuda:0"); model = LatentEndpointModel(embeddings.shape[1] + descriptors.shape[1], model_config["hidden_dimension"], model_config["dropout"], len(SOURCES), model_config.get("label_noise_max", 0.)).to(device)
+    device = torch.device("cuda:0"); model = LatentEndpointModel(embeddings.shape[1] + descriptors.shape[1], model_config["hidden_dimension"], model_config["dropout"], len(SOURCES), model_config.get("label_noise_max", 0.), model_config.get("assay_residual_dimension", 0), model_config.get("assay_residual_scale", 0.)).to(device)
     decay = float(training.get("ema_decay", 0)); ema = copy.deepcopy(model).eval().requires_grad_(False) if decay else None
     optimizer = torch.optim.AdamW(model.parameters(), lr=training["learning_rate"], weight_decay=training["weight_decay"], fused=training.get("fused_optimizer", False)); writer = SummaryWriter(args.run_dir / "tensorboard")
     best, stale, history = -2., 0, []
@@ -102,7 +102,7 @@ def main() -> None:
             with torch.autocast("cuda", dtype=torch.bfloat16, enabled=training.get("amp_bfloat16", True)):
                 prediction = model(features, endpoint); continuous = endpoint == CONTINUOUS_ENDPOINT; losses = torch.empty_like(target)
                 losses[continuous] = nn.functional.smooth_l1_loss(prediction[continuous], target[continuous], beta=.1, reduction="none")
-                losses[~continuous] = nn.functional.binary_cross_entropy_with_logits(prediction[~continuous], target[~continuous], reduction="none"); loss = losses.mean()
+                losses[~continuous] = nn.functional.binary_cross_entropy_with_logits(prediction[~continuous], target[~continuous], reduction="none"); loss = losses.mean() + float(training.get("assay_residual_penalty", 0.)) * model.assay_residual_penalty()
             if not torch.isfinite(loss): raise FloatingPointError(f"non-finite latent endpoint loss at epoch {epoch}")
             loss.backward(); torch.nn.utils.clip_grad_norm_(model.parameters(), float(training.get("max_gradient_norm", 5.))); optimizer.step()
             if ema:
@@ -110,7 +110,7 @@ def main() -> None:
                     for ema_parameter, parameter in zip(ema.parameters(), model.parameters()): ema_parameter.mul_(decay).add_(parameter, alpha=1-decay)
             total += loss.item() * len(target); count += len(target)
         evaluated = ema or model; endpoints, targets, predictions, _ = infer(evaluated, validation_loader, device, training.get("amp_bfloat16", False)); metrics = endpoint_metrics(endpoints, targets, predictions); score = selection_score(metrics); seconds = time.monotonic() - started
-        row = {"epoch": epoch, "train_loss": total / count, "train_seconds": seconds, "train_samples_per_second": count / seconds, "selection_score": score, "validation": metrics, "positive_slopes": evaluated.slopes.detach().float().cpu().tolist(), "false_positive": evaluated.false_positive.detach().float().cpu().tolist(), "false_negative": evaluated.false_negative.detach().float().cpu().tolist()}; history.append(row); print(json.dumps(row), flush=True)
+        row = {"epoch": epoch, "train_loss": total / count, "train_seconds": seconds, "train_samples_per_second": count / seconds, "selection_score": score, "validation": metrics, "positive_slopes": evaluated.slopes.detach().float().cpu().tolist(), "assay_residual_penalty": float(evaluated.assay_residual_penalty().detach()), "false_positive": evaluated.false_positive.detach().float().cpu().tolist(), "false_negative": evaluated.false_negative.detach().float().cpu().tolist()}; history.append(row); print(json.dumps(row), flush=True)
         for source, values in metrics.items(): writer.add_scalar(f"validation/{source}/primary", values["spearman" if source == SOURCES[2] else "auroc"], epoch)
         state = {"model": evaluated.state_dict(), "epoch": epoch, "selection_score": score, "validation": metrics, "config": config}
         if epoch % training["checkpoint_every"] == 0: torch.save(state, args.run_dir / "checkpoints" / f"epoch_{epoch:03d}.pt")

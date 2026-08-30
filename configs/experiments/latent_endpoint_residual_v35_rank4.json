@@ -1,0 +1,18 @@
+{
+  "trainer_module": "pls.training.train_latent_endpoint",
+  "experiment_name": "latent_endpoint_residual_v35_strict_si30_rank4_scale01",
+  "evaluate_test": false,
+  "data": {
+    "entities": "benchmark/generated/sequence_entities.csv",
+    "observation_split": "benchmark/generated/strict_si30_observation_split.csv",
+    "embedding_dir": "artifacts/plm/esm2_t33_650M_UR50D_mean",
+    "sequence_descriptor_dir": "artifacts/features/sequence_descriptors_v1"
+  },
+  "model": {"hidden_dimension": 512, "dropout": 0.2, "assay_residual_dimension": 4, "assay_residual_scale": 0.1},
+  "training": {
+    "hip_device": 6, "batch_size": 512, "workers": 4, "amp_bfloat16": true,
+    "fused_optimizer": true, "ema_decay": 0.995, "epochs": 30, "patience": 5,
+    "checkpoint_every": 5, "learning_rate": 0.0002, "weight_decay": 0.0001,
+    "assay_residual_penalty": 0.01, "max_gradient_norm": 5.0, "seed": 20261223
+  }
+}
