@@ -7,7 +7,7 @@ from pathlib import Path
 
 import numpy as np
 from scipy.optimize import minimize_scalar
-from sklearn.metrics import matthews_corrcoef, roc_auc_score
+from sklearn.metrics import average_precision_score, matthews_corrcoef, roc_auc_score
 
 from pls.evaluation.metrics import binary_metrics
 
@@ -28,6 +28,15 @@ def initial_weights(report: dict) -> dict[str, float]:
     return {str(run): 1.0 / len(base["runs"]) for run in base["runs"]}
 
 
+def objective_score(targets: np.ndarray, logits: np.ndarray, objective: str) -> float:
+    if objective == "auroc": return float(roc_auc_score(targets, logits))
+    if objective == "auprc": return float(average_precision_score(targets, logits))
+    if objective == "brier":
+        probability = 1 / (1 + np.exp(-np.clip(logits, -50, 50)))
+        return -float(np.mean((probability - targets) ** 2))
+    raise ValueError(objective)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -43,6 +52,7 @@ def main() -> None:
         help="additional aligned validation run (repeatable)",
     )
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--objective", choices=("auroc", "auprc", "brier"), default="auroc")
     args = parser.parse_args()
 
     source = json.loads(args.source_report.read_text())
@@ -61,7 +71,7 @@ def main() -> None:
 
     weights = np.asarray([prior.get(run, 0.0) for run in runs], dtype=float)
     weights /= weights.sum()
-    best = roc_auc_score(targets, weights @ predictions)
+    best = objective_score(targets, weights @ predictions, args.objective)
     for _ in range(8):
         changed = False
         for index in range(len(weights)):
@@ -75,7 +85,7 @@ def main() -> None:
                 else:
                     proposed[:] = 0
                     proposed[index] = 1
-                score = roc_auc_score(targets, proposed @ predictions)
+                score = objective_score(targets, proposed @ predictions, args.objective)
                 if score > winner[0] + 1e-12:
                     winner = (score, proposed.copy())
             if winner[0] > best:
@@ -106,7 +116,7 @@ def main() -> None:
     report = {
         "selection_data": "strict-validation only",
         "test_evaluated": False,
-        "objective": "auroc",
+        "objective": args.objective,
         "source_report": str(args.source_report),
         "candidate_runs": [str(run) for run in args.candidate],
         "runs": runs,
