@@ -9,6 +9,58 @@
     "mcc": 0.6329639412480714,
     "n": 6429
   },
+  "crossfit_calibrated": {
+    "auprc": 0.9160448032958038,
+    "auroc": 0.9044577883287619,
+    "balanced_accuracy": 0.8160170250896095,
+    "brier": 0.1258513106161747,
+    "ece": 0.01275104931716068,
+    "f1": 0.8253592060435512,
+    "mcc": 0.6323401811877694,
+    "n": 6429
+  },
+  "crossfit_folds": [
+    {
+      "fold": 0,
+      "heldout_entities": 1286,
+      "intercept": 0.21453034442421084,
+      "optimization_success": true,
+      "slope": 0.7925941540994658,
+      "train_entities": 5143
+    },
+    {
+      "fold": 1,
+      "heldout_entities": 1286,
+      "intercept": 0.22121800545700537,
+      "optimization_success": true,
+      "slope": 0.8295896280486241,
+      "train_entities": 5143
+    },
+    {
+      "fold": 2,
+      "heldout_entities": 1286,
+      "intercept": 0.21741709576032678,
+      "optimization_success": true,
+      "slope": 0.813749917423304,
+      "train_entities": 5143
+    },
+    {
+      "fold": 3,
+      "heldout_entities": 1286,
+      "intercept": 0.2341874972628661,
+      "optimization_success": true,
+      "slope": 0.8064484851000464,
+      "train_entities": 5143
+    },
+    {
+      "fold": 4,
+      "heldout_entities": 1285,
+      "intercept": 0.20178857727407412,
+      "optimization_success": true,
+      "slope": 0.8104308796577155,
+      "train_entities": 5144
+    }
+  ],
   "entity_count": 6429,
   "nll": 0.38609482160731845,
   "optimization_success": true,

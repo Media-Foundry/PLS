@@ -9,7 +9,7 @@
       "auprc_report": "outputs/validation_selection/pdbsol_spatial_patch_v18_ensembles.json",
       "mcc_report": "outputs/validation_selection/pdbsol_gvp_multiseed_ensembles.json",
       "brier_report": "outputs/validation_selection/pdbsol_spatial_patch_v18_platt_calibration.json",
-      "metrics": {"auroc": 0.9045817235333422, "auprc": 0.9161942122143626, "mcc_at_selected_threshold": 0.6425591644816286, "brier_calibrated": 0.12578423758357615},
+      "metrics": {"auroc": 0.9045817235333422, "auprc": 0.9161942122143626, "mcc_at_selected_threshold": 0.6425591644816286, "brier_calibrated": 0.1258513106161747},
       "mcc_runs": [
         "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_v6matched_baseline+08-29-16-23",
         "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s31+08-29-16-32",
@@ -41,7 +41,7 @@
       "mcc_at_selected_threshold": 0.452056637671132,
       "mcc_threshold": 0.5064266510815535,
       "brier_report": "outputs/validation_selection/uesolds_physchem_moe_v22_platt_calibration.json",
-      "calibrated_brier": 0.17494074426704076,
+      "calibrated_brier": 0.1749697404199504,
       "note": "AUROC/AUPRC and MCC selections are intentionally distinct; do not select between them on test."
     },
     "esol": {
