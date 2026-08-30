@@ -14,5 +14,9 @@ class SequencePaddingTests(unittest.TestCase):
   with self.assertRaisesRegex(ValueError,'weighted_sum'):ResidueSequenceRegressor(64,12,24,16,0,'conditioned_attention','concat',global_segments=2,global_segment_fusion='concat')
  def test_physchem_experts_are_normalized_and_trainable(self):
   torch.manual_seed(13);model=ResidueSequenceRegressor(32,12,24,16,0,'shift_tcn_conditioned_attention','concat',descriptor_dimension=5,physchem_experts=4);global_x=torch.randn(3,32);residues=torch.randn(3,11,12);mask=torch.ones(3,11,dtype=torch.bool);output=model(global_x,residues,mask);output.square().mean().backward();torch.testing.assert_close(model.last_expert_weights.sum(1),torch.ones(3));self.assertIsNotNone(model.physchem_gate[-1].weight.grad);self.assertTrue(torch.isfinite(model.physchem_gate[-1].weight.grad).all())
+ def test_lower_physchem_gate_temperature_sharpens_assignments(self):
+  torch.manual_seed(17);base=ResidueSequenceRegressor(32,12,24,16,0,'shift_tcn_conditioned_attention','concat',descriptor_dimension=5,physchem_experts=4);sharp=ResidueSequenceRegressor(32,12,24,16,0,'shift_tcn_conditioned_attention','concat',descriptor_dimension=5,physchem_experts=4,physchem_gate_temperature=.5);sharp.load_state_dict(base.state_dict());global_x=torch.randn(3,32);residues=torch.randn(3,11,12);mask=torch.ones(3,11,dtype=torch.bool);base(global_x,residues,mask);sharp(global_x,residues,mask);base_entropy=-(base.last_expert_weights*base.last_expert_weights.log()).sum(1);sharp_entropy=-(sharp.last_expert_weights*sharp.last_expert_weights.log()).sum(1);self.assertTrue(torch.all(sharp_entropy<base_entropy))
+ def test_physchem_gate_temperature_must_be_positive(self):
+  with self.assertRaisesRegex(ValueError,'temperature'):ResidueSequenceRegressor(32,12,24,16,0,'attention','concat',descriptor_dimension=5,physchem_experts=4,physchem_gate_temperature=0)
 
 if __name__=='__main__':unittest.main()
