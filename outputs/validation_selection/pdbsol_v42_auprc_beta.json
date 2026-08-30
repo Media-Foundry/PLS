@@ -1,0 +1,178 @@
+{
+  "calibrated": {
+    "auprc": 0.9161942122143626,
+    "auroc": 0.9045817235333422,
+    "balanced_accuracy": 0.8167456535400122,
+    "brier": 0.12577778551989394,
+    "ece": 0.012123396951389228,
+    "f1": 0.8248436103663991,
+    "mcc": 0.6334387880618044,
+    "n": 6429
+  },
+  "crossfit_calibrated": {
+    "auprc": 0.9159220325177716,
+    "auroc": 0.9043963056059888,
+    "balanced_accuracy": 0.8164762544802906,
+    "brier": 0.12587923075885304,
+    "ece": 0.011836477947842136,
+    "f1": 0.8243887895050688,
+    "mcc": 0.6328497819439246,
+    "n": 6429
+  },
+  "crossfit_folds": [
+    {
+      "fold": 0,
+      "heldout": {
+        "auprc": 0.9256359675741539,
+        "auroc": 0.915932313479136,
+        "balanced_accuracy": 0.8314841205211715,
+        "brier": 0.11789809584455863,
+        "ece": 0.021015777623502596,
+        "f1": 0.8399999999999977,
+        "mcc": 0.6632769573529242,
+        "n": 1286
+      },
+      "heldout_entities": 1286,
+      "optimization_success": true,
+      "parameters": [
+        0.09260146128001935,
+        0.29315675347890374,
+        0.10932120341171303
+      ],
+      "train_entities": 5143
+    },
+    {
+      "fold": 1,
+      "heldout": {
+        "auprc": 0.9012241515701456,
+        "auroc": 0.8913302698929717,
+        "balanced_accuracy": 0.8031812277028061,
+        "brier": 0.1350779869047295,
+        "ece": 0.03754449657737749,
+        "f1": 0.8104868913857664,
+        "mcc": 0.6060386714765181,
+        "n": 1286
+      },
+      "heldout_entities": 1286,
+      "optimization_success": true,
+      "parameters": [
+        0.11607060660857983,
+        0.40665352962732987,
+        0.06614569136209245
+      ],
+      "train_entities": 5143
+    },
+    {
+      "fold": 2,
+      "heldout": {
+        "auprc": 0.9168236688382632,
+        "auroc": 0.9040372460058923,
+        "balanced_accuracy": 0.8186244571118337,
+        "brier": 0.12603637148026475,
+        "ece": 0.024101966581211987,
+        "f1": 0.8259895444361447,
+        "mcc": 0.6370443742462817,
+        "n": 1286
+      },
+      "heldout_entities": 1286,
+      "optimization_success": true,
+      "parameters": [
+        0.1448798430919532,
+        0.3170848530257449,
+        0.1264657328278571
+      ],
+      "train_entities": 5143
+    },
+    {
+      "fold": 3,
+      "heldout": {
+        "auprc": 0.9221204935766396,
+        "auroc": 0.907655692570186,
+        "balanced_accuracy": 0.8145939972080025,
+        "brier": 0.12397703603804902,
+        "ece": 0.02024548889229012,
+        "f1": 0.8263736263736237,
+        "mcc": 0.6304567303495288,
+        "n": 1286
+      },
+      "heldout_entities": 1286,
+      "optimization_success": true,
+      "parameters": [
+        0.18790409770135313,
+        0.24449520270821237,
+        0.20419420007108288
+      ],
+      "train_entities": 5143
+    },
+    {
+      "fold": 4,
+      "heldout": {
+        "auprc": 0.9149578075207156,
+        "auroc": 0.9037204808513942,
+        "balanced_accuracy": 0.8145100209741317,
+        "brier": 0.12640707398017909,
+        "ece": 0.02169818404510707,
+        "f1": 0.8188021228203184,
+        "mcc": 0.6283720759766617,
+        "n": 1285
+      },
+      "heldout_entities": 1285,
+      "optimization_success": true,
+      "parameters": [
+        0.09210200660387509,
+        0.35852612145100854,
+        0.06121229385880226
+      ],
+      "train_entities": 5144
+    }
+  ],
+  "entity_count": 6429,
+  "method": "monotonic_beta",
+  "optimization_success": true,
+  "parameters": [
+    0.12685049888851285,
+    0.32348309034207257,
+    0.11385532758025663
+  ],
+  "run_weights": {
+    "outputs/pdbsol_geometry_aligned_sparse_v10_strict_si30_rsa_base+08-29-22-07": 0.0169629768,
+    "outputs/pdbsol_geometry_aligned_sparse_v10_strict_si30_rsa_deep2_s33+08-29-22-07": 0.0169629768,
+    "outputs/pdbsol_geometry_confidence_moe_v9_strict_si30_rsa_base+08-29-22-07": 0.0,
+    "outputs/pdbsol_geometry_confidence_moe_v9_strict_si30_rsa_drop01_s31+08-29-22-07": 0.0169629768,
+    "outputs/pdbsol_geometry_cross_attention_v6_strict_si30_attn_seqsep+08-29-20-09": 0.06553877399999998,
+    "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s32+08-29-16-44": 0.06553877399999998,
+    "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_drop03+08-29-19-18": 0.06553877399999998,
+    "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_seqedge_s29+08-29-16-55": 0.06553877399999998,
+    "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_v6matched_baseline+08-29-16-23": 0.06553877399999998,
+    "outputs/pdbsol_geometry_surface_patches_v11_strict_si30_vectorized_b64+08-29-22-30": 0.07633339559999998,
+    "outputs/pdbsol_gvp_aligned_moe_v13_strict_si30_base+08-29-22-40": 0.0,
+    "outputs/pdbsol_gvp_aligned_moe_v13_strict_si30_cap192v32_l3_k12_s43+08-29-23-47": 0.0,
+    "outputs/pdbsol_gvp_aligned_moe_v13_strict_si30_drop015_s31+08-29-22-40": 0.0,
+    "outputs/pdbsol_gvp_aligned_moe_v13_strict_si30_wide256v24_l2_k16_s45+08-29-23-47": 0.067914,
+    "outputs/pdbsol_gvp_spatial_patches_v18_strict_si30_spatial1_s79_r1+08-30-16-19": 0.0,
+    "outputs/pdbsol_gvp_spatial_patches_v18_strict_si30_spatial2_drop01_s83_r1+08-30-16-19": 0.02,
+    "outputs/pdbsol_gvp_structure_v8_strict_si30_drop01+08-29-21-35": 0.06553877399999998,
+    "outputs/pdbsol_gvp_structure_v8_strict_si30_ema099+08-29-21-35": 0.06553877399999998,
+    "outputs/pdbsol_gvp_structure_v8_strict_si30_s192v24+08-29-21-23": 0.06553877399999998,
+    "outputs/pdbsol_gvp_structure_v8_strict_si30_s33+08-29-21-35": 0.06553877399999998,
+    "outputs/pdbsol_gvp_surface_aux_v17_strict_si30_aux005_drop01_s73+08-30-15-45": 0.0098,
+    "outputs/pdbsol_gvp_surface_aux_v17_strict_si30_aux02_s71+08-30-15-45": 0.0,
+    "outputs/pdbsol_pool_scalar_strict_si30_pred_gate_s30+08-29-21-16": 0.06553877399999998,
+    "outputs/pdbsol_pool_scalar_strict_si30_pred_late_s31+08-29-21-16": 0.06553877399999998,
+    "outputs/pdbsol_surface_residue_xattn_v14_strict_si30_b64_s31+08-29-22-51": 0.045114299999999996,
+    "outputs/pdbsol_surface_residue_xattn_v14_strict_si30_base+08-29-22-44": 0.00902286
+  },
+  "selection_data": "strict-validation only",
+  "source_report": "outputs/validation_selection/pdbsol_spatial_patch_v18_ensembles.json",
+  "test_evaluated": false,
+  "uncalibrated": {
+    "auprc": 0.9161942122143626,
+    "auroc": 0.9045817235333422,
+    "balanced_accuracy": 0.8147199238933149,
+    "brier": 0.12775638527716193,
+    "ece": 0.03776798875676081,
+    "f1": 0.8153395964885195,
+    "mcc": 0.6289969175769894,
+    "n": 6429
+  }
+}
