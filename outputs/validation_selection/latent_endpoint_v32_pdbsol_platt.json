@@ -1,0 +1,112 @@
+{
+  "calibrated": {
+    "auprc": 0.9161149754619349,
+    "auroc": 0.9045990822200559,
+    "balanced_accuracy": 0.8175615603034996,
+    "brier": 0.1257620180869548,
+    "ece": 0.013179274644283895,
+    "f1": 0.826891751814011,
+    "mcc": 0.6354526457832623,
+    "n": 6429
+  },
+  "crossfit_calibrated": {
+    "auprc": 0.915969956817346,
+    "auroc": 0.9044800927865502,
+    "balanced_accuracy": 0.8172498312619318,
+    "brier": 0.12583000985183837,
+    "ece": 0.012731888184183821,
+    "f1": 0.8265955871464559,
+    "mcc": 0.6348288642272001,
+    "n": 6429
+  },
+  "crossfit_folds": [
+    {
+      "fold": 0,
+      "heldout_entities": 1286,
+      "intercept": 0.1998026870800644,
+      "optimization_success": true,
+      "slope": 0.8231910565080612,
+      "train_entities": 5143
+    },
+    {
+      "fold": 1,
+      "heldout_entities": 1286,
+      "intercept": 0.20627421866788184,
+      "optimization_success": true,
+      "slope": 0.8622758245190418,
+      "train_entities": 5143
+    },
+    {
+      "fold": 2,
+      "heldout_entities": 1286,
+      "intercept": 0.20252547545116723,
+      "optimization_success": true,
+      "slope": 0.8454148076971835,
+      "train_entities": 5143
+    },
+    {
+      "fold": 3,
+      "heldout_entities": 1286,
+      "intercept": 0.21980981213388268,
+      "optimization_success": true,
+      "slope": 0.8382429094772302,
+      "train_entities": 5143
+    },
+    {
+      "fold": 4,
+      "heldout_entities": 1285,
+      "intercept": 0.18679862922433896,
+      "optimization_success": true,
+      "slope": 0.842379538878423,
+      "train_entities": 5144
+    }
+  ],
+  "entity_count": 6429,
+  "nll": 0.38613991583295365,
+  "optimization_success": true,
+  "platt_intercept": 0.20301802462688665,
+  "platt_slope": 0.8420701280917711,
+  "run_weights": {
+    "outputs/latent_endpoint_v32_strict_si30_h256_drop01_s07+08-30-21-30/candidates/pdbsol": 0.02,
+    "outputs/latent_endpoint_v32_strict_si30_h512_drop02_s01+08-30-21-30/candidates/pdbsol": 0.04,
+    "outputs/pdbsol_geometry_aligned_sparse_v10_strict_si30_rsa_base+08-29-22-07": 0.015945198192,
+    "outputs/pdbsol_geometry_aligned_sparse_v10_strict_si30_rsa_deep2_s33+08-29-22-07": 0.015945198192,
+    "outputs/pdbsol_geometry_confidence_moe_v9_strict_si30_rsa_base+08-29-22-07": 0.0,
+    "outputs/pdbsol_geometry_confidence_moe_v9_strict_si30_rsa_drop01_s31+08-29-22-07": 0.015945198192,
+    "outputs/pdbsol_geometry_cross_attention_v6_strict_si30_attn_seqsep+08-29-20-09": 0.06160644755999998,
+    "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s32+08-29-16-44": 0.06160644755999998,
+    "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_drop03+08-29-19-18": 0.06160644755999998,
+    "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_seqedge_s29+08-29-16-55": 0.06160644755999998,
+    "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_v6matched_baseline+08-29-16-23": 0.06160644755999998,
+    "outputs/pdbsol_geometry_surface_patches_v11_strict_si30_vectorized_b64+08-29-22-30": 0.07175339186399998,
+    "outputs/pdbsol_gvp_aligned_moe_v13_strict_si30_base+08-29-22-40": 0.0,
+    "outputs/pdbsol_gvp_aligned_moe_v13_strict_si30_cap192v32_l3_k12_s43+08-29-23-47": 0.0,
+    "outputs/pdbsol_gvp_aligned_moe_v13_strict_si30_drop015_s31+08-29-22-40": 0.0,
+    "outputs/pdbsol_gvp_aligned_moe_v13_strict_si30_wide256v24_l2_k16_s45+08-29-23-47": 0.06383915999999999,
+    "outputs/pdbsol_gvp_spatial_patches_v18_strict_si30_spatial1_s79_r1+08-30-16-19": 0.0,
+    "outputs/pdbsol_gvp_spatial_patches_v18_strict_si30_spatial2_drop01_s83_r1+08-30-16-19": 0.0188,
+    "outputs/pdbsol_gvp_structure_v8_strict_si30_drop01+08-29-21-35": 0.06160644755999998,
+    "outputs/pdbsol_gvp_structure_v8_strict_si30_ema099+08-29-21-35": 0.06160644755999998,
+    "outputs/pdbsol_gvp_structure_v8_strict_si30_s192v24+08-29-21-23": 0.06160644755999998,
+    "outputs/pdbsol_gvp_structure_v8_strict_si30_s33+08-29-21-35": 0.06160644755999998,
+    "outputs/pdbsol_gvp_surface_aux_v17_strict_si30_aux005_drop01_s73+08-30-15-45": 0.009212,
+    "outputs/pdbsol_gvp_surface_aux_v17_strict_si30_aux02_s71+08-30-15-45": 0.0,
+    "outputs/pdbsol_pool_scalar_strict_si30_pred_gate_s30+08-29-21-16": 0.06160644755999998,
+    "outputs/pdbsol_pool_scalar_strict_si30_pred_late_s31+08-29-21-16": 0.06160644755999998,
+    "outputs/pdbsol_surface_residue_xattn_v14_strict_si30_b64_s31+08-29-22-51": 0.042407442,
+    "outputs/pdbsol_surface_residue_xattn_v14_strict_si30_base+08-29-22-44": 0.0084814884
+  },
+  "selection_data": "strict-validation only",
+  "source_report": "outputs/validation_selection/latent_endpoint_v32_pdbsol.json",
+  "test_evaluated": false,
+  "uncalibrated": {
+    "auprc": 0.9161149754619349,
+    "auroc": 0.9045990822200559,
+    "balanced_accuracy": 0.8160951391798206,
+    "brier": 0.12726651985817383,
+    "ece": 0.03311897185716908,
+    "f1": 0.8176100628930754,
+    "mcc": 0.6316364830575935,
+    "n": 6429
+  }
+}

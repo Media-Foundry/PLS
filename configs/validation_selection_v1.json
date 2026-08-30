@@ -5,11 +5,11 @@
   "test_evaluated": false,
   "tasks": {
     "pdbsol": {
-      "auroc_report": "outputs/validation_selection/pdbsol_spatial_patch_v18_ensembles.json",
+      "auroc_report": "outputs/validation_selection/latent_endpoint_v32_pdbsol.json",
       "auprc_report": "outputs/validation_selection/pdbsol_spatial_patch_v18_ensembles.json",
       "mcc_report": "outputs/validation_selection/pdbsol_gvp_multiseed_ensembles.json",
-      "brier_report": "outputs/validation_selection/pdbsol_spatial_patch_v18_platt_calibration.json",
-      "metrics": {"auroc": 0.9045817235333422, "auprc": 0.9161942122143626, "mcc_at_selected_threshold": 0.6425591644816286, "brier_calibrated": 0.1258513106161747},
+      "brier_report": "outputs/validation_selection/latent_endpoint_v32_pdbsol_platt.json",
+      "metrics": {"auroc": 0.9045990822200559, "auprc": 0.9161942122143626, "mcc_at_selected_threshold": 0.6425591644816286, "brier_calibrated": 0.12583000985183837},
       "mcc_runs": [
         "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_v6matched_baseline+08-29-16-23",
         "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s31+08-29-16-32",
