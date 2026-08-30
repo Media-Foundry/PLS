@@ -49,6 +49,7 @@ def main() -> None:
     parser.add_argument("--expert-balance-weight-override", type=float)
     parser.add_argument("--physchem-gate-temperature-override", type=float)
     parser.add_argument("--physchem-top-k-override", type=int)
+    parser.add_argument("--expert-sparse-warmup-epochs-override", type=int)
     parser.add_argument("--residue-fusion-override", choices=("concat", "interaction"))
     parser.add_argument("--descriptor-scale-override", type=float)
     parser.add_argument("--embedding-segment-override", type=int)
@@ -129,6 +130,8 @@ def main() -> None:
         config["model"]["physchem_gate_temperature"] = args.physchem_gate_temperature_override
     if args.physchem_top_k_override is not None:
         config["model"]["physchem_top_k"] = args.physchem_top_k_override
+    if args.expert_sparse_warmup_epochs_override is not None:
+        config["training"]["expert_sparse_warmup_epochs"] = args.expert_sparse_warmup_epochs_override
     if args.residue_fusion_override is not None:
         config["model"]["fusion"] = args.residue_fusion_override
     if args.descriptor_scale_override is not None:
