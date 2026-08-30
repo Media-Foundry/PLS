@@ -6,7 +6,7 @@ import numpy as np
 from sklearn.metrics import roc_auc_score
 
 def main():
- parser=argparse.ArgumentParser();parser.add_argument('--report',type=Path,required=True);parser.add_argument('--output',type=Path,required=True);parser.add_argument('--entities',type=Path,default=Path('benchmark/generated/sequence_entities.csv'));parser.add_argument('--descriptors',type=Path,default=Path('artifacts/features/sequence_descriptors_v1'));args=parser.parse_args();report=json.loads(args.report.read_text());weights=report.get('run_weights') or dict(zip(report['runs'],report['weights']));first=np.load(Path(next(iter(weights)))/'validation_predictions.npz');targets=first['targets'];entity_ids=first['entity_indices'];prediction=np.zeros_like(first['logits'],dtype=np.float64)
+ parser=argparse.ArgumentParser();source=parser.add_mutually_exclusive_group(required=True);source.add_argument('--report',type=Path);source.add_argument('--run',type=Path);parser.add_argument('--output',type=Path,required=True);parser.add_argument('--entities',type=Path,default=Path('benchmark/generated/sequence_entities.csv'));parser.add_argument('--descriptors',type=Path,default=Path('artifacts/features/sequence_descriptors_v1'));args=parser.parse_args();report=json.loads(args.report.read_text()) if args.report else None;weights=(report.get('run_weights') or dict(zip(report['runs'],report['weights']))) if report else {str(args.run):1.0};first=np.load(Path(next(iter(weights)))/'validation_predictions.npz');targets=first['targets'];entity_ids=first['entity_indices'];prediction=np.zeros_like(first['logits'],dtype=np.float64)
  for run,weight in weights.items():
   data=np.load(Path(run)/'validation_predictions.npz')
   if not np.array_equal(targets,data['targets']) or not np.array_equal(entity_ids,data['entity_indices']):raise ValueError(f'validation alignment mismatch: {run}')
@@ -18,5 +18,5 @@ def main():
   for index in range(4):
    selected=(values>=edges[index])&(values<(edges[index+1]) if index<3 else values<=edges[index+1]);rows.append({'quartile':index+1,'lower':float(edges[index]),'upper':float(edges[index+1]),'n':int(selected.sum()),'positive_fraction':float(targets[selected].mean()),'auroc':float(roc_auc_score(targets[selected],prediction[selected]))})
   groups[name]=rows
- result={'selection_data':'strict-validation only','test_evaluated':False,'source_report':str(args.report),'entity_count':int(len(targets)),'overall_auroc':float(roc_auc_score(targets,prediction)),'subgroups':groups};args.output.parent.mkdir(parents=True,exist_ok=True);args.output.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n');print(json.dumps(result,indent=2,sort_keys=True))
+ result={'selection_data':'strict-validation only','test_evaluated':False,'source_report':str(args.report) if args.report else None,'source_run':str(args.run) if args.run else None,'entity_count':int(len(targets)),'overall_auroc':float(roc_auc_score(targets,prediction)),'subgroups':groups};args.output.parent.mkdir(parents=True,exist_ok=True);args.output.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n');print(json.dumps(result,indent=2,sort_keys=True))
 if __name__=='__main__':main()
