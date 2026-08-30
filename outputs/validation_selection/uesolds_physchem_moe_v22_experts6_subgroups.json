@@ -1,0 +1,180 @@
+{
+  "entity_count": 7790,
+  "overall_auroc": 0.7950254783347803,
+  "selection_data": "strict-validation only",
+  "source_report": null,
+  "source_run": "outputs/uesolds_physchem_moe_v22_strict_si30_experts6_drop015_s17+08-30-17-10",
+  "subgroups": {
+    "absolute_net_charge": [
+      {
+        "auroc": 0.7939644380887351,
+        "lower": 0.0,
+        "n": 1947,
+        "positive_fraction": 0.5654853582382202,
+        "quartile": 1,
+        "upper": 0.011278195306658745
+      },
+      {
+        "auroc": 0.7966146610767146,
+        "lower": 0.011278195306658745,
+        "n": 1940,
+        "positive_fraction": 0.5659793615341187,
+        "quartile": 2,
+        "upper": 0.02380952425301075
+      },
+      {
+        "auroc": 0.7795618106832736,
+        "lower": 0.02380952425301075,
+        "n": 1952,
+        "positive_fraction": 0.6080942749977112,
+        "quartile": 3,
+        "upper": 0.043103449046611786
+      },
+      {
+        "auroc": 0.8030615507593926,
+        "lower": 0.043103449046611786,
+        "n": 1951,
+        "positive_fraction": 0.6412096619606018,
+        "quartile": 4,
+        "upper": 0.2698412835597992
+      }
+    ],
+    "hydrophobic_fraction": [
+      {
+        "auroc": 0.8381527985146577,
+        "lower": 0.07581227272748947,
+        "n": 1944,
+        "positive_fraction": 0.5992798209190369,
+        "quartile": 1,
+        "upper": 0.3720930218696594
+      },
+      {
+        "auroc": 0.8082117719975297,
+        "lower": 0.3720930218696594,
+        "n": 1951,
+        "positive_fraction": 0.6196821928024292,
+        "quartile": 2,
+        "upper": 0.4035310447216034
+      },
+      {
+        "auroc": 0.7649882581621655,
+        "lower": 0.4035310447216034,
+        "n": 1940,
+        "positive_fraction": 0.6077319383621216,
+        "quartile": 3,
+        "upper": 0.4285714328289032
+      },
+      {
+        "auroc": 0.761545663677073,
+        "lower": 0.4285714328289032,
+        "n": 1955,
+        "positive_fraction": 0.554475724697113,
+        "quartile": 4,
+        "upper": 0.5714285969734192
+      }
+    ],
+    "length": [
+      {
+        "auroc": 0.7833270875208667,
+        "lower": 27.0,
+        "n": 1932,
+        "positive_fraction": 0.6940993666648865,
+        "quartile": 1,
+        "upper": 162.0
+      },
+      {
+        "auroc": 0.8020493608041863,
+        "lower": 162.0,
+        "n": 1951,
+        "positive_fraction": 0.6222450137138367,
+        "quartile": 2,
+        "upper": 255.0
+      },
+      {
+        "auroc": 0.7639659519466659,
+        "lower": 255.0,
+        "n": 1959,
+        "positive_fraction": 0.5696784257888794,
+        "quartile": 3,
+        "upper": 395.75
+      },
+      {
+        "auroc": 0.8007562628345415,
+        "lower": 395.75,
+        "n": 1948,
+        "positive_fraction": 0.4958932101726532,
+        "quartile": 4,
+        "upper": 2346.0
+      }
+    ],
+    "longest_hydrophobic_run": [
+      {
+        "auroc": 0.7974265576877517,
+        "lower": 0.0020110609475523233,
+        "n": 1946,
+        "positive_fraction": 0.5179855823516846,
+        "quartile": 1,
+        "upper": 0.013297872617840767
+      },
+      {
+        "auroc": 0.7796465893648417,
+        "lower": 0.013297872617840767,
+        "n": 1943,
+        "positive_fraction": 0.5692228674888611,
+        "quartile": 2,
+        "upper": 0.019543973729014397
+      },
+      {
+        "auroc": 0.7978706314620183,
+        "lower": 0.019543973729014397,
+        "n": 1950,
+        "positive_fraction": 0.6384615302085876,
+        "quartile": 3,
+        "upper": 0.028776979073882103
+      },
+      {
+        "auroc": 0.7914030326917756,
+        "lower": 0.028776979073882103,
+        "n": 1951,
+        "positive_fraction": 0.655048668384552,
+        "quartile": 4,
+        "upper": 0.17142857611179352
+      }
+    ],
+    "sequence_entropy": [
+      {
+        "auroc": 0.8259076760135877,
+        "lower": 1.8710427284240723,
+        "n": 1948,
+        "positive_fraction": 0.5718685984611511,
+        "quartile": 1,
+        "upper": 2.75211101770401
+      },
+      {
+        "auroc": 0.7795158384610501,
+        "lower": 2.75211101770401,
+        "n": 1947,
+        "positive_fraction": 0.5947611927986145,
+        "quartile": 2,
+        "upper": 2.808828592300415
+      },
+      {
+        "auroc": 0.7822536822536822,
+        "lower": 2.808828592300415,
+        "n": 1947,
+        "positive_fraction": 0.6009244918823242,
+        "quartile": 3,
+        "upper": 2.8536645770072937
+      },
+      {
+        "auroc": 0.7872309923485973,
+        "lower": 2.8536645770072937,
+        "n": 1948,
+        "positive_fraction": 0.6134496927261353,
+        "quartile": 4,
+        "upper": 2.9555978775024414
+      }
+    ]
+  },
+  "test_evaluated": false
+}
