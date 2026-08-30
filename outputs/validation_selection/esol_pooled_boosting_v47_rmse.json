@@ -1,0 +1,32 @@
+{
+  "affine_intercept": -0.03089823225316562,
+  "affine_metrics": {
+    "mae": 0.16353717087017872,
+    "n": 267,
+    "pearson": 0.7638549005049665,
+    "rmse": 0.20774906394134027,
+    "spearman": 0.770711974824544
+  },
+  "affine_slope": 1.1006289211130005,
+  "base_report": "outputs/validation_selection/esol_late_stack_v40_rmse.json",
+  "candidate_entities": {
+    "outputs/esol_pooled_boosting_v47_strict_si30_absolute+08-30-23-16": 266,
+    "outputs/esol_pooled_boosting_v47_strict_si30_huber+08-30-23-16": 266
+  },
+  "candidate_weights": {
+    "outputs/esol_pooled_boosting_v47_strict_si30_absolute+08-30-23-16": 0.0,
+    "outputs/esol_pooled_boosting_v47_strict_si30_huber+08-30-23-16": 0.0
+  },
+  "entity_count": 267,
+  "fallback_rule": "Keep the frozen base prediction for entities absent from each partial candidate.",
+  "metrics": {
+    "mae": 0.16547026947726695,
+    "n": 267,
+    "pearson": 0.7638549005049665,
+    "rmse": 0.209602938044138,
+    "spearman": 0.770711974824544
+  },
+  "objective": "rmse",
+  "selection_data": "strict-validation only",
+  "test_evaluated": false
+}
