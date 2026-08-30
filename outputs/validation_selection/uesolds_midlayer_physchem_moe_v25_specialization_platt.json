@@ -1,0 +1,108 @@
+{
+  "calibrated": {
+    "auprc": 0.8677115497532546,
+    "auroc": 0.8068392645074349,
+    "balanced_accuracy": 0.7090888242169674,
+    "brier": 0.17476641663887518,
+    "ece": 0.013831674076075393,
+    "f1": 0.7723086694188197,
+    "mcc": 0.42233850589608296,
+    "n": 7790
+  },
+  "crossfit_calibrated": {
+    "auprc": 0.8675919961479444,
+    "auroc": 0.8067664213870984,
+    "balanced_accuracy": 0.7087272419111837,
+    "brier": 0.17479578354672837,
+    "ece": 0.012914534366320833,
+    "f1": 0.7724196277495333,
+    "mcc": 0.4218517687651239,
+    "n": 7790
+  },
+  "crossfit_folds": [
+    {
+      "fold": 0,
+      "heldout_entities": 1558,
+      "intercept": 0.3849177177880101,
+      "optimization_success": true,
+      "slope": 0.8615546531952153,
+      "train_entities": 6232
+    },
+    {
+      "fold": 1,
+      "heldout_entities": 1558,
+      "intercept": 0.3885741305898326,
+      "optimization_success": true,
+      "slope": 0.8837586083722511,
+      "train_entities": 6232
+    },
+    {
+      "fold": 2,
+      "heldout_entities": 1558,
+      "intercept": 0.38215959764439433,
+      "optimization_success": true,
+      "slope": 0.8746758641450997,
+      "train_entities": 6232
+    },
+    {
+      "fold": 3,
+      "heldout_entities": 1558,
+      "intercept": 0.3800709902304621,
+      "optimization_success": true,
+      "slope": 0.8633714652877347,
+      "train_entities": 6232
+    },
+    {
+      "fold": 4,
+      "heldout_entities": 1558,
+      "intercept": 0.401711935130997,
+      "optimization_success": true,
+      "slope": 0.8813240712668324,
+      "train_entities": 6232
+    }
+  ],
+  "entity_count": 7790,
+  "nll": 0.5153300967603349,
+  "optimization_success": true,
+  "platt_intercept": 0.3874253763319124,
+  "platt_slope": 0.8728251377947579,
+  "run_weights": {
+    "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer12_experts6_noaux_s31+08-30-19-10": 0.0,
+    "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer12_experts6_s29+08-30-18-59": 0.046210703656734985,
+    "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer12_experts8_desc05_s03+08-30-19-10": 0.08682883332014195,
+    "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer24_experts6_s23+08-30-18-59": 0.0,
+    "outputs/uesolds_multilayer_physchem_moe_v24_strict_si30_weighted_experts6_s17+08-30-18-51": 0.020434095017691473,
+    "outputs/uesolds_multilayer_physchem_moe_v24_strict_si30_weighted_plain_s19+08-30-18-51": 0.0,
+    "outputs/uesolds_physchem_moe_v22_strict_si30_experts4_s13+08-30-17-10": 0.0,
+    "outputs/uesolds_physchem_moe_v22_strict_si30_experts6_drop015_s17+08-30-17-10": 0.04080466297825449,
+    "outputs/uesolds_residue_esm_conditioned_v10_strict_si30_concat_s29+08-29-20-20": 0.05499979444226091,
+    "outputs/uesolds_residue_esm_layer24_physchem_v5_strict_si30_s20260830+08-29-18-28": 0.08858019803030814,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_cap256+08-29-20-39": 0.0,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4+08-29-20-56": 0.1389968822072251,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4wide256+08-29-20-56": 0.0,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep5_interaction+08-29-20-56": 0.0,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_drop03+08-29-20-47": 0.06606340318986861,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_drop01_s45+08-29-23-02": 0.0,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_desc05_s65+08-30-00-10": 0.0,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_ls001_s63+08-30-00-10": 0.02856782891073986,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_s51_r1+08-29-23-13": 0.13176550442423585,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_s61+08-29-23-56": 0.08103076925346335,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_s43+08-29-22-59": 0.07355728313412747,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_s47_r1+08-29-23-13": 0.0998638119287348,
+    "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_wide256+08-29-20-56": 0.03729622950621312,
+    "outputs/uesolds_residue_esm_tcn_conditioned_v11_strict_si30_cap384+08-29-20-27": 0.005
+  },
+  "selection_data": "strict-validation only",
+  "source_report": "outputs/validation_selection/uesolds_midlayer_physchem_moe_v25_specialization_weighted_auc.json",
+  "test_evaluated": false,
+  "uncalibrated": {
+    "auprc": 0.8677115497532546,
+    "auroc": 0.8068392645074349,
+    "balanced_accuracy": 0.7281916076380861,
+    "brier": 0.1820033452525051,
+    "ece": 0.0746354687024048,
+    "f1": 0.7289039767216219,
+    "mcc": 0.4492212243964402,
+    "n": 7790
+  }
+}
