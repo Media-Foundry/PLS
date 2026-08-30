@@ -9,6 +9,7 @@ from torch.utils.tensorboard import SummaryWriter
 from pls.evaluation.metrics import binary_metrics
 from pls.models.gvp_structure import GVPStructureFusion
 from pls.training.train_residue_structure import Data,BalancedLengthBatchSampler
+from pls.training.train_uesolds_residue import binary_rank_loss
 
 def attach_vectors(base,vectors,coords):return (*base[:8],vectors,coords,base[-1])
 
@@ -47,7 +48,9 @@ def main():
   for seq,res,vectors,coords,mask,neighbors,distances,patch,components,y in train:
    seq,res,vectors,coords,mask,neighbors,distances,patch,components,y=[x.to(device,non_blocking=True) for x in (seq,res,vectors,coords,mask,neighbors,distances,patch,components,y)];opt.zero_grad(set_to_none=True)
    with torch.autocast('cuda',dtype=torch.bfloat16,enabled=tr.get('amp_bfloat16',True)):
-    out=model(seq,res,vectors,coords,mask,neighbors,distances,patch,components);loss=nn.functional.binary_cross_entropy_with_logits(out,y);patch_aux_weight=float(tr.get('patch_aux_weight',0))
+    out=model(seq,res,vectors,coords,mask,neighbors,distances,patch,components);loss=nn.functional.binary_cross_entropy_with_logits(out,y);rank_weight=float(tr.get('rank_weight',0))
+    if rank_weight:loss=loss+rank_weight*binary_rank_loss(out,y,float(tr.get('rank_temperature',1.)),float(tr.get('rank_hard_fraction',1.)),float(tr.get('rank_margin',0.)))
+    patch_aux_weight=float(tr.get('patch_aux_weight',0))
     if patch_aux_weight:
      if model.last_surface_patch_logit is None:raise ValueError('patch auxiliary loss requires surface patch tokens')
      loss=loss+patch_aux_weight*nn.functional.binary_cross_entropy_with_logits(model.last_surface_patch_logit,y)
