@@ -8,6 +8,12 @@ from torch.utils.data import Dataset,DataLoader,Sampler
 from torch.utils.tensorboard import SummaryWriter
 from pls.evaluation.metrics import regression_metrics
 from pls.models.residue_sequence import ResidueSequenceRegressor
+
+def load_pretrained_weights(model,checkpoint,excluded_prefixes=()):
+ state=torch.load(checkpoint,map_location='cpu',weights_only=False);source=state['model'] if 'model' in state else state;excluded=tuple(excluded_prefixes);selected={key:value for key,value in source.items() if not key.startswith(excluded)};incompatible=model.load_state_dict(selected,strict=False)
+ if incompatible.unexpected_keys:raise ValueError(f'unexpected pretrained keys: {incompatible.unexpected_keys}')
+ if any(not key.startswith(excluded) for key in incompatible.missing_keys):raise ValueError(f'unexplained missing pretrained keys: {incompatible.missing_keys}')
+ return {'checkpoint':str(checkpoint),'loaded_tensors':len(selected),'excluded_prefixes':list(excluded),'source_epoch':state.get('epoch')}
 class Data(Dataset):
  def __init__(self,rows,global_esm,offsets,residue_path,shape,descriptors=None):self.rows,self.global_esm,self.offsets,self.residue_path,self.shape,self.descriptors=rows,global_esm,offsets,residue_path,shape,descriptors;self._data=None
  def __len__(self):return len(self.rows)
@@ -52,9 +58,14 @@ def main():
  if d.get('sequence_descriptor_dir'):
   raw=np.load(Path(d['sequence_descriptor_dir'])/'descriptors.npy',mmap_mode='r');train_entities=np.unique([i for i,_ in rows['train']]);mean=np.asarray(raw[train_entities],np.float64).mean(0);std=np.maximum(np.asarray(raw[train_entities],np.float64).std(0),1e-6);scale=float(d.get('sequence_descriptor_scale',1));descriptors=(((np.asarray(raw,np.float32)-mean)/std)*scale).astype(np.float32);np.savez(a.run_dir/'descriptor_stats.npz',mean=mean.astype(np.float32),std=std.astype(np.float32),scale=np.float32(scale),train_entity_indices=train_entities)
  root=Path(d['residue_esm_dir']);offsets=np.load(Path(d['selection_dir'])/'offsets.npy',mmap_mode='r');shape=tuple(json.loads((root/'pca_metadata.json').read_text())['shape']);sets={s:Data(v,global_esm,offsets,root/'residue_esm2_pca.f16',shape,descriptors) for s,v in rows.items()};lengths=[int(entities[i]['length']) for i,_ in rows['train']];batch_sampler=LengthSampler(lengths,tr['batch_size'],seed);train=DataLoader(sets['train'],batch_sampler=batch_sampler,num_workers=tr['workers'],collate_fn=collate,persistent_workers=tr['workers']>0,pin_memory=True);loaders={'validation':DataLoader(sets['validation'],batch_size=tr['batch_size'],num_workers=tr['workers'],collate_fn=collate,persistent_workers=tr['workers']>0,pin_memory=True)}
- device=torch.device('cuda:0');descriptor_dimension=descriptors.shape[1] if descriptors is not None else 0;global_dimension=global_esm.shape[1]+descriptor_dimension;model=ResidueSequenceRegressor(global_dimension,shape[1],mc['hidden_dimension'],mc['representation_dimension'],mc['dropout'],mc['pooling'],mc.get('fusion','concat'),mc.get('global_segments',1),mc.get('global_segment_fusion','weighted_sum'),mc.get('tcn_bottleneck'),mc.get('tcn_dilations',(1,2,4)),mc.get('segment_window',32),mc.get('segment_layers',2),descriptor_dimension).to(device);decay=float(tr.get('ema_decay',0));ema=copy.deepcopy(model).eval().requires_grad_(False) if decay else None;opt=torch.optim.AdamW(model.parameters(),lr=tr['learning_rate'],weight_decay=tr['weight_decay'],fused=tr.get('fused_optimizer',False));writer=SummaryWriter(a.run_dir/'tensorboard');best=-2;stale=0;history=[]
+ device=torch.device('cuda:0');descriptor_dimension=descriptors.shape[1] if descriptors is not None else 0;global_dimension=global_esm.shape[1]+descriptor_dimension;model=ResidueSequenceRegressor(global_dimension,shape[1],mc['hidden_dimension'],mc['representation_dimension'],mc['dropout'],mc['pooling'],mc.get('fusion','concat'),mc.get('global_segments',1),mc.get('global_segment_fusion','weighted_sum'),mc.get('tcn_bottleneck'),mc.get('tcn_dilations',(1,2,4)),mc.get('segment_window',32),mc.get('segment_layers',2),descriptor_dimension).to(device);pretrained_report=None;excluded_prefixes=tuple(tr.get('pretrained_excluded_prefixes',()))
+ if tr.get('pretrained_checkpoint'):
+  pretrained_report=load_pretrained_weights(model,tr['pretrained_checkpoint'],excluded_prefixes);print(json.dumps({'pretrained':pretrained_report}),flush=True)
+ decay=float(tr.get('ema_decay',0));ema=copy.deepcopy(model).eval().requires_grad_(False) if decay else None;opt=torch.optim.AdamW(model.parameters(),lr=tr['learning_rate'],weight_decay=tr['weight_decay'],fused=tr.get('fused_optimizer',False));writer=SummaryWriter(a.run_dir/'tensorboard');best=-2;stale=0;history=[];freeze_epochs=int(tr.get('pretrained_freeze_epochs',0))
  for epoch in range(1,tr['epochs']+1):
   started=time.monotonic();model.train();total=count=0
+  if pretrained_report:
+   for name,parameter in model.named_parameters():parameter.requires_grad_(epoch>freeze_epochs or name.startswith(excluded_prefixes))
   for global_x,res,mask,y in train:
    global_x,res,mask,y=[v.to(device,non_blocking=True) for v in (global_x,res,mask,y)];opt.zero_grad(set_to_none=True)
    with torch.autocast('cuda',dtype=torch.bfloat16,enabled=tr.get('amp_bfloat16',True)):pred=model(global_x,res,mask);loss=nn.functional.smooth_l1_loss(pred,y,beta=.1)+float(tr.get('rank_weight',0))*rank_loss(pred,y)
@@ -63,7 +74,7 @@ def main():
     with torch.no_grad():
      for ep,pv in zip(ema.parameters(),model.parameters()):ep.mul_(decay).add_(pv,alpha=1-decay)
    total+=loss.item()*len(y);count+=len(y)
-  train_seconds=time.monotonic()-started;eval_model=ema or model;truth,pred=infer(eval_model,loaders['validation'],device,tr.get('amp_bfloat16',False));metrics=regression_metrics(truth,pred);row={'epoch':epoch,'train_loss':total/count,'train_seconds':train_seconds,'validation':metrics};history.append(row);print(json.dumps(row),flush=True);writer.add_scalar('validation/spearman',metrics['spearman'],epoch);state={'model':eval_model.state_dict(),'epoch':epoch,'validation':metrics,'config':c}
+  train_seconds=time.monotonic()-started;eval_model=ema or model;truth,pred=infer(eval_model,loaders['validation'],device,tr.get('amp_bfloat16',False));metrics=regression_metrics(truth,pred);row={'epoch':epoch,'train_loss':total/count,'train_seconds':train_seconds,'validation':metrics,'pretrained_backbone_frozen':bool(pretrained_report and epoch<=freeze_epochs)};history.append(row);print(json.dumps(row),flush=True);writer.add_scalar('validation/spearman',metrics['spearman'],epoch);state={'model':eval_model.state_dict(),'epoch':epoch,'validation':metrics,'config':c,'pretrained':pretrained_report}
   if epoch%tr['checkpoint_every']==0:torch.save(state,a.run_dir/'checkpoints'/f'epoch_{epoch:03d}.pt')
   if metrics['spearman']>best:best=metrics['spearman'];stale=0;torch.save(state,a.run_dir/'checkpoints'/'best.pt')
   else:stale+=1

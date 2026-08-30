@@ -1,0 +1,27 @@
+{
+  "trainer_module": "pls.training.train_esol_residue",
+  "experiment_name": "esol_uesolds_transfer_v38_strict_si30_full",
+  "evaluate_test": false,
+  "data": {
+    "entities": "benchmark/generated/sequence_entities.csv",
+    "observation_split": "benchmark/generated/strict_si30_observation_split.csv",
+    "embedding_dir": "artifacts/plm/esm2_t33_650M_UR50D_mean",
+    "selection_dir": "artifacts/features/esol_selection",
+    "residue_esm_dir": "artifacts/plm/esm2_t33_650M_UR50D_residue_esol_uesolds_pca",
+    "sequence_descriptor_dir": "artifacts/features/sequence_descriptors_v1",
+    "sequence_descriptor_scale": 0.25
+  },
+  "model": {
+    "pooling": "shift_tcn_conditioned_attention", "fusion": "concat",
+    "hidden_dimension": 256, "representation_dimension": 256,
+    "tcn_dilations": [1, 2, 4, 8], "dropout": 0.3
+  },
+  "training": {
+    "hip_device": 6, "batch_size": 64, "workers": 4, "amp_bfloat16": true,
+    "fused_optimizer": true, "ema_decay": 0.0, "rank_weight": 0.05,
+    "pretrained_checkpoint": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4+08-29-20-56/checkpoints/best.pt",
+    "pretrained_excluded_prefixes": ["head.4"], "pretrained_freeze_epochs": 0,
+    "epochs": 45, "patience": 8, "checkpoint_every": 5,
+    "learning_rate": 0.0001, "weight_decay": 0.0001, "seed": 20261307
+  }
+}
