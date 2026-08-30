@@ -1,0 +1,28 @@
+{
+  "affine_intercept": -0.02915106747339727,
+  "affine_metrics": {
+    "mae": 0.1648483962126311,
+    "n": 267,
+    "pearson": 0.7620747537732178,
+    "rmse": 0.2084253824325092,
+    "spearman": 0.7719341713814915
+  },
+  "affine_slope": 1.0926952829461638,
+  "base_report": "outputs/validation_selection/esol_rf_leaf3_full_spearman_blend.json",
+  "base_weight": 1.0,
+  "candidate_weights": {
+    "outputs/esol_residue_esm_segment_transformer_v20_strict_si30_w32_l2_rank005_s01+08-30-16-50": 0.0,
+    "outputs/esol_residue_esm_segment_transformer_v20_strict_si30_w64_l3_rank0_s03+08-30-16-56": 0.0
+  },
+  "entity_count": 267,
+  "metrics": {
+    "mae": 0.1667520630658231,
+    "n": 267,
+    "pearson": 0.762074753773218,
+    "rmse": 0.20996771893685634,
+    "spearman": 0.7719341713814915
+  },
+  "objective": "spearman",
+  "selection_data": "strict-validation only",
+  "test_evaluated": false
+}
