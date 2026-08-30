@@ -1,6 +1,6 @@
 import unittest
 import torch
-from pls.models.gvp_structure import GVPStructureFusion
+from pls.models.gvp_structure import GVPStructureFusion, SparseBidirectionalCrossAttention
 from pls.training.train_gvp_structure import attach_vectors
 
 class GVPStructureTests(unittest.TestCase):
@@ -20,5 +20,15 @@ class GVPStructureTests(unittest.TestCase):
   torch.manual_seed(17);b,n,k=2,9,4;model=GVPStructureFusion(32,160,24,6,16,0,2,'aligned_moe',8,.3,.2).eval();sequence=torch.randn(b,32);residue=torch.randn(b,n,160);residue[...,151]=.8;vectors=torch.randn(b,n,8,3);coords=torch.randn(b,n,3);mask=torch.ones(b,n,dtype=torch.bool);neighbors=torch.randint(0,n,(b,n,k));batch=torch.arange(b)[:,None,None];distances=(coords[batch,neighbors]-coords[:,:,None]).norm(dim=-1);rotation=torch.tensor([[0.,1.,0.],[0.,0.,1.],[1.,0.,0.]])
   with torch.inference_mode():expected=model(sequence,residue,vectors,coords,mask,neighbors,distances);actual=model(sequence,residue,torch.einsum('bnvc,cd->bnvd',vectors,rotation),coords@rotation+3,mask,neighbors,distances)
   torch.testing.assert_close(actual,expected,atol=2e-5,rtol=2e-5)
+
+ def test_aligned_bidirectional_cross_has_gradients_and_exact_fallback(self):
+  torch.manual_seed(23);b,n,k=2,10,4;model=GVPStructureFusion(32,160,24,6,16,0,2,'aligned_bidir_moe',8,.3,.2);sequence=torch.randn(b,32);residue=torch.randn(b,n,160);residue[...,151]=0;vectors=torch.randn(b,n,8,3);coords=torch.randn(b,n,3);mask=torch.ones(b,n,dtype=torch.bool);neighbors=torch.randint(0,n,(b,n,k));batch=torch.arange(b)[:,None,None];distances=(coords[batch,neighbors]-coords[:,:,None]).norm(dim=-1)
+  fallback=model(sequence,residue,vectors,coords,mask,neighbors,distances);changed=model(sequence,residue*11,vectors*7,coords+5,mask,neighbors,distances);torch.testing.assert_close(changed,fallback,atol=2e-6,rtol=2e-6)
+  residue[...,151]=.85;output=model(sequence,residue,vectors,coords,mask,neighbors,distances);output.square().mean().backward();self.assertIsNotNone(model.bidirectional_cross.seq_q.weight.grad);self.assertIsNotNone(model.bidirectional_cross.str_q.weight.grad);self.assertTrue(torch.isfinite(model.bidirectional_cross.seq_q.weight.grad).all())
+
+ def test_sparse_cross_ignores_duplicate_and_invalid_neighbors(self):
+  torch.manual_seed(29);module=SparseBidirectionalCrossAttention(12,0).eval();b,n=1,5;sequence=torch.randn(b,n,12);structure=torch.randn(b,n,12);mask=torch.ones(b,n,dtype=torch.bool);confidence=torch.ones(b,n);neighbors=torch.tensor([[[1,1,2],[0,0,2],[0,0,1],[0,0,2],[0,0,2]]]);distances=torch.ones(b,n,3);distances[:,:,1]=99
+  with torch.inference_mode():expected=module(sequence,structure,neighbors,distances,mask,confidence);distances[:,:,1]=float('nan');actual=module(sequence,structure,neighbors,distances,mask,confidence)
+  torch.testing.assert_close(actual[0],expected[0],atol=1e-7,rtol=1e-7);torch.testing.assert_close(actual[1],expected[1],atol=1e-7,rtol=1e-7)
 
 if __name__=='__main__':unittest.main()
