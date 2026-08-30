@@ -1,0 +1,39 @@
+{
+  "command": [
+    "script/run_experiment.py",
+    "--config",
+    "configs/experiments/uesolds_specialized_physchem_moe_v26.json",
+    "--hip-override",
+    "6",
+    "--seed-override",
+    "20261153",
+    "--physchem-top-k-override",
+    "2",
+    "--physchem-sparse-residual-override",
+    "0.25",
+    "--expert-sparse-warmup-epochs-override",
+    "4",
+    "--physchem-gate-temperature-override",
+    "0.5",
+    "--expert-entropy-weight-override",
+    "0.001",
+    "--expert-balance-weight-override",
+    "0.02",
+    "--name-suffix",
+    "_top2_res025_warm4_s53"
+  ],
+  "created_at": "2026-08-30T21:03:59.540249+08:00",
+  "git_revision": "3874ba0926708f9996a573e40bd8223b17556808",
+  "hip_visible_devices": "6",
+  "packages": {
+    "biopython": "1.85",
+    "fair-esm": "2.0.0",
+    "numpy": "2.5.2",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.16.0",
+    "tensorboard": "2.21.0"
+  },
+  "python": "3.12.13 | packaged by Anaconda, Inc. | (main, Jul  9 2026, 14:38:16) [GCC 14.3.0]",
+  "torch": "2.12.0a0+git78258b9",
+  "torch_hip": "7.14.60850"
+}
