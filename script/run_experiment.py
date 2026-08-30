@@ -47,6 +47,7 @@ def main() -> None:
     parser.add_argument("--expert-aux-weight-override", type=float)
     parser.add_argument("--residue-fusion-override", choices=("concat", "interaction"))
     parser.add_argument("--descriptor-scale-override", type=float)
+    parser.add_argument("--embedding-segment-override", type=int)
     parser.add_argument("--batch-size-override", type=int)
     parser.add_argument("--learning-rate-override", type=float)
     parser.add_argument("--weight-decay-override", type=float)
@@ -120,6 +121,8 @@ def main() -> None:
         config["model"]["fusion"] = args.residue_fusion_override
     if args.descriptor_scale_override is not None:
         config["data"]["sequence_descriptor_scale"] = args.descriptor_scale_override
+    if args.embedding_segment_override is not None:
+        config["data"]["embedding_segment"] = args.embedding_segment_override
     if args.batch_size_override is not None:
         config["training"]["batch_size"] = args.batch_size_override
     if args.learning_rate_override is not None:
