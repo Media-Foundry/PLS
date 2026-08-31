@@ -1,0 +1,59 @@
+{
+  "anchor_protocol_sha256": "6bdee1aff328f031ca80083da94d718c4125a6f4ea112433b2df169470d2a8d2",
+  "final_budget_secondary": {
+    "bootstrap_95_ci": [
+      -0.11455674802882633,
+      0.27461030399863373
+    ],
+    "comparison": "50/50 hybrid minus pure path",
+    "direction": "negative_favors_path",
+    "exact_two_sided_sign_flip_pvalue": 0.55419921875,
+    "metric": "anchor mean exact regret across radii 1/2/3/4 at 640 queries",
+    "pairs": 16,
+    "path_mean": 0.6483787451979879,
+    "path_minus_uncertainty_mean": 0.0657929359767877,
+    "path_minus_uncertainty_median": 0.00024559441953897476,
+    "path_wins": 6,
+    "prespecified_secondary": true,
+    "ties": 2,
+    "uncertainty_mean": 0.5825858092212002,
+    "uncertainty_wins": 8
+  },
+  "hybrid_run": "outputs/editflow_gb1_hybrid_path_confirmatory_v2+08-31-18-45",
+  "inference": {
+    "bootstrap_samples": 20000,
+    "bootstrap_seed": 20260911,
+    "exact_two_sided_sign_flip_test": true,
+    "primary_endpoint_count": 1
+  },
+  "path_run": "outputs/editflow_gb1_path_confirmatory_v2+08-31-18-45",
+  "primary": {
+    "bootstrap_95_ci": [
+      -0.20653615270469639,
+      0.07599746783501658
+    ],
+    "comparison": "50/50 hybrid minus pure path",
+    "direction": "negative_favors_path",
+    "exact_two_sided_sign_flip_pvalue": 0.38525390625,
+    "metric": "anchor mean exact regret across budgets 160/320/640 and radii 1/2/3/4",
+    "pairs": 16,
+    "path_mean": 1.4659259268034173,
+    "path_minus_uncertainty_mean": -0.06621393279177326,
+    "path_minus_uncertainty_median": -0.046946980059146895,
+    "path_wins": 9,
+    "prespecified_before_run_start": true,
+    "ties": 0,
+    "uncertainty_mean": 1.5321398595951905,
+    "uncertainty_wins": 7
+  },
+  "schema": "PLS_EditFlow_GB1_hybrid_confirmatory_v2",
+  "test_evaluated": false,
+  "validation": {
+    "same_anchor_protocol": true,
+    "same_initial_queried_node_sets": true,
+    "same_model_and_seeds": true,
+    "same_unique_node_budgets": true,
+    "test_evaluated": false,
+    "unseen_from_v1": true
+  }
+}

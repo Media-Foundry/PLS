@@ -217,6 +217,16 @@ The post-hoc shortest-bound follow-up was effectively tied with ordinary path
 acquisition. A fixed 50/50 path-versus-frontier-uncertainty portfolio is the next
 explicitly exploratory ablation; it is not part of the confirmatory claim.
 
+That 50/50 portfolio produced a large post-hoc improvement on the v1 anchors,
+but it did not replicate on 16 newly frozen v2 anchors. The v2 prespecified
+primary query-curve regret was 1.4659 for hybrid versus 1.5321 for pure path
+(difference -0.0662, bootstrap 95% CI [-0.2065, 0.0760], exact p=0.385; 9 wins
+and 7 losses). At the secondary 640-query endpoint, hybrid was numerically worse
+(0.6484 versus 0.5826). A universal fixed exploration fraction is therefore not
+an established contribution. Anchor-adaptive allocation based on optimizer-path
+concentration or ensemble disagreement remains a new hypothesis requiring a
+separate unseen-anchor protocol.
+
 For the PLS world, the current test-free proof-of-concept manifest contains 24
 strict train/validation anchors, 384 single-mutant edges, and 408 unique sequence
 queries. Mean ESM-2 embeddings are complete for all 408 sequences. Every mutant
