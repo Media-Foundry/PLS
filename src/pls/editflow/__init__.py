@@ -9,6 +9,7 @@ from .metrics import mutation_field_metrics
 from .objective import editflow_distillation_loss
 from .optimization import (beam_search_paths,
                            bound_aware_frontier_acquisition,
+                           hybrid_query_budget,
                            path_aware_frontier_acquisition)
 
 __all__ = [
@@ -17,5 +18,5 @@ __all__ = [
     "path_regret_bound", "shortest_path_discrepancies",
     "mutation_field_metrics", "editflow_distillation_loss",
     "beam_search_paths", "bound_aware_frontier_acquisition",
-    "path_aware_frontier_acquisition",
+    "hybrid_query_budget", "path_aware_frontier_acquisition",
 ]

@@ -4,6 +4,7 @@ import numpy as np
 
 from pls.editflow.optimization import (beam_search_paths,
                                        bound_aware_frontier_acquisition,
+                                       hybrid_query_budget,
                                        path_aware_frontier_acquisition)
 from pls.training.train_editflow_gb1_active import uncertainty_acquisition
 
@@ -69,6 +70,13 @@ class EditFlowOptimizationTests(unittest.TestCase):
         self.assertEqual(len(result.selected_paths), len(result.candidate_endpoints))
         self.assertTrue(np.all(result.estimated_path_bounds >= 0))
         self.assertEqual(result.batch.node_indices.tolist(), [4])
+
+    def test_hybrid_budget_preserves_targeted_and_exploration_queries(self):
+        self.assertEqual(hybrid_query_budget(80, 0.5), 40)
+        self.assertEqual(hybrid_query_budget(3, 0.5), 2)
+        self.assertEqual(hybrid_query_budget(1, 0.5), 1)
+        with self.assertRaises(ValueError):
+            hybrid_query_budget(80, 1.0)
 
 
 if __name__ == "__main__":

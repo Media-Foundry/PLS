@@ -15,6 +15,7 @@ from torch.utils.tensorboard import SummaryWriter
 from pls.editflow.hamming import (hamming_distance, queried_nodes_sha256,
                                   variants_from_tokens)
 from pls.editflow.optimization import (bound_aware_frontier_acquisition,
+                                       hybrid_query_budget,
                                        path_aware_frontier_acquisition)
 from pls.training.train_editflow_gb1 import (connected_query_nodes,
                                              evaluation_edges)
@@ -86,6 +87,32 @@ def acquire_next_round(
             "path_edges": int(acquired.path_edges.shape[1]),
             "path_selected": len(selected),
         }
+    elif mode == "hybrid_path":
+        targeted_budget = hybrid_query_budget(
+            increment, float(data_config["path_fraction"])
+        )
+        acquired = path_aware_frontier_acquisition(
+            ensemble,
+            queried,
+            measured,
+            anchor,
+            targeted_budget,
+            alphabet_size=20,
+            length=4,
+            steps=int(data_config["beam_steps"]),
+            beam_width=int(data_config["beam_width"]),
+            conservative_beta=float(data_config.get("conservative_beta", 0.0)),
+        )
+        selected = acquired.batch.node_indices.tolist()
+        details = {
+            "mode": mode,
+            "path_fraction": float(data_config["path_fraction"]),
+            "path_budget": targeted_budget,
+            "exploration_budget": increment - targeted_budget,
+            "path_count": len(acquired.paths),
+            "path_edges": int(acquired.path_edges.shape[1]),
+            "path_selected": len(selected),
+        }
     elif mode == "bound_aware":
         acquired = bound_aware_frontier_acquisition(
             ensemble,
@@ -124,7 +151,7 @@ def acquire_next_round(
         }
     else:
         raise ValueError(
-            "acquisition must be path_aware, bound_aware, or uncertainty"
+            "acquisition must be path_aware, hybrid_path, bound_aware, or uncertainty"
         )
 
     if len(selected) < increment:

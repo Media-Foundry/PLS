@@ -74,6 +74,18 @@ class BoundAwareAcquisition:
     estimated_path_bounds: np.ndarray
 
 
+def hybrid_query_budget(total_budget: int, targeted_fraction: float) -> int:
+    """Allocate a fixed query share to path targeting, leaving exploration room."""
+    if total_budget < 1:
+        raise ValueError("total_budget must be positive")
+    if not 0.0 < targeted_fraction < 1.0:
+        raise ValueError("targeted_fraction must lie strictly between zero and one")
+    if total_budget == 1:
+        return 1
+    targeted = int(np.floor(total_budget * targeted_fraction + 0.5))
+    return min(max(targeted, 1), total_budget - 1)
+
+
 def path_aware_frontier_acquisition(
     ensemble_values,
     queried_nodes,
