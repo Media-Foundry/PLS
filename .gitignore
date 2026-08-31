@@ -27,6 +27,7 @@ outputs/*/*
 !outputs/*/queried_nodes.json
 !outputs/*/oracle_manifest.json
 !outputs/*/optimization_rollouts.json
+!outputs/*/aggregate_metrics.json
 !outputs/*/tensorboard/
 outputs/*/tensorboard/*
 !outputs/*/tensorboard/events.out.tfevents.*

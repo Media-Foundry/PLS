@@ -1,0 +1,32 @@
+{
+  "anchors": [
+    {"node_index": 20637, "rank": 0, "variant": "DNNV"},
+    {"node_index": 155854, "rank": 1, "variant": "YLPR"},
+    {"node_index": 21695, "rank": 2, "variant": "DRFS"},
+    {"node_index": 133692, "rank": 3, "variant": "TRFP"},
+    {"node_index": 15633, "rank": 4, "variant": "CYCQ"},
+    {"node_index": 60968, "rank": 5, "variant": "IPKK"},
+    {"node_index": 78920, "rank": 6, "variant": "LVHA"},
+    {"node_index": 61159, "rank": 7, "variant": "IPVY"},
+    {"node_index": 87636, "rank": 8, "variant": "MYCT"},
+    {"node_index": 25556, "rank": 9, "variant": "EEVT"},
+    {"node_index": 108054, "rank": 10, "variant": "QMDR"},
+    {"node_index": 150032, "rank": 11, "variant": "WSCP"},
+    {"node_index": 20934, "rank": 12, "variant": "DPHR"},
+    {"node_index": 79371, "rank": 13, "variant": "LWKN"},
+    {"node_index": 159291, "rank": 14, "variant": "YWFN"},
+    {"node_index": 24847, "rank": 15, "variant": "EDDI"}
+  ],
+  "anchors_sha256": "3b3ef4a2152d1eac8f0780fe4f5964eb491e7113c3d93837def3dbe64a589566",
+  "landscape": "benchmark/generated/gb1_wu2016_editflow_v1.npz",
+  "schema": "PLS_EditFlow_GB1_anchor_protocol_v1",
+  "selection": {
+    "algorithm": "ascending sha256(salt:variant), node index tie-break",
+    "count": 16,
+    "excluded_variants": ["VDGV"],
+    "fitness_accessed": false,
+    "measured_only": true,
+    "salt": "PLS-EditFlow-GB1-confirmatory-anchors-v1"
+  },
+  "test_evaluated": false
+}

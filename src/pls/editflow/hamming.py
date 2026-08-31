@@ -84,3 +84,30 @@ def queried_nodes_sha256(nodes) -> str:
         values = np.fromiter((int(node) for node in nodes), dtype=np.int64)
     canonical = np.unique(values).astype("<i8", copy=False)
     return hashlib.sha256(canonical.tobytes()).hexdigest()
+
+
+def select_hashed_anchors(
+    variants,
+    eligible,
+    count: int,
+    *,
+    salt: str,
+    excluded=(),
+) -> np.ndarray:
+    """Select anchors by a value-blind SHA-256 priority over variant names."""
+    variants = list(variants)
+    eligible = np.asarray(eligible, dtype=bool)
+    if eligible.shape != (len(variants),):
+        raise ValueError("eligible must have one value per variant")
+    if count < 1:
+        raise ValueError("count must be positive")
+    excluded = frozenset(map(str, excluded))
+    ranked = []
+    for node, variant in enumerate(variants):
+        if eligible[node] and str(variant) not in excluded:
+            digest = hashlib.sha256(f"{salt}:{variant}".encode()).digest()
+            ranked.append((digest, node))
+    if len(ranked) < count:
+        raise ValueError("not enough eligible anchors")
+    ranked.sort()
+    return np.asarray([node for _, node in ranked[:count]], dtype=np.int64)

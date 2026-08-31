@@ -5,7 +5,8 @@ import numpy as np
 from preparation.build_gb1_editflow import column_index
 from pls.editflow.hamming import (hamming_distance, hamming_graph_edges,
                                   hash_partition, node_neighbors,
-                                  queried_nodes_sha256, variants_from_tokens)
+                                  queried_nodes_sha256, select_hashed_anchors,
+                                  variants_from_tokens)
 from pls.training.train_editflow_gb1 import closed_local_edges, connected_query_nodes
 
 
@@ -53,6 +54,19 @@ class GB1EditFlowTests(unittest.TestCase):
     def test_query_manifest_hash_is_order_independent(self):
         self.assertEqual(queried_nodes_sha256([3, 1, 2]), queried_nodes_sha256([2, 3, 1, 1]))
         self.assertEqual(queried_nodes_sha256({1, 2, 3}), queried_nodes_sha256(np.array([3, 2, 1])))
+
+    def test_hashed_anchor_selection_is_value_blind_and_ordered(self):
+        variants = ["AAAA", "AAAC", "AAAD", "AAAE"]
+        eligible = np.array([True, False, True, True])
+        first = select_hashed_anchors(
+            variants, eligible, 2, salt="fixed", excluded={"AAAA"}
+        )
+        second = select_hashed_anchors(
+            variants, eligible, 2, salt="fixed", excluded={"AAAA"}
+        )
+        self.assertEqual(first.tolist(), second.tolist())
+        self.assertNotIn(0, first)
+        self.assertNotIn(1, first)
 
 
 if __name__ == "__main__":
