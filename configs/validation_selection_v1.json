@@ -8,8 +8,8 @@
       "auroc_report": "outputs/validation_selection/latent_endpoint_residual_v35_pdbsol.json",
       "auprc_report": "outputs/validation_selection/pdbsol_spatial_patch_v18_ensembles.json",
       "mcc_report": "outputs/validation_selection/pdbsol_gvp_multiseed_ensembles.json",
-      "brier_report": "outputs/validation_selection/latent_endpoint_residual_v35_pdbsol_platt.json",
-      "metrics": {"auroc": 0.9046065493646197, "auprc": 0.9161942122143626, "mcc_at_selected_threshold": 0.6425591644816286, "brier_calibrated": 0.12582569534371},
+      "brier_report": "outputs/validation_selection/latent_endpoint_residual_v35_pdbsol_platt_si30_grouped.json",
+      "metrics": {"auroc": 0.9046065493646197, "auprc": 0.9161942122143626, "mcc_at_selected_threshold": 0.6425591644816286, "brier_calibrated": 0.12591960539945227},
       "mcc_runs": [
         "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_v6matched_baseline+08-29-16-23",
         "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s31+08-29-16-32",
@@ -40,8 +40,8 @@
       "mcc_report": "outputs/validation_selection/uesolds_hard_pair_v43_mcc.json",
       "mcc_at_selected_threshold": 0.45544353656750236,
       "mcc_threshold": 0.494721706888232,
-      "brier_report": "outputs/validation_selection/uesolds_hard_pair_v43_auroc_beta.json",
-      "calibrated_brier": 0.1744588813689561,
+      "brier_report": "outputs/validation_selection/uesolds_hard_pair_v43_auroc_beta_si30_grouped.json",
+      "calibrated_brier": 0.174496438206102,
       "note": "AUROC, AUPRC, MCC and Brier selections are intentionally distinct; do not select between them on test."
     },
     "esol": {
@@ -50,8 +50,8 @@
       "pearson_report": "outputs/validation_selection/esol_pooled_l1_v46_pearson.json",
       "rmse_report": "outputs/validation_selection/esol_late_stack_v40_rmse.json",
       "mae_report": "outputs/validation_selection/esol_late_stack_v40_mae.json",
-      "affine_rmse_report": "outputs/validation_selection/esol_pooled_l1_v46_pearson.json",
-      "metrics": {"spearman": 0.7720613126340597, "pearson": 0.7642754764631866, "rmse": 0.20960293808531577, "mae": 0.16463879263551717, "affine_rmse": 0.20758872472246875},
+      "affine_rmse_report": "outputs/validation_selection/esol_pooled_l1_v46_pearson_affine_si30_grouped.json",
+      "metrics": {"spearman": 0.7720613126340597, "pearson": 0.7642754764631866, "rmse": 0.20960293808531577, "mae": 0.16463879263551717, "affine_rmse": 0.2094082855389587, "validation_fitted_affine_rmse": 0.20758872434458675},
       "runs": [
         "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
         "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
@@ -66,9 +66,10 @@
       "structure_entities": 266,
       "fallback_entities": 1,
       "fallback_rule": "Use the full-coverage sequence ensemble unchanged when an exact-sequence AlphaFold structure is unavailable.",
-      "affine_slope": 1.0977094816882176,
-      "affine_intercept": -0.031173763456029836,
-      "note": "Spearman, Pearson, RMSE, MAE and affine-RMSE selections are intentionally distinct and use validation only; do not select between them on test."
+      "affine_slope": 1.1550794511109763,
+      "affine_intercept": -0.0570579937680418,
+      "affine_crossfit_grouping": "strict_si30_component_root_sha256",
+      "note": "Spearman, Pearson, RMSE, MAE and affine-RMSE selections are intentionally distinct and use validation only; affine-RMSE is SI30-component OOF, while slope/intercept are the frozen deployment fit on all validation entities. Do not select between recipes on test."
     }
   }
 }

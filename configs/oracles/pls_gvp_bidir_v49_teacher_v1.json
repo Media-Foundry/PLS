@@ -25,7 +25,10 @@
     "geometry": "GVP_8_vector_channels",
     "surface_patches": "mesh_free_connected_components_v1",
     "patch_spatial_layers": 2,
-    "confidence_propagation": "residue_edge_modality"
+    "confidence_propagation": "residue_edge_modality",
+    "cross_confidence_power": 2.0,
+    "patch_self_edges": true,
+    "behavior_revision": "legacy_v49_explicit_reproduction"
   },
   "feature_schemas": {
     "knn": "PLS_V4_geometry_knn_v1",
@@ -36,6 +39,7 @@
   "restrictions": [
     "No PLS test entity or mutant may be queried.",
     "Each mutant requires exact-sequence fold and feature artifacts; parent artifacts cannot be reused as mutant observations.",
-    "This coherent single checkpoint is an oracle candidate and must not inherit metrics from independently selected ensembles."
+    "This coherent single checkpoint is an oracle candidate and must not inherit metrics from independently selected ensembles.",
+    "The historical v49 checkpoint intentionally preserves squared cross-confidence and patch self-edges explicitly; corrected defaults apply only to newly trained models."
   ]
 }

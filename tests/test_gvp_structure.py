@@ -1,6 +1,7 @@
 import unittest
 import torch
-from pls.models.gvp_structure import GVPStructureFusion, SparseBidirectionalCrossAttention
+from pls.models.gvp_structure import (GVPStructureFusion, PatchSpatialLayer,
+                                      SparseBidirectionalCrossAttention)
 from pls.training.train_gvp_structure import attach_vectors
 
 class GVPStructureTests(unittest.TestCase):
@@ -30,5 +31,20 @@ class GVPStructureTests(unittest.TestCase):
   torch.manual_seed(29);module=SparseBidirectionalCrossAttention(12,0).eval();b,n=1,5;sequence=torch.randn(b,n,12);structure=torch.randn(b,n,12);mask=torch.ones(b,n,dtype=torch.bool);confidence=torch.ones(b,n);neighbors=torch.tensor([[[1,1,2],[0,0,2],[0,0,1],[0,0,2],[0,0,2]]]);distances=torch.ones(b,n,3);distances[:,:,1]=99
   with torch.inference_mode():expected=module(sequence,structure,neighbors,distances,mask,confidence);distances[:,:,1]=float('nan');actual=module(sequence,structure,neighbors,distances,mask,confidence)
   torch.testing.assert_close(actual[0],expected[0],atol=1e-7,rtol=1e-7);torch.testing.assert_close(actual[1],expected[1],atol=1e-7,rtol=1e-7)
+
+ def test_sparse_cross_applies_confidence_once_in_attention_probability(self):
+  module=SparseBidirectionalCrossAttention(1,0).eval();q=torch.zeros(1,1,1);k=torch.zeros(1,2,1);v=torch.tensor([[[0.],[1.]]]);batch=torch.zeros(1,1,1,dtype=torch.long);indices=torch.tensor([[[0,1]]]);valid=torch.ones(1,1,2,dtype=torch.bool);edge_gate=torch.tensor([[[.25,1.]]])
+  with torch.inference_mode():context=module.attend(q,k,v,batch,indices,valid,edge_gate)
+  torch.testing.assert_close(context,torch.tensor([[[.8]]]),atol=1e-6,rtol=1e-6)
+
+ def test_legacy_squared_confidence_is_explicit_not_implicit(self):
+  module=SparseBidirectionalCrossAttention(1,0,confidence_power=2).eval();q=torch.zeros(1,1,1);k=torch.zeros(1,2,1);v=torch.tensor([[[0.],[1.]]]);batch=torch.zeros(1,1,1,dtype=torch.long);indices=torch.tensor([[[0,1]]]);valid=torch.ones(1,1,2,dtype=torch.bool);edge_gate=torch.tensor([[[.25,1.]]])
+  with torch.inference_mode():context=module.attend(q,k,v,batch,indices,valid,edge_gate)
+  torch.testing.assert_close(context,torch.tensor([[[16/17]]]),atol=1e-6,rtol=1e-6)
+
+ def test_patch_spatial_layer_excludes_self_edges(self):
+  torch.manual_seed(31);module=PatchSpatialLayer(6,0).eval();tokens=torch.randn(1,1,6);centroids=torch.randn(1,1,3);mask=torch.ones(1,1,dtype=torch.bool);zero=torch.zeros_like(tokens)
+  with torch.inference_mode():actual=module(tokens,centroids,mask);expected=tokens+module.update(torch.cat((tokens,zero),-1))
+  torch.testing.assert_close(actual,expected,atol=1e-7,rtol=1e-7)
 
 if __name__=='__main__':unittest.main()

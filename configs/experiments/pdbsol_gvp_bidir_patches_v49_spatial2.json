@@ -15,6 +15,6 @@
     "vector_dir": "artifacts/features/pdbsol_structure_v4_vectors",
     "surface_patch_dir": "artifacts/features/pdbsol_surface_patch_components_v1"
   },
-  "model": {"fusion": "aligned_bidir_moe", "surface_patches": true, "patch_spatial_layers": 2, "scalar_dimension": 256, "vector_dimension": 24, "representation_dimension": 384, "dropout": 0.10, "layers": 2, "neighbors": 16},
+  "model": {"fusion": "aligned_bidir_moe", "surface_patches": true, "patch_spatial_layers": 2, "cross_confidence_power": 2.0, "patch_self_edges": true, "scalar_dimension": 256, "vector_dimension": 24, "representation_dimension": 384, "dropout": 0.10, "layers": 2, "neighbors": 16},
   "training": {"hip_device": 7, "batch_size": 20, "workers": 4, "amp_bfloat16": true, "fused_optimizer": true, "ema_decay": 0.995, "patch_aux_weight": 0.05, "epochs": 16, "patience": 4, "checkpoint_every": 4, "learning_rate": 0.0001, "weight_decay": 0.0001, "max_gradient_norm": 5.0, "seed": 20261419}
 }

@@ -160,6 +160,13 @@ def main() -> None:
         stats["scalar_stds"][1],
         model_config.get("surface_patches", False),
         model_config.get("patch_spatial_layers", 0),
+        oracle_manifest.get("model", {}).get(
+            "cross_confidence_power",
+            model_config.get("cross_confidence_power", 1.0),
+        ),
+        oracle_manifest.get("model", {}).get(
+            "patch_self_edges", model_config.get("patch_self_edges", False)
+        ),
     ).to(device)
     state = torch.load(checkpoint, map_location=device, weights_only=False)
     model.load_state_dict(state["model"])

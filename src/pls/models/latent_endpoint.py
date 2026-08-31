@@ -1,4 +1,9 @@
-"""Monotonic observation heads over a shared intrinsic-solubility latent score."""
+"""Monotonic observation heads over a shared, scale-unidentified latent score.
+
+When assay residuals are enabled this is a shared-latent plus endpoint-specific
+residual model; it is not a strict monotonic observation of one identifiable
+intrinsic-solubility variable.
+"""
 from __future__ import annotations
 
 import torch

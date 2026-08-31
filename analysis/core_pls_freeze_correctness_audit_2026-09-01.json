@@ -1,0 +1,49 @@
+{
+  "schema": "PLS_core_freeze_correctness_audit_v1",
+  "date": "2026-09-01",
+  "selection_data": "strict-validation only",
+  "test_evaluated": false,
+  "surface_empty_patch": {
+    "selected_candidate": "outputs/pdbsol_gvp_spatial_patches_v18_strict_si30_spatial2_drop01_s83_r1+08-30-16-19",
+    "validation_entities": 6429,
+    "entities_without_any_patch": 0,
+    "code_invariant": "no patch implies zero surface pooled vector, zero auxiliary logit, and exact bypass of surface fusion"
+  },
+  "cross_attention_confidence": {
+    "corrected_default_power": 1.0,
+    "historical_v49_power": 2.0,
+    "historical_v49_behavior_is_explicit": true
+  },
+  "patch_spatial_edges": {
+    "corrected_default_self_edges": false,
+    "historical_v49_self_edges": true,
+    "historical_v49_behavior_is_explicit": true
+  },
+  "calibration": {
+    "pdbsol": {
+      "method": "Platt",
+      "old_entity_crossfit_brier": 0.12582569534371,
+      "si30_component_crossfit_brier": 0.12591960539945227,
+      "si30_components": 4825
+    },
+    "uesolds": {
+      "method": "monotonic_beta",
+      "old_entity_crossfit_brier": 0.1744588813689561,
+      "si30_component_crossfit_brier": 0.174496438206102,
+      "si30_components": 6363
+    },
+    "esol": {
+      "method": "affine",
+      "validation_fitted_rmse": 0.20758872434458675,
+      "si30_component_crossfit_rmse": 0.2094082855389587,
+      "si30_components": 262,
+      "deployment_slope": 1.1550794511109763,
+      "deployment_intercept": -0.0570579937680418
+    }
+  },
+  "tests": {
+    "passed": 127,
+    "skipped": 1,
+    "skip_reason": "authorized ROCm GPU smoke device unavailable to the test process"
+  }
+}

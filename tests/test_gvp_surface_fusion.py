@@ -27,6 +27,13 @@ class GVPSurfaceFusionTests(unittest.TestCase):
   model=self.model().train();output=model(*self.inputs());loss=output.square().mean()+model.last_surface_patch_logit.square().mean();loss.backward();gradient=model.surface_residue_attention.in_proj_weight.grad;self.assertIsNotNone(gradient);self.assertTrue(torch.isfinite(gradient).all());self.assertIsNotNone(model.surface_patch_head[-1].weight.grad)
   self.assertIsNotNone(model.patch_spatial_layers[0].message[1].weight.grad)
 
+ def test_empty_surface_patch_is_an_exact_zero_and_bypasses_surface_fusion(self):
+  model=self.model();values=list(self.inputs());values[-1][0]=-1
+  altered=list(values);altered[7]=values[7].clone();altered[7][0]=torch.randn_like(altered[7][0])*100
+  with torch.inference_mode():expected=model(*values);actual=model(*altered)
+  torch.testing.assert_close(actual[0],expected[0],atol=1e-7,rtol=1e-7)
+  self.assertEqual(float(model.last_surface_patch_logit[0]),0.0)
+
  def test_rigid_motion_is_invariant(self):
   model=self.model();values=list(self.inputs())
   with torch.inference_mode():expected=model(*values)

@@ -23,5 +23,11 @@ class SurfacePatchPoolingTests(unittest.TestCase):
   torch.manual_seed(59);b,n,k=2,9,4;model=GeometryLateFusion(16,160,24,16,0,1,'surface_patches',0,True,'residue_aligned_sparse','propagated_moe',8).train();sequence=torch.randn(b,16);residue=torch.randn(b,n,160);residue[...,63]=torch.rand(b,n);plddt=torch.rand(b,n);patch=torch.randn(b,n,5);mask=torch.ones(b,n,dtype=torch.bool);neighbors=torch.randint(0,n,(b,n,k));distances=torch.rand(b,n,k)*6+2;components=torch.randint(-1,4,(b,n,5));output=model(sequence,residue,plddt,patch,mask,neighbors,distances,None,components);output.square().mean().backward()
   self.assertIsNotNone(model.surface_residue_attention.in_proj_weight.grad);self.assertTrue(torch.isfinite(model.surface_residue_attention.in_proj_weight.grad).all())
 
+ def test_empty_surface_patch_bypasses_scalar_surface_branch(self):
+  model=GeometryLateFusion(16,160,24,16,0,1,'surface_patches',0,True,'residue_aligned_sparse','propagated_moe',8).eval();values=list(self.inputs());values[1]=torch.randn(2,10,160);values[1][...,63]=torch.rand(2,10);values[-1][0]=-1
+  altered=list(values);altered[3]=values[3].clone();altered[3][0]=torch.randn_like(altered[3][0])*100
+  with torch.inference_mode():expected=model(*values);actual=model(*altered)
+  torch.testing.assert_close(actual[0],expected[0],atol=1e-7,rtol=1e-7)
+
 
 if __name__=='__main__':unittest.main()
