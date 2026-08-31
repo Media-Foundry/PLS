@@ -5,7 +5,7 @@ import numpy as np
 from preparation.build_gb1_editflow import column_index
 from pls.editflow.hamming import (hamming_distance, hamming_graph_edges,
                                   hash_partition, node_neighbors,
-                                  variants_from_tokens)
+                                  queried_nodes_sha256, variants_from_tokens)
 from pls.training.train_editflow_gb1 import closed_local_edges, connected_query_nodes
 
 
@@ -49,6 +49,9 @@ class GB1EditFlowTests(unittest.TestCase):
         model = raw + 1
         self.assertEqual(variants_from_tokens(raw, "ACDEFGHIKLMNPQRSTVWY"), ["AYFI"])
         self.assertTrue(np.all(model >= 1))
+
+    def test_query_manifest_hash_is_order_independent(self):
+        self.assertEqual(queried_nodes_sha256([3, 1, 2]), queried_nodes_sha256([2, 3, 1, 1]))
 
 
 if __name__ == "__main__":

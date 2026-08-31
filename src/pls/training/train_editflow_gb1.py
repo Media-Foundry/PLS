@@ -18,7 +18,8 @@ from sklearn.metrics import r2_score
 from torch.utils.tensorboard import SummaryWriter
 
 from pls.editflow.graph import exact_optimization_regret
-from pls.editflow.hamming import hamming_distance, node_neighbors, variants_from_tokens
+from pls.editflow.hamming import (hamming_distance, node_neighbors,
+                                  queried_nodes_sha256, variants_from_tokens)
 from pls.editflow.metrics import mutation_field_metrics
 from pls.editflow.objective import editflow_distillation_loss
 from pls.editflow.student import EditPotentialStudent
@@ -92,7 +93,7 @@ def main() -> None:
     if os.environ.get("HIP_VISIBLE_DEVICES") != str(training["hip_device"]):parser.error("HIP device mismatch")
     seed=int(training["seed"]);random.seed(seed);np.random.seed(seed);torch.manual_seed(seed)
     landscape=np.load(data_config["landscape"]);raw_tokens=landscape["tokens"].astype(np.int64);tokens_np=raw_tokens+1;fitness=landscape["fitness"].astype(np.float64);measured=landscape["is_measured"].astype(bool);wild_type="VDGV";alphabet="ACDEFGHIKLMNPQRSTVWY";wild_tokens=np.asarray([alphabet.index(value) for value in wild_type]);wild_index=int(np.ravel_multi_index(tuple(wild_tokens),(20,)*4))
-    queried=connected_query_nodes(measured,wild_index,int(data_config["query_budget"]),int(data_config["query_seed"]));query_edges=closed_local_edges(queried);query_hash=hashlib.sha256(queried.astype("<i8").tobytes()).hexdigest();target_mean=float(fitness[queried].mean());target_std=float(fitness[queried].std());target_std=max(target_std,1e-6);teacher=torch.tensor((fitness[queried]-target_mean)/target_std,dtype=torch.float32);tokens=torch.from_numpy(tokens_np);query_tokens=tokens[queried];device=torch.device("cuda:0")
+    queried=connected_query_nodes(measured,wild_index,int(data_config["query_budget"]),int(data_config["query_seed"]));query_edges=closed_local_edges(queried);query_hash=queried_nodes_sha256(queried);target_mean=float(fitness[queried].mean());target_std=float(fitness[queried].std());target_std=max(target_std,1e-6);teacher=torch.tensor((fitness[queried]-target_mean)/target_std,dtype=torch.float32);tokens=torch.from_numpy(tokens_np);query_tokens=tokens[queried];device=torch.device("cuda:0")
     model=EditPotentialStudent(model_config["dimension"],model_config["layers"],model_config["heads"],model_config["dropout"],4).to(device);optimizer=torch.optim.AdamW(model.parameters(),lr=training["learning_rate"],weight_decay=training["weight_decay"],fused=training.get("fused_optimizer",False));writer=SummaryWriter(arguments.run_dir/"tensorboard");history=[];best=float("inf")
     query_tokens=query_tokens.to(device);teacher=teacher.to(device);query_edges_tensor=torch.from_numpy(query_edges).to(device);queried_mask=torch.ones(len(queried),dtype=torch.bool,device=device)
     for epoch in range(1,int(training["epochs"])+1):
@@ -106,7 +107,8 @@ def main() -> None:
     for radius in data_config["edit_radii"]:
         candidates=np.flatnonzero(measured&(distances<=int(radius)));regret[str(radius)]=exact_optimization_regret(fitness,prediction,candidates)
     query_budget={"unique_queried_nodes":int(len(queried)),"closed_edges":int(query_edges.shape[1]),"queried_nodes_sha256":query_hash,"query_seed":int(data_config["query_seed"]),"selection":"value_blind_connected_random_frontier","same_node_budget_required":True}
-    for name,value in (("value_metrics.json",value_metrics),("edge_metrics.json",edge_metrics),("regret_metrics.json",regret),("query_budget.json",query_budget)):(arguments.run_dir/name).write_text(json.dumps(value,indent=2,sort_keys=True)+"\n")
+    queried_manifest={"schema":"PLS_EditFlow_queried_nodes_v1","node_indices":sorted(map(int,queried)),"sha256":query_hash,"oracle_values_included":False}
+    for name,value in (("value_metrics.json",value_metrics),("edge_metrics.json",edge_metrics),("regret_metrics.json",regret),("query_budget.json",query_budget),("queried_nodes.json",queried_manifest)):(arguments.run_dir/name).write_text(json.dumps(value,indent=2,sort_keys=True)+"\n")
     print(json.dumps({"best_epoch":state["epoch"],"value":value_metrics,"edge":edge_metrics,"regret":regret,"query_budget":query_budget,"test_evaluated":False}),flush=True)
 
 

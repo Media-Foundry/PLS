@@ -74,3 +74,9 @@ def hamming_distance(tokens, anchor) -> np.ndarray:
     if tokens.ndim != 2 or anchor.shape != (tokens.shape[1],):
         raise ValueError("anchor must have one token per sequence position")
     return np.count_nonzero(tokens != anchor, axis=1)
+
+
+def queried_nodes_sha256(nodes) -> str:
+    """Order-independent identity for an exact queried-node set."""
+    canonical = np.unique(np.asarray(nodes, dtype=np.int64)).astype("<i8", copy=False)
+    return hashlib.sha256(canonical.tobytes()).hexdigest()
