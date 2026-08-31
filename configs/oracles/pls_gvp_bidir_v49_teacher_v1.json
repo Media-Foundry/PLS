@@ -1,0 +1,41 @@
+{
+  "schema": "PLS_budgeted_scientific_oracle_v1",
+  "status": "frozen_candidate",
+  "task": "PDBSol_ProtSolM_binary_solubility",
+  "output": "raw_logit",
+  "query_cost_unit": "unique_exact_sequence",
+  "selection_data": "strict_si30_validation_only",
+  "test_evaluated": false,
+  "run": "outputs/pdbsol_gvp_bidir_patches_v49_strict_si30_spatial2_s419_r1+08-30-23-37",
+  "checkpoint": {
+    "path": "outputs/pdbsol_gvp_bidir_patches_v49_strict_si30_spatial2_s419_r1+08-30-23-37/checkpoints/best.pt",
+    "sha256": "d52742798af581d44c1dda59ae572e707ad14346c12f97aaaddb72ca6758e25f",
+    "epoch": 5,
+    "training_git_revision": "cca8b6c6cbf327ec140747ce94b00dffb63d20d9"
+  },
+  "validation": {
+    "entities": 6429,
+    "auroc": 0.8856428144734658,
+    "auprc": 0.8978137170503923,
+    "mcc_at_probability_0_5": 0.5982734574442149,
+    "brier": 0.14337182330794968
+  },
+  "model": {
+    "fusion": "aligned_bidir_moe",
+    "geometry": "GVP_8_vector_channels",
+    "surface_patches": "mesh_free_connected_components_v1",
+    "patch_spatial_layers": 2,
+    "confidence_propagation": "residue_edge_modality"
+  },
+  "feature_schemas": {
+    "knn": "PLS_V4_geometry_knn_v1",
+    "vectors": "PLS_V4_equivariant_vector_cache_v1",
+    "surface": "PLS_mesh_free_surface_components_v1",
+    "residue_plm": "PLS_ESM2_residue_train_PCA_f16_v1"
+  },
+  "restrictions": [
+    "No PLS test entity or mutant may be queried.",
+    "Each mutant requires exact-sequence fold and feature artifacts; parent artifacts cannot be reused as mutant observations.",
+    "This coherent single checkpoint is an oracle candidate and must not inherit metrics from independently selected ensembles."
+  ]
+}

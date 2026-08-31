@@ -1,0 +1,19 @@
+{
+  "created_at": "2026-08-31T16:57:26.225074+08:00",
+  "imputed_variants": 10639,
+  "measured_variants": 149361,
+  "note": "This audit does not inspect or select PLS test entities. Imputed GB1 values are excluded from primary experimental-regret claims.",
+  "output": "benchmark/generated/gb1_wu2016_editflow_v1.npz",
+  "output_sha256": "a16eedd9e02ecbdbdd197b38d745881d35a063a24c9cd149b49130ffc550fe9d",
+  "primary_evaluation": "measured variants only",
+  "schema": "PLS_EditFlow_GB1_Wu2016_v1",
+  "source_doi": "10.7554/eLife.16965",
+  "source_sha256": {
+    "imputed": "01db8ef421236dc35ca0481e8c9afe9d1673cb3ac4da1e692a3486ad6a4b807f",
+    "measured": "ac9a16295cd24110ad3ef4bcc57741f023ff9f3f5c3d9f5fdc0a94b996dca9b7"
+  },
+  "test_evaluated": false,
+  "variants": 160000,
+  "wild_type": "VDGV",
+  "wild_type_fitness": 1.0
+}

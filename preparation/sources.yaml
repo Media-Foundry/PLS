@@ -44,6 +44,30 @@ sources:
     revision: 01eafd50a4daf40c8b25354be78fe87a41122148
     license: MIT
 
+  - name: GB1_Wu2016_measured_landscape
+    kind: supplementary_xlsx
+    url: https://cdn.elifesciences.org/articles/16965/elife-16965-supp1-v4.xlsx
+    local_path: preparation/external/gb1_wu2016/elife-16965-supp1-v4.xlsx
+    sha256: ac9a16295cd24110ad3ef4bcc57741f023ff9f3f5c3d9f5fdc0a94b996dca9b7
+    license: CC-BY-4.0
+    publication:
+      journal: eLife
+      year: 2016
+      doi: 10.7554/eLife.16965
+    note: Supplementary file 1; 149,361 experimentally profiled four-site GB1 variants.
+
+  - name: GB1_Wu2016_imputed_landscape
+    kind: supplementary_xlsx
+    url: https://cdn.elifesciences.org/articles/16965/elife-16965-supp2-v4.xlsx
+    local_path: preparation/external/gb1_wu2016/elife-16965-supp2-v4.xlsx
+    sha256: 01db8ef421236dc35ca0481e8c9afe9d1673cb3ac4da1e692a3486ad6a4b807f
+    license: CC-BY-4.0
+    publication:
+      journal: eLife
+      year: 2016
+      doi: 10.7554/eLife.16965
+    note: Supplementary file 2; 10,639 model-imputed variants, excluded from primary experimental-regret claims.
+
 large_sources:
   - name: ProtSolM_ESMFold_PDB
     url: https://huggingface.co/datasets/AI4Protein/ProtSolM_ESMFold_PDB

@@ -19,6 +19,14 @@ outputs/*/*
 !outputs/*/history.json
 !outputs/*/output.log
 !outputs/*/validation_metrics.json
+!outputs/*/value_metrics.json
+!outputs/*/edge_metrics.json
+!outputs/*/ranking_metrics.json
+!outputs/*/regret_metrics.json
+!outputs/*/query_budget.json
+!outputs/*/queried_nodes.json
+!outputs/*/oracle_manifest.json
+!outputs/*/optimization_rollouts.json
 !outputs/*/tensorboard/
 outputs/*/tensorboard/*
 !outputs/*/tensorboard/events.out.tfevents.*

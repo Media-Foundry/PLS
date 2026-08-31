@@ -1,0 +1,36 @@
+{
+  "schema": "PLS_EditFlow_GB1_protocol_v1",
+  "source": "benchmark/generated/gb1_wu2016_editflow_v1.npz",
+  "source_report": "benchmark/gb1_wu2016_report.json",
+  "landscape": {
+    "alphabet": "ACDEFGHIKLMNPQRSTVWY",
+    "positions": 4,
+    "wild_type": "VDGV",
+    "primary_nodes": "experimentally_measured_only",
+    "imputed_nodes": "sensitivity_analysis_only"
+  },
+  "information_model": {
+    "teacher_query_cost": "one per unique node",
+    "edge_available_when": "both endpoint nodes queried",
+    "comparison_invariant": "identical queried-node IDs across methods"
+  },
+  "partition": {
+    "algorithm": "sha256(salt:variant) first_uint64",
+    "salt": "PLS-EditFlow-GB1-v1",
+    "development_fraction": 0.2,
+    "fitness_blind": true
+  },
+  "query_budgets": [80, 160, 320, 640, 1280, 2560],
+  "edit_radii": [1, 2, 3, 4],
+  "ensemble_members": 5,
+  "student_seeds": [20260831, 20260837, 20260843, 20260849, 20260861],
+  "primary_metrics": [
+    "exact_experimental_regret",
+    "edge_mae",
+    "mutation_sign_balanced_accuracy",
+    "anchor_macro_kendall_tau",
+    "top_k_mutation_recall"
+  ],
+  "test_evaluated": false,
+  "note": "The PLS test freeze is unaffected. GB1 method development and final evaluation partitions are assigned without reading fitness values."
+}
