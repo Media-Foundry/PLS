@@ -1,0 +1,36 @@
+{
+  "trainer_module": "pls.training.train_editflow_gb1_confirmatory",
+  "experiment_name": "editflow_gb1_hybrid_path_confirmatory_v2",
+  "evaluate_test": false,
+  "data": {
+    "landscape": "benchmark/generated/gb1_wu2016_editflow_v1.npz",
+    "anchor_protocol": "configs/editflow/gb1_confirmatory_anchors_v2.json",
+    "acquisition": "hybrid_path",
+    "path_fraction": 0.5,
+    "query_budgets": [80, 160, 320, 640],
+    "initial_query_seed": 20260911,
+    "evaluation_anchors": 2048,
+    "evaluation_salt": "PLS-EditFlow-GB1-confirmatory-field-v2",
+    "edit_radii": [1, 2, 3, 4],
+    "top_k": 10,
+    "beam_steps": 6,
+    "beam_width": 32,
+    "conservative_beta": 0.5
+  },
+  "model": {"dimension": 96, "layers": 2, "heads": 4, "dropout": 0.1},
+  "training": {
+    "hip_device": 7,
+    "seed": 20260911,
+    "ensemble_seeds": [20260911, 20260917, 20260923, 20260929, 20260941],
+    "anchor_seed_stride": 1013,
+    "epochs_per_round": 250,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "edge_weight": 0.0,
+    "loss": "mse",
+    "fused_optimizer": true,
+    "max_gradient_norm": 5.0,
+    "inference_batch_size": 8192
+  },
+  "interpretation": {"status": "confirmatory_v2", "primary_comparison": "hybrid_path_vs_path_aware_query_curve_regret"}
+}
