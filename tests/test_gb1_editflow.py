@@ -44,6 +44,12 @@ class GB1EditFlowTests(unittest.TestCase):
         edges = closed_local_edges(queried, alphabet_size=3, length=2)
         self.assertGreaterEqual(edges.shape[1], 4)
 
+    def test_graph_and_model_token_spaces_are_distinct(self):
+        raw = np.array([[0, 19, 4, 7]], dtype=np.int64)
+        model = raw + 1
+        self.assertEqual(variants_from_tokens(raw, "ACDEFGHIKLMNPQRSTVWY"), ["AYFI"])
+        self.assertTrue(np.all(model >= 1))
+
 
 if __name__ == "__main__":
     unittest.main()
