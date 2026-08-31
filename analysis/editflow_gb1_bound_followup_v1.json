@@ -1,0 +1,83 @@
+{
+  "bound_run": "outputs/editflow_gb1_bound_followup_v1+08-31-18-04",
+  "comparisons": {
+    "final_640": {
+      "bound_minus_path": {
+        "bootstrap_95_ci": [
+          -0.11758196626924473,
+          0.08363084733105089
+        ],
+        "direction": "negative_favors_path",
+        "exact_two_sided_sign_flip_pvalue": 0.80859375,
+        "pairs": 16,
+        "path_mean": 0.5876092881553632,
+        "path_minus_uncertainty_mean": -0.01388425475488475,
+        "path_minus_uncertainty_median": 0.0,
+        "path_wins": 6,
+        "ties": 7,
+        "uncertainty_mean": 0.6014935429102479,
+        "uncertainty_wins": 3
+      },
+      "bound_minus_uncertainty": {
+        "bootstrap_95_ci": [
+          -0.5073421687581685,
+          -0.019430954600557195
+        ],
+        "direction": "negative_favors_path",
+        "exact_two_sided_sign_flip_pvalue": 0.0567626953125,
+        "pairs": 16,
+        "path_mean": 0.5876092881553632,
+        "path_minus_uncertainty_mean": -0.2623486561351456,
+        "path_minus_uncertainty_median": -0.2118980276864022,
+        "path_wins": 12,
+        "ties": 0,
+        "uncertainty_mean": 0.8499579442905087,
+        "uncertainty_wins": 4
+      }
+    },
+    "query_curve": {
+      "bound_minus_path": {
+        "bootstrap_95_ci": [
+          -0.053579761307143314,
+          0.007251829968102583
+        ],
+        "direction": "negative_favors_path",
+        "exact_two_sided_sign_flip_pvalue": 0.21875,
+        "pairs": 16,
+        "path_mean": 1.615822429509232,
+        "path_minus_uncertainty_mean": -0.020926693516836792,
+        "path_minus_uncertainty_median": 0.0,
+        "path_wins": 6,
+        "ties": 7,
+        "uncertainty_mean": 1.636749123026069,
+        "uncertainty_wins": 3
+      },
+      "bound_minus_uncertainty": {
+        "bootstrap_95_ci": [
+          -0.2847443114073939,
+          0.15738007601885273
+        ],
+        "direction": "negative_favors_path",
+        "exact_two_sided_sign_flip_pvalue": 0.566925048828125,
+        "pairs": 16,
+        "path_mean": 1.615822429509232,
+        "path_minus_uncertainty_mean": -0.06817387977086278,
+        "path_minus_uncertainty_median": -0.10234522819519043,
+        "path_wins": 10,
+        "ties": 0,
+        "uncertainty_mean": 1.6839963092800947,
+        "uncertainty_wins": 6
+      }
+    }
+  },
+  "path_run": "outputs/editflow_gb1_path_confirmatory_v1+08-31-17-44",
+  "pvalues_are_descriptive_not_confirmatory": true,
+  "reason": "The bound-aware arm was developed after partial paired-run results were visible.",
+  "same_anchor_protocol": true,
+  "same_initial_queried_node_sets": true,
+  "same_training_protocol": true,
+  "schema": "PLS_EditFlow_GB1_bound_followup_comparison_v1",
+  "status": "exploratory_posthoc",
+  "test_evaluated": false,
+  "uncertainty_run": "outputs/editflow_gb1_uncertainty_confirmatory_v1+08-31-17-44"
+}
