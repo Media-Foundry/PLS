@@ -78,5 +78,9 @@ def hamming_distance(tokens, anchor) -> np.ndarray:
 
 def queried_nodes_sha256(nodes) -> str:
     """Order-independent identity for an exact queried-node set."""
-    canonical = np.unique(np.asarray(nodes, dtype=np.int64)).astype("<i8", copy=False)
+    if isinstance(nodes, np.ndarray):
+        values = np.asarray(nodes, dtype=np.int64).reshape(-1)
+    else:
+        values = np.fromiter((int(node) for node in nodes), dtype=np.int64)
+    canonical = np.unique(values).astype("<i8", copy=False)
     return hashlib.sha256(canonical.tobytes()).hexdigest()

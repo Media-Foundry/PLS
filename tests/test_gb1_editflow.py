@@ -52,6 +52,7 @@ class GB1EditFlowTests(unittest.TestCase):
 
     def test_query_manifest_hash_is_order_independent(self):
         self.assertEqual(queried_nodes_sha256([3, 1, 2]), queried_nodes_sha256([2, 3, 1, 1]))
+        self.assertEqual(queried_nodes_sha256({1, 2, 3}), queried_nodes_sha256(np.array([3, 2, 1])))
 
 
 if __name__ == "__main__":
