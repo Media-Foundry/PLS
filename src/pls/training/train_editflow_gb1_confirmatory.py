@@ -14,7 +14,8 @@ from torch.utils.tensorboard import SummaryWriter
 
 from pls.editflow.hamming import (hamming_distance, queried_nodes_sha256,
                                   variants_from_tokens)
-from pls.editflow.optimization import path_aware_frontier_acquisition
+from pls.editflow.optimization import (bound_aware_frontier_acquisition,
+                                       path_aware_frontier_acquisition)
 from pls.training.train_editflow_gb1 import (connected_query_nodes,
                                              evaluation_edges)
 from pls.training.train_editflow_gb1_active import (evaluate, fit_ensemble,
@@ -85,6 +86,32 @@ def acquire_next_round(
             "path_edges": int(acquired.path_edges.shape[1]),
             "path_selected": len(selected),
         }
+    elif mode == "bound_aware":
+        acquired = bound_aware_frontier_acquisition(
+            ensemble,
+            queried,
+            measured,
+            anchor,
+            increment,
+            alphabet_size=20,
+            length=4,
+            steps=int(data_config["beam_steps"]),
+            beam_width=int(data_config["beam_width"]),
+            conservative_beta=float(data_config.get("conservative_beta", 0.0)),
+        )
+        selected = acquired.batch.node_indices.tolist()
+        details = {
+            "mode": mode,
+            "candidate_endpoints": len(acquired.candidate_endpoints),
+            "bound_paths": len(acquired.selected_paths),
+            "path_edges": int(acquired.path_edges.shape[1]),
+            "bound_selected": len(selected),
+            "mean_estimated_path_bound": (
+                float(acquired.estimated_path_bounds.mean())
+                if len(acquired.estimated_path_bounds)
+                else 0.0
+            ),
+        }
     elif mode == "uncertainty":
         acquired, edges = uncertainty_acquisition(
             ensemble, queried, measured, increment
@@ -96,7 +123,9 @@ def acquire_next_round(
             "uncertainty_selected": len(selected),
         }
     else:
-        raise ValueError("acquisition must be path_aware or uncertainty")
+        raise ValueError(
+            "acquisition must be path_aware, bound_aware, or uncertainty"
+        )
 
     if len(selected) < increment:
         fill, edges = uncertainty_acquisition(
