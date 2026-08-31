@@ -61,6 +61,19 @@ class PathAwareAcquisition:
     uncertainty: np.ndarray
 
 
+@dataclass(frozen=True)
+class BoundAwareAcquisition:
+    """Frontier batch targeting shortest uncertainty-bound routes."""
+
+    batch: AcquisitionBatch
+    candidate_endpoints: np.ndarray
+    selected_paths: tuple[tuple[int, ...], ...]
+    path_edges: np.ndarray
+    occupancy: np.ndarray
+    uncertainty: np.ndarray
+    estimated_path_bounds: np.ndarray
+
+
 def path_aware_frontier_acquisition(
     ensemble_values,
     queried_nodes,
@@ -98,4 +111,102 @@ def path_aware_frontier_acquisition(
     return PathAwareAcquisition(
         batch=batch, paths=tuple(paths), path_edges=edge_index,
         occupancy=occupancy, uncertainty=uncertainty,
+    )
+
+
+def bound_aware_frontier_acquisition(
+    ensemble_values,
+    queried_nodes,
+    available,
+    anchor: int,
+    budget: int,
+    *,
+    alphabet_size: int,
+    length: int,
+    steps: int,
+    beam_width: int,
+    conservative_beta: float = 0.0,
+) -> BoundAwareAcquisition:
+    """Acquire edges contributing to plausible optima's uncertainty bounds.
+
+    Each ensemble member plus a conservative ensemble objective proposes an
+    optimum. For every unique proposed endpoint, the algorithm retains the
+    beam-discovered route with minimum cumulative ensemble edge uncertainty.
+    Query priority is the edge's uncertainty times its occupancy among these
+    shortest-bound routes.
+    """
+    ensemble = np.asarray(ensemble_values, dtype=np.float64)
+    if ensemble.ndim != 2:
+        raise ValueError("ensemble_values must have shape [members, nodes]")
+    if conservative_beta < 0:
+        raise ValueError("conservative_beta must be nonnegative")
+    mean = ensemble.mean(0)
+    standard_deviation = ensemble.std(0)
+    objectives = [*ensemble, mean - conservative_beta * standard_deviation]
+    all_paths: list[tuple[int, ...]] = []
+    proposed_endpoints = []
+    for objective in objectives:
+        paths = beam_search_paths(
+            objective,
+            anchor,
+            available,
+            alphabet_size=alphabet_size,
+            length=length,
+            steps=steps,
+            beam_width=beam_width,
+        )
+        if not paths:
+            continue
+        all_paths.extend(paths)
+        best = min(paths, key=lambda path: (-objective[path[-1]], len(path), path))
+        proposed_endpoints.append(int(best[-1]))
+    endpoints = np.asarray(sorted(set(proposed_endpoints)), dtype=np.int64)
+    unique_edges = sorted({
+        (source, target)
+        for path in all_paths
+        for source, target in zip(path[:-1], path[1:])
+    })
+    edge_index = (
+        np.asarray(unique_edges, dtype=np.int64).T
+        if unique_edges
+        else np.empty((2, 0), dtype=np.int64)
+    )
+    uncertainty = ensemble_edge_uncertainty(ensemble, edge_index)
+    edge_uncertainty = {
+        (int(source), int(target)): float(value)
+        for (source, target), value in zip(edge_index.T, uncertainty)
+    }
+    selected_paths = []
+    estimated_bounds = []
+    for endpoint in endpoints:
+        routes = [path for path in all_paths if path[-1] == int(endpoint)]
+        route = min(
+            routes,
+            key=lambda path: (
+                sum(edge_uncertainty[pair] for pair in zip(path[:-1], path[1:])),
+                len(path),
+                path,
+            ),
+        )
+        selected_paths.append(route)
+        estimated_bounds.append(
+            sum(edge_uncertainty[pair] for pair in zip(route[:-1], route[1:]))
+        )
+    occupancy = path_edge_occupancy(edge_index, selected_paths)
+    batch = frontier_node_acquisition(
+        edge_index,
+        uncertainty,
+        occupancy,
+        queried_nodes,
+        budget,
+        reduction="max",
+    )
+    return BoundAwareAcquisition(
+        batch=batch,
+        candidate_endpoints=endpoints,
+        selected_paths=tuple(selected_paths),
+        path_edges=edge_index,
+        occupancy=occupancy,
+        uncertainty=uncertainty,
+        estimated_path_bounds=np.asarray(estimated_bounds, dtype=np.float64),
     )

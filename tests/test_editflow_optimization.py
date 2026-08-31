@@ -3,6 +3,7 @@ import unittest
 import numpy as np
 
 from pls.editflow.optimization import (beam_search_paths,
+                                       bound_aware_frontier_acquisition,
                                        path_aware_frontier_acquisition)
 from pls.training.train_editflow_gb1_active import uncertainty_acquisition
 
@@ -46,6 +47,28 @@ class EditFlowOptimizationTests(unittest.TestCase):
         )
         self.assertNotIn(8400, edges[1].tolist())
         self.assertNotIn(8000, acquired.node_indices.tolist())
+
+    def test_bound_aware_acquisition_targets_shortest_uncertainty_routes(self):
+        ensemble = np.array([
+            [0.0, 0.1, 0.0, 0.2, 1.0, 0.0, 2.0, 3.0],
+            [0.0, 0.1, 0.0, 0.2, 2.0, 0.0, 2.1, 3.1],
+            [0.0, 0.1, 0.0, 0.2, 0.5, 0.0, 1.9, 2.9],
+        ])
+        result = bound_aware_frontier_acquisition(
+            ensemble,
+            {0},
+            np.ones(8, dtype=bool),
+            0,
+            1,
+            alphabet_size=2,
+            length=3,
+            steps=3,
+            beam_width=2,
+        )
+        self.assertGreaterEqual(len(result.candidate_endpoints), 1)
+        self.assertEqual(len(result.selected_paths), len(result.candidate_endpoints))
+        self.assertTrue(np.all(result.estimated_path_bounds >= 0))
+        self.assertEqual(result.batch.node_indices.tolist(), [4])
 
 
 if __name__ == "__main__":

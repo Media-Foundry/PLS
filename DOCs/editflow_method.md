@@ -106,6 +106,14 @@ onto unqueried frontier nodes, because querying a node reveals its teacher value
 and may close several incident edges. Later variants may target the largest
 contribution to the current top-candidate regret bound.
 
+The bound-aware variant makes that last step explicit. Each ensemble member and
+the conservative ensemble objective proposes an optimizer endpoint. Among
+beam-discovered routes to every unique proposal, it retains the route minimizing
+the cumulative ensemble edge uncertainty, an empirical proxy for `D_f^T(x)`.
+Edges are queried in proportion to their uncertainty contribution and occupancy
+across those shortest-bound routes. This is distinct from weighting every beam
+prefix equally and is evaluated as a separate acquisition ablation.
+
 Required baselines under the same queried-node sets are random frontier sampling,
 uncertainty-only sampling, occupancy-only sampling, value-KD, and a MatchOpt-style
 adaptation.
@@ -183,4 +191,3 @@ and TensorBoard histories may be versioned.
 - HodgeRank: <https://doi.org/10.1007/s10107-010-0419-x>
 - Conservative Objective Models: <https://proceedings.mlr.press/v139/trabucco21a.html>
 - GB1 experimental landscape: <https://doi.org/10.7554/eLife.16965>
-

@@ -8,6 +8,7 @@ from .graph import (edge_differences, exact_optimization_regret,
 from .metrics import mutation_field_metrics
 from .objective import editflow_distillation_loss
 from .optimization import (beam_search_paths,
+                           bound_aware_frontier_acquisition,
                            path_aware_frontier_acquisition)
 
 __all__ = [
@@ -15,5 +16,6 @@ __all__ = [
     "frontier_node_acquisition", "graph_sobolev_loss", "path_edge_occupancy",
     "path_regret_bound", "shortest_path_discrepancies",
     "mutation_field_metrics", "editflow_distillation_loss",
-    "beam_search_paths", "path_aware_frontier_acquisition",
+    "beam_search_paths", "bound_aware_frontier_acquisition",
+    "path_aware_frontier_acquisition",
 ]
