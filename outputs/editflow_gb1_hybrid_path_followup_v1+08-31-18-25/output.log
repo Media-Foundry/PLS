@@ -1,0 +1,195 @@
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 0, "anchor": "DNNV", "budget": 80, "r2": -0.4425539943950907, "regret": {"1": 0.017902973107993603, "2": 3.985518417786807, "3": 5.240160226821899, "4": 4.828968524932861}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 0, "anchor": "DNNV", "budget": 160, "r2": 0.25573164367822665, "regret": {"1": 0.02187519520521164, "2": 2.62764048576355, "3": 2.927609920501709, "4": 1.9044227600097656}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 0, "anchor": "DNNV", "budget": 320, "r2": 0.509172352094895, "regret": {"1": 0.016633164137601852, "2": 0.7754573822021484, "3": 2.927609920501709, "4": 1.47963285446167}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 0, "anchor": "DNNV", "budget": 640, "r2": 0.6662018715053462, "regret": {"1": 0.016633164137601852, "2": 0.0, "3": 0.0, "4": 0.7168140411376953}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 1, "anchor": "YLPR", "budget": 80, "r2": -0.10403213206641704, "regret": {"1": 0.006798917893320322, "2": 0.05052685737609863, "3": 6.913415752351284, "4": 6.106783390045166}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 1, "anchor": "YLPR", "budget": 160, "r2": 0.1342648721026346, "regret": {"1": 0.006798917893320322, "2": 0.05052685737609863, "3": 4.523844480514526, "4": 5.33592414855957}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 1, "anchor": "YLPR", "budget": 320, "r2": 0.2687745728953561, "regret": {"1": 0.0036237668246030807, "2": 0.05052685737609863, "3": 1.9683151245117188, "4": 2.2619376182556152}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 1, "anchor": "YLPR", "budget": 640, "r2": 0.6108411281492974, "regret": {"1": 0.006106582237407565, "2": 0.05052685737609863, "3": 1.3804206848144531, "4": 0.7168140411376953}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 2, "anchor": "DRFS", "budget": 80, "r2": -0.01924079561881853, "regret": {"1": 0.4149390757083893, "2": 2.9672582149505615, "3": 5.497291386127472, "4": 7.443414807319641}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 2, "anchor": "DRFS", "budget": 160, "r2": 0.11806647926134706, "regret": {"1": 0.4149390757083893, "2": 5.510566920042038, "3": 3.195920705795288, "4": 5.717352867126465}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 2, "anchor": "DRFS", "budget": 320, "r2": 0.4711323759602687, "regret": {"1": 0.0, "2": 1.3262152671813965, "3": 2.076333522796631, "4": 2.266190528869629}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 2, "anchor": "DRFS", "budget": 640, "r2": 0.6612380250023631, "regret": {"1": 0.0, "2": 0.10815286636352539, "3": 0.0, "4": 2.266190528869629}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 3, "anchor": "TRFP", "budget": 80, "r2": -0.19646139979395127, "regret": {"1": 0.7717775627970695, "2": 5.559680249541998, "3": 3.08636736869812, "4": 5.504835844039917}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 3, "anchor": "TRFP", "budget": 160, "r2": 0.12054432740480026, "regret": {"1": 0.010425567626953125, "2": 4.603891730308533, "3": 2.0204553604125977, "4": 4.4389238357543945}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 3, "anchor": "TRFP", "budget": 320, "r2": 0.2886092153627421, "regret": {"1": 0.010425567626953125, "2": 0.718379020690918, "3": 1.1007752418518066, "4": 2.989933490753174}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 3, "anchor": "TRFP", "budget": 640, "r2": 0.5239454423946461, "regret": {"1": 0.010425567626953125, "2": 0.10815286636352539, "3": 0.8582711219787598, "4": 1.5333056449890137}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 4, "anchor": "CYCQ", "budget": 80, "r2": -0.02072080790147912, "regret": {"1": 2.3746238593012094, "2": 6.4040025770664215, "3": 6.518411755561829, "4": 7.235225796699524}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 4, "anchor": "CYCQ", "budget": 160, "r2": 0.20244286990964677, "regret": {"1": 1.860289454460144, "2": 1.891815185546875, "3": 3.4411916732788086, "4": 4.158005714416504}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 4, "anchor": "CYCQ", "budget": 320, "r2": 0.22259067141943745, "regret": {"1": 0.0, "2": 0.0, "3": 1.0638184547424316, "4": 1.780632495880127}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 4, "anchor": "CYCQ", "budget": 640, "r2": 0.678233095036431, "regret": {"1": 0.0, "2": 0.0, "3": 0.0, "4": 0.7168140411376953}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 5, "anchor": "IPKK", "budget": 80, "r2": -0.022663751466446058, "regret": {"1": 0.009166666306555271, "2": 0.0, "3": 6.0145241897553205, "4": 8.663391917943954}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 5, "anchor": "IPKK", "budget": 160, "r2": -1.032720408380286, "regret": {"1": 0.02108333259820938, "2": 3.334752679336816, "3": 6.038322975160554, "4": 1.47963285446167}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 5, "anchor": "IPKK", "budget": 320, "r2": 0.44835798619591427, "regret": {"1": 0.01789631717838347, "2": 0.0, "3": 0.034450531005859375, "4": 1.47963285446167}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 5, "anchor": "IPKK", "budget": 640, "r2": 0.6311484661698414, "regret": {"1": 0.017765132477506995, "2": 0.0, "3": 0.0, "4": 0.0}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 6, "anchor": "LVHA", "budget": 80, "r2": 0.01179827722462945, "regret": {"1": 2.841629147529602, "2": 5.589051842689514, "3": 7.122357487678528, "4": 7.122357487678528}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 6, "anchor": "LVHA", "budget": 160, "r2": 0.1770201416399555, "regret": {"1": 0.0, "2": 2.4886674880981445, "3": 4.021973133087158, "4": 4.021973133087158}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 6, "anchor": "LVHA", "budget": 320, "r2": 0.30087049395125287, "regret": {"1": 0.0, "2": 0.0, "3": 1.5333056449890137, "4": 1.5333056449890137}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 6, "anchor": "LVHA", "budget": 640, "r2": 0.4597574277936233, "regret": {"1": 0.0, "2": 0.0, "3": 0.0, "4": 0.0}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 7, "anchor": "IPVY", "budget": 80, "r2": -0.03122180974281208, "regret": {"1": 0.01585540291853249, "2": 3.328984343446791, "3": 6.039977286010981, "4": 8.431090384721756}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 7, "anchor": "IPVY", "budget": 160, "r2": -0.02950778695650813, "regret": {"1": 0.015175960725173354, "2": 3.3351462893188, "3": 6.04044717119541, "4": 8.158632934093475}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 7, "anchor": "IPVY", "budget": 320, "r2": 0.10048714086790245, "regret": {"1": 0.013296875869855285, "2": 2.5971606373786926, "3": 5.671977758407593, "4": 3.8348703384399414}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 7, "anchor": "IPVY", "budget": 640, "r2": 0.4755480149924002, "regret": {"1": 0.01585540291853249, "2": 0.0, "3": 0.034450531005859375, "4": 2.4870190620422363}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 8, "anchor": "MYCT", "budget": 80, "r2": -0.01128252419845599, "regret": {"1": 3.7902015447616577, "2": 6.490529608912766, "3": 7.3585158586502075, "4": 8.075329899787903}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 8, "anchor": "MYCT", "budget": 160, "r2": -0.1434522128810336, "regret": {"1": 0.0, "2": 0.6891202926635742, "3": 2.238496780395508, "4": 2.955310821533203}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 8, "anchor": "MYCT", "budget": 320, "r2": 0.4901289528299493, "regret": {"1": 0.0, "2": 0.8770670890808105, "3": 0.49048852920532227, "4": 1.2073025703430176}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 8, "anchor": "MYCT", "budget": 640, "r2": 0.6328323342312339, "regret": {"1": 0.0, "2": 0.0, "3": 0.4882826805114746, "4": 0.0}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 9, "anchor": "EEVT", "budget": 80, "r2": 0.01239872378590734, "regret": {"1": 0.35200578533113003, "2": 0.36782336235046387, "3": 3.605600118637085, "4": 5.677836179733276}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 9, "anchor": "EEVT", "budget": 160, "r2": 0.2992323963607336, "regret": {"1": 0.19408132135868073, "2": 0.36782336235046387, "3": 2.136345386505127, "4": 3.5028085708618164}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 9, "anchor": "EEVT", "budget": 320, "r2": 0.3920968262556419, "regret": {"1": 0.19408132135868073, "2": 0.36782336235046387, "3": 2.1369009017944336, "4": 1.20509672164917}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 9, "anchor": "EEVT", "budget": 640, "r2": 0.5784226966731069, "regret": {"1": 0.19408132135868073, "2": 0.36782336235046387, "3": 2.1369009017944336, "4": 1.20509672164917}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 10, "anchor": "QMDR", "budget": 80, "r2": 0.02114715823375013, "regret": {"1": 0.009732817532494664, "2": 1.837557272054255, "3": 3.4182189106941223, "4": 7.985396325588226}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 10, "anchor": "QMDR", "budget": 160, "r2": 0.2317375688749439, "regret": {"1": 0.009859870187938213, "2": 1.780994527041912, "3": 4.1953074634075165, "4": 4.897390842437744}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 10, "anchor": "QMDR", "budget": 320, "r2": 0.35313210513014526, "regret": {"1": 0.01050544623285532, "2": 0.0, "3": 1.8507094383239746, "4": 0.0}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 10, "anchor": "QMDR", "budget": 640, "r2": 0.659235289675171, "regret": {"1": 0.01050544623285532, "2": 0.0, "3": 0.0, "4": 0.0}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 11, "anchor": "WSCP", "budget": 80, "r2": -0.019996164912804648, "regret": {"1": 4.396329909563065, "2": 6.797673344612122, "3": 7.072209477424622, "4": 8.277306199073792}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 11, "anchor": "WSCP", "budget": 160, "r2": 0.026040406374995717, "regret": {"1": 0.0, "2": 2.4590554237365723, "3": 2.7335915565490723, "4": 3.938688278198242}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 11, "anchor": "WSCP", "budget": 320, "r2": 0.5126908813924198, "regret": {"1": 0.0, "2": 0.0, "3": 0.2745361328125, "4": 1.47963285446167}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 11, "anchor": "WSCP", "budget": 640, "r2": 0.6438722371025412, "regret": {"1": 0.0, "2": 0.0, "3": 0.0, "4": 1.20509672164917}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 12, "anchor": "DPHR", "budget": 80, "r2": -0.8315400087230369, "regret": {"1": 0.016598213696852326, "2": 0.061165713937953115, "3": 3.6884376481175423, "4": 5.444634914398193}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 12, "anchor": "DPHR", "budget": 160, "r2": 0.012318816651162856, "regret": {"1": 0.019577380269765854, "2": 0.05765646044164896, "3": 3.542489305138588, "4": 3.267090320587158}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 12, "anchor": "DPHR", "budget": 320, "r2": 0.28205262307089707, "regret": {"1": 0.00244717113673687, "2": 0.06247135193552822, "3": 3.534593105316162, "4": 3.267090320587158}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 12, "anchor": "DPHR", "budget": 640, "r2": 0.524753769791174, "regret": {"1": 0.012364660855382681, "2": 0.031004898250102997, "3": 0.16944336891174316, "4": 0.7168140411376953}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 13, "anchor": "LWKN", "budget": 80, "r2": -0.022306071713937836, "regret": {"1": 1.7739974232390523, "2": 7.225744326598942, "3": 7.944366455078125, "4": 8.34653127193451}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 13, "anchor": "LWKN", "budget": 160, "r2": 0.14392293311162774, "regret": {"1": 0.0, "2": 1.7129793167114258, "3": 5.160218715667725, "4": 4.8541295528411865}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 13, "anchor": "LWKN", "budget": 320, "r2": 0.5032568135010864, "regret": {"1": 0.0, "2": 0.0, "3": 1.5333056449890137, "4": 1.5333056449890137}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 13, "anchor": "LWKN", "budget": 640, "r2": 0.6557766678714545, "regret": {"1": 0.0, "2": 0.0, "3": 1.2073025703430176, "4": 1.2073025703430176}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 14, "anchor": "YWFN", "budget": 80, "r2": 0.022374768680086032, "regret": {"1": 4.001872897148132, "2": 6.085536479949951, "3": 8.104246020317078, "4": 8.104246020317078}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 14, "anchor": "YWFN", "budget": 160, "r2": -0.642354112128908, "regret": {"1": 0.0, "2": 0.36877870559692383, "3": 2.7872471809387207, "4": 2.7872471809387207}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 14, "anchor": "YWFN", "budget": 320, "r2": 0.39600249264761356, "regret": {"1": 0.0, "2": 0.0, "3": 1.2073025703430176, "4": 1.2073025703430176}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 14, "anchor": "YWFN", "budget": 640, "r2": 0.7049301661341854, "regret": {"1": 0.0, "2": 0.0, "3": 0.0, "4": 0.0}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 15, "anchor": "EDDI", "budget": 80, "r2": -0.1461815132577109, "regret": {"1": 0.06673177052289248, "2": 2.9876614483073354, "3": 4.173451781272888, "4": 5.823999881744385}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 15, "anchor": "EDDI", "budget": 160, "r2": 0.08975754640711553, "regret": {"1": 0.06673177052289248, "2": 2.977342179045081, "3": 4.985961300320923, "4": 3.777538776397705}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 15, "anchor": "EDDI", "budget": 320, "r2": 0.5084281284049819, "regret": {"1": 0.06855741515755653, "2": 0.0, "3": 0.8271450996398926, "4": 1.5333056449890137}}
+/media/PM983/Code/PLS/src/pls/editflow/student.py:46: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(block, layers)
+{"anchor_rank": 15, "anchor": "EDDI", "budget": 640, "r2": 0.6499311656768372, "regret": {"1": 0.0, "2": 0.0, "3": 0.4378972053527832, "4": 1.2073025703430176}}
+{"aggregate": [{"budget": 80, "anchors": 16, "value_r2": {"mean": -0.11253012786666175, "median": -0.02151343980770848, "standard_deviation": 0.22509947732053923, "minimum": -0.8315400087230369, "maximum": 0.022374768680086032, "count": 16}, "edge_spearman": {"mean": 0.1682934337916947, "median": 0.17112927591511368, "standard_deviation": 0.06508879422726485, "minimum": 0.03248976056661079, "maximum": 0.27366032744455837, "count": 16}, "anchor_macro_kendall_tau": {"mean": 0.1334878944761117, "median": 0.1467327200462818, "standard_deviation": 0.05530835038226309, "minimum": 0.017069328042537295, "maximum": 0.21238698365776926, "count": 16}, "closed_edges": {"mean": 94.1875, "median": 94.5, "standard_deviation": 5.269013190342192, "minimum": 85.0, "maximum": 103.0, "count": 16}, "regret": {"1": {"mean": 1.3037602479598718, "median": 0.38347243051975965, "standard_deviation": 1.6384889124176825, "minimum": 0.006798917893320322, "maximum": 4.396329909563065, "count": 16, "zero_regret_fraction": 0.0}, "2": {"mean": 3.7336696287238738, "median": 3.657251380616799, "standard_deviation": 2.6571925722559877, "minimum": 0.0, "maximum": 7.225744326598942, "count": 16, "zero_regret_fraction": 0.0625}, "3": {"mean": 5.737346982699819, "median": 6.027250737883151, "standard_deviation": 1.6904056788527284, "minimum": 3.08636736869812, "maximum": 8.104246020317078, "count": 16, "zero_regret_fraction": 0.0}, "4": {"mean": 7.066959302872419, "median": 7.3393203020095825, "standard_deviation": 1.2935330279495383, "minimum": 4.828968524932861, "maximum": 8.663391917943954, "count": 16, "zero_regret_fraction": 0.0}}}, {"budget": 160, "anchors": 16, "value_r2": {"mean": -0.002309657410596605, "median": 0.11930540333307366, "standard_deviation": 0.3519045474277894, "minimum": -1.032720408380286, "maximum": 0.2992323963607336, "count": 16}, "edge_spearman": {"mean": 0.2842382910680621, "median": 0.2938162422565922, "standard_deviation": 0.03623843410200141, "minimum": 0.20884457941090917, "maximum": 0.3343820269424375, "count": 16}, "anchor_macro_kendall_tau": {"mean": 0.18822427153779506, "median": 0.19237479816409792, "standard_deviation": 0.02273542723913718, "minimum": 0.14532592702908115, "maximum": 0.2334714608895399, "count": 16}, "closed_edges": {"mean": 564.25, "median": 584.5, "standard_deviation": 74.35724578008521, "minimum": 420.0, "maximum": 657.0, "count": 16}, "regret": {"1": {"mean": 0.1650523654097924, "median": 0.01280076417606324, "standard_deviation": 0.4648214134231756, "minimum": 0.0, "maximum": 1.860289454460144, "count": 16, "zero_regret_fraction": 0.3125}, "2": {"mean": 2.1410473689611536, "median": 2.1754353046417236, "standard_deviation": 1.6105349462433955, "minimum": 0.05052685737609863, "maximum": 5.510566920042038, "count": 16, "zero_regret_fraction": 0.0}, "3": {"mean": 3.749338944304327, "median": 3.4918404892086983, "standard_deviation": 1.3122896886087236, "minimum": 2.0204553604125977, "maximum": 6.04044717119541, "count": 16, "zero_regret_fraction": 0.0}, "4": {"mean": 4.074692036956549, "median": 3.9803307056427, "standard_deviation": 1.5881929665678514, "minimum": 1.47963285446167, "maximum": 8.158632934093475, "count": 16, "zero_regret_fraction": 0.0}}}, {"budget": 320, "anchors": 16, "value_r2": {"mean": 0.3779864769987815, "median": 0.39404965945162773, "standard_deviation": 0.12426525534526192, "minimum": 0.10048714086790245, "maximum": 0.5126908813924198, "count": 16}, "edge_spearman": {"mean": 0.32838306980037685, "median": 0.3247509036876137, "standard_deviation": 0.04266185479341838, "minimum": 0.2489858340773668, "maximum": 0.3992988006478863, "count": 16}, "anchor_macro_kendall_tau": {"mean": 0.2035499509667648, "median": 0.20387134466577334, "standard_deviation": 0.03229779801767252, "minimum": 0.13633800642119642, "maximum": 0.2560469680407968, "count": 16}, "closed_edges": {"mean": 1623.625, "median": 1629.0, "standard_deviation": 186.5150128005786, "minimum": 1398.0, "maximum": 1930.0, "count": 16}, "regret": {"1": {"mean": 0.02109169034520164, "median": 0.0030354689806699753, "standard_deviation": 0.04916764008076471, "minimum": 0.0, "maximum": 0.19408132135868073, "count": 16, "zero_regret_fraction": 0.4375}, "2": {"mean": 0.42344381051225355, "median": 0.025263428688049316, "standard_deviation": 0.7147780376884011, "minimum": 0.0, "maximum": 2.5971606373786926, "count": 16, "zero_regret_fraction": 0.5}, "3": {"mean": 1.7644729763269424, "median": 1.5333056449890137, "standard_deviation": 1.3929103992367973, "minimum": 0.034450531005859375, "maximum": 5.671977758407593, "count": 16, "zero_regret_fraction": 0.0}, "4": {"mean": 1.8161982595920563, "median": 1.5333056449890137, "standard_deviation": 0.929288735461818, "minimum": 0.0, "maximum": 3.8348703384399414, "count": 16, "zero_regret_fraction": 0.0625}}}, {"budget": 640, "anchors": 16, "value_r2": {"mean": 0.6097917373874783, "median": 0.6383522856668875, "standard_deviation": 0.07483364079460925, "minimum": 0.4597574277936233, "maximum": 0.7049301661341854, "count": 16}, "edge_spearman": {"mean": 0.3704648875862123, "median": 0.37205224952589266, "standard_deviation": 0.03897032465516601, "minimum": 0.31600392297899804, "maximum": 0.4329540360377141, "count": 16}, "anchor_macro_kendall_tau": {"mean": 0.22444219378939304, "median": 0.22589713503900766, "standard_deviation": 0.033353403788090784, "minimum": 0.17402124030542865, "maximum": 0.2729658364626007, "count": 16}, "closed_edges": {"mean": 4042.3125, "median": 3960.0, "standard_deviation": 326.7922313948115, "minimum": 3635.0, "maximum": 4704.0, "count": 16}, "regret": {"1": {"mean": 0.017733579865307547, "median": 0.0030532911187037826, "standard_deviation": 0.04753158216833019, "minimum": 0.0, "maximum": 0.19408132135868073, "count": 16, "zero_regret_fraction": 0.5}, "2": {"mean": 0.04160380316898227, "median": 0.0, "standard_deviation": 0.0946954257670077, "minimum": 0.0, "maximum": 0.36782336235046387, "count": 16, "zero_regret_fraction": 0.6875}, "3": {"mean": 0.4195605665445328, "median": 0.017225265502929688, "standard_deviation": 0.6485722923079733, "minimum": 0.0, "maximum": 2.1369009017944336, "count": 16, "zero_regret_fraction": 0.5}, "4": {"mean": 0.8736606240272522, "median": 0.7168140411376953, "standard_deviation": 0.7888535158276855, "minimum": 0.0, "maximum": 2.4870190620422363, "count": 16, "zero_regret_fraction": 0.3125}}}], "query_budget": {"acquisition": "hybrid_path", "anchors": 16, "budget_curve": [80, 160, 320, 640], "final_unique_queries_per_anchor": 640, "total_oracle_queries_across_independent_anchors": 10240, "teacher_query_cost_unit": "unique measured node per independent anchor", "same_protocol_required": true, "anchor_protocol_sha256": "3b3ef4a2152d1eac8f0780fe4f5964eb491e7113c3d93837def3dbe64a589566", "test_evaluated": false}, "test_evaluated": false}

@@ -1,0 +1,16 @@
+{
+  "acquisition": "hybrid_path",
+  "anchor_protocol_sha256": "3b3ef4a2152d1eac8f0780fe4f5964eb491e7113c3d93837def3dbe64a589566",
+  "anchors": 16,
+  "budget_curve": [
+    80,
+    160,
+    320,
+    640
+  ],
+  "final_unique_queries_per_anchor": 640,
+  "same_protocol_required": true,
+  "teacher_query_cost_unit": "unique measured node per independent anchor",
+  "test_evaluated": false,
+  "total_oracle_queries_across_independent_anchors": 10240
+}

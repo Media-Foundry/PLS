@@ -191,3 +191,34 @@ and TensorBoard histories may be versioned.
 - HodgeRank: <https://doi.org/10.1007/s10107-010-0419-x>
 - Conservative Objective Models: <https://proceedings.mlr.press/v139/trabucco21a.html>
 - GB1 experimental landscape: <https://doi.org/10.7554/eLife.16965>
+
+## Evidence ledger (2026-08-31)
+
+The first same-node-budget control found no benefit from adding the graph-Sobolev
+edge objective to Value-KD. Exact-node ensemble replay after active acquisition
+also produced identical selected optima with and without the edge loss. The edge
+objective is therefore an ablation and mathematical interpretation, not an
+empirically supported novelty claim at this stage.
+
+The frozen 16-anchor GB1 comparison used Value-KD for both acquisition methods.
+Its prespecified primary endpoint—mean exact regret across budgets 160/320/640
+and radii 1/2/3/4—was not significant: path-aware 1.6367 versus uncertainty-only
+1.6840, paired difference -0.0472, bootstrap 95% CI [-0.2801, 0.1832], exact
+sign-flip p=0.704. The prespecified secondary final-640 endpoint favored
+path-aware acquisition (0.6015 versus 0.8500; difference -0.2485; bootstrap 95%
+CI [-0.4829, -0.0372]; exact p=0.044), but this does not rescue the null primary
+endpoint.
+
+Mechanistically, the benefit was local: at 640 queries, path-aware acquisition
+reduced mean regret at edit radii 1 and 2 but increased it at radius 4. It also
+had slightly lower global R-squared. The first path round spent an average 77.6
+of 80 queries on path-targeted nodes, exposing an exploitation/coverage tradeoff.
+The post-hoc shortest-bound follow-up was effectively tied with ordinary path
+acquisition. A fixed 50/50 path-versus-frontier-uncertainty portfolio is the next
+explicitly exploratory ablation; it is not part of the confirmatory claim.
+
+For the PLS world, the current test-free proof-of-concept manifest contains 24
+strict train/validation anchors, 384 single-mutant edges, and 408 unique sequence
+queries. Mean ESM-2 embeddings are complete for all 408 sequences. Every mutant
+still requires its own ESMFold structure and V4/GVP/surface feature artifacts;
+the pipeline hard-fails rather than substituting a parent structure.

@@ -1,0 +1,84 @@
+{
+  "comparisons": {
+    "final_640": {
+      "hybrid_minus_path": {
+        "bootstrap_95_ci": [
+          -0.4188846410932001,
+          -0.11627663390972921
+        ],
+        "direction": "negative_favors_path",
+        "exact_two_sided_sign_flip_pvalue": 0.00482177734375,
+        "pairs": 16,
+        "path_mean": 0.3381396434015187,
+        "path_minus_uncertainty_mean": -0.26335389950872923,
+        "path_minus_uncertainty_median": -0.25234217740944587,
+        "path_wins": 12,
+        "ties": 1,
+        "uncertainty_mean": 0.6014935429102479,
+        "uncertainty_wins": 3
+      },
+      "hybrid_minus_uncertainty": {
+        "bootstrap_95_ci": [
+          -0.7570021181898482,
+          -0.28021979415598325
+        ],
+        "direction": "negative_favors_path",
+        "exact_two_sided_sign_flip_pvalue": 0.00054931640625,
+        "pairs": 16,
+        "path_mean": 0.3381396434015187,
+        "path_minus_uncertainty_mean": -0.51181830088899,
+        "path_minus_uncertainty_median": -0.42535593127831817,
+        "path_wins": 14,
+        "ties": 0,
+        "uncertainty_mean": 0.8499579442905087,
+        "uncertainty_wins": 2
+      }
+    },
+    "query_curve": {
+      "hybrid_minus_path": {
+        "bootstrap_95_ci": [
+          -0.5205690711524463,
+          -0.1833779467633731
+        ],
+        "direction": "negative_favors_path",
+        "exact_two_sided_sign_flip_pvalue": 0.000823974609375,
+        "pairs": 16,
+        "path_mean": 1.2923246688345293,
+        "path_minus_uncertainty_mean": -0.34442445419153966,
+        "path_minus_uncertainty_median": -0.256998240671237,
+        "path_wins": 14,
+        "ties": 0,
+        "uncertainty_mean": 1.636749123026069,
+        "uncertainty_wins": 2
+      },
+      "hybrid_minus_uncertainty": {
+        "bootstrap_95_ci": [
+          -0.5539441588353989,
+          -0.2321485997862513
+        ],
+        "direction": "negative_favors_path",
+        "exact_two_sided_sign_flip_pvalue": 0.000244140625,
+        "pairs": 16,
+        "path_mean": 1.2923246688345293,
+        "path_minus_uncertainty_mean": -0.39167164044556557,
+        "path_minus_uncertainty_median": -0.3090350339528717,
+        "path_wins": 14,
+        "ties": 0,
+        "uncertainty_mean": 1.6839963092800947,
+        "uncertainty_wins": 2
+      }
+    }
+  },
+  "hybrid_run": "outputs/editflow_gb1_hybrid_path_followup_v1+08-31-18-25",
+  "path_fraction": 0.5,
+  "path_run": "outputs/editflow_gb1_path_confirmatory_v1+08-31-17-44",
+  "pvalues_are_descriptive_not_confirmatory": true,
+  "reason": "The 50/50 portfolio was selected after diagnosing the paired path-aware result.",
+  "same_anchor_protocol": true,
+  "same_initial_queried_node_sets": true,
+  "same_training_protocol": true,
+  "schema": "PLS_EditFlow_GB1_hybrid_followup_comparison_v1",
+  "status": "exploratory_posthoc",
+  "test_evaluated": false,
+  "uncertainty_run": "outputs/editflow_gb1_uncertainty_confirmatory_v1+08-31-17-44"
+}
