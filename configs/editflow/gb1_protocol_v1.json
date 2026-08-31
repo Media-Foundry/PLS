@@ -12,8 +12,10 @@
   "information_model": {
     "teacher_query_cost": "one per unique node",
     "edge_available_when": "both endpoint nodes queried",
-    "comparison_invariant": "identical queried-node IDs across methods"
+    "objective_comparison_invariant": "identical queried-node IDs",
+    "acquisition_comparison_invariant": "identical initial queried-node IDs, unique-node budgets, candidate universe, and oracle cost model; acquired IDs may differ by design"
   },
+  "benchmark_role": "method-development landscape; repeated full-landscape evaluation is not a blind test",
   "partition": {
     "algorithm": "sha256(salt:variant) first_uint64",
     "salt": "PLS-EditFlow-GB1-v1",
@@ -32,5 +34,5 @@
     "top_k_mutation_recall"
   ],
   "test_evaluated": false,
-  "note": "The PLS test freeze is unaffected. GB1 method development and final evaluation partitions are assigned without reading fitness values."
+  "note": "The PLS test freeze is unaffected. The value-blind partition is retained for reproducibility but is not currently enforced by the active-query trainer; full GB1 has therefore become a development landscape and must not be presented as blind evaluation."
 }

@@ -99,13 +99,19 @@ def main() -> None:
         edge_groups,
         data_config["edit_radii"],
         int(data_config.get("top_k", 10)),
+        set(map(int, queried)),
     )
 
     budget = int(data_config["query_budget"])
     writer = SummaryWriter(arguments.run_dir / "tensorboard")
     writer.add_scalar("replay/r2", value_metrics["r2"], budget)
     writer.add_scalar("replay/edge_spearman", edge_metrics["edge_spearman"], budget)
-    writer.add_scalar("replay/regret_radius_4", regret_metrics["4"]["regret"], budget)
+    for metric in ("acquired", "novel_design", "campaign"):
+        metric_value = regret_metrics["4"][metric]["regret"]
+        if metric_value is not None:
+            writer.add_scalar(
+                f"replay/{metric}_regret_radius_4", metric_value, budget
+            )
     writer.close()
     torch.save(
         {"members": states, "config": config, "queried_nodes": queried.tolist()},

@@ -4,6 +4,7 @@ import numpy as np
 import torch
 
 from pls.editflow.graph import (assert_same_queried_nodes, edge_differences,
+                                exact_design_regrets,
                                 exact_optimization_regret,
                                 graph_sobolev_loss, path_regret_bound,
                                 shortest_path_discrepancies)
@@ -57,7 +58,33 @@ class EditFlowGraphTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "identical"):
             assert_same_queried_nodes({1, 2}, {1, 3})
 
+    def test_design_regrets_separate_acquisition_and_generalization(self):
+        teacher = np.array([0.0, 4.0, 3.0, 5.0, 2.0])
+        # Student selects node 2 among unqueried nodes; node 3 is the true best.
+        student = np.array([0.0, -2.0, 8.0, 1.0, 0.0])
+        report = exact_design_regrets(
+            teacher, student, np.arange(5), queried_nodes={0, 1}
+        )
+        self.assertEqual(report["acquired"]["choice"], 1)
+        self.assertAlmostEqual(report["acquired"]["regret"], 1.0)
+        self.assertEqual(report["novel_design"]["teacher_optimum"], 3)
+        self.assertEqual(report["novel_design"]["student_choice"], 2)
+        self.assertAlmostEqual(report["novel_design"]["regret"], 2.0)
+        self.assertEqual(report["campaign"]["choice"], 1)
+        self.assertEqual(report["campaign"]["choice_source"], "acquired")
+        self.assertAlmostEqual(report["campaign"]["regret"], 1.0)
+
+    def test_design_regrets_mark_exhausted_novel_set_unavailable(self):
+        report = exact_design_regrets(
+            np.array([0.0, 1.0]),
+            np.array([0.0, 1.0]),
+            np.array([0, 1]),
+            queried_nodes={0, 1},
+        )
+        self.assertFalse(report["novel_design"]["available"])
+        self.assertIsNone(report["novel_design"]["regret"])
+        self.assertAlmostEqual(report["campaign"]["regret"], 0.0)
+
 
 if __name__ == "__main__":
     unittest.main()
-

@@ -19,7 +19,7 @@ labels contain no oracle information beyond their queried endpoint values. The
 contribution target is the combination of:
 
 1. path-dependent regret bounds on a discrete edit graph;
-2. graph-Sobolev distillation under exactly matched queried-node budgets;
+2. graph-Sobolev distillation under exactly matched queried-node identities;
 3. regret-aware acquisition of costly oracle queries along likely design paths;
 4. validation on both a derived-modality PLS oracle and a measured GB1 landscape.
 
@@ -42,18 +42,22 @@ L_edge = ||W^(1/2) B delta||_2^2 = delta^T L_W delta.
 
 Thus `L_value + lambda * L_edge` is a discrete graph-Sobolev objective. It changes
 how the same queried node values are used; it does not receive additional oracle
-information. Every comparison must therefore use the identical queried-node set,
-not merely the same number of edges or nominal query count.
+information. Objective/loss comparisons must therefore use the identical
+queried-node set, not merely the same number of edges or nominal query count.
+Acquisition comparisons instead hold the initial node set, candidate universe,
+unique-node budget, and cost model fixed; their purchased node identities are
+expected to differ.
 
 The first controlled objective is intentionally small:
 
 ```text
 L = lambda_value * L_value
-  + lambda_edge * L_edge
-  + lambda_conservative * L_conservative.
+  + lambda_edge * L_edge.
 ```
 
 Listwise/ranking losses are ablations rather than required components.
+Conservatism currently belongs to the deployment/search objective; a
+conservative student-training loss has not been implemented and is not claimed.
 
 ## Path-dependent regret guarantee
 
@@ -79,8 +83,12 @@ T(x_T*) - T(x_hat) <= D_f^T(x_T*) + D_f^T(x_hat) + eta.
 Proof: along any path, signed edge errors telescope to
 `delta(x)-delta(x0)`, so their absolute value is bounded by the accumulated
 absolute edge discrepancy. Apply this once to `x_T*`, once to `x_hat`, and use
-`f(x_T*)-f(x_hat) <= eta`. If every path has at most `k` edges and every edge
-error is bounded by `epsilon`, the familiar `2*k*epsilon + eta` result follows.
+`f(x_T*)-f(x_hat) <= eta`. If every feasible design has an allowed path from
+`x0` of length at most `k`, and every edge error on those paths is bounded by
+`epsilon`, then `D(x) <= k*epsilon` and the familiar
+`2*k*epsilon + eta` result follows. The graph may contain arbitrarily long or
+cyclic paths; the result requires existence of a short allowed path, not that
+every possible path is short.
 
 Absolute value calibration is not required for local design: adding a constant to
 `f` leaves every edge field and every argmax unchanged. This motivates reporting
@@ -101,10 +109,16 @@ A(e) = pi(e) * U(e),
 ```
 
 where `pi(e)` is occupancy under current beam/local-search trajectories and
-`U(e)` is ensemble uncertainty in the edge discrepancy. Edge scores are aggregated
+`U(e)` is ensemble uncertainty in the predicted edit effect. Edge scores are aggregated
 onto unqueried frontier nodes, because querying a node reveals its teacher value
 and may close several incident edges. Later variants may target the largest
 contribution to the current top-candidate regret bound.
+
+Ensemble uncertainty is not a proved upper bound on the unknown field error
+`epsilon_e`. Accordingly, `pi(e) * U(e)` is a heuristic proxy, not an estimator
+that is claimed to minimize the theorem's regret upper bound. Calibrating a
+high-probability edge-error envelope on cross-fitted closed edges is a future
+algorithmic hypothesis, not an implemented result.
 
 The bound-aware variant makes that last step explicit. Each ensemble member and
 the conservative ensemble objective proposes an optimizer endpoint. Among
@@ -114,9 +128,31 @@ Edges are queried in proportion to their uncertainty contribution and occupancy
 across those shortest-bound routes. This is distinct from weighting every beam
 prefix equally and is evaluated as a separate acquisition ablation.
 
-Required baselines under the same queried-node sets are random frontier sampling,
-uncertainty-only sampling, occupancy-only sampling, value-KD, and a MatchOpt-style
-adaptation.
+Required acquisition baselines under the same initial set, candidate universe,
+cost model, and unique-node budget include random frontier, greedy predicted
+fitness, uncertainty-only, occupancy-only, UCB, Thompson sampling, and a
+MatchOpt-style adaptation. Value-KD versus graph-Sobolev objective ablations use
+identical final queried-node identities.
+
+## Three non-confounded design regrets
+
+For a feasible set `X`, purchased node set `Q_B`, and student `f`, report all of:
+
+```text
+R_acquired = max_{x in X} T(x) - max_{x in X intersect Q_B} T(x)
+
+x_new = argmax_{x in X minus Q_B} f(x)
+R_novel = max_{x in X minus Q_B} T(x) - T(x_new)
+
+R_campaign = max_{x in X} T(x)
+             - max(max_{x in X intersect Q_B} T(x), T(x_new)).
+```
+
+`R_acquired` measures what the queries directly discovered, `R_novel` measures
+surrogate generalization to an unpurchased design, and `R_campaign` measures the
+end-to-end scientific campaign. The previous all-candidate student regret mixed
+direct acquisition with distillation whenever the student selected a queried
+optimum and is retained only as historical exploratory evidence.
 
 ## Two evaluation worlds
 
@@ -136,12 +172,16 @@ teacher.
 
 ### GB1 measured landscape
 
-Use the complete four-site GB1 edit graph as an experimental landscape. Preserve
+Use the complete four-site GB1 edit graph as an experimental development
+landscape. Preserve
 the distinction between approximately 149k measured variants and the roughly
 10k variants imputed by the source publication. Primary experimental-regret
 claims use measured nodes; imputed values are a separately labelled sensitivity
 analysis. Query acquisition hides values according to a precommitted protocol;
 the full table is used only by the evaluator, never by the acquisition algorithm.
+Because the complete table has already been repeatedly inspected through
+evaluation, GB1 is not a blind confirmatory test. External landscapes require a
+frozen, zero-tuning transfer protocol.
 
 ## Leakage and budget invariants
 
@@ -149,7 +189,10 @@ the full table is used only by the evaluator, never by the acquisition algorithm
   strict-SI30 component and split.
 - No PLS test sequence, mutant, structure, score, calibration value, or aggregate
   is queried or inspected.
-- Value-KD and EditFlow receive exactly the same unique teacher-queried node IDs.
+- Value-KD and EditFlow objective comparisons receive exactly the same unique
+  teacher-queried node IDs.
+- Acquisition comparisons share initial IDs and exact cost budgets, while their
+  subsequent queried IDs differ by design.
 - Model selection uses validation anchors; reported GB1 protocols precommit their
   hidden evaluation sets or simulate repeated fixed seeds without adaptive reuse.
 - Query budgets report unique nodes, oracle failures, retry cost, wall time, and
@@ -199,6 +242,15 @@ edge objective to Value-KD. Exact-node ensemble replay after active acquisition
 also produced identical selected optima with and without the edge loss. The edge
 objective is therefore an ablation and mathematical interpretation, not an
 empirically supported novelty claim at this stage.
+
+An audit of the original all-candidate regret found a decisive confound: on the
+single-WT exploratory run, path acquisition purchased node 143317 before its
+reported radius-1 zero regret and node 143304 before its radius-2 zero regret.
+Those outcomes demonstrate acquisition success, but do not by themselves
+demonstrate student landscape generalization. All new runs therefore report
+acquired, held-out novel-design, and campaign regret separately. Historical
+all-candidate regret remains labelled exploratory and is not used as a
+distillation claim.
 
 The frozen 16-anchor GB1 comparison used Value-KD for both acquisition methods.
 Its prespecified primary endpoint—mean exact regret across budgets 160/320/640

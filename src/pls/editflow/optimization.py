@@ -98,6 +98,7 @@ def path_aware_frontier_acquisition(
     steps: int,
     beam_width: int,
     conservative_beta: float = 0.0,
+    score_mode: str = "occupancy_uncertainty",
 ) -> PathAwareAcquisition:
     """Acquire frontier nodes prioritized by optimizer occupancy times uncertainty."""
     ensemble = np.asarray(ensemble_values, dtype=np.float64)
@@ -105,6 +106,8 @@ def path_aware_frontier_acquisition(
         raise ValueError("ensemble_values must have shape [members, nodes]")
     if conservative_beta < 0:
         raise ValueError("conservative_beta must be nonnegative")
+    if score_mode not in {"occupancy_uncertainty", "occupancy_only"}:
+        raise ValueError("score_mode must be occupancy_uncertainty or occupancy_only")
     mean = ensemble.mean(0);standard_deviation = ensemble.std(0)
     objectives = [*ensemble, mean - conservative_beta * standard_deviation]
     paths = []
@@ -117,8 +120,13 @@ def path_aware_frontier_acquisition(
     edge_index = np.asarray(unique_edges, dtype=np.int64).T if unique_edges else np.empty((2, 0), dtype=np.int64)
     occupancy = path_edge_occupancy(edge_index, paths)
     uncertainty = ensemble_edge_uncertainty(ensemble, edge_index)
+    score_uncertainty = (
+        uncertainty
+        if score_mode == "occupancy_uncertainty"
+        else np.ones_like(uncertainty)
+    )
     batch = frontier_node_acquisition(
-        edge_index, uncertainty, occupancy, queried_nodes, budget, reduction="max"
+        edge_index, score_uncertainty, occupancy, queried_nodes, budget, reduction="max"
     )
     return PathAwareAcquisition(
         batch=batch, paths=tuple(paths), path_edges=edge_index,

@@ -37,6 +37,7 @@ class EditFlowConfirmatoryTests(unittest.TestCase):
 
     def test_aggregate_keeps_anchor_level_regret(self):
         def result(r2, regret):
+            metric = {"regret": regret}
             return {
                 "stages": [{
                     "closed_edges": 10,
@@ -45,7 +46,11 @@ class EditFlowConfirmatoryTests(unittest.TestCase):
                         "edge_spearman": r2 / 2,
                         "anchor_macro_kendall_tau": r2 / 3,
                     },
-                    "regret": {"1": {"regret": regret}},
+                    "regret": {"1": {
+                        "acquired": metric,
+                        "novel_design": metric,
+                        "campaign": metric,
+                    }},
                 }]
             }
 
@@ -53,9 +58,12 @@ class EditFlowConfirmatoryTests(unittest.TestCase):
             [result(0.2, 0.0), result(0.6, 2.0)], [80], [1]
         )
         self.assertAlmostEqual(aggregate[0]["value_r2"]["mean"], 0.4)
-        self.assertAlmostEqual(aggregate[0]["regret"]["1"]["mean"], 1.0)
         self.assertAlmostEqual(
-            aggregate[0]["regret"]["1"]["zero_regret_fraction"], 0.5
+            aggregate[0]["regret"]["1"]["novel_design"]["mean"], 1.0
+        )
+        self.assertAlmostEqual(
+            aggregate[0]["regret"]["1"]["novel_design"]["zero_regret_fraction"],
+            0.5,
         )
 
 

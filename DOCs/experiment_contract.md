@@ -26,10 +26,19 @@ EditFlow runs replace endpoint-only evaluation with optimization-facing artifact
 - `regret_metrics.json`: teacher- or experiment-evaluated optimization regret;
 - `optimization_rollouts.json`: edit paths and acquisition decisions.
 
-Value-KD and EditFlow comparisons must use exactly the same queried node IDs. An
-equal edge count or nominal budget is not sufficient evidence of equal oracle
-information. For GB1, measured and publication-imputed variants remain explicitly
-separated; primary experimental-regret claims use measured variants only.
+Objective/loss comparisons (for example Value-KD versus Value+Edge-KD) must use
+exactly the same queried node IDs; an equal edge count or nominal budget is not
+sufficient evidence of equal oracle information. Acquisition comparisons instead
+share the exact initial queried set, candidate universe, unique-node budget, and
+oracle cost model. Their subsequently acquired node IDs are expected to differ.
+
+Every active-design report separates: (1) acquisition regret over purchased
+nodes, (2) novel-design regret after excluding every purchased node from student
+selection, and (3) end-to-end campaign regret using the better of the acquired
+design and novel student proposal. For GB1, measured and publication-imputed
+variants remain explicitly separated; primary experimental-regret claims use
+measured variants only. Full GB1 is a method-development landscape after repeated
+evaluation and is not described as a blind test.
 
 Failed runs remain in place as provenance. GPU runs must explicitly set
 an authorized physical GPU ordinal. Generated outputs are excluded from Git; configs, runner,

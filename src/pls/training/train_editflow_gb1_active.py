@@ -16,9 +16,9 @@ from scipy.stats import pearsonr
 from sklearn.metrics import r2_score
 from torch.utils.tensorboard import SummaryWriter
 
-from pls.editflow.acquisition import (ensemble_edge_uncertainty,
+from pls.editflow.acquisition import (AcquisitionBatch, ensemble_edge_uncertainty,
                                       frontier_node_acquisition)
-from pls.editflow.graph import exact_optimization_regret
+from pls.editflow.graph import exact_design_regrets
 from pls.editflow.hamming import (hamming_distance, node_neighbors,
                                   queried_nodes_sha256)
 from pls.editflow.metrics import mutation_field_metrics
@@ -54,10 +54,10 @@ def fit_ensemble(tokens, fitness, queried, model_config, training, device):
     return np.asarray(predictions),states,summaries,int(local_edges.shape[1])
 
 
-def evaluate(ensemble,fitness,measured,distances,field_edges,edge_groups,radii,top_k):
+def evaluate(ensemble,fitness,measured,distances,field_edges,edge_groups,radii,top_k,queried):
     prediction=ensemble.mean(0);truth=fitness[measured];estimate=prediction[measured];value={"measured_nodes":int(measured.sum()),"r2":float(r2_score(truth,estimate)),"pearson":float(pearsonr(truth,estimate).statistic),"rmse":float(np.sqrt(np.mean(np.square(estimate-truth))))};edge=mutation_field_metrics(fitness,prediction,field_edges,edge_groups,top_k=top_k);regret={}
     for radius in radii:
-        candidates=np.flatnonzero(measured&(distances<=int(radius)));regret[str(radius)]=exact_optimization_regret(fitness,prediction,candidates)
+        candidates=np.flatnonzero(measured&(distances<=int(radius)));regret[str(radius)]=exact_design_regrets(fitness,prediction,candidates,queried)
     return value,edge,regret
 
 
@@ -92,6 +92,53 @@ def uncertainty_acquisition(
     return batch, edges
 
 
+def frontier_policy_acquisition(
+    ensemble,
+    queried,
+    measured,
+    budget,
+    policy,
+    rng: np.random.Generator,
+    *,
+    beta: float = 1.0,
+    excluded_targets=(),
+):
+    """Standard equal-cost frontier baselines over unique target nodes."""
+    if policy not in {"random", "greedy", "ucb", "thompson"}:
+        raise ValueError("policy must be random, greedy, ucb, or thompson")
+    if beta < 0:
+        raise ValueError("beta must be nonnegative")
+    values = np.asarray(ensemble, dtype=np.float64)
+    if values.ndim != 2:
+        raise ValueError("ensemble must have shape [members, nodes]")
+    edges = frontier_edges(queried, measured)
+    excluded = frozenset(map(int, excluded_targets))
+    targets = np.asarray(
+        sorted(set(map(int, edges[1])) - set(map(int, queried)) - set(excluded)),
+        dtype=np.int64,
+    )
+    if policy == "random":
+        scores = rng.random(len(targets))
+    elif policy == "greedy":
+        scores = values[:, targets].mean(0)
+    elif policy == "ucb":
+        scores = values[:, targets].mean(0) + beta * values[:, targets].std(
+            axis=0, ddof=1
+        )
+    else:
+        member = int(rng.integers(values.shape[0]))
+        scores = values[member, targets]
+    ranked = sorted(
+        zip(targets.tolist(), scores.tolist()), key=lambda item: (-item[1], item[0])
+    )[:budget]
+    batch = AcquisitionBatch(
+        node_indices=np.asarray([node for node, _ in ranked], dtype=np.int64),
+        scores=np.asarray([score for _, score in ranked], dtype=np.float64),
+        candidate_edges=int(edges.shape[1]),
+    )
+    return batch, edges
+
+
 def main() -> None:
     parser=argparse.ArgumentParser();parser.add_argument("--config",type=Path,required=True);parser.add_argument("--run-dir",type=Path,required=True);arguments=parser.parse_args();config=json.loads(arguments.config.read_text());data_config=config["data"];model_config=config["model"];training=config["training"]
     if config.get("evaluate_test",False):parser.error("test evaluation is permanently disabled")
@@ -99,7 +146,7 @@ def main() -> None:
     seed=int(training["seed"]);random.seed(seed);np.random.seed(seed);torch.manual_seed(seed);device=torch.device("cuda:0");landscape=np.load(data_config["landscape"]);raw_tokens=landscape["tokens"].astype(np.int64);tokens=torch.from_numpy(raw_tokens+1);fitness=landscape["fitness"].astype(np.float64);measured=landscape["is_measured"].astype(bool);alphabet="ACDEFGHIKLMNPQRSTVWY";wild_tokens=np.asarray([alphabet.index(value) for value in "VDGV"]);anchor=int(np.ravel_multi_index(tuple(wild_tokens),(20,)*4));distances=hamming_distance(raw_tokens,wild_tokens);field_edges,edge_groups=evaluation_edges(raw_tokens,measured,int(data_config["evaluation_anchors"]),data_config["evaluation_salt"]);budgets=list(map(int,data_config["query_budgets"]));queried=set(map(int,connected_query_nodes(measured,anchor,budgets[0],int(data_config["initial_query_seed"]))));writer=SummaryWriter(arguments.run_dir/"tensorboard");history=[];rollouts=[];stages=[];final_states=None
     for round_index,budget in enumerate(budgets):
         if len(queried)!=budget:raise RuntimeError(f"query budget mismatch before round: {len(queried)} != {budget}")
-        ensemble,states,training_summary,closed_edges=fit_ensemble(tokens,fitness,queried,model_config,training,device);value_metrics,edge_metrics,regret_metrics=evaluate(ensemble,fitness,measured,distances,field_edges,edge_groups,data_config["edit_radii"],int(data_config.get("top_k",10)));stage={"round":round_index,"budget":budget,"queried_nodes_sha256":queried_nodes_sha256(queried),"closed_edges":closed_edges,"training":training_summary,"value":value_metrics,"edge":edge_metrics,"regret":regret_metrics};stages.append(stage);print(json.dumps(stage),flush=True);writer.add_scalar("budget_curve/r2",value_metrics["r2"],budget);writer.add_scalar("budget_curve/edge_spearman",edge_metrics["edge_spearman"],budget);writer.add_scalar("budget_curve/regret_radius_4",regret_metrics["4"]["regret"],budget);final_states=states
+        ensemble,states,training_summary,closed_edges=fit_ensemble(tokens,fitness,queried,model_config,training,device);value_metrics,edge_metrics,regret_metrics=evaluate(ensemble,fitness,measured,distances,field_edges,edge_groups,data_config["edit_radii"],int(data_config.get("top_k",10)),queried);stage={"round":round_index,"budget":budget,"queried_nodes_sha256":queried_nodes_sha256(queried),"closed_edges":closed_edges,"training":training_summary,"value":value_metrics,"edge":edge_metrics,"regret":regret_metrics};stages.append(stage);print(json.dumps(stage),flush=True);writer.add_scalar("budget_curve/r2",value_metrics["r2"],budget);writer.add_scalar("budget_curve/edge_spearman",edge_metrics["edge_spearman"],budget);writer.add_scalar("budget_curve/acquired_regret_radius_4",regret_metrics["4"]["acquired"]["regret"],budget);novel_regret=regret_metrics["4"]["novel_design"]["regret"];writer.add_scalar("budget_curve/campaign_regret_radius_4",regret_metrics["4"]["campaign"]["regret"],budget);writer.add_scalar("budget_curve/novel_design_regret_radius_4",novel_regret,budget) if novel_regret is not None else None;final_states=states
         if round_index==len(budgets)-1:break
         increment=budgets[round_index+1]-budget;mode=data_config["acquisition"]
         if mode=="path_aware":

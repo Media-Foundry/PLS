@@ -78,11 +78,28 @@ def validate_pair(
     }
 
 
-def extract_regret(history: list[dict], stage_indices, radii) -> np.ndarray:
+def regret_value(cell: dict, component: str) -> float:
+    """Read one explicit regret component without silently mixing schemas."""
+    if component == "legacy_all_candidates":
+        if "regret" not in cell:
+            raise ValueError("run uses decomposed regrets; legacy regret is unavailable")
+        return float(cell["regret"])
+    if component not in {"acquired", "novel_design", "campaign"}:
+        raise ValueError(f"unsupported regret component: {component}")
+    if component not in cell:
+        raise ValueError(
+            f"run predates regret decomposition; {component} regret is unavailable"
+        )
+    return float(cell[component]["regret"])
+
+
+def extract_regret(history: list[dict], stage_indices, radii, component: str) -> np.ndarray:
     values = []
     for anchor in history:
         cells = [
-            anchor["stages"][stage]["regret"][str(radius)]["regret"]
+            regret_value(
+                anchor["stages"][stage]["regret"][str(radius)], component
+            )
             for stage in stage_indices
             for radius in radii
         ]
@@ -90,7 +107,7 @@ def extract_regret(history: list[dict], stage_indices, radii) -> np.ndarray:
     return np.asarray(values, dtype=np.float64)
 
 
-def compare_runs(path_run: Path, uncertainty_run: Path) -> dict:
+def compare_runs(path_run: Path, uncertainty_run: Path, regret_component: str) -> dict:
     path_config, path_history, path_budget = load_run(path_run)
     uncertainty_config, uncertainty_history, uncertainty_budget = load_run(uncertainty_run)
     validation = validate_pair(
@@ -99,9 +116,11 @@ def compare_runs(path_run: Path, uncertainty_run: Path) -> dict:
     )
     budgets = list(map(int, path_config["data"]["query_budgets"]))
     radii = list(map(int, path_config["data"]["edit_radii"]))
-    primary_path = extract_regret(path_history, range(1, len(budgets)), radii)
+    primary_path = extract_regret(
+        path_history, range(1, len(budgets)), radii, regret_component
+    )
     primary_uncertainty = extract_regret(
-        uncertainty_history, range(1, len(budgets)), radii
+        uncertainty_history, range(1, len(budgets)), radii, regret_component
     )
     primary = paired_method_summary(
         primary_path,
@@ -110,12 +129,14 @@ def compare_runs(path_run: Path, uncertainty_run: Path) -> dict:
         bootstrap_seed=BOOTSTRAP_SEED,
     )
     primary.update({
-        "metric": "anchor mean exact regret across budgets 160/320/640 and radii 1/2/3/4",
+        "metric": f"anchor mean {regret_component} regret across acquisition budgets and edit radii",
         "prespecified_before_run_completion": True,
     })
-    final_path = extract_regret(path_history, [len(budgets) - 1], radii)
+    final_path = extract_regret(
+        path_history, [len(budgets) - 1], radii, regret_component
+    )
     final_uncertainty = extract_regret(
-        uncertainty_history, [len(budgets) - 1], radii
+        uncertainty_history, [len(budgets) - 1], radii, regret_component
     )
     final = paired_method_summary(
         final_path,
@@ -123,18 +144,24 @@ def compare_runs(path_run: Path, uncertainty_run: Path) -> dict:
         bootstrap_samples=BOOTSTRAP_SAMPLES,
         bootstrap_seed=BOOTSTRAP_SEED + 1,
     )
-    final["metric"] = "anchor mean exact regret across radii 1/2/3/4 at 640 queries"
+    final["metric"] = f"anchor mean {regret_component} regret across edit radii at final budget"
 
     budget_curve = []
     for stage, budget in enumerate(budgets):
         row = {"budget": budget, "regret": {}}
         for radius in radii:
             path_values = np.asarray([
-                anchor["stages"][stage]["regret"][str(radius)]["regret"]
+                regret_value(
+                    anchor["stages"][stage]["regret"][str(radius)],
+                    regret_component,
+                )
                 for anchor in path_history
             ])
             uncertainty_values = np.asarray([
-                anchor["stages"][stage]["regret"][str(radius)]["regret"]
+                regret_value(
+                    anchor["stages"][stage]["regret"][str(radius)],
+                    regret_component,
+                )
                 for anchor in uncertainty_history
             ])
             row["regret"][str(radius)] = paired_method_summary(
@@ -159,6 +186,7 @@ def compare_runs(path_run: Path, uncertainty_run: Path) -> dict:
         "path_run": str(path_run),
         "uncertainty_run": str(uncertainty_run),
         "validation": validation,
+        "regret_component": regret_component,
         "inference": {
             "bootstrap_samples": BOOTSTRAP_SAMPLES,
             "bootstrap_seed": BOOTSTRAP_SEED,
@@ -208,8 +236,16 @@ def main() -> None:
     parser.add_argument("--uncertainty-run", type=Path, required=True)
     parser.add_argument("--output-json", type=Path, required=True)
     parser.add_argument("--output-markdown", type=Path, required=True)
+    parser.add_argument(
+        "--regret-component",
+        choices=("acquired", "novel_design", "campaign", "legacy_all_candidates"),
+        required=True,
+        help="Explicit metric; legacy_all_candidates is historical and confounded.",
+    )
     arguments = parser.parse_args()
-    result = compare_runs(arguments.path_run, arguments.uncertainty_run)
+    result = compare_runs(
+        arguments.path_run, arguments.uncertainty_run, arguments.regret_component
+    )
     arguments.output_json.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
     arguments.output_markdown.write_text(markdown_report(result))
 

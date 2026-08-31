@@ -20,6 +20,7 @@ from pls.editflow.optimization import (bound_aware_frontier_acquisition,
 from pls.training.train_editflow_gb1 import (connected_query_nodes,
                                              evaluation_edges)
 from pls.training.train_editflow_gb1_active import (evaluate, fit_ensemble,
+                                                    frontier_policy_acquisition,
                                                     uncertainty_acquisition)
 
 
@@ -65,6 +66,7 @@ def acquire_next_round(
     anchor: int,
     increment: int,
     data_config: dict,
+    rng: np.random.Generator,
 ) -> tuple[list[int], dict]:
     mode = data_config["acquisition"]
     if mode == "path_aware":
@@ -113,6 +115,27 @@ def acquire_next_round(
             "path_edges": int(acquired.path_edges.shape[1]),
             "path_selected": len(selected),
         }
+    elif mode == "occupancy_only":
+        acquired = path_aware_frontier_acquisition(
+            ensemble,
+            queried,
+            measured,
+            anchor,
+            increment,
+            alphabet_size=20,
+            length=4,
+            steps=int(data_config["beam_steps"]),
+            beam_width=int(data_config["beam_width"]),
+            conservative_beta=float(data_config.get("conservative_beta", 0.0)),
+            score_mode="occupancy_only",
+        )
+        selected = acquired.batch.node_indices.tolist()
+        details = {
+            "mode": mode,
+            "path_count": len(acquired.paths),
+            "path_edges": int(acquired.path_edges.shape[1]),
+            "occupancy_selected": len(selected),
+        }
     elif mode == "bound_aware":
         acquired = bound_aware_frontier_acquisition(
             ensemble,
@@ -149,21 +172,61 @@ def acquire_next_round(
             "frontier_edges": int(edges.shape[1]),
             "uncertainty_selected": len(selected),
         }
-    else:
-        raise ValueError(
-            "acquisition must be path_aware, hybrid_path, bound_aware, or uncertainty"
-        )
-
-    if len(selected) < increment:
-        fill, edges = uncertainty_acquisition(
+    elif mode in {"random", "greedy", "ucb", "thompson"}:
+        acquired, edges = frontier_policy_acquisition(
             ensemble,
             queried,
             measured,
-            increment - len(selected),
-            excluded_targets=selected,
+            increment,
+            mode,
+            rng,
+            beta=float(data_config.get("acquisition_beta", 1.0)),
         )
+        selected = acquired.node_indices.tolist()
+        details = {
+            "mode": mode,
+            "frontier_edges": int(edges.shape[1]),
+            "policy_selected": len(selected),
+        }
+    else:
+        raise ValueError(
+            "unsupported acquisition policy"
+        )
+
+    if len(selected) < increment:
+        if mode == "occupancy_only":
+            fill, edges = frontier_policy_acquisition(
+                ensemble,
+                queried,
+                measured,
+                increment - len(selected),
+                "random",
+                rng,
+                excluded_targets=selected,
+            )
+            details["random_fill"] = len(fill.node_indices)
+        elif mode in {"random", "greedy", "ucb", "thompson"}:
+            fill, edges = frontier_policy_acquisition(
+                ensemble,
+                queried,
+                measured,
+                increment - len(selected),
+                mode,
+                rng,
+                beta=float(data_config.get("acquisition_beta", 1.0)),
+                excluded_targets=selected,
+            )
+            details["policy_fill"] = len(fill.node_indices)
+        else:
+            fill, edges = uncertainty_acquisition(
+                ensemble,
+                queried,
+                measured,
+                increment - len(selected),
+                excluded_targets=selected,
+            )
+            details["uncertainty_fill"] = len(fill.node_indices)
         selected.extend(fill.node_indices.tolist())
-        details["uncertainty_fill"] = len(fill.node_indices)
         details["fill_frontier_edges"] = int(edges.shape[1])
     if len(selected) != increment or set(selected) & queried:
         raise RuntimeError("acquisition did not purchase the exact new-node budget")
@@ -172,6 +235,15 @@ def acquire_next_round(
 
 def summarize(values) -> dict:
     values = np.asarray(list(values), dtype=np.float64)
+    if not len(values):
+        return {
+            "mean": None,
+            "median": None,
+            "standard_deviation": None,
+            "minimum": None,
+            "maximum": None,
+            "count": 0,
+        }
     return {
         "mean": float(values.mean()),
         "median": float(np.median(values)),
@@ -205,13 +277,20 @@ def aggregate_anchor_results(
             "regret": {},
         }
         for radius in radii:
-            values = [
-                stage["regret"][str(radius)]["regret"] for stage in stages
-            ]
-            row["regret"][str(radius)] = {
-                **summarize(values),
-                "zero_regret_fraction": float(np.mean(np.asarray(values) <= 1e-12)),
-            }
+            row["regret"][str(radius)] = {}
+            for metric in ("acquired", "novel_design", "campaign"):
+                values = [
+                    stage["regret"][str(radius)][metric]["regret"]
+                    for stage in stages
+                    if stage["regret"][str(radius)][metric]["regret"] is not None
+                ]
+                row["regret"][str(radius)][metric] = {
+                    **summarize(values),
+                    "zero_regret_fraction": float(
+                        np.mean(np.asarray(values) <= 1e-12)
+                    ) if values else None,
+                    "unavailable_fraction": float(1.0 - len(values) / len(stages)),
+                }
         aggregate.append(row)
     return aggregate
 
@@ -300,6 +379,7 @@ def main() -> None:
                 edge_groups,
                 radii,
                 int(data_config.get("top_k", 10)),
+                queried,
             )
             stage = {
                 "round": stage_index,
@@ -320,8 +400,11 @@ def main() -> None:
                         "budget": budget,
                         "r2": value_metrics["r2"],
                         "regret": {
-                            radius: metrics["regret"]
-                            for radius, metrics in regret_metrics.items()
+                            radius: {
+                                metric: values[metric]["regret"]
+                                for metric in ("acquired", "novel_design", "campaign")
+                            }
+                            for radius, values in regret_metrics.items()
                         },
                     }
                 ),
@@ -329,11 +412,14 @@ def main() -> None:
             )
             writer.add_scalar(f"anchors/{rank:02d}/r2", value_metrics["r2"], budget)
             for radius in radii:
-                writer.add_scalar(
-                    f"anchors/{rank:02d}/regret_radius_{radius}",
-                    regret_metrics[str(radius)]["regret"],
-                    budget,
-                )
+                for metric in ("acquired", "novel_design", "campaign"):
+                    metric_value = regret_metrics[str(radius)][metric]["regret"]
+                    if metric_value is not None:
+                        writer.add_scalar(
+                            f"anchors/{rank:02d}/{metric}_regret_radius_{radius}",
+                            metric_value,
+                            budget,
+                        )
             if stage_index == len(budgets) - 1:
                 torch.save(
                     {
@@ -346,8 +432,15 @@ def main() -> None:
                 )
                 break
             increment = budgets[stage_index + 1] - budget
+            acquisition_seed = initial_query_seed + 104_729 * (stage_index + 1)
             selected, details = acquire_next_round(
-                ensemble, queried, measured, anchor, increment, data_config
+                ensemble,
+                queried,
+                measured,
+                anchor,
+                increment,
+                data_config,
+                np.random.default_rng(acquisition_seed),
             )
             queried.update(selected)
             details.update(
@@ -357,6 +450,7 @@ def main() -> None:
                     "from_budget": budget,
                     "to_budget": len(queried),
                     "selected_nodes": selected,
+                    "acquisition_seed": acquisition_seed,
                 }
             )
             rollouts.append(details)
@@ -387,11 +481,14 @@ def main() -> None:
         budget = row["budget"]
         writer.add_scalar("aggregate/r2_mean", row["value_r2"]["mean"], budget)
         for radius in radii:
-            writer.add_scalar(
-                f"aggregate/regret_radius_{radius}_mean",
-                row["regret"][str(radius)]["mean"],
-                budget,
-            )
+            for metric in ("acquired", "novel_design", "campaign"):
+                metric_mean = row["regret"][str(radius)][metric]["mean"]
+                if metric_mean is not None:
+                    writer.add_scalar(
+                        f"aggregate/{metric}_regret_radius_{radius}_mean",
+                        metric_mean,
+                        budget,
+                    )
     writer.close()
 
     query_budget = {
