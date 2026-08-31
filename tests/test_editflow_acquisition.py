@@ -2,7 +2,9 @@ import unittest
 
 import numpy as np
 
-from pls.editflow.acquisition import frontier_node_acquisition, path_edge_occupancy
+from pls.editflow.acquisition import (cost_aware_frontier_node_acquisition,
+                                      frontier_node_acquisition,
+                                      path_edge_occupancy)
 from pls.editflow.mutations import (Substitution, apply_substitution,
                                     enumerate_single_substitutions)
 
@@ -24,6 +26,21 @@ class EditFlowAcquisitionTests(unittest.TestCase):
         self.assertEqual(selected.node_indices.tolist(), [2, 3])
         np.testing.assert_allclose(selected.scores, [3.0, 0.5])
 
+    def test_nonuniform_cost_policy_uses_value_per_cost_and_exact_spend(self):
+        edges = np.array([[0, 0, 0], [1, 2, 3]])
+        batch = cost_aware_frontier_node_acquisition(
+            edges,
+            uncertainty=np.array([10.0, 6.0, 4.0]),
+            occupancy=np.ones(3),
+            queried_nodes={0},
+            node_cost=np.array([1.0, 10.0, 2.0, 2.0]),
+            cost_budget=4.0,
+        )
+        # Nodes 2 and 3 have higher value/cost and fit exactly; node 1 does not.
+        self.assertEqual(batch.node_indices.tolist(), [2, 3])
+        np.testing.assert_allclose(batch.node_costs, [2.0, 2.0])
+        self.assertAlmostEqual(batch.total_cost, 4.0)
+
     def test_substitution_roundtrip_and_enumeration(self):
         edit = Substitution(1, "C", "D")
         self.assertEqual(apply_substitution("AC", edit), "AD")
@@ -36,4 +53,3 @@ class EditFlowAcquisitionTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

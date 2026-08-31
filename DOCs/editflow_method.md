@@ -120,6 +120,13 @@ that is claimed to minimize the theorem's regret upper bound. Calibrating a
 high-probability edge-error envelope on cross-fitted closed edges is a future
 algorithmic hypothesis, not an implemented result.
 
+For heterogeneous computational oracles, acquisition accounting uses measured or
+predicted positive node costs and ranks the current proxy value per unit cost.
+The repository now contains a deterministic cost-aware frontier primitive with
+an exact cumulative-cost cap. This is a greedy engineering baseline, not an exact
+knapsack solution and not yet wired to the PLS folding campaign; it must not be
+described as expected regret-bound reduction until that estimator is implemented.
+
 The bound-aware variant makes that last step explicit. Each ensemble member and
 the conservative ensemble objective proposes an optimizer endpoint. Among
 beam-discovered routes to every unique proposal, it retains the route minimizing
@@ -278,6 +285,14 @@ and 7 losses). At the secondary 640-query endpoint, hybrid was numerically worse
 an established contribution. Anchor-adaptive allocation based on optimizer-path
 concentration or ensemble disagreement remains a new hypothesis requiring a
 separate unseen-anchor protocol.
+
+The uncertainty-only v2 run completed after the prespecified hybrid-versus-path
+comparison. A secondary descriptive comparison on the historical all-candidate
+metric favored path over uncertainty (query-curve means 1.5321 versus 1.8824;
+final-640 means 0.5826 versus 1.2066). This comparison was not a prespecified
+primary endpoint and the metric is now known to mix acquisition with student
+generalization, so it cannot establish the method claim. Final checkpoints are
+being re-audited under the three-regret decomposition.
 
 For the PLS world, the current test-free proof-of-concept manifest contains 24
 strict train/validation anchors, 384 single-mutant edges, and 408 unique sequence

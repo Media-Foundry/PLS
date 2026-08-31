@@ -107,7 +107,12 @@ def extract_regret(history: list[dict], stage_indices, radii, component: str) ->
     return np.asarray(values, dtype=np.float64)
 
 
-def compare_runs(path_run: Path, uncertainty_run: Path, regret_component: str) -> dict:
+def compare_runs(
+    path_run: Path,
+    uncertainty_run: Path,
+    regret_component: str,
+    analysis_status: str,
+) -> dict:
     path_config, path_history, path_budget = load_run(path_run)
     uncertainty_config, uncertainty_history, uncertainty_budget = load_run(uncertainty_run)
     validation = validate_pair(
@@ -130,7 +135,7 @@ def compare_runs(path_run: Path, uncertainty_run: Path, regret_component: str) -
     )
     primary.update({
         "metric": f"anchor mean {regret_component} regret across acquisition budgets and edit radii",
-        "prespecified_before_run_completion": True,
+        "prespecified_before_run_completion": analysis_status == "prespecified_primary",
     })
     final_path = extract_regret(
         path_history, [len(budgets) - 1], radii, regret_component
@@ -187,6 +192,7 @@ def compare_runs(path_run: Path, uncertainty_run: Path, regret_component: str) -
         "uncertainty_run": str(uncertainty_run),
         "validation": validation,
         "regret_component": regret_component,
+        "analysis_status": analysis_status,
         "inference": {
             "bootstrap_samples": BOOTSTRAP_SAMPLES,
             "bootstrap_seed": BOOTSTRAP_SEED,
@@ -204,14 +210,21 @@ def markdown_report(result: dict) -> str:
     primary = result["primary"]
     final = result["final_budget_secondary"]
     lines = [
-        "# GB1 Path-OLD confirmatory comparison v1",
+        "# GB1 Path-OLD paired comparison",
         "",
         "Negative paired differences favor path-aware acquisition.",
+        f"Regret component: `{result['regret_component']}`. Analysis status: "
+        f"`{result['analysis_status']}`.",
         "",
         "| endpoint | path mean | uncertainty mean | paired difference | bootstrap 95% CI | exact p | W/T/L |",
         "| --- | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
-    for label, row in (("Primary query-curve regret", primary), ("Final-640 regret", final)):
+    query_curve_label = (
+        "Primary query-curve regret"
+        if result["analysis_status"] == "prespecified_primary"
+        else "Query-curve regret"
+    )
+    for label, row in ((query_curve_label, primary), ("Final-budget regret", final)):
         interval = row["bootstrap_95_ci"]
         lines.append(
             f"| {label} | {row['path_mean']:.6f} | {row['uncertainty_mean']:.6f} | "
@@ -220,13 +233,26 @@ def markdown_report(result: dict) -> str:
             f"{row['exact_two_sided_sign_flip_pvalue']:.6g} | "
             f"{row['path_wins']}/{row['ties']}/{row['uncertainty_wins']} |"
         )
-    lines.extend([
-        "",
-        "The primary endpoint was fixed before run completion. Per-budget and",
-        "per-radius cells in the JSON artifact are secondary, descriptive, and",
-        "not multiplicity-adjusted. No PLS test split was evaluated.",
-        "",
-    ])
+    lines.append("")
+    if result["analysis_status"] == "prespecified_primary":
+        lines.extend([
+            "The primary endpoint was fixed before run completion. Per-budget and",
+            "per-radius cells in the JSON artifact are secondary, descriptive, and",
+            "not multiplicity-adjusted.",
+        ])
+    else:
+        lines.extend([
+            "This comparison was not a prespecified primary analysis. Its p-values",
+            "and confidence intervals are descriptive and cannot establish a new",
+            "confirmatory claim.",
+        ])
+    if result["regret_component"] == "legacy_all_candidates":
+        lines.extend([
+            "The legacy all-candidate metric is confounded by allowing the student",
+            "to select nodes whose oracle labels were already purchased. It is",
+            "reported only as historical evidence, not as distillation evidence.",
+        ])
+    lines.extend(["No PLS test split was evaluated.", ""])
     return "\n".join(lines)
 
 
@@ -242,9 +268,17 @@ def main() -> None:
         required=True,
         help="Explicit metric; legacy_all_candidates is historical and confounded.",
     )
+    parser.add_argument(
+        "--analysis-status",
+        choices=("prespecified_primary", "secondary_descriptive", "exploratory_posthoc"),
+        required=True,
+    )
     arguments = parser.parse_args()
     result = compare_runs(
-        arguments.path_run, arguments.uncertainty_run, arguments.regret_component
+        arguments.path_run,
+        arguments.uncertainty_run,
+        arguments.regret_component,
+        arguments.analysis_status,
     )
     arguments.output_json.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
     arguments.output_markdown.write_text(markdown_report(result))
