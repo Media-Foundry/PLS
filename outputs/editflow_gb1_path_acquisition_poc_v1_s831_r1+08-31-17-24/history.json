@@ -1,0 +1,370 @@
+[
+  {
+    "round": 0,
+    "budget": 80,
+    "queried_nodes_sha256": "909bd94104a47f6c316b001b6b6142f776359ed7843cce46b17064c816ee005c",
+    "closed_edges": 95,
+    "training": [
+      {
+        "member": 0,
+        "seed": 20260831,
+        "best_epoch": 205,
+        "best_training_objective": 0.006974196992814541,
+        "seconds": 5.217006721999496
+      },
+      {
+        "member": 1,
+        "seed": 20260837,
+        "best_epoch": 227,
+        "best_training_objective": 0.006119519006460905,
+        "seconds": 2.4468564999988303
+      },
+      {
+        "member": 2,
+        "seed": 20260843,
+        "best_epoch": 180,
+        "best_training_objective": 0.006549426354467869,
+        "seconds": 2.3560342979981215
+      },
+      {
+        "member": 3,
+        "seed": 20260849,
+        "best_epoch": 223,
+        "best_training_objective": 0.006750737316906452,
+        "seconds": 2.423050876997877
+      },
+      {
+        "member": 4,
+        "seed": 20260861,
+        "best_epoch": 205,
+        "best_training_objective": 0.0074922447092831135,
+        "seconds": 2.2370695620047627
+      }
+    ],
+    "value": {
+      "measured_nodes": 149361,
+      "r2": -0.5616714481165446,
+      "pearson": 0.1526059965185873,
+      "rmse": 0.4941063875099932
+    },
+    "edge": {
+      "nodes": 160000,
+      "edges": 150724,
+      "edge_mae": 0.20193473790063401,
+      "edge_rmse": 0.507716809935099,
+      "edge_pearson": 0.1160418098499335,
+      "edge_spearman": 0.19809445766827452,
+      "mutation_sign_accuracy": 0.566367386556661,
+      "mutation_sign_balanced_accuracy": 0.5663514677350666,
+      "anchor_macro_kendall_tau": 0.15755658498586328,
+      "anchor_macro_top_10_recall": 0.28203125,
+      "informative_sign_edges": 140114
+    },
+    "regret": {
+      "1": {
+        "teacher_optimum": 143317,
+        "student_choice": 136910,
+        "teacher_optimum_value": 3.901460647583008,
+        "student_choice_teacher_value": 0.5856488347053528,
+        "regret": 3.315811812877655
+      },
+      "2": {
+        "teacher_optimum": 143304,
+        "student_choice": 138510,
+        "teacher_optimum_value": 5.390732288360596,
+        "student_choice_teacher_value": 4.774489879608154,
+        "regret": 0.6162424087524414
+      },
+      "3": {
+        "teacher_optimum": 151297,
+        "student_choice": 152597,
+        "teacher_optimum_value": 6.274946689605713,
+        "student_choice_teacher_value": 0.672878086566925,
+        "regret": 5.602068603038788
+      },
+      "4": {
+        "teacher_optimum": 39200,
+        "student_choice": 158981,
+        "teacher_optimum_value": 8.76196575164795,
+        "student_choice_teacher_value": 3.2699973583221436,
+        "regret": 5.491968393325806
+      }
+    }
+  },
+  {
+    "round": 1,
+    "budget": 160,
+    "queried_nodes_sha256": "a92c6482d0f36e8ea82625c826f1343a510d88baa771c20cdad46d7b2a8c30cf",
+    "closed_edges": 631,
+    "training": [
+      {
+        "member": 0,
+        "seed": 20260831,
+        "best_epoch": 170,
+        "best_training_objective": 0.020815517753362656,
+        "seconds": 2.398054871999193
+      },
+      {
+        "member": 1,
+        "seed": 20260837,
+        "best_epoch": 179,
+        "best_training_objective": 0.024794260039925575,
+        "seconds": 2.293824380998558
+      },
+      {
+        "member": 2,
+        "seed": 20260843,
+        "best_epoch": 211,
+        "best_training_objective": 0.020291604101657867,
+        "seconds": 2.1687006650026888
+      },
+      {
+        "member": 3,
+        "seed": 20260849,
+        "best_epoch": 238,
+        "best_training_objective": 0.02505388855934143,
+        "seconds": 2.426015967997955
+      },
+      {
+        "member": 4,
+        "seed": 20260861,
+        "best_epoch": 239,
+        "best_training_objective": 0.0240648053586483,
+        "seconds": 2.410718407998502
+      }
+    ],
+    "value": {
+      "measured_nodes": 149361,
+      "r2": 0.3109174271427667,
+      "pearson": 0.5600199010534156,
+      "rmse": 0.32821714724418605
+    },
+    "edge": {
+      "nodes": 160000,
+      "edges": 150724,
+      "edge_mae": 0.12984724140596263,
+      "edge_rmse": 0.3936866169999911,
+      "edge_pearson": 0.4680184912991613,
+      "edge_spearman": 0.3555903941770755,
+      "mutation_sign_accuracy": 0.6017814065689367,
+      "mutation_sign_balanced_accuracy": 0.6017335405961324,
+      "anchor_macro_kendall_tau": 0.22680591802146083,
+      "anchor_macro_top_10_recall": 0.413916015625,
+      "informative_sign_edges": 140114
+    },
+    "regret": {
+      "1": {
+        "teacher_optimum": 143317,
+        "student_choice": 143317,
+        "teacher_optimum_value": 3.901460647583008,
+        "student_choice_teacher_value": 3.901460647583008,
+        "regret": 0.0
+      },
+      "2": {
+        "teacher_optimum": 143304,
+        "student_choice": 143317,
+        "teacher_optimum_value": 5.390732288360596,
+        "student_choice_teacher_value": 3.901460647583008,
+        "regret": 1.489271640777588
+      },
+      "3": {
+        "teacher_optimum": 151297,
+        "student_choice": 143317,
+        "teacher_optimum_value": 6.274946689605713,
+        "student_choice_teacher_value": 3.901460647583008,
+        "regret": 2.373486042022705
+      },
+      "4": {
+        "teacher_optimum": 39200,
+        "student_choice": 158985,
+        "teacher_optimum_value": 8.76196575164795,
+        "student_choice_teacher_value": 4.092029571533203,
+        "regret": 4.669936180114746
+      }
+    }
+  },
+  {
+    "round": 2,
+    "budget": 320,
+    "queried_nodes_sha256": "b344b0c26b3450630f3ba16b2c175500f39443449b0b543b6ead2b05cb17f8b8",
+    "closed_edges": 1791,
+    "training": [
+      {
+        "member": 0,
+        "seed": 20260831,
+        "best_epoch": 225,
+        "best_training_objective": 0.03610498458147049,
+        "seconds": 3.176740016999247
+      },
+      {
+        "member": 1,
+        "seed": 20260837,
+        "best_epoch": 240,
+        "best_training_objective": 0.039160411804914474,
+        "seconds": 2.61530288799986
+      },
+      {
+        "member": 2,
+        "seed": 20260843,
+        "best_epoch": 248,
+        "best_training_objective": 0.03909429907798767,
+        "seconds": 2.592048000995419
+      },
+      {
+        "member": 3,
+        "seed": 20260849,
+        "best_epoch": 229,
+        "best_training_objective": 0.036186907440423965,
+        "seconds": 2.6173043319940916
+      },
+      {
+        "member": 4,
+        "seed": 20260861,
+        "best_epoch": 246,
+        "best_training_objective": 0.03814156726002693,
+        "seconds": 2.362431137000385
+      }
+    ],
+    "value": {
+      "measured_nodes": 149361,
+      "r2": 0.3938205972524932,
+      "pearson": 0.6293001684107848,
+      "rmse": 0.30784082968320925
+    },
+    "edge": {
+      "nodes": 160000,
+      "edges": 150724,
+      "edge_mae": 0.13587540923920152,
+      "edge_rmse": 0.37076180548229754,
+      "edge_pearson": 0.557917333837699,
+      "edge_spearman": 0.2235801085587897,
+      "mutation_sign_accuracy": 0.5413092196354398,
+      "mutation_sign_balanced_accuracy": 0.5413366750893904,
+      "anchor_macro_kendall_tau": 0.1046989755384703,
+      "anchor_macro_top_10_recall": 0.337451171875,
+      "informative_sign_edges": 140114
+    },
+    "regret": {
+      "1": {
+        "teacher_optimum": 143317,
+        "student_choice": 143717,
+        "teacher_optimum_value": 3.901460647583008,
+        "student_choice_teacher_value": 3.891461133956909,
+        "regret": 0.009999513626098633
+      },
+      "2": {
+        "teacher_optimum": 143304,
+        "student_choice": 143304,
+        "teacher_optimum_value": 5.390732288360596,
+        "student_choice_teacher_value": 5.390732288360596,
+        "regret": 0.0
+      },
+      "3": {
+        "teacher_optimum": 151297,
+        "student_choice": 143304,
+        "teacher_optimum_value": 6.274946689605713,
+        "student_choice_teacher_value": 5.390732288360596,
+        "regret": 0.8842144012451172
+      },
+      "4": {
+        "teacher_optimum": 39200,
+        "student_choice": 143304,
+        "teacher_optimum_value": 8.76196575164795,
+        "student_choice_teacher_value": 5.390732288360596,
+        "regret": 3.3712334632873535
+      }
+    }
+  },
+  {
+    "round": 3,
+    "budget": 640,
+    "queried_nodes_sha256": "c6fe27a16c4ad333d99d706f6b3da151543c2456f2b42f8c9481d33b2058a590",
+    "closed_edges": 3905,
+    "training": [
+      {
+        "member": 0,
+        "seed": 20260831,
+        "best_epoch": 235,
+        "best_training_objective": 0.053514182567596436,
+        "seconds": 2.6460622899976443
+      },
+      {
+        "member": 1,
+        "seed": 20260837,
+        "best_epoch": 250,
+        "best_training_objective": 0.055214621126651764,
+        "seconds": 2.6002770889972453
+      },
+      {
+        "member": 2,
+        "seed": 20260843,
+        "best_epoch": 250,
+        "best_training_objective": 0.057228200137615204,
+        "seconds": 2.7459007959987503
+      },
+      {
+        "member": 3,
+        "seed": 20260849,
+        "best_epoch": 245,
+        "best_training_objective": 0.047124411910772324,
+        "seconds": 2.6092557349984418
+      },
+      {
+        "member": 4,
+        "seed": 20260861,
+        "best_epoch": 250,
+        "best_training_objective": 0.05537012219429016,
+        "seconds": 2.6746931090019643
+      }
+    ],
+    "value": {
+      "measured_nodes": 149361,
+      "r2": 0.5896602268977683,
+      "pearson": 0.7691890639040904,
+      "rmse": 0.25327798364950094
+    },
+    "edge": {
+      "nodes": 160000,
+      "edges": 150724,
+      "edge_mae": 0.1111233899264546,
+      "edge_rmse": 0.2956057883423598,
+      "edge_pearson": 0.7480595982866933,
+      "edge_spearman": 0.3340867215327832,
+      "mutation_sign_accuracy": 0.581676349258461,
+      "mutation_sign_balanced_accuracy": 0.5817247384098023,
+      "anchor_macro_kendall_tau": 0.1882602561426574,
+      "anchor_macro_top_10_recall": 0.41313476562499996,
+      "informative_sign_edges": 140114
+    },
+    "regret": {
+      "1": {
+        "teacher_optimum": 143317,
+        "student_choice": 143717,
+        "teacher_optimum_value": 3.901460647583008,
+        "student_choice_teacher_value": 3.891461133956909,
+        "regret": 0.009999513626098633
+      },
+      "2": {
+        "teacher_optimum": 143304,
+        "student_choice": 143304,
+        "teacher_optimum_value": 5.390732288360596,
+        "student_choice_teacher_value": 5.390732288360596,
+        "regret": 0.0
+      },
+      "3": {
+        "teacher_optimum": 151297,
+        "student_choice": 63304,
+        "teacher_optimum_value": 6.274946689605713,
+        "student_choice_teacher_value": 5.772032260894775,
+        "regret": 0.5029144287109375
+      },
+      "4": {
+        "teacher_optimum": 39200,
+        "student_choice": 151385,
+        "teacher_optimum_value": 8.76196575164795,
+        "student_choice_teacher_value": 6.877949237823486,
+        "regret": 1.884016513824463
+      }
+    }
+  }
+]

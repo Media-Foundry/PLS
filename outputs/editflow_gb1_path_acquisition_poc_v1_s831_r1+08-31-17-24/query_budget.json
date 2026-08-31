@@ -1,0 +1,14 @@
+{
+  "acquisition": "path_aware",
+  "budget_curve": [
+    80,
+    160,
+    320,
+    640
+  ],
+  "final_queried_nodes_sha256": "c6fe27a16c4ad333d99d706f6b3da151543c2456f2b42f8c9481d33b2058a590",
+  "final_unique_queried_nodes": 640,
+  "rounds": 4,
+  "teacher_query_cost_unit": "unique measured node",
+  "test_evaluated": false
+}

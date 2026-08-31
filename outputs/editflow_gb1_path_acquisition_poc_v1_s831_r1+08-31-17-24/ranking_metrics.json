@@ -1,0 +1,7 @@
+{
+  "anchor_macro_kendall_tau": 0.1882602561426574,
+  "anchor_macro_top_10_recall": 0.41313476562499996,
+  "informative_sign_edges": 140114,
+  "mutation_sign_accuracy": 0.581676349258461,
+  "mutation_sign_balanced_accuracy": 0.5817247384098023
+}

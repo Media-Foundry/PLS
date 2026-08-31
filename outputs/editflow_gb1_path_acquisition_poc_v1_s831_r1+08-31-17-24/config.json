@@ -1,0 +1,53 @@
+{
+  "data": {
+    "acquisition": "path_aware",
+    "beam_steps": 6,
+    "beam_width": 32,
+    "conservative_beta": 0.5,
+    "edit_radii": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "evaluation_anchors": 2048,
+    "evaluation_salt": "PLS-EditFlow-GB1-exploratory-v1",
+    "initial_query_seed": 20260831,
+    "landscape": "benchmark/generated/gb1_wu2016_editflow_v1.npz",
+    "query_budgets": [
+      80,
+      160,
+      320,
+      640
+    ],
+    "top_k": 10
+  },
+  "evaluate_test": false,
+  "experiment_name": "editflow_gb1_path_acquisition_poc_v1_s831_r1",
+  "model": {
+    "dimension": 96,
+    "dropout": 0.1,
+    "heads": 4,
+    "layers": 2
+  },
+  "trainer_module": "pls.training.train_editflow_gb1_active",
+  "training": {
+    "edge_weight": 1.0,
+    "ensemble_seeds": [
+      20260831,
+      20260837,
+      20260843,
+      20260849,
+      20260861
+    ],
+    "epochs_per_round": 250,
+    "fused_optimizer": true,
+    "hip_device": 7,
+    "inference_batch_size": 8192,
+    "learning_rate": 0.001,
+    "loss": "mse",
+    "max_gradient_norm": 5.0,
+    "seed": 20260831,
+    "weight_decay": 0.0001
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "anchor_macro_kendall_tau": 0.1882602561426574,
+  "anchor_macro_top_10_recall": 0.41313476562499996,
+  "edge_mae": 0.1111233899264546,
+  "edge_pearson": 0.7480595982866933,
+  "edge_rmse": 0.2956057883423598,
+  "edge_spearman": 0.3340867215327832,
+  "edges": 150724,
+  "informative_sign_edges": 140114,
+  "mutation_sign_accuracy": 0.581676349258461,
+  "mutation_sign_balanced_accuracy": 0.5817247384098023,
+  "nodes": 160000
+}

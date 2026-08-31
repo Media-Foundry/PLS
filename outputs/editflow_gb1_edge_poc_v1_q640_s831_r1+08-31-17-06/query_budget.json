@@ -1,0 +1,8 @@
+{
+  "closed_edges": 752,
+  "queried_nodes_sha256": "9d1b4ae06acd05090c405657006b1bcb58f6e7b8bf28ac6f2aca1d898f62f51c",
+  "query_seed": 20260831,
+  "same_node_budget_required": true,
+  "selection": "value_blind_connected_random_frontier",
+  "unique_queried_nodes": 640
+}

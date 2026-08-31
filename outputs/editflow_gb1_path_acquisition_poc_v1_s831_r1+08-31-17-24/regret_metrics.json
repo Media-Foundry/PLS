@@ -1,0 +1,30 @@
+{
+  "1": {
+    "regret": 0.009999513626098633,
+    "student_choice": 143717,
+    "student_choice_teacher_value": 3.891461133956909,
+    "teacher_optimum": 143317,
+    "teacher_optimum_value": 3.901460647583008
+  },
+  "2": {
+    "regret": 0.0,
+    "student_choice": 143304,
+    "student_choice_teacher_value": 5.390732288360596,
+    "teacher_optimum": 143304,
+    "teacher_optimum_value": 5.390732288360596
+  },
+  "3": {
+    "regret": 0.5029144287109375,
+    "student_choice": 63304,
+    "student_choice_teacher_value": 5.772032260894775,
+    "teacher_optimum": 151297,
+    "teacher_optimum_value": 6.274946689605713
+  },
+  "4": {
+    "regret": 1.884016513824463,
+    "student_choice": 151385,
+    "student_choice_teacher_value": 6.877949237823486,
+    "teacher_optimum": 39200,
+    "teacher_optimum_value": 8.76196575164795
+  }
+}

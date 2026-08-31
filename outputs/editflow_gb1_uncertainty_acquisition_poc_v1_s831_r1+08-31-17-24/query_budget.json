@@ -1,0 +1,14 @@
+{
+  "acquisition": "uncertainty",
+  "budget_curve": [
+    80,
+    160,
+    320,
+    640
+  ],
+  "final_queried_nodes_sha256": "b0461ea6abf1d9e81a7c9945df9480f086afb09082e3e2610d5177cfa2574e56",
+  "final_unique_queried_nodes": 640,
+  "rounds": 4,
+  "teacher_query_cost_unit": "unique measured node",
+  "test_evaluated": false
+}
