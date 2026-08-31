@@ -190,6 +190,14 @@ Because the complete table has already been repeatedly inspected through
 evaluation, GB1 is not a blind confirmatory test. External landscapes require a
 frozen, zero-tuning transfer protocol.
 
+The intended external landscape is FLIP2 TrpB, whose official release documents
+228,298 measured variants across ten sub-landscapes and provides one-to-many,
+two-to-many, and by-position splits under CC-BY 4.0:
+<https://flip.protein.properties/>. No FLIP2 test row has been downloaded,
+parsed, scored, or evaluated in this repository. Data ingestion remains deferred
+until the acquisition method, baseline set, cost model, and admissible non-test
+evaluation protocol are frozen consistently with the permanent test prohibition.
+
 ## Leakage and budget invariants
 
 - All mutants, trajectories, and artifacts for a PLS anchor inherit the anchor's
