@@ -1,0 +1,16 @@
+{
+  "complete": 408,
+  "config_sha256": "066343b03767aef69471be1093554da60c2ea7abbe94c8afe85741b0aa2289c5",
+  "embedding_norm_maximum": 10.017428398132324,
+  "embedding_norm_mean": 8.179748800455355,
+  "embedding_norm_minimum": 6.81710958480835,
+  "embeddings_sha256": "36ce9245f7e27ac0166212ea47ae620464aee2b50653e4106eb2e33f92e779e2",
+  "entities": 408,
+  "schema": "PLS_EditFlow_ESM2_mean_audit_v1",
+  "shape": [
+    408,
+    1280
+  ],
+  "status_sha256": "ac7347ac870c38c71da45f48fc2a1af8f4d036112068fa2b837f3222791be83a",
+  "test_evaluated": false
+}
