@@ -21,6 +21,24 @@ The naive edge objective does not improve this control.  This negative result is
 consistent with treating path-aware acquisition, rather than the mere presence of
 an edge loss, as the algorithmic hypothesis.
 
+### Exact-node replay after active acquisition
+
+The final queried-node manifests from both active runs were replayed with the
+same five model seeds and either value-only or value-plus-edge training.  Thus,
+within each pair, objective weighting is the only changed factor.
+
+| queried-node set | objective | R2 | edge Spearman | regret k=1 / k=2 / k=3 / k=4 |
+| --- | --- | ---: | ---: | --- |
+| Path-OLD | Value-KD | 0.6012 | 0.3344 | 0.0100 / 0.0000 / 0.5029 / 1.8840 |
+| Path-OLD | Value + edge | 0.5897 | 0.3341 | 0.0100 / 0.0000 / 0.5029 / 1.8840 |
+| uncertainty | Value-KD | 0.7354 | 0.4058 | 0.0100 / 1.3643 / 0.5482 / 1.9044 |
+| uncertainty | Value + edge | 0.7472 | 0.3880 | 0.0100 / 1.3643 / 0.5482 / 1.9044 |
+
+The graph-Sobolev objective does not change any selected optimum in this replay.
+The current positive signal therefore comes from the acquired node set and its
+induced local coverage, not from claiming that edge differences contain new
+oracle information.  Edge loss remains an ablation rather than the novelty claim.
+
 ## Equal-budget sequential acquisition
 
 Path-aware and uncertainty-only acquisition start from the exact same 80-node
@@ -68,3 +86,5 @@ within the same acquisition round.
 - `outputs/editflow_gb1_uncertainty_acquisition_poc_v1_s831_r1+08-31-17-24`
 - `outputs/editflow_gb1_value_kd_poc_v1_q640_s831_r1+08-31-17-06`
 - `outputs/editflow_gb1_edge_poc_v1_q640_s831_r1+08-31-17-06`
+- `outputs/editflow_gb1_path_nodes_value_replay_poc_v1_s831+08-31-17-32`
+- `outputs/editflow_gb1_uncertainty_nodes_value_replay_poc_v1_s831+08-31-17-32`

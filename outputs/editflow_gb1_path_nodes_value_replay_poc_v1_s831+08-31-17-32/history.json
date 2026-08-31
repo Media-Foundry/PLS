@@ -1,0 +1,88 @@
+{
+  "edge": {
+    "anchor_macro_kendall_tau": 0.18543665309103352,
+    "anchor_macro_top_10_recall": 0.40800781249999996,
+    "edge_mae": 0.10590279066272934,
+    "edge_pearson": 0.7519544548321224,
+    "edge_rmse": 0.29371187753442884,
+    "edge_spearman": 0.3343979953444903,
+    "edges": 150724,
+    "informative_sign_edges": 140114,
+    "mutation_sign_accuracy": 0.5812838117532866,
+    "mutation_sign_balanced_accuracy": 0.581337740299155,
+    "nodes": 160000
+  },
+  "regret": {
+    "1": {
+      "regret": 0.009999513626098633,
+      "student_choice": 143717,
+      "student_choice_teacher_value": 3.891461133956909,
+      "teacher_optimum": 143317,
+      "teacher_optimum_value": 3.901460647583008
+    },
+    "2": {
+      "regret": 0.0,
+      "student_choice": 143304,
+      "student_choice_teacher_value": 5.390732288360596,
+      "teacher_optimum": 143304,
+      "teacher_optimum_value": 5.390732288360596
+    },
+    "3": {
+      "regret": 0.5029144287109375,
+      "student_choice": 63304,
+      "student_choice_teacher_value": 5.772032260894775,
+      "teacher_optimum": 151297,
+      "teacher_optimum_value": 6.274946689605713
+    },
+    "4": {
+      "regret": 1.884016513824463,
+      "student_choice": 151385,
+      "student_choice_teacher_value": 6.877949237823486,
+      "teacher_optimum": 39200,
+      "teacher_optimum_value": 8.76196575164795
+    }
+  },
+  "training": [
+    {
+      "best_epoch": 249,
+      "best_training_objective": 0.02148045226931572,
+      "member": 0,
+      "seconds": 6.359392312995624,
+      "seed": 20260831
+    },
+    {
+      "best_epoch": 242,
+      "best_training_objective": 0.02114163152873516,
+      "member": 1,
+      "seconds": 3.283424733002903,
+      "seed": 20260837
+    },
+    {
+      "best_epoch": 249,
+      "best_training_objective": 0.020176095888018608,
+      "member": 2,
+      "seconds": 3.055691315996228,
+      "seed": 20260843
+    },
+    {
+      "best_epoch": 245,
+      "best_training_objective": 0.01913546584546566,
+      "member": 3,
+      "seconds": 2.9842395589948865,
+      "seed": 20260849
+    },
+    {
+      "best_epoch": 249,
+      "best_training_objective": 0.01940019428730011,
+      "member": 4,
+      "seconds": 3.069168478999927,
+      "seed": 20260861
+    }
+  ],
+  "value": {
+    "measured_nodes": 149361,
+    "pearson": 0.7762464886333931,
+    "r2": 0.6011974107234814,
+    "rmse": 0.24969199413091775
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "closed_edges": 3905,
+  "queried_nodes_sha256": "c6fe27a16c4ad333d99d706f6b3da151543c2456f2b42f8c9481d33b2058a590",
+  "same_node_budget_required": true,
+  "source_manifest": "outputs/editflow_gb1_path_acquisition_poc_v1_s831_r1+08-31-17-24/queried_nodes.json",
+  "teacher_query_cost_unit": "unique measured node",
+  "test_evaluated": false,
+  "unique_queried_nodes": 640
+}

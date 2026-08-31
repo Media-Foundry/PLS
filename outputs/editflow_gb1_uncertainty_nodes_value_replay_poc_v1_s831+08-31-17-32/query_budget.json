@@ -1,0 +1,9 @@
+{
+  "closed_edges": 3094,
+  "queried_nodes_sha256": "b0461ea6abf1d9e81a7c9945df9480f086afb09082e3e2610d5177cfa2574e56",
+  "same_node_budget_required": true,
+  "source_manifest": "outputs/editflow_gb1_uncertainty_acquisition_poc_v1_s831_r1+08-31-17-24/queried_nodes.json",
+  "teacher_query_cost_unit": "unique measured node",
+  "test_evaluated": false,
+  "unique_queried_nodes": 640
+}
