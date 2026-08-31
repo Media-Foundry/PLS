@@ -10,6 +10,7 @@
   "anchor_salt": "PLS-EditFlow-PLS-anchor-poc-v1",
   "mutation_salt": "PLS-EditFlow-PLS-mutation-poc-v1",
   "mutations_per_anchor": 16,
+  "fold_shards": 8,
   "minimum_length": 40,
   "maximum_length": 300,
   "alphabet": "ACDEFGHIKLMNPQRSTVWY",

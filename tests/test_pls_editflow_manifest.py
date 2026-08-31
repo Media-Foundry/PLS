@@ -3,7 +3,9 @@ import unittest
 from preparation.build_pls_editflow_manifest import (mutation_candidates,
                                                        select_anchors,
                                                        sequence_sha256,
-                                                       validate_manifest)
+                                                       validate_manifest,
+                                                       write_entities)
+from preparation.plan_pls_editflow_oracle import lpt_shards
 
 
 class PLSEditFlowManifestTests(unittest.TestCase):
@@ -60,6 +62,20 @@ class PLSEditFlowManifestTests(unittest.TestCase):
         }
         with self.assertRaisesRegex(ValueError, "forbidden split"):
             validate_manifest(manifest, report)
+
+    def test_lpt_shards_are_deterministic_and_balanced(self):
+        nodes = [
+            {"node_index": index, "sequence_sha256": str(index), "length": length}
+            for index, length in enumerate((10, 9, 8, 7))
+        ]
+        first = lpt_shards(nodes, 2)
+        second = lpt_shards(nodes, 2)
+        self.assertEqual(first, second)
+        loads = [
+            sum(row["estimated_cost_l2"] for row in first if row["shard"] == shard)
+            for shard in range(2)
+        ]
+        self.assertLess(max(loads) / min(loads), 1.5)
 
 
 if __name__ == "__main__":

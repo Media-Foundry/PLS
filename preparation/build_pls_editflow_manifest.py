@@ -292,11 +292,27 @@ def validate_manifest(manifest: dict, report: dict) -> None:
         raise ValueError("report violates the permanent test freeze")
 
 
+def write_entities(manifest: dict, path: Path) -> None:
+    """Materialize the safe manifest nodes for existing feature extractors."""
+    fields = ["entity_id", "sequence_sha256", "sequence", "length"]
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader()
+        for node in manifest["nodes"]:
+            writer.writerow({
+                "entity_id": f"editflow_{int(node['node_index']):06d}",
+                "sequence_sha256": node["sequence_sha256"],
+                "sequence": node["sequence"],
+                "length": int(node["length"]),
+            })
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--report", type=Path, required=True)
+    parser.add_argument("--entities-output", type=Path)
     arguments = parser.parse_args()
     config = json.loads(arguments.config.read_text())
     manifest, report = build_manifest(config)
@@ -304,6 +320,8 @@ def main() -> None:
     arguments.output.parent.mkdir(parents=True, exist_ok=True)
     arguments.output.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
     arguments.report.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
+    if arguments.entities_output is not None:
+        write_entities(manifest, arguments.entities_output)
     print(json.dumps(report, indent=2, sort_keys=True))
 
 
