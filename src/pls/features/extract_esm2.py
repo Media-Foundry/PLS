@@ -46,12 +46,16 @@ def main() -> None:
     parser.add_argument("--maximum-residues", type=int, default=1022)
     parser.add_argument("--limit", type=int)
     parser.add_argument("--device", default="cuda:0")
+    parser.add_argument("--hip-device", type=int, choices=(6, 7), default=7)
     parser.add_argument("--precision", choices=("float16", "float32"), default="float16")
     args = parser.parse_args()
     if args.token_budget < args.maximum_residues + 2:
         parser.error("token budget must hold at least one maximum-length chunk")
-    if args.device.startswith("cuda") and os.environ.get("HIP_VISIBLE_DEVICES") != "7":
-        parser.error("GPU extraction is pinned to physical device 7; set HIP_VISIBLE_DEVICES=7")
+    if args.device.startswith("cuda") and os.environ.get("HIP_VISIBLE_DEVICES") != str(args.hip_device):
+        parser.error(
+            f"GPU extraction is pinned to physical device {args.hip_device}; "
+            f"set HIP_VISIBLE_DEVICES={args.hip_device}"
+        )
 
     rows = load_entities(args.entities, args.limit)
     args.output_dir.mkdir(parents=True, exist_ok=True)
