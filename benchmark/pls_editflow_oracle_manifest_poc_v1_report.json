@@ -1,0 +1,17 @@
+{
+  "anchors": 24,
+  "anchors_by_split": {
+    "train": 16,
+    "validation": 8
+  },
+  "collision_rejections": 0,
+  "edges_sha256": "e742a369441472936189904257e9ee033ae5650745c30360849961806ae9e682",
+  "mutations_per_anchor": 16,
+  "nodes_sha256": "18fef34398af38f75ab0e220f7d3781377c2d12a004cd37fc2d4de2803435a03",
+  "schema": "PLS_EditFlow_sequence_oracle_manifest_report_v1",
+  "selection_used_target_values": false,
+  "single_mutation_edges": 384,
+  "test_evaluated": false,
+  "test_sequences_queried": 0,
+  "unique_sequence_queries": 408
+}
