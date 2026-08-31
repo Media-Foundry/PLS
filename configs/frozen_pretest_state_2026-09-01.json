@@ -1,0 +1,897 @@
+{
+  "date": "2026-09-01",
+  "esmfold": {
+    "checkpoint": "esmfold_3B_v1.pt",
+    "fair_esm_version": "2.0.0",
+    "sha256": "e9a52579027e77d2d2e0a18218e755821f395730e86624cab9413dc117f5ca62"
+  },
+  "feature_artifacts": [
+    {
+      "path": "artifacts/plm/esm2_t33_650M_UR50D_mean/config.json",
+      "sha256": "cd6207990bbd334fe5e91b32749bde6cbfbba3bb5d1c9420ab68b1d6df258b2a"
+    },
+    {
+      "path": "artifacts/plm/esm2_t33_650M_UR50D_mean/embeddings.npy",
+      "sha256": "703a0c96553b039403270a148bd2131bf0dc594bf0c540c57cd880767e8206d7"
+    },
+    {
+      "path": "artifacts/features/pdbsol_structure_v4_train_stats.json",
+      "sha256": "a403024d29fdde67969d8c80d80fb802136abc8cbf503ec77d118d9067f4d1b8"
+    },
+    {
+      "path": "artifacts/features/pdbsol_structure_v4_compact/metadata.json",
+      "sha256": "63f9f5dc816493ff89afb20c9e20dccb483384e095544ce6f65d3ab7bffa6b60"
+    },
+    {
+      "path": "artifacts/features/pdbsol_structure_v4_geometry/metadata.json",
+      "sha256": "c3e2307fbd909844cc039789aadcddb2e282a994b8ae16b5fc8cc9076e54bdc4"
+    },
+    {
+      "path": "artifacts/plm/esm2_t33_650M_UR50D_residue_pdbsol/pca_metadata.json",
+      "sha256": "98f484010b27a4f9020a8bf98ec6a9e2df3db45c9bc3476e3722cb4f80b65aec"
+    },
+    {
+      "path": "artifacts/features/pdbsol_structure_v4_vectors/metadata.json",
+      "sha256": "0f7f6f16775f95904f46f2bbe482456b68e7a766f5d9b7ea0a256c22d1cb734b"
+    },
+    {
+      "path": "artifacts/features/pdbsol_surface_patch_components_v1/metadata.json",
+      "sha256": "7a94bc2496a83cd5965caa9fab8632e0563e6a8c5ff552ecf21fa177bf30b5a3"
+    },
+    {
+      "path": "artifacts/features/sequence_descriptors_v1/metadata.json",
+      "sha256": "b122244c55d7f020b2c910b192d4e13acc49e29aec0d5a16ff43120e7722d4cb"
+    }
+  ],
+  "frozen_core_code_revision": "2ff7afbb3ddddcc78d96038ba106134bd8b8a407",
+  "policy": {
+    "core_predictor_development": "frozen",
+    "new_ideas_destination": "PLS-v2 or methods branches only",
+    "test_evaluated": false,
+    "test_evaluation": "permanently prohibited"
+  },
+  "schema": "PLS_core_frozen_pretest_state_v1",
+  "selected_reports": [
+    {
+      "path": "outputs/validation_selection/esol_bootstrap_forests_v23_ensembles.json",
+      "sha256": "ee79d0792ec4e6ec7c37fd2afa6231c68934f84a7641586d7a4e11fac520f4aa",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/esol_classical_residual_v45_pearson.json",
+      "sha256": "dc8e8f0b66d7a1cd7329efc5111fccf3befd40a62eca197e5a695d19c9292ddd",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/esol_late_stack_v40_mae.json",
+      "sha256": "e0b20023dd1c7ee022c8a9f0189bae678ac54c36144999b77b3d3fd8623e82b5",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/esol_late_stack_v40_pearson.json",
+      "sha256": "a7bfb0deb1de3472ffd237b00d546d065a81aec7db3d8fa6f27b510dd7ba3045",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/esol_late_stack_v40_rmse.json",
+      "sha256": "9d186bc7a910b49357114adfc4f61f429ff42dd57237baf835e2d967549481d0",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/esol_multilayer_physchem_v36.json",
+      "sha256": "30fe5803ae9d288f08ac14c176ebb9f9fb3cfdd1a5a459d530459e48da26dbf1",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/esol_pooled_l1_v46_pearson.json",
+      "sha256": "2e71c148d26103c063efe6776bdf3c829b764a4adfd2395713c9b9dee4570adf",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/esol_pooled_l1_v46_pearson_affine_si30_grouped.json",
+      "sha256": "bd4f3a1440666a9f0cb7a237a248682eaad637fc404b9dcd5a03908976621864",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/esol_pooled_v4_trees_v5_strict_si30_rf_leaf3+08-29-21-10_with_geometry.json",
+      "sha256": "0d41b17d7f902c66ffe60f20e2c8c1828b97dcad5f9a698f23f36394eac94eb7",
+      "test_freeze_assertion": "inherited_from_frozen_selection"
+    },
+    {
+      "path": "outputs/validation_selection/esol_rf_leaf3_full_spearman_blend.json",
+      "sha256": "546e46f64bb01934cb7a0a463df583d8e42ffbc61e306c8be7cc1ff38e2a90aa",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/latent_endpoint_residual_v35_pdbsol.json",
+      "sha256": "fb26d19a147f2b485bb7fea50855214a8fd7130d1d1462de94a68afaec197fe2",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/latent_endpoint_residual_v35_pdbsol_platt_si30_grouped.json",
+      "sha256": "1c06cd3369042a079cfa3896f0b1a36b289527faa65a60cab44456e7874480db",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/latent_endpoint_v32_pdbsol.json",
+      "sha256": "0af85bc2ed0d6bf7bced60d6612f7059b08d8e5b9883758714a2db802afff7a2",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/pdbsol_gvp_capacity_ensembles.json",
+      "sha256": "3451510145d314b7bf859d3627859e6f86ea70d1d10d1a1001beb88ca0676009",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/pdbsol_gvp_multiseed_ensembles.json",
+      "sha256": "e70751f437a753dda6d1cb138f42c07b3d9c5698b91003c1c47c2cb76f7d5def",
+      "test_freeze_assertion": "inherited_from_frozen_selection"
+    },
+    {
+      "path": "outputs/validation_selection/pdbsol_spatial_patch_v18_ensembles.json",
+      "sha256": "c054eae8419e2d5259d287daa612a11cd01e39020b1f8b372fb91a88efab6e08",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/pdbsol_surface_aux_v17_ensembles.json",
+      "sha256": "3baf131bf8f9dd92f00a18df03953925f2461928d1f09ddc5fba67ac9f2172c8",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/pdbsol_surface_gvp_aligned_ensembles.json",
+      "sha256": "99e45d44f4242fa97c9d702827443bfb53f6a9923525e30e125662b1b3c7d871",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/pdbsol_surface_xattn_v14_ensembles.json",
+      "sha256": "ecd7c52e982896aa23dbf63523afe6728e7f2207e9ce02a3d8234fdce416a421",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/uesolds_capacity_weighted_auc.json",
+      "sha256": "7e19f06551bcc79e5f6aafb6a8b43afd0a5d3eb8b8adef3111c95ced67204842",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/uesolds_hard_pair_v43_auroc.json",
+      "sha256": "ae0b19c97069d88ced11f23f21541c2c970c9db1068dc11d35bd221105f06ff6",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/uesolds_hard_pair_v43_auroc_beta_si30_grouped.json",
+      "sha256": "19de1bb2b851638ee35869164d77b74be67d0c65ecca782a41650d2a70925bc8",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/uesolds_hard_pair_v43_mcc.json",
+      "sha256": "30712bc2ce7a33031447035b295429cad507ef141c966221e2bafac4bcbdfd56",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/uesolds_longrf_rank_multiseed_weighted_auc.json",
+      "sha256": "888444822196c4891ffe7fd572caedfae3a94f160cf0a3ff498457f2733ad258",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/uesolds_longrf_rank_weighted_auc.json",
+      "sha256": "b0dcbdcc0ec9919cb2fd30814a99de174dd8380157d4882258acd479a29ab18e",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/uesolds_longrf_two_seed_weighted_auc.json",
+      "sha256": "83a9e328a287a34f37b438314d1761a44dbaaa6b5bb85c2012ed45b14cbdcd26",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/uesolds_longrf_weighted_auc.json",
+      "sha256": "a67c9b203c67987d24ce321ba182d34913c894119f9aaee3e53ee84fc600bcc8",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/uesolds_midlayer_physchem_moe_v25_capacity_weighted_auc.json",
+      "sha256": "4018ba801194890bba50e394c485c6fe5994691bc149d8b648c698cfd70ccd92",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/uesolds_midlayer_physchem_moe_v25_specialization_weighted_auc.json",
+      "sha256": "78df018bd9482bddd8bf32a51e15f14608eae8a9e1d3a8cef9bf88eeb8b98045",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/uesolds_midlayer_physchem_moe_v25_weighted_auc.json",
+      "sha256": "0fb9a04568c596d6675e72cf2fdd9fb939ed0d45fc73ede248a57cd3d1203146",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/uesolds_multilayer_physchem_moe_v24_weighted_auc.json",
+      "sha256": "77d6fc604c4aa78d71d6937c19a7c073ea5a60ab70d5d5a039f8d82da0066443",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/uesolds_physchem_moe_v22_weighted_auc.json",
+      "sha256": "598120a811ee906cf10a0ec8f13a302288ccbed5bc365389182f87daa5248f26",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/uesolds_shift_tcn_capacity_ensembles.json",
+      "sha256": "88309ce79de6e502c9fc665a1870e1ca9ca45657d0b021212196f876f2ea9634",
+      "test_freeze_assertion": "inherited_from_frozen_selection"
+    },
+    {
+      "path": "outputs/validation_selection/uesolds_smoothed_longrf_weighted_auc.json",
+      "sha256": "dcee14b8467af0575ef11aaa9450a6d7be9434f5c58dbde7b8da30df93ac9bf7",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/uesolds_specialized_physchem_moe_v26_weighted_auc.json",
+      "sha256": "efd3b44cc9472b969bfdc72cc9513c9a0d678d623b7a365644ac33a6d2259ec6",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/uesolds_specialized_physchem_moe_v26b_weighted_auc.json",
+      "sha256": "44ecec8df47d0624468ece191eb3180270e5e33060cce200abaf2f0309ce49c4",
+      "test_freeze_assertion": "explicit_false"
+    },
+    {
+      "path": "outputs/validation_selection/uesolds_v41_weighted_auprc.json",
+      "sha256": "023ed6b19239aa3daa7e8d6325697b685b674e94068f5b8b9a1438cec8316110",
+      "test_freeze_assertion": "explicit_false"
+    }
+  ],
+  "selected_runs": [
+    {
+      "checkpoint": "outputs/esol_geometry_residue_esm_physchem_v3_strict_si30_dual_seqsep+08-29-19-50/checkpoints/best.pt",
+      "checkpoint_sha256": "619c6abf18e23ccd08257f2cbed2ff604ec9345dcf849df51b00099d24f183e2",
+      "config_sha256": "0acc85c636a8389a411ad6c71ef332e0b8a5182962b746744ea654d9bedba086",
+      "path": "outputs/esol_geometry_residue_esm_physchem_v3_strict_si30_dual_seqsep+08-29-19-50",
+      "seed": 20260829
+    },
+    {
+      "checkpoint": "outputs/esol_pooled_v4_trees_v5_strict_si30_rf_full+08-29-21-13/checkpoints/best.pkl",
+      "checkpoint_sha256": "1ae52d40ef614b1d3cfa9734cfd528f59179d47a8d0b6e1baa5d373347baa63e",
+      "config_sha256": "d5c5b85769bfd407f9d39f52417b1ae400ad07732fa0c8ac0e9f94f46f6d3d56",
+      "path": "outputs/esol_pooled_v4_trees_v5_strict_si30_rf_full+08-29-21-13",
+      "seed": 20260835
+    },
+    {
+      "checkpoint": "outputs/esol_pooled_v4_trees_v5_strict_si30_rf_leaf3+08-29-21-10/checkpoints/best.pkl",
+      "checkpoint_sha256": "6f25e67e34bfde8d19d20159ac5842b120117d488d581076232faea6068980b3",
+      "config_sha256": "5769dd2f2b3b27bf6a623155cce874198b5f906bfe62ad99cb8180d320fec6cc",
+      "path": "outputs/esol_pooled_v4_trees_v5_strict_si30_rf_leaf3+08-29-21-10",
+      "seed": 20260832
+    },
+    {
+      "checkpoint": "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07/checkpoints/best.pt",
+      "checkpoint_sha256": "87e5fc05e61563b209655e311f02a85689fff46ef13bcdf41db46321770ec279",
+      "config_sha256": "c4812e7115e466bf8ca58016c4d7b27c0dd6b7edb386cd370de2600df2d1b810",
+      "path": "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+      "seed": 20260829
+    },
+    {
+      "checkpoint": "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07/checkpoints/best.pt",
+      "checkpoint_sha256": "6017c6e23f94e6ebdd37d550312754cf11160247ef72153e489d16aa8b3e113a",
+      "config_sha256": "86732485289baa2f9f01a80187a6d9d286253f7c666430ddcdca0e558402acbe",
+      "path": "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+      "seed": 20260829
+    },
+    {
+      "checkpoint": "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07/checkpoints/best.pt",
+      "checkpoint_sha256": "8ed862b3325ad7bae04e42d38557d18a01c8759cb47f736b671a2d4ceacff14c",
+      "config_sha256": "72b6d2cddfb91f57c9ef0f6d72bcc57bf8aaa441a647b9ab3089d770c3804316",
+      "path": "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07",
+      "seed": 20260829
+    },
+    {
+      "checkpoint": "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50/checkpoints/best.pt",
+      "checkpoint_sha256": "fb7ee2eb9d09b91518a7a4264d6883b5192e65d5dffc51fb003b6d8aa31b6b82",
+      "config_sha256": "8ab4f7f218bf8b03855ac975448535f5b51a130ad55b9294f69ffb18abe19572",
+      "path": "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+      "seed": 20260829
+    },
+    {
+      "checkpoint": null,
+      "checkpoint_sha256": null,
+      "config_sha256": null,
+      "path": "outputs/latent_endpoint_residual_v35_strict_si30_rank4_scale01+08-30-21-43/candidates/uesolds",
+      "seed": null
+    },
+    {
+      "checkpoint": null,
+      "checkpoint_sha256": null,
+      "config_sha256": null,
+      "path": "outputs/latent_endpoint_residual_v35_strict_si30_rank8_scale02+08-30-21-43/candidates/uesolds",
+      "seed": null
+    },
+    {
+      "checkpoint": null,
+      "checkpoint_sha256": null,
+      "config_sha256": null,
+      "path": "outputs/latent_endpoint_v32_strict_si30_h256_drop01_s07+08-30-21-30/candidates/pdbsol",
+      "seed": null
+    },
+    {
+      "checkpoint": null,
+      "checkpoint_sha256": null,
+      "config_sha256": null,
+      "path": "outputs/latent_endpoint_v32_strict_si30_h512_drop02_s01+08-30-21-30/candidates/pdbsol",
+      "seed": null
+    },
+    {
+      "checkpoint": null,
+      "checkpoint_sha256": null,
+      "config_sha256": null,
+      "path": "outputs/latent_endpoint_v32_strict_si30_noise01_s17+08-30-21-38/candidates/uesolds",
+      "seed": null
+    },
+    {
+      "checkpoint": null,
+      "checkpoint_sha256": null,
+      "config_sha256": null,
+      "path": "outputs/latent_endpoint_v32_strict_si30_noise02_s19+08-30-21-38/candidates/uesolds",
+      "seed": null
+    },
+    {
+      "checkpoint": "outputs/pdbsol_geometry_aligned_sparse_v10_strict_si30_rsa_base+08-29-22-07/checkpoints/best.pt",
+      "checkpoint_sha256": "2d42dcfea6b0e465ef2acd2ce9df38f29a623260eaf1a98809b27b4fd0e889d1",
+      "config_sha256": "9e1fa58f1b7506502626e07dc6a7b95d1ce66b3165fa490e88b5fdadd26c98d4",
+      "path": "outputs/pdbsol_geometry_aligned_sparse_v10_strict_si30_rsa_base+08-29-22-07",
+      "seed": 20260829
+    },
+    {
+      "checkpoint": "outputs/pdbsol_geometry_aligned_sparse_v10_strict_si30_rsa_deep2_s33+08-29-22-07/checkpoints/best.pt",
+      "checkpoint_sha256": "0e54e55995951e18e712e59684a0d5d25fc13e66807e4321e6427851c37c3f0d",
+      "config_sha256": "d6e4296fdcbbd0ddbdef53a00777201ae0491619292f8f192f18139ea441a5fc",
+      "path": "outputs/pdbsol_geometry_aligned_sparse_v10_strict_si30_rsa_deep2_s33+08-29-22-07",
+      "seed": 20260833
+    },
+    {
+      "checkpoint": "outputs/pdbsol_geometry_confidence_moe_v9_strict_si30_rsa_base+08-29-22-07/checkpoints/best.pt",
+      "checkpoint_sha256": "0a563ba191319a55c19205ae51c01173b662a32aec9468f631ea9e5b83215c00",
+      "config_sha256": "8c4a142f0dc32a5ff539f4c63311970a7382378a3b0fa96b94e3a4b6d6f92dc0",
+      "path": "outputs/pdbsol_geometry_confidence_moe_v9_strict_si30_rsa_base+08-29-22-07",
+      "seed": 20260829
+    },
+    {
+      "checkpoint": "outputs/pdbsol_geometry_confidence_moe_v9_strict_si30_rsa_drop01_s31+08-29-22-07/checkpoints/best.pt",
+      "checkpoint_sha256": "486aae88d0d766b564461a9d5412142e4a3c3b7f0bdae9f0788e267f1c0f0c33",
+      "config_sha256": "a8e678855c5445f3ce3afd92d63417bd893b7313c42a89b06253f800c201a8d9",
+      "path": "outputs/pdbsol_geometry_confidence_moe_v9_strict_si30_rsa_drop01_s31+08-29-22-07",
+      "seed": 20260831
+    },
+    {
+      "checkpoint": "outputs/pdbsol_geometry_cross_attention_v6_strict_si30_attn_seqsep+08-29-20-09/checkpoints/best.pt",
+      "checkpoint_sha256": "de610cc659a3e68ab640c34f660fb40f998a78e89108d09746a7cb9fbb788500",
+      "config_sha256": "444c5dbb4a1121100d6296cd1c58710c7791daadbfaeec33ceabab45b6764579",
+      "path": "outputs/pdbsol_geometry_cross_attention_v6_strict_si30_attn_seqsep+08-29-20-09",
+      "seed": 20260830
+    },
+    {
+      "checkpoint": "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s31+08-29-16-32/checkpoints/best.pt",
+      "checkpoint_sha256": "ffc6c8a670c086cda226cd61d3a49c30d81b81ccb2a567284a706b72d9fa4117",
+      "config_sha256": "e964149a1ed602c1523e8579d46bf34546cd758c73b89eff8bffec349e1a77e3",
+      "path": "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s31+08-29-16-32",
+      "seed": 20260831
+    },
+    {
+      "checkpoint": "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s32+08-29-16-44/checkpoints/best.pt",
+      "checkpoint_sha256": "f71d7b3b9951890986904cf830b01e943d899447423b91feeb65cf70a827c7bb",
+      "config_sha256": "56b0cb2d278723f4b1375e40ef0b40d68bbd6964108e7398efcddc731034aa3a",
+      "path": "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s32+08-29-16-44",
+      "seed": 20260832
+    },
+    {
+      "checkpoint": "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_drop03+08-29-19-18/checkpoints/best.pt",
+      "checkpoint_sha256": "c02dbb6e3534ecf0605dd1f180085d89a5b50e976693e689338c475e34ac0246",
+      "config_sha256": "97c72ca9c5500e6ecd4c42c3bbee545ed5394302663971b1b73728af421e3a3f",
+      "path": "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_drop03+08-29-19-18",
+      "seed": 20260832
+    },
+    {
+      "checkpoint": "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_ema099+08-29-19-18/checkpoints/best.pt",
+      "checkpoint_sha256": "eb0d950e37dc98d0e51b2c03fc7fba856cca285eb1a7bcf413869c99b3c6cdfa",
+      "config_sha256": "88d0efc78f12ded1966e8a99c3f2f901405c2c6ebb71c47ba4ce0f3a1640c286",
+      "path": "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_ema099+08-29-19-18",
+      "seed": 20260832
+    },
+    {
+      "checkpoint": "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_wd001+08-29-19-18/checkpoints/best.pt",
+      "checkpoint_sha256": "9a0f426bebb4bc5805d4ada9d7005cd623583ff76e599e69b5bb66581d0a73ae",
+      "config_sha256": "c41da895c1c77dc75d51ee050deac140abe93f9887c60406b7b108ec70144136",
+      "path": "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_wd001+08-29-19-18",
+      "seed": 20260832
+    },
+    {
+      "checkpoint": "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_seqedge_s29+08-29-16-55/checkpoints/best.pt",
+      "checkpoint_sha256": "68f875ec6bbbec39b9cca74022dd40b52ce2506ff70bedae31524ab4230f8714",
+      "config_sha256": "53dbdc1b7b942c65d001e6608589dd5dae805159929b78735991b6679d36cc2c",
+      "path": "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_seqedge_s29+08-29-16-55",
+      "seed": 20260829
+    },
+    {
+      "checkpoint": "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_seqedge_s30+08-29-16-55/checkpoints/best.pt",
+      "checkpoint_sha256": "33d524daa1d0759663851a6b30a5c1b7d480102c899e36eb82769a35453c8664",
+      "config_sha256": "a6e64269d89cdba2ad00dccfc967a5300dfef53d53299b9fe9ebc854423e61fc",
+      "path": "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_seqedge_s30+08-29-16-55",
+      "seed": 20260830
+    },
+    {
+      "checkpoint": "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_v6matched_baseline+08-29-16-23/checkpoints/best.pt",
+      "checkpoint_sha256": "05acb86dd934649b26f9209e4d1b51d0f63e6046ea5686fe360647aff4d11f9a",
+      "config_sha256": "5b480bee60d05d0b9e24e52e832fb1312e8cb1895732654308b5072b2fe57686",
+      "path": "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_v6matched_baseline+08-29-16-23",
+      "seed": 20260829
+    },
+    {
+      "checkpoint": "outputs/pdbsol_geometry_surface_patches_v11_strict_si30_vectorized_b64+08-29-22-30/checkpoints/best.pt",
+      "checkpoint_sha256": "70c2a24ac2303fdf65df7834f823ccb2f36d23b1a0f6979e1c5ab44d9c869f80",
+      "config_sha256": "7975fa4f43652cb16a8a09afbd06b3493902015dff8a06059ee06b2e05d51d99",
+      "path": "outputs/pdbsol_geometry_surface_patches_v11_strict_si30_vectorized_b64+08-29-22-30",
+      "seed": 20260829
+    },
+    {
+      "checkpoint": "outputs/pdbsol_gvp_aligned_moe_v13_strict_si30_base+08-29-22-40/checkpoints/best.pt",
+      "checkpoint_sha256": "d4f702ab34b50aa34c96bf38fb795e6ad9ba69f3bcdcbf4da0dd165c6375ebdd",
+      "config_sha256": "358bb4a6fd441d6a5dab3660bd2dcc74a4b6ab178d923aad930badda6bb2ee5b",
+      "path": "outputs/pdbsol_gvp_aligned_moe_v13_strict_si30_base+08-29-22-40",
+      "seed": 20260829
+    },
+    {
+      "checkpoint": "outputs/pdbsol_gvp_aligned_moe_v13_strict_si30_cap192v32_l3_k12_s43+08-29-23-47/checkpoints/best.pt",
+      "checkpoint_sha256": "606615375008fd0123a0df95db0a8b34e183673ba684e63cc1986ce270b82da3",
+      "config_sha256": "d26d2ae0cf897edc879d7bf47f0f1625748dbda85f7b7b33469312533a0a0cda",
+      "path": "outputs/pdbsol_gvp_aligned_moe_v13_strict_si30_cap192v32_l3_k12_s43+08-29-23-47",
+      "seed": 20260843
+    },
+    {
+      "checkpoint": "outputs/pdbsol_gvp_aligned_moe_v13_strict_si30_drop015_s31+08-29-22-40/checkpoints/best.pt",
+      "checkpoint_sha256": "8d2a39624009ce9725181e9662ec4f46fa12caedb63c4133e03d4efc3d9cc768",
+      "config_sha256": "5f3762d31f8e1c5c71ea64d9063bd78becede01d3c471115694251f98899f8b4",
+      "path": "outputs/pdbsol_gvp_aligned_moe_v13_strict_si30_drop015_s31+08-29-22-40",
+      "seed": 20260831
+    },
+    {
+      "checkpoint": "outputs/pdbsol_gvp_aligned_moe_v13_strict_si30_wide256v24_l2_k16_s45+08-29-23-47/checkpoints/best.pt",
+      "checkpoint_sha256": "7e90f34e8f220273cf2f84f89a584c30a2921d8ed119f818d0f54a8b6ed5be99",
+      "config_sha256": "57f8f081791fde65cb8165f7c83a499985ed30c28ebd02667692e18b9b653f13",
+      "path": "outputs/pdbsol_gvp_aligned_moe_v13_strict_si30_wide256v24_l2_k16_s45+08-29-23-47",
+      "seed": 20260845
+    },
+    {
+      "checkpoint": "outputs/pdbsol_gvp_spatial_patches_v18_strict_si30_spatial1_s79_r1+08-30-16-19/checkpoints/best.pt",
+      "checkpoint_sha256": "41481ec1d5fade94bf1823aa09063b84d545068895c74fa833c9f09ed7aee637",
+      "config_sha256": "0db26f378ab64ca5b448c446eb965a1e4c6064e0d68baeca0e95102f37f0d7b9",
+      "path": "outputs/pdbsol_gvp_spatial_patches_v18_strict_si30_spatial1_s79_r1+08-30-16-19",
+      "seed": 20260879
+    },
+    {
+      "checkpoint": "outputs/pdbsol_gvp_spatial_patches_v18_strict_si30_spatial2_drop01_s83_r1+08-30-16-19/checkpoints/best.pt",
+      "checkpoint_sha256": "91276dc9870f85260193abe87ac85582a37cee7091373c5ecd97e6aad2ae144d",
+      "config_sha256": "91143f849cf1adeff5d1f6320682e23bd7b8be0fdf91ef65e864aa0351cbadbb",
+      "path": "outputs/pdbsol_gvp_spatial_patches_v18_strict_si30_spatial2_drop01_s83_r1+08-30-16-19",
+      "seed": 20260883
+    },
+    {
+      "checkpoint": "outputs/pdbsol_gvp_structure_v8_strict_si30_base+08-29-21-23/checkpoints/best.pt",
+      "checkpoint_sha256": "1839c9c8698a11e34a541522b5ff80df89637cb39ddc89c9f0b0ffd7ad9a4298",
+      "config_sha256": "9d01e83711674a6b699beada115d5e7e524f92164c9c2315f88bcee1862714ab",
+      "path": "outputs/pdbsol_gvp_structure_v8_strict_si30_base+08-29-21-23",
+      "seed": 20260829
+    },
+    {
+      "checkpoint": "outputs/pdbsol_gvp_structure_v8_strict_si30_concat+08-29-21-35/checkpoints/best.pt",
+      "checkpoint_sha256": "c99edfc486eacb068c8659cfa1a018d21d219d79a6c45597df81bbc7d5e865f1",
+      "config_sha256": "2df4bd0274f3c68207fdb6dea8e8fb3ffab6a192e183dd4f0ba378b22c63914c",
+      "path": "outputs/pdbsol_gvp_structure_v8_strict_si30_concat+08-29-21-35",
+      "seed": 20260836
+    },
+    {
+      "checkpoint": "outputs/pdbsol_gvp_structure_v8_strict_si30_drop01+08-29-21-35/checkpoints/best.pt",
+      "checkpoint_sha256": "335219465349442b95a80b083f393104117406c087d856a398d34693f09c0dc2",
+      "config_sha256": "4798f76fff347256d1d929e0957e280a8f0e0b05805f36d2a87117a38d6ac9aa",
+      "path": "outputs/pdbsol_gvp_structure_v8_strict_si30_drop01+08-29-21-35",
+      "seed": 20260834
+    },
+    {
+      "checkpoint": "outputs/pdbsol_gvp_structure_v8_strict_si30_ema099+08-29-21-35/checkpoints/best.pt",
+      "checkpoint_sha256": "458c8c3b5d81b886646d0b5a754529681258bcdb1083edf311341fe44a6d374f",
+      "config_sha256": "f7fb669bb541757661ce68a93ebb0c09e684d1e27c7882dcfbbefae7925f091b",
+      "path": "outputs/pdbsol_gvp_structure_v8_strict_si30_ema099+08-29-21-35",
+      "seed": 20260835
+    },
+    {
+      "checkpoint": "outputs/pdbsol_gvp_structure_v8_strict_si30_s192v24+08-29-21-23/checkpoints/best.pt",
+      "checkpoint_sha256": "365deb43df9d72a37cee4e15ebba24606cdbe34bc40e68f681253203dc09b447",
+      "config_sha256": "99e0a72f3dba81c6574804ddd088ebe11305c9ca9f20088e87f8c28325cf996f",
+      "path": "outputs/pdbsol_gvp_structure_v8_strict_si30_s192v24+08-29-21-23",
+      "seed": 20260832
+    },
+    {
+      "checkpoint": "outputs/pdbsol_gvp_structure_v8_strict_si30_s33+08-29-21-35/checkpoints/best.pt",
+      "checkpoint_sha256": "315bc4bd02ae3409147846b0fb8a2beff4628f554f34d59365105c4cbe2ece83",
+      "config_sha256": "32465f8892a7cb04d7c7a04f584adbde753a8104f4e1933007576547ea4a3541",
+      "path": "outputs/pdbsol_gvp_structure_v8_strict_si30_s33+08-29-21-35",
+      "seed": 20260833
+    },
+    {
+      "checkpoint": "outputs/pdbsol_gvp_structure_v8_strict_si30_v32+08-29-21-23/checkpoints/best.pt",
+      "checkpoint_sha256": "e8535f95f867f6cdc11de907931fb196358155e7ce9a7938fe6b8473975a41f5",
+      "config_sha256": "b8f9677e5b0407381f9faff86847fdf95f77f535d505e23765c17abaa3b5a714",
+      "path": "outputs/pdbsol_gvp_structure_v8_strict_si30_v32+08-29-21-23",
+      "seed": 20260830
+    },
+    {
+      "checkpoint": "outputs/pdbsol_gvp_surface_aux_v17_strict_si30_aux005_drop01_s73+08-30-15-45/checkpoints/best.pt",
+      "checkpoint_sha256": "2f71023258c4eaa6283e26f1ffcc7dea532c0f3b35e01de6713fbe9a19974ccc",
+      "config_sha256": "c2f4d92fd56dec18e26facc19c4cc2a1fb1ade48380da9c5bdce0d764f5eb3d5",
+      "path": "outputs/pdbsol_gvp_surface_aux_v17_strict_si30_aux005_drop01_s73+08-30-15-45",
+      "seed": 20260873
+    },
+    {
+      "checkpoint": "outputs/pdbsol_gvp_surface_aux_v17_strict_si30_aux02_s71+08-30-15-45/checkpoints/best.pt",
+      "checkpoint_sha256": "96bb5ff922bc21a196e4b34a148497a617ac6861b0ac9dde105e33872f26bb92",
+      "config_sha256": "34bca5d5525fec202fed058ed97d9dd6d2a2738ae6be8433a830e687d0a11450",
+      "path": "outputs/pdbsol_gvp_surface_aux_v17_strict_si30_aux02_s71+08-30-15-45",
+      "seed": 20260871
+    },
+    {
+      "checkpoint": "outputs/pdbsol_pool_scalar_strict_si30_pred_gate_s30+08-29-21-16/checkpoints/best.pt",
+      "checkpoint_sha256": "9e4dfbb340166fa2443c5a0371db4558b96a8e5e32e13c4c18cc700501162d5e",
+      "config_sha256": "f1f56743df1ded93419ed7cc3dba3c63c4748480fa4c54db8864f53f20214aba",
+      "path": "outputs/pdbsol_pool_scalar_strict_si30_pred_gate_s30+08-29-21-16",
+      "seed": 20260830
+    },
+    {
+      "checkpoint": "outputs/pdbsol_pool_scalar_strict_si30_pred_late_s31+08-29-21-16/checkpoints/best.pt",
+      "checkpoint_sha256": "fca75fe2716f13bac2c1913ae27a78997bf306e2235825b6f50be4f7f42e3a7f",
+      "config_sha256": "e657720ee6680b128bfe35b2f58b42fb6d7aba0086ee6a7f75863d65b67af37f",
+      "path": "outputs/pdbsol_pool_scalar_strict_si30_pred_late_s31+08-29-21-16",
+      "seed": 20260831
+    },
+    {
+      "checkpoint": "outputs/pdbsol_surface_residue_xattn_v14_strict_si30_b64_s31+08-29-22-51/checkpoints/best.pt",
+      "checkpoint_sha256": "e6a0aa4eaae1b9e8a8935d0c5a99fb83f41faf528bff4b3cd4e719438c4b9426",
+      "config_sha256": "288f8160703d84bd60a11ec2ae78b590177dc7ecc971b6a5e86565fc9bb1a4f0",
+      "path": "outputs/pdbsol_surface_residue_xattn_v14_strict_si30_b64_s31+08-29-22-51",
+      "seed": 20260831
+    },
+    {
+      "checkpoint": "outputs/pdbsol_surface_residue_xattn_v14_strict_si30_base+08-29-22-44/checkpoints/best.pt",
+      "checkpoint_sha256": "b1e86fa844a92fad6ced0a7c3f7201f94b27c350856c3ee225a152d0b86aacbc",
+      "config_sha256": "3a695e8d81dde8f78bb5acd77637bf825b9914cfe1d4b5b93b97f2c522c20cd3",
+      "path": "outputs/pdbsol_surface_residue_xattn_v14_strict_si30_base+08-29-22-44",
+      "seed": 20260829
+    },
+    {
+      "checkpoint": "outputs/uesolds_hard_pair_moe_v43_strict_si30_frac10+08-30-22-23/checkpoints/best.pt",
+      "checkpoint_sha256": "df3e43c40a210bdf007a79e57a93d7b17b7a3fcf53cb74ca022d72f61f63444e",
+      "config_sha256": "f0ec29f5d3df4ee12fbf1072d4ed937b1e8404f3e5989668f83c7d20e364ac51",
+      "path": "outputs/uesolds_hard_pair_moe_v43_strict_si30_frac10+08-30-22-23",
+      "seed": 20261319
+    },
+    {
+      "checkpoint": "outputs/uesolds_hard_pair_moe_v43_strict_si30_frac25+08-30-22-23/checkpoints/best.pt",
+      "checkpoint_sha256": "c4d77220fd38bd8197ede73db2903a3edd7d7fa725a14321af45cf5b6e426bf7",
+      "config_sha256": "6c45b3d048c61120403f9142ef3492cbb4a7b6766eff1934c78fd5b6e2c8befb",
+      "path": "outputs/uesolds_hard_pair_moe_v43_strict_si30_frac25+08-30-22-23",
+      "seed": 20261317
+    },
+    {
+      "checkpoint": "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer12_experts10_desc075_s11+08-30-19-20/checkpoints/best.pt",
+      "checkpoint_sha256": "64fd23615649917180cbfc9026118fc8a3a2fcfb60741345299366125abd9c92",
+      "config_sha256": "e436a341aeff4d6d28068279c89584d507cc66ec3a237eeb0d80253de27fad99",
+      "path": "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer12_experts10_desc075_s11+08-30-19-20",
+      "seed": 20261111
+    },
+    {
+      "checkpoint": "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer12_experts6_noaux_s31+08-30-19-10/checkpoints/best.pt",
+      "checkpoint_sha256": "f247bb96ee9c9ff71592ee0c8815c13512388a31bbaa4095ede173d52f455e26",
+      "config_sha256": "b0fd31ec393b43bf9c2da51c5993237446c320d8fa931317c157a245002e89f6",
+      "path": "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer12_experts6_noaux_s31+08-30-19-10",
+      "seed": 20261031
+    },
+    {
+      "checkpoint": "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer12_experts6_s29+08-30-18-59/checkpoints/best.pt",
+      "checkpoint_sha256": "a5af264cbc694e651ab1bff06862e8885eda39fb9e6b264b2905f868672220a0",
+      "config_sha256": "1039b26a78dcbd12854e37632a852f1f627bde6cf4d8fc7761aeed8ead245717",
+      "path": "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer12_experts6_s29+08-30-18-59",
+      "seed": 20261029
+    },
+    {
+      "checkpoint": "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer12_experts8_desc05_s03+08-30-19-10/checkpoints/best.pt",
+      "checkpoint_sha256": "4e8e8082fd90bfa5aa384de1ecc619a4667a3cc31f8786c450fa9db292235154",
+      "config_sha256": "33fb79909cb861e2d4f62f09efb4a5230d83b80adcb4616c07aa0a7dda12cbfe",
+      "path": "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer12_experts8_desc05_s03+08-30-19-10",
+      "seed": 20261103
+    },
+    {
+      "checkpoint": "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer12_experts8_desc05_s07_rep+08-30-19-20/checkpoints/best.pt",
+      "checkpoint_sha256": "54a773068407953778458865d32a5c5eb3557343ba9c5fa428ac152be529ebff",
+      "config_sha256": "6fdc54c0923c68a85613b5cfb613b9e9dba5961a440f6d793bd641d8b9649144",
+      "path": "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer12_experts8_desc05_s07_rep+08-30-19-20",
+      "seed": 20261107
+    },
+    {
+      "checkpoint": "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer24_experts6_s23+08-30-18-59/checkpoints/best.pt",
+      "checkpoint_sha256": "9c7d1106355fbd2245e30204f4335dc3bc802d0df14d57eccd52990cd1178259",
+      "config_sha256": "e4071d4435f6157dc89b302c6f74e323479939cf8cbdfb71647c1b40edce3200",
+      "path": "outputs/uesolds_midlayer_physchem_moe_v25_strict_si30_layer24_experts6_s23+08-30-18-59",
+      "seed": 20261023
+    },
+    {
+      "checkpoint": "outputs/uesolds_multilayer_physchem_moe_v24_strict_si30_descriptorfix_experts6_s17+08-30-21-52/checkpoints/best.pt",
+      "checkpoint_sha256": "86d8439309ff87402f0ed7d1804ee222b225e2fd8a4a317d229c6fb5ac0a51ac",
+      "config_sha256": "10710d809571f47f7b268677b01ac7374f6d0ecf82121471169607d26e741625",
+      "path": "outputs/uesolds_multilayer_physchem_moe_v24_strict_si30_descriptorfix_experts6_s17+08-30-21-52",
+      "seed": 20261017
+    },
+    {
+      "checkpoint": "outputs/uesolds_multilayer_physchem_moe_v24_strict_si30_descriptorfix_plain_s19+08-30-21-52/checkpoints/best.pt",
+      "checkpoint_sha256": "ce1e3709c2646021e284ccdd646ef26292128f11af0fa9eb0114503beb7ced29",
+      "config_sha256": "f7387c45cf9d040d4914e9bc0c092cb262e677df5150346d1fa7fd1ef8664183",
+      "path": "outputs/uesolds_multilayer_physchem_moe_v24_strict_si30_descriptorfix_plain_s19+08-30-21-52",
+      "seed": 20261019
+    },
+    {
+      "checkpoint": "outputs/uesolds_multilayer_physchem_moe_v24_strict_si30_weighted_experts6_s17+08-30-18-51/checkpoints/best.pt",
+      "checkpoint_sha256": "5336eba3f422fe6a0efd746ab7d0db6e95cc39ecdd6eda94d0321c2dd6db1043",
+      "config_sha256": "3a589a8942c0614b5dc9dc2bcbca3d248766a3d6589b4e31642e15853b3120e7",
+      "path": "outputs/uesolds_multilayer_physchem_moe_v24_strict_si30_weighted_experts6_s17+08-30-18-51",
+      "seed": 20261017
+    },
+    {
+      "checkpoint": "outputs/uesolds_multilayer_physchem_moe_v24_strict_si30_weighted_plain_s19+08-30-18-51/checkpoints/best.pt",
+      "checkpoint_sha256": "6bd1d2d1a5b2c79b2932143e6e5c48522d319b18569dcbce919d72aa231bed69",
+      "config_sha256": "7cb557fef4178db93933e9f9573deb1ecec01a6101485e4c1364043e274972b2",
+      "path": "outputs/uesolds_multilayer_physchem_moe_v24_strict_si30_weighted_plain_s19+08-30-18-51",
+      "seed": 20261019
+    },
+    {
+      "checkpoint": "outputs/uesolds_physchem_moe_v22_strict_si30_experts4_s13+08-30-17-10/checkpoints/best.pt",
+      "checkpoint_sha256": "8085168be5714e0056e23dfc68c4505ba2b6e1ec400be2265777cd9683fba746",
+      "config_sha256": "0b7e758a3eedb7dc7e0fa9c16586a42ae4000e57fc0b477e7701ea17db446ed5",
+      "path": "outputs/uesolds_physchem_moe_v22_strict_si30_experts4_s13+08-30-17-10",
+      "seed": 20260913
+    },
+    {
+      "checkpoint": "outputs/uesolds_physchem_moe_v22_strict_si30_experts6_drop015_s17+08-30-17-10/checkpoints/best.pt",
+      "checkpoint_sha256": "087aba5ca412ebd8fb26535cff62f08f75586884110b2822119c488a9a15499a",
+      "config_sha256": "885e7810ee0d55b16c8500cb247db2702ca5195279b7d98b26418007effeac97",
+      "path": "outputs/uesolds_physchem_moe_v22_strict_si30_experts6_drop015_s17+08-30-17-10",
+      "seed": 20260917
+    },
+    {
+      "checkpoint": "outputs/uesolds_residue_esm_conditioned_v10_strict_si30_concat_s29+08-29-20-20/checkpoints/best.pt",
+      "checkpoint_sha256": "a867c36f49061d23a5f7a324f0d86c5ccd7c0a6893b6c269da3b09e06162aa04",
+      "config_sha256": "87664a87ca597c88001e87fd327982fe329a025b9cd5849ea1510824850d703e",
+      "path": "outputs/uesolds_residue_esm_conditioned_v10_strict_si30_concat_s29+08-29-20-20",
+      "seed": 20260829
+    },
+    {
+      "checkpoint": "outputs/uesolds_residue_esm_layer24_physchem_v5_strict_si30_s20260830+08-29-18-28/checkpoints/best.pt",
+      "checkpoint_sha256": "000150aed2900c409de087dda373f123b3f01a3782163a84bcf4e65c252389f4",
+      "config_sha256": "dff7dd3b42649b8c58aedc5291a13715d45258546392de403ca322468da2027d",
+      "path": "outputs/uesolds_residue_esm_layer24_physchem_v5_strict_si30_s20260830+08-29-18-28",
+      "seed": 20260830
+    },
+    {
+      "checkpoint": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_cap256+08-29-20-39/checkpoints/best.pt",
+      "checkpoint_sha256": "b9153408a710d83132b3fea8c3434647ff1f7181b94c44ce7972d0b82109314e",
+      "config_sha256": "d1c70b5bd4cc0f0224698667208f5b781e4ab3b78eee9c00397fad0c31fa94fa",
+      "path": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_cap256+08-29-20-39",
+      "seed": 20260838
+    },
+    {
+      "checkpoint": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4+08-29-20-56/checkpoints/best.pt",
+      "checkpoint_sha256": "2d21ab8c19820c582118905930278be4ec3988988e2ec1c48babe70f3843d27b",
+      "config_sha256": "dd570d8b76658476d16c1138bb70584b67aab49309a2dad1bd7234c540d1127b",
+      "path": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4+08-29-20-56",
+      "seed": 20260843
+    },
+    {
+      "checkpoint": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4wide256+08-29-20-56/checkpoints/best.pt",
+      "checkpoint_sha256": "a6f6a3e6fea2d63a402236207be832d5173443a72443a2d4f635034ff4bd8043",
+      "config_sha256": "2d34719063349bfb82eba2948f4dedb5608708f5d79009a8c0622b96fecd923b",
+      "path": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep4wide256+08-29-20-56",
+      "seed": 20260844
+    },
+    {
+      "checkpoint": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep5_interaction+08-29-20-56/checkpoints/best.pt",
+      "checkpoint_sha256": "7539e22dc109fe742a5d479b1cfe024775e2cd4e434fa2c9e5a012d18b705f87",
+      "config_sha256": "c5efa1aae07277de50425b346fc7b302e90f85aecbb0eb66d9540b6929934aa9",
+      "path": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_deep5_interaction+08-29-20-56",
+      "seed": 20260845
+    },
+    {
+      "checkpoint": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_drop03+08-29-20-47/checkpoints/best.pt",
+      "checkpoint_sha256": "c37f08ca41b5aebb58353934a2b99902e648d555aea685f5ec20b9bbf86a0d19",
+      "config_sha256": "b33cfe0f2e41de484c9e959c101ca545da026e553d08a094a855c611eed0f370",
+      "path": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_drop03+08-29-20-47",
+      "seed": 20260841
+    },
+    {
+      "checkpoint": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_drop01_s45+08-29-23-02/checkpoints/best.pt",
+      "checkpoint_sha256": "62e311e4e004032a2333ef17e94e8b0f124845244c1d5df797eb318f8a49ee35",
+      "config_sha256": "4b657a27578c8bea2926f2358053f5b44eeb984774cc0446946dbcab8e4f35dc",
+      "path": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_drop01_s45+08-29-23-02",
+      "seed": 20260845
+    },
+    {
+      "checkpoint": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_desc05_s65+08-30-00-10/checkpoints/best.pt",
+      "checkpoint_sha256": "6f576565d01c1f68b6b54ca1687dd26e6723c9f5094b28b0a32126b3db38fd1b",
+      "config_sha256": "9418085d1ffcedd927d6852cfb70b1b1938e9b1dd35733b7412c3faa269ee70b",
+      "path": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_desc05_s65+08-30-00-10",
+      "seed": 20260865
+    },
+    {
+      "checkpoint": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_ls001_s63+08-30-00-10/checkpoints/best.pt",
+      "checkpoint_sha256": "112a4e1f0d5a06a8893198db33a7359c76172769b57005a5052a1e09ae4e53a9",
+      "config_sha256": "b4e457d01980292dc7cbe815af3b75882ecb3f5b0e4d6f322c979465ed7fad82",
+      "path": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_ls001_s63+08-30-00-10",
+      "seed": 20260863
+    },
+    {
+      "checkpoint": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_s51_r1+08-29-23-13/checkpoints/best.pt",
+      "checkpoint_sha256": "071e7bc96d8b14b24103ccf45edfb1c4c2d65269747c23dd83dce2a913bef371",
+      "config_sha256": "178ef27adf28cf11c5c54a5db797fd00f6b44aa4e8791211235afab14de8e37d",
+      "path": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_s51_r1+08-29-23-13",
+      "seed": 20260851
+    },
+    {
+      "checkpoint": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_s61+08-29-23-56/checkpoints/best.pt",
+      "checkpoint_sha256": "99fbdef17852b2320620a2cf927f9bc8a0eb1f72bfc613a26865e1508909c5fb",
+      "config_sha256": "65589448ab4ac5ce5fa491b1f9e5f9fd945f02b3e411137a14611a00d4c0294a",
+      "path": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_rank001_s61+08-29-23-56",
+      "seed": 20260861
+    },
+    {
+      "checkpoint": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_s43+08-29-22-59/checkpoints/best.pt",
+      "checkpoint_sha256": "e5e94ea9a52ce14d63c96052d196ef51a2dba335c92cb62d58a525eed00bb1b8",
+      "config_sha256": "7ce55c6ac0eaf383c6a089e71a38761c542929215e90a690c5062d33aba19fe2",
+      "path": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_s43+08-29-22-59",
+      "seed": 20260843
+    },
+    {
+      "checkpoint": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_s47_r1+08-29-23-13/checkpoints/best.pt",
+      "checkpoint_sha256": "8df940e67a298d8219ea7a9e965765384fba1c9caadc2126c13081a0abcd95b4",
+      "config_sha256": "f6fa1ba93ef2bbf7dd20c5d6a30c46680ce8c599e5cc1912c80b9b96ab145e0b",
+      "path": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_longrf384_s47_r1+08-29-23-13",
+      "seed": 20260847
+    },
+    {
+      "checkpoint": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_wide256+08-29-20-56/checkpoints/best.pt",
+      "checkpoint_sha256": "70debe9fb87254bf7c9a5f4b20d55c17d21f895875c9aff6a69e9239fe307415",
+      "config_sha256": "1d2e45066b21f4ddf54f32e0b27d4a643bcee6eee235d0514f2fbeb3f3dc755b",
+      "path": "outputs/uesolds_residue_esm_shift_tcn_v12_strict_si30_wide256+08-29-20-56",
+      "seed": 20260842
+    },
+    {
+      "checkpoint": "outputs/uesolds_residue_esm_tcn_conditioned_v11_strict_si30_cap384+08-29-20-27/checkpoints/best.pt",
+      "checkpoint_sha256": "3975bea7b85e035b1252c4b7d9a0885d0a4ffbb7122fe56bc8e7b0f0ea4935a1",
+      "config_sha256": "7430b0e1862a7dafec17fc11f580360146146d85cdbbecc6a1996c3bb87ff920",
+      "path": "outputs/uesolds_residue_esm_tcn_conditioned_v11_strict_si30_cap384+08-29-20-27",
+      "seed": 20260837
+    },
+    {
+      "checkpoint": "outputs/uesolds_specialized_physchem_moe_v26_strict_si30_temp035_ent001_bal05_s23+08-30-19-36/checkpoints/best.pt",
+      "checkpoint_sha256": "67563c07f40e5e490a5394d6daaff0291360a3868b99e696f1aa76f7f9ca1e12",
+      "config_sha256": "bc57299be229d61aab9b5e428bb63463ef7ff1d68f34ac65de7a01cc544277e2",
+      "path": "outputs/uesolds_specialized_physchem_moe_v26_strict_si30_temp035_ent001_bal05_s23+08-30-19-36",
+      "seed": 20261123
+    },
+    {
+      "checkpoint": "outputs/uesolds_specialized_physchem_moe_v26_strict_si30_temp05_ent002_bal02_s19+08-30-19-36/checkpoints/best.pt",
+      "checkpoint_sha256": "33cb4dc29c7f30a57cee97869f1b14b94112f63a602ab7f6e658ae400890adff",
+      "config_sha256": "b1518545a8163296e1b4867a83b215bfc2569262723b6250081afc752c66dcf3",
+      "path": "outputs/uesolds_specialized_physchem_moe_v26_strict_si30_temp05_ent002_bal02_s19+08-30-19-36",
+      "seed": 20261119
+    },
+    {
+      "checkpoint": "outputs/uesolds_specialized_physchem_moe_v26_strict_si30_temp05_ent005_bal005_s29+08-30-19-47/checkpoints/best.pt",
+      "checkpoint_sha256": "51b44e30ae0e034ed23a1f800fbbef15167558a5cf3932ed895d2ee66b55bf9f",
+      "config_sha256": "10e3c19bac0cacc1165d15853ab338be5e94b0a7c33bea361c0314594c396e4f",
+      "path": "outputs/uesolds_specialized_physchem_moe_v26_strict_si30_temp05_ent005_bal005_s29+08-30-19-47",
+      "seed": 20261129
+    },
+    {
+      "checkpoint": "outputs/uesolds_specialized_physchem_moe_v26_strict_si30_temp07_ent004_bal01_s31+08-30-19-47/checkpoints/best.pt",
+      "checkpoint_sha256": "1a690448c78f950bd308cbe0486b0492e2d2881bfdd38d6e262a89eca2026267",
+      "config_sha256": "9702b9cf384cfb0c76ae8ded626986c6764c418d23f526eab28e372b72c9d967",
+      "path": "outputs/uesolds_specialized_physchem_moe_v26_strict_si30_temp07_ent004_bal01_s31+08-30-19-47",
+      "seed": 20261131
+    }
+  ],
+  "selection_config": {
+    "path": "configs/validation_selection_v1.json",
+    "recipes": {
+      "esol": {
+        "affine_crossfit_grouping": "strict_si30_component_root_sha256",
+        "affine_intercept": -0.0570579937680418,
+        "affine_rmse_report": "outputs/validation_selection/esol_pooled_l1_v46_pearson_affine_si30_grouped.json",
+        "affine_slope": 1.1550794511109763,
+        "fallback_entities": 1,
+        "fallback_rule": "Use the full-coverage sequence ensemble unchanged when an exact-sequence AlphaFold structure is unavailable.",
+        "mae_report": "outputs/validation_selection/esol_late_stack_v40_mae.json",
+        "metrics": {
+          "affine_rmse": 0.2094082855389587,
+          "mae": 0.16463879263551717,
+          "pearson": 0.7642754764631866,
+          "rmse": 0.20960293808531577,
+          "spearman": 0.7720613126340597,
+          "validation_fitted_affine_rmse": 0.20758872434458675
+        },
+        "note": "Spearman, Pearson, RMSE, MAE and affine-RMSE selections are intentionally distinct and use validation only; affine-RMSE is SI30-component OOF, while slope/intercept are the frozen deployment fit on all validation entities. Do not select between recipes on test.",
+        "pearson_report": "outputs/validation_selection/esol_pooled_l1_v46_pearson.json",
+        "primary_report": "outputs/validation_selection/esol_pooled_v4_trees_v5_strict_si30_rf_leaf3+08-29-21-10_with_geometry.json",
+        "rmse_report": "outputs/validation_selection/esol_late_stack_v40_rmse.json",
+        "runs": [
+          "outputs/esol_residue_esm_v1_strict_si30_statistics_noema_s29+08-29-16-50",
+          "outputs/esol_residue_esm_physchem_v2_strict_si30_scale01+08-29-19-07",
+          "outputs/esol_residue_esm_physchem_v2_strict_si30_scale025+08-29-19-07",
+          "outputs/esol_residue_esm_physchem_v2_strict_si30_scale1+08-29-19-07"
+        ],
+        "spearman_report": "outputs/validation_selection/esol_multilayer_physchem_v36.json",
+        "structure_entities": 266,
+        "structure_runs": [
+          "outputs/esol_geometry_residue_esm_physchem_v3_strict_si30_dual_seqsep+08-29-19-50",
+          "outputs/esol_pooled_v4_trees_v5_strict_si30_rf_leaf3+08-29-21-10"
+        ],
+        "structure_weights": [
+          0.13,
+          0.1914
+        ]
+      },
+      "pdbsol": {
+        "auprc_report": "outputs/validation_selection/pdbsol_spatial_patch_v18_ensembles.json",
+        "auroc_auprc_runs": [
+          "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_v6matched_baseline+08-29-16-23",
+          "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s32+08-29-16-44",
+          "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_seqedge_s29+08-29-16-55",
+          "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_seqedge_s30+08-29-16-55",
+          "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_drop03+08-29-19-18",
+          "outputs/pdbsol_geometry_cross_attention_v6_strict_si30_attn_seqsep+08-29-20-09"
+        ],
+        "auroc_auprc_temperature": 1.3404120878780323,
+        "auroc_report": "outputs/validation_selection/latent_endpoint_residual_v35_pdbsol.json",
+        "brier_report": "outputs/validation_selection/latent_endpoint_residual_v35_pdbsol_platt_si30_grouped.json",
+        "mcc_report": "outputs/validation_selection/pdbsol_gvp_multiseed_ensembles.json",
+        "mcc_runs": [
+          "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_v6matched_baseline+08-29-16-23",
+          "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s31+08-29-16-32",
+          "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_bestv5rep_s32+08-29-16-44",
+          "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_seqedge_s30+08-29-16-55",
+          "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_drop03+08-29-19-18",
+          "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_ema099+08-29-19-18",
+          "outputs/pdbsol_geometry_residue_esm_v5_strict_si30_optsweep_wd001+08-29-19-18"
+        ],
+        "mcc_temperature": 1.3166465790461879,
+        "mcc_threshold": 0.44192126393318176,
+        "metrics": {
+          "auprc": 0.9161942122143626,
+          "auroc": 0.9046065493646197,
+          "brier_calibrated": 0.12591960539945227,
+          "mcc_at_selected_threshold": 0.6425591644816286
+        },
+        "note": "AUROC, AUPRC/Brier, and MCC selections are intentionally distinct; do not select between them on test."
+      },
+      "uesolds": {
+        "auprc": 0.8686877437825062,
+        "auprc_report": "outputs/validation_selection/uesolds_v41_weighted_auprc.json",
+        "auroc": 0.8076030571128803,
+        "auroc_report": "outputs/validation_selection/uesolds_hard_pair_v43_auroc.json",
+        "brier_report": "outputs/validation_selection/uesolds_hard_pair_v43_auroc_beta_si30_grouped.json",
+        "calibrated_brier": 0.174496438206102,
+        "mcc_at_selected_threshold": 0.45544353656750236,
+        "mcc_report": "outputs/validation_selection/uesolds_hard_pair_v43_mcc.json",
+        "mcc_threshold": 0.494721706888232,
+        "note": "AUROC, AUPRC, MCC and Brier selections are intentionally distinct; do not select between them on test."
+      }
+    },
+    "sha256": "885100e5d2f274aa48eb1461f8bd1b18e7069d8f7a1d027213db75a4a2c10b9d"
+  },
+  "split_seal": {
+    "entity_split_sha256": "1dfc29d4d3a5a333235d72f42335b4b7fd6b869c7522529f4690e48fe9ea764c",
+    "note": "Full immutable split hashes transitively seal test membership; no test-only rows were read to build this manifest.",
+    "observation_split_sha256": "987281e064af96f0fccc862017d4cbcb643cb0066081a3a357963a1fccc9c8e7"
+  },
+  "test_evaluated": false
+}
