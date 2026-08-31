@@ -1,0 +1,12 @@
+{
+  "archive_keys": ["cfg", "model"],
+  "bytes": 2771653574,
+  "checkpoint": "esmfold_3B_v1.pt",
+  "fair_esm_version": "2.0.0",
+  "model_state_entries": 3923,
+  "schema": "PLS_EditFlow_ESMFold_checkpoint_audit_v1",
+  "sha256": "e9a52579027e77d2d2e0a18218e755821f395730e86624cab9413dc117f5ca62",
+  "source": "https://dl.fbaipublicfiles.com/fair-esm/models/esmfold_3B_v1.pt",
+  "test_evaluated": false,
+  "validation": "exact Content-Length match followed by torch.load(map_location=meta)"
+}
