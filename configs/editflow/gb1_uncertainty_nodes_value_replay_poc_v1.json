@@ -1,0 +1,28 @@
+{
+  "trainer_module": "pls.training.train_editflow_gb1_replay",
+  "experiment_name": "editflow_gb1_uncertainty_nodes_value_replay_poc_v1_s831",
+  "evaluate_test": false,
+  "data": {
+    "landscape": "benchmark/generated/gb1_wu2016_editflow_v1.npz",
+    "queried_nodes_manifest": "outputs/editflow_gb1_uncertainty_acquisition_poc_v1_s831_r1+08-31-17-24/queried_nodes.json",
+    "query_budget": 640,
+    "evaluation_anchors": 2048,
+    "evaluation_salt": "PLS-EditFlow-GB1-exploratory-v1",
+    "edit_radii": [1, 2, 3, 4],
+    "top_k": 10
+  },
+  "model": {"dimension": 96, "layers": 2, "heads": 4, "dropout": 0.1},
+  "training": {
+    "hip_device": 6,
+    "seed": 20260831,
+    "ensemble_seeds": [20260831, 20260837, 20260843, 20260849, 20260861],
+    "epochs_per_round": 250,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "edge_weight": 0.0,
+    "loss": "mse",
+    "fused_optimizer": true,
+    "max_gradient_norm": 5.0,
+    "inference_batch_size": 8192
+  }
+}
