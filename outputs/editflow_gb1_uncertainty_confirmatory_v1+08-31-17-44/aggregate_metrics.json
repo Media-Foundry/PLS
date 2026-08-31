@@ -1,0 +1,298 @@
+[
+  {
+    "anchor_macro_kendall_tau": {
+      "count": 16,
+      "maximum": 0.21238698365776926,
+      "mean": 0.1334878944761117,
+      "median": 0.1467327200462818,
+      "minimum": 0.017069328042537295,
+      "standard_deviation": 0.05530835038226309
+    },
+    "anchors": 16,
+    "budget": 80,
+    "closed_edges": {
+      "count": 16,
+      "maximum": 103.0,
+      "mean": 94.1875,
+      "median": 94.5,
+      "minimum": 85.0,
+      "standard_deviation": 5.269013190342192
+    },
+    "edge_spearman": {
+      "count": 16,
+      "maximum": 0.27366032744455837,
+      "mean": 0.1682934337916947,
+      "median": 0.17112927591511368,
+      "minimum": 0.03248976056661079,
+      "standard_deviation": 0.06508879422726485
+    },
+    "regret": {
+      "1": {
+        "count": 16,
+        "maximum": 4.396329909563065,
+        "mean": 1.3037602479598718,
+        "median": 0.38347243051975965,
+        "minimum": 0.006798917893320322,
+        "standard_deviation": 1.6384889124176825,
+        "zero_regret_fraction": 0.0
+      },
+      "2": {
+        "count": 16,
+        "maximum": 7.225744326598942,
+        "mean": 3.7336696287238738,
+        "median": 3.657251380616799,
+        "minimum": 0.0,
+        "standard_deviation": 2.6571925722559877,
+        "zero_regret_fraction": 0.0625
+      },
+      "3": {
+        "count": 16,
+        "maximum": 8.104246020317078,
+        "mean": 5.737346982699819,
+        "median": 6.027250737883151,
+        "minimum": 3.08636736869812,
+        "standard_deviation": 1.6904056788527284,
+        "zero_regret_fraction": 0.0
+      },
+      "4": {
+        "count": 16,
+        "maximum": 8.663391917943954,
+        "mean": 7.066959302872419,
+        "median": 7.3393203020095825,
+        "minimum": 4.828968524932861,
+        "standard_deviation": 1.2935330279495383,
+        "zero_regret_fraction": 0.0
+      }
+    },
+    "value_r2": {
+      "count": 16,
+      "maximum": 0.022374768680086032,
+      "mean": -0.11253012786666175,
+      "median": -0.02151343980770848,
+      "minimum": -0.8315400087230369,
+      "standard_deviation": 0.22509947732053923
+    }
+  },
+  {
+    "anchor_macro_kendall_tau": {
+      "count": 16,
+      "maximum": 0.23097358738759843,
+      "mean": 0.18110240602084665,
+      "median": 0.18388503250372057,
+      "minimum": 0.14521958919333372,
+      "standard_deviation": 0.024033467712389886
+    },
+    "anchors": 16,
+    "budget": 160,
+    "closed_edges": {
+      "count": 16,
+      "maximum": 641.0,
+      "mean": 499.5,
+      "median": 486.0,
+      "minimum": 359.0,
+      "standard_deviation": 82.61799642531483
+    },
+    "edge_spearman": {
+      "count": 16,
+      "maximum": 0.3375970145704427,
+      "mean": 0.2680523520688585,
+      "median": 0.26475121930572065,
+      "minimum": 0.20103257846647604,
+      "standard_deviation": 0.037659195273553436
+    },
+    "regret": {
+      "1": {
+        "count": 16,
+        "maximum": 2.9362010955810547,
+        "mean": 0.5333846847643144,
+        "median": 0.02147926390171051,
+        "minimum": 0.0,
+        "standard_deviation": 0.889905184492827,
+        "zero_regret_fraction": 0.1875
+      },
+      "2": {
+        "count": 16,
+        "maximum": 5.578844298608601,
+        "mean": 1.9114547320641577,
+        "median": 1.8572650104761124,
+        "minimum": 0.0,
+        "standard_deviation": 1.751993245985206,
+        "zero_regret_fraction": 0.125
+      },
+      "3": {
+        "count": 16,
+        "maximum": 6.038322975160554,
+        "mean": 3.6782612812967272,
+        "median": 3.278648018836975,
+        "minimum": 2.0204553604125977,
+        "standard_deviation": 1.3193485394118982,
+        "zero_regret_fraction": 0.0
+      },
+      "4": {
+        "count": 16,
+        "maximum": 8.117981314659119,
+        "mean": 4.193057745695114,
+        "median": 3.8997559547424316,
+        "minimum": 2.717728614807129,
+        "standard_deviation": 1.5467768579940695,
+        "zero_regret_fraction": 0.0
+      }
+    },
+    "value_r2": {
+      "count": 16,
+      "maximum": 0.27024293074896966,
+      "mean": 0.06578223435823052,
+      "median": 0.11372429255627708,
+      "minimum": -0.4883962102868702,
+      "standard_deviation": 0.1913807842392158
+    }
+  },
+  {
+    "anchor_macro_kendall_tau": {
+      "count": 16,
+      "maximum": 0.2652088273362623,
+      "mean": 0.21584436865673434,
+      "median": 0.21865040629944565,
+      "minimum": 0.17021240053511202,
+      "standard_deviation": 0.03283762294288863
+    },
+    "anchors": 16,
+    "budget": 320,
+    "closed_edges": {
+      "count": 16,
+      "maximum": 1879.0,
+      "mean": 1432.625,
+      "median": 1429.0,
+      "minimum": 1006.0,
+      "standard_deviation": 213.1521756867614
+    },
+    "edge_spearman": {
+      "count": 16,
+      "maximum": 0.392812941494883,
+      "mean": 0.337307917050815,
+      "median": 0.33974993583088725,
+      "minimum": 0.2685067589502301,
+      "standard_deviation": 0.04190043939735694
+    },
+    "regret": {
+      "1": {
+        "count": 16,
+        "maximum": 2.9362010955810547,
+        "mean": 0.539020465919748,
+        "median": 0.01416991266887635,
+        "minimum": 0.0,
+        "standard_deviation": 0.9243730391329106,
+        "zero_regret_fraction": 0.25
+      },
+      "2": {
+        "count": 16,
+        "maximum": 4.665518045425415,
+        "mean": 1.301959479911602,
+        "median": 0.528949499130249,
+        "minimum": 0.0,
+        "standard_deviation": 1.7339547995733708,
+        "zero_regret_fraction": 0.3125
+      },
+      "3": {
+        "count": 16,
+        "maximum": 5.671977758407593,
+        "mean": 2.201846605166793,
+        "median": 1.785668134689331,
+        "minimum": 0.8164916038513184,
+        "standard_deviation": 1.2711841439331986,
+        "zero_regret_fraction": 0.0
+      },
+      "4": {
+        "count": 16,
+        "maximum": 4.374220371246338,
+        "mean": 2.4491389393806458,
+        "median": 2.491959571838379,
+        "minimum": 1.20509672164917,
+        "standard_deviation": 1.0732875769508676,
+        "zero_regret_fraction": 0.0
+      }
+    },
+    "value_r2": {
+      "count": 16,
+      "maximum": 0.5320374980289271,
+      "mean": 0.33261235337377754,
+      "median": 0.41940080525217216,
+      "minimum": -0.43058334861042735,
+      "standard_deviation": 0.23504436715205196
+    }
+  },
+  {
+    "anchor_macro_kendall_tau": {
+      "count": 16,
+      "maximum": 0.27350143890043055,
+      "mean": 0.2281441796421918,
+      "median": 0.23624017892852178,
+      "minimum": 0.1607933600453551,
+      "standard_deviation": 0.03190285007621348
+    },
+    "anchors": 16,
+    "budget": 640,
+    "closed_edges": {
+      "count": 16,
+      "maximum": 4217.0,
+      "mean": 3542.375,
+      "median": 3533.5,
+      "minimum": 2574.0,
+      "standard_deviation": 469.2315526475175
+    },
+    "edge_spearman": {
+      "count": 16,
+      "maximum": 0.42765399143334615,
+      "mean": 0.3728616589601004,
+      "median": 0.3877471648092484,
+      "minimum": 0.3078690173346665,
+      "standard_deviation": 0.03833515154325593
+    },
+    "regret": {
+      "1": {
+        "count": 16,
+        "maximum": 2.169324353337288,
+        "mean": 0.349383222128381,
+        "median": 0.015650436864234507,
+        "minimum": 0.0,
+        "standard_deviation": 0.673428797524418,
+        "zero_regret_fraction": 0.3125
+      },
+      "2": {
+        "count": 16,
+        "maximum": 4.017922878265381,
+        "mean": 0.8741167592816055,
+        "median": 0.060602154582738876,
+        "minimum": 0.0,
+        "standard_deviation": 1.3736638101919265,
+        "zero_regret_fraction": 0.4375
+      },
+      "3": {
+        "count": 16,
+        "maximum": 3.356023669242859,
+        "mean": 0.9170280769467354,
+        "median": 0.4630899429321289,
+        "minimum": 0.0,
+        "standard_deviation": 1.148883640670393,
+        "zero_regret_fraction": 0.375
+      },
+      "4": {
+        "count": 16,
+        "maximum": 3.267090320587158,
+        "mean": 1.259303718805313,
+        "median": 1.20509672164917,
+        "minimum": 0.0,
+        "standard_deviation": 0.9652326367408963,
+        "zero_regret_fraction": 0.1875
+      }
+    },
+    "value_r2": {
+      "count": 16,
+      "maximum": 0.7189805275808099,
+      "mean": 0.5904738866206476,
+      "median": 0.6113010754676322,
+      "minimum": 0.33714504321450744,
+      "standard_deviation": 0.11192369327904896
+    }
+  }
+]
