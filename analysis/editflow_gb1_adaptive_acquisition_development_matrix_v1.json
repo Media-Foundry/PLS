@@ -1,0 +1,1155 @@
+{
+  "anchor_protocol_sha256": "3b3ef4a2152d1eac8f0780fe4f5964eb491e7113c3d93837def3dbe64a589566",
+  "budget_curve": [
+    80,
+    160,
+    320,
+    640
+  ],
+  "methods": [
+    {
+      "acquisition": "random",
+      "anchor_protocol_sha256": "3b3ef4a2152d1eac8f0780fe4f5964eb491e7113c3d93837def3dbe64a589566",
+      "anchors": 16,
+      "budgets": [
+        80,
+        160,
+        320,
+        640
+      ],
+      "curves": {
+        "1": {
+          "acquired": [
+            1.4221826386346947,
+            1.2657249396288535,
+            1.255980271860608,
+            1.1651209639530862
+          ],
+          "campaign": [
+            1.1245119699597126,
+            0.8989783278957475,
+            0.49158532939327415,
+            0.23428993158449885
+          ],
+          "novel_design": [
+            1.1261584262392716,
+            0.9032605085958494,
+            0.5023824035743019,
+            0.256731531539117
+          ]
+        },
+        "2": {
+          "acquired": [
+            4.206242589280009,
+            4.038635958626401,
+            3.615653505316004,
+            2.9302564710960723
+          ],
+          "campaign": [
+            3.548461556667462,
+            3.491177170013543,
+            2.3803281149594113,
+            1.8660103738075122
+          ],
+          "novel_design": [
+            3.8412952842045343,
+            3.69542857077613,
+            2.485327630973188,
+            2.3523259133289685
+          ]
+        },
+        "3": {
+          "acquired": [
+            5.998593097436242,
+            5.224657207261771,
+            4.289910360239446,
+            3.543170031160116
+          ],
+          "campaign": [
+            5.665280000772327,
+            4.855208384105936,
+            3.647231067530811,
+            3.113650608807802
+          ],
+          "novel_design": [
+            6.180569569201907,
+            5.776884513456025,
+            4.132606652798131,
+            3.8865049296291545
+          ]
+        },
+        "4": {
+          "acquired": [
+            7.066959302872419,
+            6.447511566802859,
+            5.4019596464931965,
+            4.225344493985176
+          ],
+          "campaign": [
+            6.833940686658025,
+            6.289843467995524,
+            5.063939556479454,
+            4.198019549250603
+          ],
+          "novel_design": [
+            8.095482091157464,
+            7.892701121178106,
+            5.941568754904438,
+            5.583884233026765
+          ]
+        }
+      },
+      "directory": "outputs/editflow_gb1_random_development_v1+08-31-19-32",
+      "final_edge_spearman": 0.35845028725396444,
+      "final_regret": {
+        "1": {
+          "acquired": {
+            "count": 16,
+            "mean": 1.1651209639530862,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 0.23428993158449885,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 0.256731531539117,
+            "unavailable_fraction": 0.0
+          }
+        },
+        "2": {
+          "acquired": {
+            "count": 16,
+            "mean": 2.9302564710960723,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 1.8660103738075122,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 2.3523259133289685,
+            "unavailable_fraction": 0.0
+          }
+        },
+        "3": {
+          "acquired": {
+            "count": 16,
+            "mean": 3.543170031160116,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 3.113650608807802,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 3.8865049296291545,
+            "unavailable_fraction": 0.0
+          }
+        },
+        "4": {
+          "acquired": {
+            "count": 16,
+            "mean": 4.225344493985176,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 4.198019549250603,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 5.583884233026765,
+            "unavailable_fraction": 0.0
+          }
+        }
+      },
+      "final_value_r2": 0.272118848201758,
+      "name": "random",
+      "normalized_budget_auc": {
+        "1": {
+          "acquired": 1.2439802103212318,
+          "campaign": 0.550579904024614,
+          "novel_design": 0.5626543214020785
+        },
+        "2": {
+          "acquired": 3.552649812959966,
+          "campaign": 2.5548573751210433,
+          "novel_design": 2.803489316834852
+        },
+        "3": {
+          "acquired": 4.398907643235622,
+          "campaign": 3.8977781423933004,
+          "novel_design": 4.560920196062527
+        },
+        "4": {
+          "acquired": 5.408759275584349,
+          "campaign": 5.205656187608838,
+          "novel_design": 6.411323922587534
+        }
+      },
+      "teacher_query_cost_unit": "unique measured node per independent anchor"
+    },
+    {
+      "acquisition": "greedy",
+      "anchor_protocol_sha256": "3b3ef4a2152d1eac8f0780fe4f5964eb491e7113c3d93837def3dbe64a589566",
+      "anchors": 16,
+      "budgets": [
+        80,
+        160,
+        320,
+        640
+      ],
+      "curves": {
+        "1": {
+          "acquired": [
+            1.4221826386346947,
+            1.2058614915295038,
+            0.5635379379673395,
+            0.5635379379673395
+          ],
+          "campaign": [
+            1.1245119699597126,
+            0.364756546827266,
+            0.3602837181824725,
+            0.2176408391824225
+          ],
+          "novel_design": [
+            1.1261584262392716,
+            0.3680811867088778,
+            0.47404904359427746,
+            0.22039643267635256
+          ]
+        },
+        "2": {
+          "acquired": [
+            4.206242589280009,
+            3.3552445196546614,
+            2.6104514168109745,
+            1.4733132443507202
+          ],
+          "campaign": [
+            3.548461556667462,
+            2.5131161046447232,
+            1.4271022660541348,
+            1.015048250905238
+          ],
+          "novel_design": [
+            3.8412952842045343,
+            2.7907594757707557,
+            1.5996370107022813,
+            1.81216232618317
+          ]
+        },
+        "3": {
+          "acquired": [
+            5.998593097436242,
+            3.70617277699057,
+            2.3123106240527704,
+            1.0426005367189646
+          ],
+          "campaign": [
+            5.665280000772327,
+            3.4472836825298145,
+            1.947721735574305,
+            0.7497168779373169
+          ],
+          "novel_design": [
+            6.180569569201907,
+            4.399494723416865,
+            3.060596473980695,
+            1.9458721652626991
+          ]
+        },
+        "4": {
+          "acquired": [
+            7.066959302872419,
+            4.190696135163307,
+            2.132686108350754,
+            1.1118674576282501
+          ],
+          "campaign": [
+            6.833940686658025,
+            3.9654152132570744,
+            1.7190450727939606,
+            1.0670665800571442
+          ],
+          "novel_design": [
+            8.095482091157464,
+            4.675470005720854,
+            2.8170897513628006,
+            2.558027371764183
+          ]
+        }
+      },
+      "directory": "outputs/editflow_gb1_greedy_development_v1+08-31-19-45",
+      "final_edge_spearman": 0.3566859632943078,
+      "final_regret": {
+        "1": {
+          "acquired": {
+            "count": 16,
+            "mean": 0.5635379379673395,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 0.2176408391824225,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 0.22039643267635256,
+            "unavailable_fraction": 0.0
+          }
+        },
+        "2": {
+          "acquired": {
+            "count": 16,
+            "mean": 1.4733132443507202,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 1.015048250905238,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 1.81216232618317,
+            "unavailable_fraction": 0.0
+          }
+        },
+        "3": {
+          "acquired": {
+            "count": 16,
+            "mean": 1.0426005367189646,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 0.7497168779373169,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 1.9458721652626991,
+            "unavailable_fraction": 0.0
+          }
+        },
+        "4": {
+          "acquired": {
+            "count": 16,
+            "mean": 1.1118674576282501,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 1.0670665800571442,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 2.558027371764183,
+            "unavailable_fraction": 0.0
+          }
+        }
+      },
+      "final_value_r2": 0.42556289087946736,
+      "name": "greedy",
+      "normalized_budget_auc": {
+        "1": {
+          "acquired": 0.7625104637783287,
+          "campaign": 0.375074805447574,
+          "novel_design": 0.4254487127597843
+        },
+        "2": {
+          "acquired": 2.5591384018937657,
+          "campaign": 1.6936154621819566,
+          "novel_design": 2.0757175057473694
+        },
+        "3": {
+          "acquired": 2.511526951400031,
+          "campaign": 2.192309212396919,
+          "novel_design": 3.2518658031705336
+        },
+        "4": {
+          "acquired": 2.634473870641419,
+          "campaign": 2.379480220244399,
+          "novel_design": 3.5183242931109686
+        }
+      },
+      "teacher_query_cost_unit": "unique measured node per independent anchor"
+    },
+    {
+      "acquisition": "ucb",
+      "anchor_protocol_sha256": "3b3ef4a2152d1eac8f0780fe4f5964eb491e7113c3d93837def3dbe64a589566",
+      "anchors": 16,
+      "budgets": [
+        80,
+        160,
+        320,
+        640
+      ],
+      "curves": {
+        "1": {
+          "acquired": [
+            1.4221826386346947,
+            1.2149963615520392,
+            0.5507067188445944,
+            0.3671941503707785
+          ],
+          "campaign": [
+            1.1245119699597126,
+            0.3537808725668583,
+            0.36515746741497423,
+            0.2223239206505241
+          ],
+          "novel_design": [
+            1.1261584262392716,
+            0.3571526641608216,
+            0.3813570808415534,
+            0.352215545339277
+          ]
+        },
+        "2": {
+          "acquired": [
+            4.206242589280009,
+            3.2114414968527853,
+            2.490834088763222,
+            1.4994767535972642
+          ],
+          "campaign": [
+            3.548461556667462,
+            2.063527096179314,
+            1.3434939367580228,
+            0.8260124049847946
+          ],
+          "novel_design": [
+            3.8412952842045343,
+            2.342871059139725,
+            1.5974725054693408,
+            1.711936942912871
+          ]
+        },
+        "3": {
+          "acquired": [
+            5.998593097436242,
+            3.6546659596497193,
+            1.984468239475973,
+            1.0280789081007242
+          ],
+          "campaign": [
+            5.665280000772327,
+            2.966444647987373,
+            1.7712870249524713,
+            0.7896302882581949
+          ],
+          "novel_design": [
+            6.180569569201907,
+            3.684806529432535,
+            3.1795701761730015,
+            1.6687160534784198
+          ]
+        },
+        "4": {
+          "acquired": [
+            7.066959302872419,
+            4.077115096151829,
+            2.2209781408309937,
+            0.9697974920272827
+          ],
+          "campaign": [
+            6.833940686658025,
+            3.9342063032090664,
+            1.8623961210250854,
+            0.7233287990093231
+          ],
+          "novel_design": [
+            8.095482091157464,
+            5.007589053362608,
+            3.0956276804208755,
+            1.698577105998993
+          ]
+        }
+      },
+      "directory": "outputs/editflow_gb1_ucb_development_v1+08-31-19-57",
+      "final_edge_spearman": 0.348461645661003,
+      "final_regret": {
+        "1": {
+          "acquired": {
+            "count": 16,
+            "mean": 0.3671941503707785,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 0.2223239206505241,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 0.352215545339277,
+            "unavailable_fraction": 0.0
+          }
+        },
+        "2": {
+          "acquired": {
+            "count": 16,
+            "mean": 1.4994767535972642,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 0.8260124049847946,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 1.711936942912871,
+            "unavailable_fraction": 0.0
+          }
+        },
+        "3": {
+          "acquired": {
+            "count": 16,
+            "mean": 1.0280789081007242,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 0.7896302882581949,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 1.6687160534784198,
+            "unavailable_fraction": 0.0
+          }
+        },
+        "4": {
+          "acquired": {
+            "count": 16,
+            "mean": 0.9697974920272827,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 0.7233287990093231,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 1.698577105998993,
+            "unavailable_fraction": 0.0
+          }
+        }
+      },
+      "final_value_r2": 0.4173636720979146,
+      "name": "ucb",
+      "normalized_budget_auc": {
+        "1": {
+          "acquired": 0.702870616988678,
+          "campaign": 0.3761496481965878,
+          "novel_design": 0.42104436322344035
+        },
+        "2": {
+          "acquired": 2.484534187629054,
+          "campaign": 1.50743257754948,
+          "novel_design": 1.9501779475779455
+        },
+        "3": {
+          "acquired": 2.3558368604031523,
+          "campaign": 2.025061231963004,
+          "novel_design": 3.0705196020322285
+        },
+        "4": {
+          "acquired": 2.6073831003159285,
+          "campaign": 2.3360179656052162,
+          "novel_design": 3.4633088398404652
+        }
+      },
+      "teacher_query_cost_unit": "unique measured node per independent anchor"
+    },
+    {
+      "acquisition": "thompson",
+      "anchor_protocol_sha256": "3b3ef4a2152d1eac8f0780fe4f5964eb491e7113c3d93837def3dbe64a589566",
+      "anchors": 16,
+      "budgets": [
+        80,
+        160,
+        320,
+        640
+      ],
+      "curves": {
+        "1": {
+          "acquired": [
+            1.4221826386346947,
+            1.2316443969903048,
+            0.5507067188445944,
+            0.5507067188445944
+          ],
+          "campaign": [
+            1.1245119699597126,
+            0.34367203383590095,
+            0.3364724643470254,
+            0.28523673459130805
+          ],
+          "novel_design": [
+            1.1261584262392716,
+            0.3456209577998379,
+            0.4387419490085449,
+            0.37431552677298896
+          ]
+        },
+        "2": {
+          "acquired": [
+            4.206242589280009,
+            2.9495142200030386,
+            2.2895893331733532,
+            1.7215051826206036
+          ],
+          "campaign": [
+            3.548461556667462,
+            1.8808504717308097,
+            1.3669717420707457,
+            0.9164752945071086
+          ],
+          "novel_design": [
+            3.8412952842045343,
+            2.292615311132977,
+            2.0341624865395715,
+            1.4146431519184262
+          ]
+        },
+        "3": {
+          "acquired": [
+            5.998593097436242,
+            3.596118892543018,
+            2.085210348595865,
+            1.1556965439813212
+          ],
+          "campaign": [
+            5.665280000772327,
+            2.9112025677459314,
+            1.7620487743988633,
+            0.6884086728096008
+          ],
+          "novel_design": [
+            6.180569569201907,
+            3.462976098060608,
+            2.8403027796885,
+            1.9029758721590042
+          ]
+        },
+        "4": {
+          "acquired": [
+            7.066959302872419,
+            4.035441167652607,
+            2.237806051969528,
+            1.1649406850337982
+          ],
+          "campaign": [
+            6.833940686658025,
+            3.828376866877079,
+            2.1108903884887695,
+            1.0678336918354034
+          ],
+          "novel_design": [
+            8.095482091157464,
+            4.494765027426183,
+            4.012649406678975,
+            2.5245004817843437
+          ]
+        }
+      },
+      "directory": "outputs/editflow_gb1_thompson_development_v1+08-31-20-10",
+      "final_edge_spearman": 0.34828524868248356,
+      "final_regret": {
+        "1": {
+          "acquired": {
+            "count": 16,
+            "mean": 0.5507067188445944,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 0.28523673459130805,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 0.37431552677298896,
+            "unavailable_fraction": 0.0
+          }
+        },
+        "2": {
+          "acquired": {
+            "count": 16,
+            "mean": 1.7215051826206036,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 0.9164752945071086,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 1.4146431519184262,
+            "unavailable_fraction": 0.0
+          }
+        },
+        "3": {
+          "acquired": {
+            "count": 16,
+            "mean": 1.1556965439813212,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 0.6884086728096008,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 1.9029758721590042,
+            "unavailable_fraction": 0.0
+          }
+        },
+        "4": {
+          "acquired": {
+            "count": 16,
+            "mean": 1.1649406850337982,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 1.0678336918354034,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 2.5245004817843437,
+            "unavailable_fraction": 0.0
+          }
+        }
+      },
+      "final_value_r2": 0.40628216274678663,
+      "name": "thompson",
+      "normalized_budget_auc": {
+        "1": {
+          "acquired": 0.7588702155751109,
+          "campaign": 0.3796649854224857,
+          "novel_design": 0.4494810786272865
+        },
+        "2": {
+          "acquired": 2.405595855629404,
+          "campaign": 1.5041960430223429,
+          "novel_design": 2.0416206246081856
+        },
+        "3": {
+          "acquired": 2.4229284316118407,
+          "campaign": 1.980343931545836,
+          "novel_design": 2.9445155735821964
+        },
+        "4": {
+          "acquired": 2.6614201326987574,
+          "campaign": 2.5182677418259636,
+          "novel_design": 3.9824053957605168
+        }
+      },
+      "teacher_query_cost_unit": "unique measured node per independent anchor"
+    },
+    {
+      "acquisition": "occupancy_only",
+      "anchor_protocol_sha256": "3b3ef4a2152d1eac8f0780fe4f5964eb491e7113c3d93837def3dbe64a589566",
+      "anchors": 16,
+      "budgets": [
+        80,
+        160,
+        320,
+        640
+      ],
+      "curves": {
+        "1": {
+          "acquired": [
+            1.4221826386346947,
+            0.026146225747652352,
+            0.00021253351587802172,
+            0.0
+          ],
+          "campaign": [
+            1.1245119699597126,
+            0.026146225747652352,
+            0.0,
+            0.0
+          ],
+          "novel_design": [
+            1.1261584262392716,
+            0.17172948376537533,
+            0.006208301550941542,
+            0.0047121858534713585
+          ]
+        },
+        "2": {
+          "acquired": [
+            4.206242589280009,
+            2.9652626988245174,
+            0.6260196737712249,
+            0.07704977481625974
+          ],
+          "campaign": [
+            3.548461556667462,
+            2.597817269852385,
+            0.39121393335517496,
+            0.07704977481625974
+          ],
+          "novel_design": [
+            3.8412952842045343,
+            2.9536301486514276,
+            1.6526297155069187,
+            0.8773645432665944
+          ]
+        },
+        "3": {
+          "acquired": [
+            5.998593097436242,
+            4.59304628171958,
+            2.673178754746914,
+            0.8876886665821075
+          ],
+          "campaign": [
+            5.665280000772327,
+            4.202424224815331,
+            1.8601433197036386,
+            0.6314224302768707
+          ],
+          "novel_design": [
+            6.180569569201907,
+            4.865898517513415,
+            2.4501804718747735,
+            1.4725886285305023
+          ]
+        },
+        "4": {
+          "acquired": [
+            7.066959302872419,
+            4.597146723419428,
+            3.061119996011257,
+            1.9609021544456482
+          ],
+          "campaign": [
+            6.833940686658025,
+            4.36837038770318,
+            2.7924558222293854,
+            1.8636920750141144
+          ],
+          "novel_design": [
+            8.095482091157464,
+            6.003627064113971,
+            3.890500918030739,
+            3.0744542628526688
+          ]
+        }
+      },
+      "directory": "outputs/editflow_gb1_occupancy_development_v1+08-31-20-23",
+      "final_edge_spearman": 0.3501604546730861,
+      "final_regret": {
+        "1": {
+          "acquired": {
+            "count": 16,
+            "mean": 0.0,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 0.0,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 15,
+            "mean": 0.0047121858534713585,
+            "unavailable_fraction": 0.0625
+          }
+        },
+        "2": {
+          "acquired": {
+            "count": 16,
+            "mean": 0.07704977481625974,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 0.07704977481625974,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 0.8773645432665944,
+            "unavailable_fraction": 0.0
+          }
+        },
+        "3": {
+          "acquired": {
+            "count": 16,
+            "mean": 0.8876886665821075,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 0.6314224302768707,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 1.4725886285305023,
+            "unavailable_fraction": 0.0
+          }
+        },
+        "4": {
+          "acquired": {
+            "count": 16,
+            "mean": 1.9609021544456482,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 1.8636920750141144,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 3.0744542628526688,
+            "unavailable_fraction": 0.0
+          }
+        }
+      },
+      "final_value_r2": 0.4533311469336092,
+      "name": "occupancy",
+      "normalized_budget_auc": {
+        "1": {
+          "acquired": 0.10727832264092285,
+          "campaign": 0.08592504622876211,
+          "novel_design": 0.12124610216106659
+        },
+        "2": {
+          "acquired": 1.2261677019747108,
+          "campaign": 0.9998140046871933,
+          "novel_design": 1.8662444425904792
+        },
+        "3": {
+          "acquired": 2.8119685098146356,
+          "campaign": 2.2827930224676884,
+          "novel_design": 2.9549787476509146
+        },
+        "4": {
+          "acquired": 3.3620520047843456,
+          "campaign": 3.1534682202285955,
+          "novel_design": 4.410513274506749
+        }
+      },
+      "teacher_query_cost_unit": "unique measured node per independent anchor"
+    },
+    {
+      "acquisition": "adaptive_path",
+      "anchor_protocol_sha256": "3b3ef4a2152d1eac8f0780fe4f5964eb491e7113c3d93837def3dbe64a589566",
+      "anchors": 16,
+      "budgets": [
+        80,
+        160,
+        320,
+        640
+      ],
+      "curves": {
+        "1": {
+          "acquired": [
+            1.4221826386346947,
+            0.25079401588300243,
+            0.01237715280149132,
+            0.0083443783223629
+          ],
+          "campaign": [
+            1.1245119699597126,
+            0.038945016625802964,
+            0.01237715280149132,
+            0.0083443783223629
+          ],
+          "novel_design": [
+            1.1261584262392716,
+            0.21359906486031832,
+            0.11654784808706609,
+            0.04406257219670806
+          ]
+        },
+        "2": {
+          "acquired": [
+            4.206242589280009,
+            3.0456289322464727,
+            0.7968579180305824,
+            0.17387801629956812
+          ],
+          "campaign": [
+            3.548461556667462,
+            2.61820448335493,
+            0.5772269837325439,
+            0.146338852471672
+          ],
+          "novel_design": [
+            3.8412952842045343,
+            3.287148334129597,
+            1.8588703130808426,
+            1.5260633068392053
+          ]
+        },
+        "3": {
+          "acquired": [
+            5.998593097436242,
+            3.932836988591589,
+            2.225109825958498,
+            0.7300494909286499
+          ],
+          "campaign": [
+            5.665280000772327,
+            3.5137981824809685,
+            1.8113615745678544,
+            0.5520036518573761
+          ],
+          "novel_design": [
+            6.180569569201907,
+            4.692269482417032,
+            2.4413084557745606,
+            1.6522487998008728
+          ]
+        },
+        "4": {
+          "acquired": [
+            7.066959302872419,
+            4.4737250953912735,
+            2.429342746734619,
+            1.1839379370212555
+          ],
+          "campaign": [
+            6.833940686658025,
+            4.273697096854448,
+            2.1409544944763184,
+            0.9939753115177155
+          ],
+          "novel_design": [
+            8.095482091157464,
+            5.408008818689268,
+            3.3771703438833356,
+            1.8263402432203293
+          ]
+        }
+      },
+      "directory": "outputs/editflow_gb1_adaptive_path_ucb_development_v1+09-01-14-49",
+      "final_edge_spearman": 0.3555844319237558,
+      "final_regret": {
+        "1": {
+          "acquired": {
+            "count": 16,
+            "mean": 0.0083443783223629,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 0.0083443783223629,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 0.04406257219670806,
+            "unavailable_fraction": 0.0
+          }
+        },
+        "2": {
+          "acquired": {
+            "count": 16,
+            "mean": 0.17387801629956812,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 0.146338852471672,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 1.5260633068392053,
+            "unavailable_fraction": 0.0
+          }
+        },
+        "3": {
+          "acquired": {
+            "count": 16,
+            "mean": 0.7300494909286499,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 0.5520036518573761,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 1.6522487998008728,
+            "unavailable_fraction": 0.0
+          }
+        },
+        "4": {
+          "acquired": {
+            "count": 16,
+            "mean": 1.1839379370212555,
+            "unavailable_fraction": 0.0
+          },
+          "campaign": {
+            "count": 16,
+            "mean": 0.9939753115177155,
+            "unavailable_fraction": 0.0
+          },
+          "novel_design": {
+            "count": 16,
+            "mean": 1.8263402432203293,
+            "unavailable_fraction": 0.0
+          }
+        }
+      },
+      "final_value_r2": 0.4742656057893225,
+      "name": "adaptive_path_ucb",
+      "normalized_budget_auc": {
+        "1": {
+          "acquired": 0.1630146511701501,
+          "campaign": 0.09635624642396579,
+          "novel_design": 0.18874949986638967
+        },
+        "2": {
+          "acquired": 1.3442706399572282,
+          "campaign": 1.1036994513581573,
+          "novel_design": 2.2114439566025146
+        },
+        "3": {
+          "acquired": 2.4334257844768996,
+          "campaign": 2.0916327573608475,
+          "novel_design": 2.96530171073599
+        },
+        "4": {
+          "acquired": 2.842853058395641,
+          "campaign": 2.605475727867867,
+          "novel_design": 3.7062779702433284
+        }
+      },
+      "teacher_query_cost_unit": "unique measured node per independent anchor"
+    }
+  ],
+  "statistical_unit_warning": "GB1 anchors share one four-site landscape and are not independent biological replicates.",
+  "status": "development_only",
+  "teacher_query_cost_unit": "unique measured node per independent anchor",
+  "test_evaluated": false
+}

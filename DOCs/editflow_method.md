@@ -314,6 +314,17 @@ but it explicitly requires held-out or cross-fitted edge errors. In-sample
 closed-edge residuals are not evidence for coverage, and raw ensemble standard
 deviation is still not described as a theorem-valid error upper bound.
 
+The first adaptive path/UCB candidate has now completed on all 16 GB1 v1
+development anchors. It achieved the highest final global R-squared among the
+six standard/development policies (0.4743), and improved radius-4 campaign
+regret over occupancy-only (0.9940 versus 1.8637), but it did not improve the
+local radius-2 objective: normalized novel-design regret AUC was 2.2114 versus
+1.8662 for occupancy-only and 1.9502 for UCB. Its realized path fraction varied
+only from 0.369 to 0.559 (mean 0.487), so the entropy/endpoint formula behaved
+much like a softened 50/50 portfolio. This is a null result for the proposed
+adaptive allocation, not a method win. It strengthens the case for calibrated,
+design-relevant edge-error reduction rather than another fixed-mixture sweep.
+
 The uncertainty-only v2 run completed after the prespecified hybrid-versus-path
 comparison. A secondary descriptive comparison on the historical all-candidate
 metric favored path over uncertainty (query-curve means 1.5321 versus 1.8824;
