@@ -1,0 +1,34 @@
+{
+  "edge": {
+    "anchor_macro_kendall_tau": 0.04427083333333334,
+    "anchor_macro_top_5_recall": 0.32499999999999996,
+    "edge_mae": 0.3085142566305876,
+    "edge_pearson": 0.07867410854563257,
+    "edge_rmse": 0.6799438925677607,
+    "edge_spearman": 0.08220894702509698,
+    "edges": 512,
+    "informative_sign_edges": 512,
+    "mutation_sign_accuracy": 0.552734375,
+    "mutation_sign_balanced_accuracy": 0.5391588885312735,
+    "nodes": 544
+  },
+  "protocol": {
+    "additional_teacher_queries_for_cycles": 0,
+    "mode": "cycle_delta",
+    "selection_metric": "validation_edge_rmse",
+    "test_evaluated": false,
+    "train_oracle_edges": 2048,
+    "train_oracle_nodes": 2176,
+    "unlabelled_commuting_cycles": 15237,
+    "validation_oracle_edges": 512,
+    "validation_oracle_nodes": 544
+  },
+  "value": {
+    "anchor_definition": "one queried teacher value per validation landscape",
+    "anchored": true,
+    "nodes": 544,
+    "pearson": 0.9906152481391808,
+    "r2": 0.9812389611359152,
+    "rmse": 0.6596424678942363
+  }
+}

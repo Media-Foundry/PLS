@@ -28,8 +28,19 @@ def select_anchors(
     counts: dict[str, int],
     *,
     salt: str,
+    unique_components: bool = False,
+    priority_hashes_by_split: dict[str, list[str]] | None = None,
 ) -> list[dict]:
+    """Select deterministic split-stratified anchors.
+
+    ``priority_hashes_by_split`` is used to preserve as much of an earlier
+    query cache as possible when a landscape is enlarged.  Under
+    ``unique_components`` only the first priority entity from each SI
+    component is retained; remaining slots are filled by the usual salted,
+    label-blind ranking.
+    """
     selected = []
+    priority_hashes_by_split = priority_hashes_by_split or {}
     for split in ("train", "validation"):
         requested = int(counts.get(split, 0))
         ranked = ranked_items(
@@ -37,9 +48,30 @@ def select_anchors(
             salt=f"{salt}:{split}",
             identity=lambda row: row["sequence_sha256"],
         )
-        if len(ranked) < requested:
+        by_hash = {row["sequence_sha256"]: row for row in ranked}
+        ordered = []
+        seen_hashes = set()
+        for digest in priority_hashes_by_split.get(split, []):
+            row = by_hash.get(digest)
+            if row is not None and digest not in seen_hashes:
+                ordered.append(row)
+                seen_hashes.add(digest)
+        ordered.extend(row for row in ranked if row["sequence_sha256"] not in seen_hashes)
+
+        if unique_components:
+            eligible = []
+            seen_components = set()
+            for row in ordered:
+                component = row["component_root_sha256"]
+                if component in seen_components:
+                    continue
+                eligible.append(row)
+                seen_components.add(component)
+        else:
+            eligible = ordered
+        if len(eligible) < requested:
             raise ValueError(f"not enough eligible {split} anchors")
-        selected.extend(ranked[:requested])
+        selected.extend(eligible[:requested])
     return selected
 
 
@@ -122,10 +154,26 @@ def build_manifest(config: dict) -> tuple[dict, dict]:
     for row in rows:
         if row["entity_index"] < len(status) and int(status[row["entity_index"]]) == 1:
             candidates_by_split[row["split"]].append(row)
+    priority_hashes_by_split: dict[str, list[str]] = defaultdict(list)
+    priority_manifest_path = config.get("priority_anchor_manifest")
+    if priority_manifest_path:
+        priority_manifest = json.loads(Path(priority_manifest_path).read_text())
+        if priority_manifest.get("test_evaluated") is not False:
+            raise ValueError("priority manifest violates the permanent test freeze")
+        for node in priority_manifest["nodes"]:
+            if node["kind"] != "anchor":
+                continue
+            if node["split"] not in allowed_splits:
+                raise ValueError("priority manifest contains a forbidden split")
+            priority_hashes_by_split[node["split"]].append(node["sequence_sha256"])
+
+    component_unique = bool(config.get("component_unique_anchors", False))
     anchors = select_anchors(
         candidates_by_split,
         config["anchor_counts"],
         salt=config["anchor_salt"],
+        unique_components=component_unique,
+        priority_hashes_by_split=priority_hashes_by_split,
     )
 
     nodes = []
@@ -204,6 +252,8 @@ def build_manifest(config: dict) -> tuple[dict, dict]:
             "mutations_per_anchor": mutations_per_anchor,
             "minimum_length": int(config["minimum_length"]),
             "maximum_length": int(config["maximum_length"]),
+            "component_unique_anchors": component_unique,
+            "priority_anchor_manifest": priority_manifest_path,
             "label_blind": True,
         },
         "nodes": nodes,
@@ -220,6 +270,22 @@ def build_manifest(config: dict) -> tuple[dict, dict]:
         "anchors": len(anchors),
         "anchors_by_split": {
             split: sum(anchor["split"] == split for anchor in anchors)
+            for split in allowed_splits
+        },
+        "unique_components_by_split": {
+            split: len({
+                anchor["component_root_sha256"]
+                for anchor in anchors
+                if anchor["split"] == split
+            })
+            for split in allowed_splits
+        },
+        "component_unique_anchors": component_unique,
+        "priority_anchors_available_by_split": {
+            split: sum(
+                digest in {anchor["sequence_sha256"] for anchor in anchors}
+                for digest in priority_hashes_by_split.get(split, [])
+            )
             for split in allowed_splits
         },
         "unique_sequence_queries": len(nodes),
@@ -255,6 +321,15 @@ def validate_manifest(manifest: dict, report: dict) -> None:
             raise ValueError("sequence SHA-256 mismatch")
         if len(row["sequence"]) != int(row["length"]):
             raise ValueError("sequence length mismatch")
+    if manifest.get("selection", {}).get("component_unique_anchors", False):
+        for split in ("train", "validation"):
+            anchor_components = [
+                row["component_root_sha256"]
+                for row in nodes
+                if row["kind"] == "anchor" and row["split"] == split
+            ]
+            if len(anchor_components) != len(set(anchor_components)):
+                raise ValueError(f"{split} anchors are not SI-component unique")
     for expected_edge, edge in enumerate(edges):
         if int(edge["edge_index"]) != expected_edge:
             raise ValueError("edge indices must be consecutive")

@@ -1,0 +1,16 @@
+{
+  "trainer_module": "pls.training.train_editflow_pls_plm",
+  "experiment_name": "editflow_pls_student_plm_potential_1k_v1",
+  "evaluate_test": false,
+  "data": {
+    "manifest": "benchmark/generated/pls_editflow_oracle_manifest_1k_v1.json",
+    "oracle_scores": "artifacts/oracles/pls_editflow_1k_v1/scores_matched_fp32_a/oracle_logits.npz",
+    "oracle_report": "artifacts/oracles/pls_editflow_1k_v1/scores_matched_fp32_a/oracle_report.json",
+    "global_embeddings": "artifacts/oracles/pls_editflow_1k_v1/esm2_mean/embeddings.npy",
+    "residue_embeddings": "artifacts/oracles/pls_editflow_1k_v1/residue_esm2_pca",
+    "offsets": "artifacts/oracles/pls_editflow_1k_v1/structure_v4_compact/offsets.npy",
+    "top_k": 5
+  },
+  "model": {"mode": "potential", "dimension": 256, "dropout": 0.1},
+  "training": {"hip_device": 0, "seed": 20260922, "epochs": 500, "patience": 50, "checkpoint_every": 50, "learning_rate": 0.001, "weight_decay": 0.0001, "cycle_weight": 0, "amp_bfloat16": true, "fused_optimizer": true, "max_gradient_norm": 5.0}
+}

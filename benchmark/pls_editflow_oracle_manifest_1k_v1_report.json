@@ -1,0 +1,26 @@
+{
+  "anchors": 1152,
+  "anchors_by_split": {
+    "train": 1024,
+    "validation": 128
+  },
+  "collision_rejections": 0,
+  "component_unique_anchors": true,
+  "edges_sha256": "fda7afcf1fdc8a60f13bdb77f75a3c503561f5c60bdaf3bc806e7bda5ebaa2d8",
+  "mutations_per_anchor": 16,
+  "nodes_sha256": "eb9d55c9caae007378fab80fbb753aeb5cf481f58aacdaa925bc5596f69737e2",
+  "priority_anchors_available_by_split": {
+    "train": 89,
+    "validation": 32
+  },
+  "schema": "PLS_EditFlow_sequence_oracle_manifest_report_v1",
+  "selection_used_target_values": false,
+  "single_mutation_edges": 18432,
+  "test_evaluated": false,
+  "test_sequences_queried": 0,
+  "unique_components_by_split": {
+    "train": 1024,
+    "validation": 128
+  },
+  "unique_sequence_queries": 19584
+}

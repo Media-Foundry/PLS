@@ -1,0 +1,109 @@
+{
+  "matched_sequence_teacher": {
+    "edge_pearson": 0.3921124019812866,
+    "edge_rmse": 0.6480216405832519,
+    "edge_spearman": 0.427924387881805,
+    "mutation_sign_accuracy": 0.685546875,
+    "top_5_recall": 0.53125,
+    "value_pearson": 0.778237
+  },
+  "methods": {
+    "cycle_delta": {
+      "additional_teacher_queries": 0,
+      "edge_pearson": 0.07867410854563257,
+      "edge_rmse": 0.6799438925677607,
+      "edge_spearman": 0.08220894702509698,
+      "mutation_sign_accuracy": 0.552734375,
+      "top_5_recall": 0.32499999999999996,
+      "unlabelled_commuting_cycles": 15237
+    },
+    "pair_delta": {
+      "edge_pearson": 0.19827545960284892,
+      "edge_rmse": 0.66729290134476,
+      "edge_spearman": 0.2887223051922042,
+      "mutation_sign_accuracy": 0.56640625,
+      "top_5_recall": 0.43125
+    },
+    "parent_state_direct_delta": {
+      "edge_pearson": 0.08141392147959771,
+      "edge_rmse": 0.6796895509182945,
+      "edge_spearman": 0.07946333799681853,
+      "mutation_sign_accuracy": 0.5546875,
+      "top_5_recall": 0.3375
+    },
+    "plm_potential": {
+      "edge_pearson": 0.33444879121153626,
+      "edge_rmse": 0.6433976767222364,
+      "edge_spearman": 0.32973951717192523,
+      "mutation_sign_accuracy": 0.62109375,
+      "top_5_recall": 0.44999999999999996,
+      "value_pearson": 0.5950578027657125
+    },
+    "raw_token_potential": {
+      "edge_pearson": 0.12329005433441095,
+      "edge_rmse": 0.6789623271431751,
+      "edge_spearman": 0.12827231329097866,
+      "mutation_sign_accuracy": 0.546875,
+      "top_5_recall": 0.33125000000000004,
+      "value_pearson": 0.5568141431251736
+    },
+    "structural_residual_potential": {
+      "definition": "matched_sequence_teacher_plus_learned_full_minus_sequence_residual",
+      "edge_pearson": 0.41588195786418386,
+      "edge_rmse": 0.6208063730948541,
+      "edge_spearman": 0.3727494392373628,
+      "mutation_sign_accuracy": 0.65625,
+      "top_5_recall": 0.48124999999999996,
+      "value_pearson": 0.7147900550629331
+    }
+  },
+  "oracle": {
+    "float32_replay": {
+      "full_logit_exact_fraction": 0.3948529411764706,
+      "full_logit_max_abs_difference": 0.0001926422119140625,
+      "full_logit_mean_abs_difference": 4.5361709507072673e-07,
+      "sequence_only_exact_fraction": 1.0,
+      "sequence_only_max_abs_difference": 0.0
+    },
+    "full_sequence_node_pearson": 0.7157145744400646,
+    "splits": {
+      "all": {
+        "delta_pearson": 0.38146167022941524,
+        "delta_spearman": 0.43088082005664957,
+        "edges": 2560,
+        "full_delta_mean_abs": 0.22745453836105298,
+        "residual_delta_mean_abs": 0.20552495258671116,
+        "sequence_delta_mean_abs": 0.04712267857466941,
+        "sign_agreement": 0.6640625
+      },
+      "train": {
+        "delta_pearson": 0.3802428872233778,
+        "delta_spearman": 0.4311300253318253,
+        "edges": 2048,
+        "full_delta_mean_abs": 0.21136882849168614,
+        "residual_delta_mean_abs": 0.18987233457301045,
+        "sequence_delta_mean_abs": 0.04456461622430652,
+        "sign_agreement": 0.65869140625
+      },
+      "validation": {
+        "delta_pearson": 0.3921124019812866,
+        "delta_spearman": 0.427924387881805,
+        "edges": 512,
+        "full_delta_mean_abs": 0.29179737783852033,
+        "residual_delta_mean_abs": 0.26813542464151396,
+        "sequence_delta_mean_abs": 0.05735492797612096,
+        "sign_agreement": 0.685546875
+      }
+    }
+  },
+  "protocol": {
+    "manifest": "benchmark/generated/pls_editflow_oracle_manifest_scale_v1.json",
+    "test_evaluated": false,
+    "train_anchors": 128,
+    "train_unique_si30_components": 89,
+    "validation_anchors": 32,
+    "validation_unique_si30_components": 32
+  },
+  "schema": "PLS_EditFlow_PLM_student_scale_analysis_v1",
+  "test_evaluated": false
+}

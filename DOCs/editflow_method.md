@@ -13,6 +13,14 @@ large-scale edit search. PLS test entities remain permanently frozen: oracle
 construction, edge acquisition, student training, hyperparameter selection, and
 optimization evaluation use training/validation anchors only.
 
+Development evidence has narrowed the primary question. Global edge metrics and
+several path-acquisition heuristics did not reliably reduce design regret, while
+PLS students could fit oracle values without preserving mutation directions.
+The active method question is therefore how to distill an expensive scientific
+oracle for sequence interventions rather than predictions. Path acquisition is
+retained as a downstream evaluation setting, not assumed to be the headline
+algorithm.
+
 The method claim is deliberately narrower than Sobolev training, Jacobian
 matching, MatchOpt, HodgeRank, or conservative model-based optimization. Edge
 labels contain no oracle information beyond their queried endpoint values. The
@@ -176,6 +184,32 @@ Every oracle record stores teacher revisions, sequence hashes, fold/feature
 revisions, confidence, failures, wall time, and accelerator time. Independent
 metric-specific PLS ensembles must not be combined into a fictitious single
 teacher.
+
+The first sequence-native parameterizations are deliberately separated:
+
+```text
+potential:          f_theta(x)
+direct edit:        h_theta(parent, position, target)
+exact-pair edit:    h_theta(parent, mutant)
+residual potential: T_seq(x) + r_theta(x).
+```
+
+The residual potential uses the same checkpoint's sequence branch as a frozen
+base and learns only `T_full - T_seq`. Unlike independently trained full and
+sequence teachers, this difference has a controlled structure/fusion
+interpretation. Direct edit heads are evaluated with edge metrics; value metrics
+constructed by adding a known validation-parent teacher value are labelled
+anchored diagnostics and never compared with fully sequence-native potential
+values.
+
+For commuting edits at distinct positions, a direct field may additionally use
+
+```text
+h_i(x) + h_j(x_i) = h_j(x) + h_i(x_j)
+```
+
+as a zero-extra-query cycle-consistency regularizer. This constraint encourages
+a conservative field but is not presumed beneficial without empirical evidence.
 
 ### GB1 measured landscape
 
@@ -359,6 +393,26 @@ graph-Sobolev loss obtains `0.0777` and `0.5312`. Both select epoch 1. This
 strengthens the cross-world conclusion that the edge objective alone is not the
 method contribution. Large teacher deltas on medium-confidence structures remain
 a required sensitivity analysis before biological interpretation.
+
+The next 128-train-anchor scaled experiment confirms that independent-protein
+coverage matters. Frozen-PLM potential edge Spearman rises from `0.1028` to
+`0.3297`; raw-token potential reaches only `0.1283`. Parent-only direct delta and
+cycle delta remain null (`0.0795` and `0.0822`), while an exact parent-mutant PLM
+pair improves to `0.2887` but still trails the scalar potential. The strongest
+learned parameterization is the matched sequence teacher plus a learned
+structural residual potential: edge Pearson `0.4159`, Spearman `0.3727`, sign
+accuracy `0.6563`, and RMSE `0.6208`. It improves magnitude fidelity over both
+the plain PLM potential and matched sequence teacher, but does not beat the
+matched sequence teacher's rank/sign/top-k fidelity (`0.4279`, `0.6855`, and
+`0.5313`). See `analysis/editflow_pls_student_scale_v1.md`.
+
+A component audit found that those 128 train entities represent only 89 unique
+SI30 components. The next protocol therefore selects exactly 1,024 unique train
+components and 128 unique validation components, with 16 exact mutations per
+anchor (18,432 edges; 19,584 nodes). Selection is label-blind, test query count
+is zero, and one representative from each reusable prior component is
+prioritized. This protocol tests biological coverage rather than merely scaling
+correlated observations.
 
 The first prequentially calibrated path acquisition is also a development null
 on the primary local curve. It calibrates later-round uncertainty only from

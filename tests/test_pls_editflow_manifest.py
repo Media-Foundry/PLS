@@ -37,6 +37,35 @@ class PLSEditFlowManifestTests(unittest.TestCase):
         for row in first:
             self.assertNotEqual(row["source_residue"], row["target_residue"])
 
+    def test_component_unique_selection_prioritizes_cached_components(self):
+        candidates = {
+            "train": [
+                {
+                    "sequence_sha256": sequence_sha256(value),
+                    "component_root_sha256": component,
+                    "value": value,
+                }
+                for value, component in (
+                    ("AAAA", "g1"),
+                    ("CCCC", "g1"),
+                    ("DDDD", "g2"),
+                    ("EEEE", "g3"),
+                )
+            ],
+            "validation": [],
+        }
+        chosen = select_anchors(
+            candidates,
+            {"train": 3, "validation": 0},
+            salt="fixed",
+            unique_components=True,
+            priority_hashes_by_split={
+                "train": [sequence_sha256("CCCC"), sequence_sha256("AAAA")]
+            },
+        )
+        self.assertEqual(chosen[0]["value"], "CCCC")
+        self.assertEqual(len({row["component_root_sha256"] for row in chosen}), 3)
+
     def test_validator_rejects_forbidden_split(self):
         sequence = "AC"
         manifest = {

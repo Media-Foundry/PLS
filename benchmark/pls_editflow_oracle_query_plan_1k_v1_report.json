@@ -1,0 +1,28 @@
+{
+  "assignments_sha256": "b7fcf67aaa7b41c03c1bb3272655126cdf901f8d044dc716c1c0eb49f49bca5c",
+  "estimated_l2_cost_by_shard": [
+    163474160,
+    163474160,
+    163474160,
+    163474160
+  ],
+  "maximum_to_minimum_cost_ratio": 1.0,
+  "parent_queries_reusing_exact_sequence_cache": 1152,
+  "queries_by_shard": [
+    4608,
+    4608,
+    4608,
+    4608
+  ],
+  "queries_requiring_new_fold": 18432,
+  "residues_by_shard": [
+    813296,
+    813296,
+    813296,
+    813296
+  ],
+  "schema": "PLS_EditFlow_ESMFold_query_plan_report_v1",
+  "shard_count": 4,
+  "test_evaluated": false,
+  "test_sequences_queried": 0
+}

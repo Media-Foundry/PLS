@@ -1,0 +1,40 @@
+{
+  "anchor_selection": {
+    "component_unique": true,
+    "label_blind": true,
+    "priority_anchors_reused_by_split": {
+      "train": 89,
+      "validation": 32
+    },
+    "train_anchors": 1024,
+    "train_unique_si30_components": 1024,
+    "validation_anchors": 128,
+    "validation_unique_si30_components": 128
+  },
+  "artifact_budget": {
+    "estimated_final_gib_range": [15, 20],
+    "free_workspace_gib_at_launch": 2400
+  },
+  "fold_budget": {
+    "estimated_local_wall_hours_range": [3, 4],
+    "exact_cached_mutant_folds": 1936,
+    "new_exact_mutant_folds": 16496,
+    "new_folds_by_shard": [4130, 4125, 4146, 4095],
+    "new_l2_cost_by_shard": [146355430, 147210207, 147060593, 145882170],
+    "new_l2_cost_max_to_min_ratio": 1.0091034923975738,
+    "new_residues_by_shard": [729228, 731151, 732683, 724746],
+    "physical_gpus": [0, 1, 2, 3]
+  },
+  "landscape": {
+    "exact_nodes": 19584,
+    "mutations_per_anchor": 16,
+    "single_mutation_edges": 18432,
+    "total_anchors": 1152
+  },
+  "manifest_report": "benchmark/pls_editflow_oracle_manifest_1k_v1_report.json",
+  "query_plan_report": "benchmark/pls_editflow_oracle_query_plan_1k_v1_report.json",
+  "schema": "PLS_EditFlow_1k_component_protocol_v1",
+  "selection_used_target_values": false,
+  "test_evaluated": false,
+  "test_sequences_queried": 0
+}

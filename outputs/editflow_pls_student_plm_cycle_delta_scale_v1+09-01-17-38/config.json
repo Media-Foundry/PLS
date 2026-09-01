@@ -1,0 +1,32 @@
+{
+  "data": {
+    "global_embeddings": "artifacts/oracles/pls_editflow_scale_v1/esm2_mean/embeddings.npy",
+    "manifest": "benchmark/generated/pls_editflow_oracle_manifest_scale_v1.json",
+    "offsets": "artifacts/oracles/pls_editflow_scale_v1/structure_v4_compact/offsets.npy",
+    "oracle_report": "artifacts/oracles/pls_editflow_scale_v1/scores_matched_fp32_a/oracle_report.json",
+    "oracle_scores": "artifacts/oracles/pls_editflow_scale_v1/scores_matched_fp32_a/oracle_logits.npz",
+    "residue_embeddings": "artifacts/oracles/pls_editflow_scale_v1/residue_esm2_pca",
+    "top_k": 5
+  },
+  "evaluate_test": false,
+  "experiment_name": "editflow_pls_student_plm_cycle_delta_scale_v1",
+  "model": {
+    "dimension": 256,
+    "dropout": 0.1,
+    "mode": "cycle_delta"
+  },
+  "trainer_module": "pls.training.train_editflow_pls_plm",
+  "training": {
+    "amp_bfloat16": true,
+    "checkpoint_every": 50,
+    "cycle_weight": 0.1,
+    "epochs": 500,
+    "fused_optimizer": true,
+    "hip_device": 2,
+    "learning_rate": 0.001,
+    "max_gradient_norm": 5.0,
+    "patience": 50,
+    "seed": 20260922,
+    "weight_decay": 0.0001
+  }
+}
