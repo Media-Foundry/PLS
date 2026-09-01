@@ -1,0 +1,43 @@
+{
+  "trainer_module": "pls.training.train_editflow_gb1_confirmatory",
+  "experiment_name": "editflow_gb1_prequential_calibrated_path_development_v1",
+  "evaluate_test": false,
+  "data": {
+    "landscape": "benchmark/generated/gb1_wu2016_editflow_v1.npz",
+    "anchor_protocol": "configs/editflow/gb1_confirmatory_anchors_v1.json",
+    "acquisition": "prequential_calibrated_path",
+    "exploration_policy": "ucb",
+    "calibration_alpha": 0.1,
+    "acquisition_beta": 1.0,
+    "query_budgets": [80, 160, 320, 640],
+    "initial_query_seed": 20260901,
+    "evaluation_anchors": 2048,
+    "evaluation_salt": "PLS-EditFlow-GB1-confirmatory-field-v1",
+    "edit_radii": [1, 2, 3, 4],
+    "top_k": 10,
+    "beam_steps": 6,
+    "beam_width": 32,
+    "conservative_beta": 0.5
+  },
+  "model": {"dimension": 96, "layers": 2, "heads": 4, "dropout": 0.1},
+  "training": {
+    "accelerator_backend": "rocm",
+    "hip_device": 0,
+    "seed": 20260901,
+    "ensemble_seeds": [20260901, 20260907, 20260913, 20260919, 20260931],
+    "anchor_seed_stride": 1009,
+    "epochs_per_round": 250,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "edge_weight": 0.0,
+    "loss": "mse",
+    "fused_optimizer": true,
+    "max_gradient_norm": 5.0,
+    "inference_batch_size": 8192
+  },
+  "interpretation": {
+    "status": "development_candidate",
+    "gb1_is_blind_test": false,
+    "calibration_claim": "prequential empirical calibration only; adaptive selection does not imply marginal conformal coverage"
+  }
+}

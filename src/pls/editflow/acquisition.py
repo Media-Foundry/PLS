@@ -43,6 +43,51 @@ class EdgeErrorEnvelope:
     calibration_count: int
 
 
+@dataclass(frozen=True)
+class PrequentialEdgeCalibration:
+    edge_index: np.ndarray
+    uncertainty: np.ndarray
+    absolute_error: np.ndarray
+
+
+def prequential_frontier_edge_calibration(
+    ensemble_values,
+    teacher_values,
+    frontier_edge_index,
+    purchased_targets: Iterable[int],
+) -> PrequentialEdgeCalibration:
+    """Reveal errors only for frontier edges closed by the just-purchased nodes.
+
+    Predictions and uncertainties must have been computed before the target
+    labels were purchased. Teacher values for every other frontier target are
+    deliberately ignored, which makes this suitable for later-round empirical
+    calibration without an extra oracle query.
+    """
+    ensemble = np.asarray(ensemble_values, dtype=np.float64)
+    teacher = np.asarray(teacher_values, dtype=np.float64)
+    edges = np.asarray(frontier_edge_index, dtype=np.int64)
+    if ensemble.ndim != 2 or teacher.shape != (ensemble.shape[1],):
+        raise ValueError("ensemble and teacher node dimensions must match")
+    if edges.ndim != 2 or edges.shape[0] != 2:
+        raise ValueError("frontier_edge_index must have shape [2, edges]")
+    if edges.size and (edges.min() < 0 or edges.max() >= ensemble.shape[1]):
+        raise ValueError("frontier_edge_index references a missing node")
+    purchased = np.asarray(sorted(set(map(int, purchased_targets))), dtype=np.int64)
+    if purchased.size and (purchased.min() < 0 or purchased.max() >= ensemble.shape[1]):
+        raise ValueError("purchased_targets references a missing node")
+    keep = np.isin(edges[1], purchased)
+    closed = edges[:, keep]
+    uncertainty = ensemble_edge_uncertainty(ensemble, closed)
+    mean = ensemble.mean(0)
+    predicted = mean[closed[1]] - mean[closed[0]]
+    observed = teacher[closed[1]] - teacher[closed[0]]
+    return PrequentialEdgeCalibration(
+        edge_index=closed,
+        uncertainty=uncertainty,
+        absolute_error=np.abs(predicted - observed),
+    )
+
+
 def path_concentration(occupancy) -> PathConcentration:
     """Describe concentration after normalizing nonnegative edge occupancy.
 

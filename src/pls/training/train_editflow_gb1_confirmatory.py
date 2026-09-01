@@ -12,6 +12,9 @@ import numpy as np
 import torch
 from torch.utils.tensorboard import SummaryWriter
 
+from pls.editflow.acquisition import (conformal_edge_error_envelope,
+                                      frontier_node_acquisition,
+                                      prequential_frontier_edge_calibration)
 from pls.editflow.hamming import (hamming_distance, queried_nodes_sha256,
                                   variants_from_tokens)
 from pls.editflow.optimization import (bound_aware_frontier_acquisition,
@@ -21,6 +24,7 @@ from pls.editflow.optimization import (bound_aware_frontier_acquisition,
 from pls.training.train_editflow_gb1 import (connected_query_nodes,
                                              evaluation_edges)
 from pls.training.train_editflow_gb1_active import (evaluate, fit_ensemble,
+                                                    frontier_edges,
                                                     frontier_policy_acquisition,
                                                     uncertainty_acquisition)
 
@@ -68,6 +72,8 @@ def acquire_next_round(
     increment: int,
     data_config: dict,
     rng: np.random.Generator,
+    calibration_uncertainty=(),
+    calibration_absolute_error=(),
 ) -> tuple[list[int], dict]:
     mode = data_config["acquisition"]
     if mode == "path_aware":
@@ -199,6 +205,56 @@ def acquire_next_round(
                 else 0.0
             ),
         }
+    elif mode == "prequential_calibrated_path":
+        acquired = path_aware_frontier_acquisition(
+            ensemble,
+            queried,
+            measured,
+            anchor,
+            increment,
+            alphabet_size=20,
+            length=4,
+            steps=int(data_config["beam_steps"]),
+            beam_width=int(data_config["beam_width"]),
+            conservative_beta=float(data_config.get("conservative_beta", 0.0)),
+        )
+        calibration_uncertainty = np.asarray(calibration_uncertainty, dtype=np.float64)
+        calibration_absolute_error = np.asarray(calibration_absolute_error, dtype=np.float64)
+        if len(calibration_uncertainty):
+            envelope = conformal_edge_error_envelope(
+                calibration_uncertainty,
+                calibration_absolute_error,
+                acquired.uncertainty,
+                alpha=float(data_config.get("calibration_alpha", 0.1)),
+            )
+            calibrated_error = envelope.values
+            correction = envelope.additive_quantile
+            empirical_coverage = envelope.empirical_calibration_coverage
+        else:
+            calibrated_error = acquired.uncertainty
+            correction = 0.0
+            empirical_coverage = None
+        batch = frontier_node_acquisition(
+            acquired.path_edges,
+            calibrated_error,
+            acquired.occupancy,
+            queried,
+            increment,
+            reduction="max",
+        )
+        selected = batch.node_indices.tolist()
+        details = {
+            "mode": mode,
+            "calibration": "prequery_predictions_on_previously_purchased_frontier_edges",
+            "calibration_count": int(len(calibration_uncertainty)),
+            "calibration_alpha": float(data_config.get("calibration_alpha", 0.1)),
+            "additive_error_correction": float(correction),
+            "empirical_calibration_coverage": empirical_coverage,
+            "path_count": len(acquired.paths),
+            "path_edges": int(acquired.path_edges.shape[1]),
+            "path_selected": len(selected),
+            "exploration_policy": str(data_config.get("exploration_policy", "ucb")),
+        }
     elif mode == "uncertainty":
         acquired, edges = uncertainty_acquisition(
             ensemble, queried, measured, increment
@@ -254,7 +310,7 @@ def acquire_next_round(
                 excluded_targets=selected,
             )
             details["policy_fill"] = len(fill.node_indices)
-        elif mode == "adaptive_path":
+        elif mode in {"adaptive_path", "prequential_calibrated_path"}:
             exploration_policy = str(data_config.get("exploration_policy", "ucb"))
             if exploration_policy not in {"random", "greedy", "ucb", "thompson"}:
                 raise ValueError("adaptive exploration_policy is unsupported")
@@ -418,6 +474,8 @@ def main() -> None:
         distances = hamming_distance(raw_tokens, raw_tokens[anchor])
         stages = []
         rollouts = []
+        calibration_uncertainty = []
+        calibration_absolute_error = []
 
         for stage_index, budget in enumerate(budgets):
             if len(queried) != budget:
@@ -501,7 +559,21 @@ def main() -> None:
                 increment,
                 data_config,
                 np.random.default_rng(acquisition_seed),
+                calibration_uncertainty,
+                calibration_absolute_error,
             )
+            if data_config["acquisition"] == "prequential_calibrated_path":
+                before_query_frontier = frontier_edges(queried, measured)
+                calibration = prequential_frontier_edge_calibration(
+                    ensemble,
+                    fitness,
+                    before_query_frontier,
+                    selected,
+                )
+                calibration_uncertainty.extend(calibration.uncertainty.tolist())
+                calibration_absolute_error.extend(calibration.absolute_error.tolist())
+                details["new_calibration_edges"] = int(calibration.edge_index.shape[1])
+                details["cumulative_calibration_edges"] = len(calibration_uncertainty)
             queried.update(selected)
             details.update(
                 {

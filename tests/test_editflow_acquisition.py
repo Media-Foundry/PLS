@@ -6,12 +6,29 @@ from pls.editflow.acquisition import (conformal_edge_error_envelope,
                                       cost_aware_frontier_node_acquisition,
                                       frontier_node_acquisition,
                                       path_concentration,
-                                      path_edge_occupancy)
+                                      path_edge_occupancy,
+                                      prequential_frontier_edge_calibration)
 from pls.editflow.mutations import (Substitution, apply_substitution,
                                     enumerate_single_substitutions)
 
 
 class EditFlowAcquisitionTests(unittest.TestCase):
+    def test_prequential_calibration_uses_only_newly_purchased_targets(self):
+        ensemble = np.array([[0.0, 1.0, 4.0], [0.0, 1.2, 6.0]])
+        teacher = np.array([0.0, 2.0, 1000.0])
+        edges = np.array([[0, 0], [1, 2]])
+        calibration = prequential_frontier_edge_calibration(
+            ensemble, teacher, edges, purchased_targets=[1]
+        )
+        np.testing.assert_array_equal(calibration.edge_index, [[0], [1]])
+        self.assertAlmostEqual(calibration.absolute_error[0], 0.9)
+        # An unpurchased target's hidden teacher value cannot change the result.
+        changed = teacher.copy(); changed[2] = -1000.0
+        replay = prequential_frontier_edge_calibration(
+            ensemble, changed, edges, purchased_targets=[1]
+        )
+        np.testing.assert_array_equal(calibration.absolute_error, replay.absolute_error)
+
     def test_path_concentration_normalizes_occupancy_mass(self):
         concentrated = path_concentration([0.0, 2.0, 0.0])
         self.assertEqual(concentrated.positive_support, 1)
