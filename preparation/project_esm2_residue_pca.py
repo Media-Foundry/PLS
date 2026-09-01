@@ -4,14 +4,18 @@ import argparse,csv,json,os,time
 from pathlib import Path
 import numpy as np,torch
 def main():
- p=argparse.ArgumentParser();p.add_argument('--entities',type=Path,required=True);p.add_argument('--offsets',type=Path,required=True);p.add_argument('--structure-status',type=Path,required=True);p.add_argument('--source',type=Path,required=True);p.add_argument('--pca',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--shard-count',type=int,default=4);p.add_argument('--shard-index',type=int,default=0);p.add_argument('--hip-device',type=int);p.add_argument('--residue-budget',type=int,default=65536);p.add_argument('--initialize-only',action='store_true');a=p.parse_args()
+ p=argparse.ArgumentParser();p.add_argument('--entities',type=Path,required=True);p.add_argument('--offsets',type=Path,required=True);p.add_argument('--structure-status',type=Path,required=True);p.add_argument('--source',type=Path,required=True);p.add_argument('--pca',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--shard-count',type=int,default=4);p.add_argument('--shard-index',type=int,default=0);p.add_argument('--hip-device',type=int);p.add_argument('--cuda-slurm',action='store_true');p.add_argument('--residue-budget',type=int,default=65536);p.add_argument('--initialize-only',action='store_true');a=p.parse_args()
  with a.entities.open(newline='',encoding='utf-8') as h:rows=list(csv.DictReader(h))
  offsets=np.load(a.offsets,mmap_mode='r');valid=np.load(a.structure_status,mmap_mode='r')==1;total=int(offsets[-1]);projection=np.load(a.pca);mean=projection['mean'];components=projection['components'];outdim=components.shape[0];a.output.mkdir(parents=True,exist_ok=True);outpath=a.output/'residue_esm2_pca.f16';meta={'schema':'PLS_ESM2_residue_train_PCA_f16_v1','shape':[total,outdim],'dtype':'float16','pca':str(a.pca.resolve()),'explained_variance_ratio_sum':float(projection['explained_variance_ratio'].sum())}
  if a.initialize_only:
   if not outpath.exists():np.memmap(outpath,mode='w+',dtype=np.float16,shape=(total,outdim)).flush()
   (a.output/'pca_metadata.json').write_text(json.dumps(meta,indent=2,sort_keys=True)+'\n');print(json.dumps(meta));return
- expected=str(a.hip_device if a.hip_device is not None else a.shard_index)
- if os.environ.get('HIP_VISIBLE_DEVICES')!=expected:raise ValueError('HIP device mismatch')
+ if a.cuda_slurm:
+  visible=os.environ.get('CUDA_VISIBLE_DEVICES')
+  if a.hip_device is not None or not os.environ.get('SLURM_JOB_ID') or not visible or ',' in visible:raise ValueError('cuda-slurm requires exactly one Slurm-assigned GPU')
+ else:
+  expected=str(a.hip_device if a.hip_device is not None else a.shard_index)
+  if os.environ.get('HIP_VISIBLE_DEVICES')!=expected:raise ValueError('HIP device mismatch')
  source=np.memmap(a.source/'residue_esm2.f16',mode='r',dtype=np.float16,shape=(total,1280));target=np.memmap(outpath,mode='r+',dtype=np.float16,shape=(total,outdim));status_path=a.output/f'pca_status_shard_{a.shard_index}.npy'
  if status_path.exists():status=np.load(status_path,mmap_mode='r+')
  else:status=np.lib.format.open_memmap(status_path,mode='w+',dtype=np.uint8,shape=(len(rows),));status[:]=0;status.flush()
