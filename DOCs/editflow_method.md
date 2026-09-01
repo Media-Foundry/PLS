@@ -347,6 +347,10 @@ exploratory. The matched ablation exposes substantial structure/fusion signal:
 across 384 mutation edges, mean absolute full delta is `0.2090`, matched
 sequence-only delta is `0.0487`, residual delta is `0.1911`, delta Spearman is
 `0.3053`, and signs agree on only `61.5%` of edges.
+This is not solely a low-confidence artifact: among 17 anchors with parent mean
+pLDDT at least 0.7, mean absolute residual delta remains `0.1485` versus
+sequence-only delta `0.0361`. The five medium-confidence anchors are less stable
+and contain the largest outlier, so confidence-stratified metrics are mandatory.
 
 The first controlled PLS student comparison is also null for naive edge loss.
 With identical nodes, architecture, seed, and edge-RMSE model selection, Value
