@@ -9,6 +9,10 @@ from pls.oracles.fold_editflow import load_shard, shard_status, validate_visible
 class EditFlowOracleFoldingTests(unittest.TestCase):
     def test_visible_device_contract_supports_local_rocm_and_star_cuda(self):
         self.assertEqual(
+            validate_visible_device(0, None, {"HIP_VISIBLE_DEVICES": "0"}),
+            ("rocm", 0),
+        )
+        self.assertEqual(
             validate_visible_device(7, None, {"HIP_VISIBLE_DEVICES": "7"}),
             ("rocm", 7),
         )
