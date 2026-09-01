@@ -22,15 +22,18 @@ exec >> "$log" 2>&1
 export PYTHONPATH="$repo_root/src:$repo_root"
 cd "$repo_root"
 
-until [[ $(find "$artifact_root/esmfold" -maxdepth 1 -name '*.ef.pdb' -type f | wc -l) -eq 384 ]]; do
+echo "[$(date --iso-8601=seconds)] waiting for 384 exact-mutant ESMFold structures"
+until [[ $(find "$artifact_root/esmfold" -maxdepth 1 -name '*.ef.pdb' -type f | wc -l) -ge 384 ]]; do
     sleep 30
 done
+echo "[$(date --iso-8601=seconds)] ESMFold complete; starting exact V4 extraction"
 
 numactl --interleave=all "$python_bin" preparation/extract_pls_editflow_structure_v4.py \
     --manifest "$manifest" --pdb-root "$artifact_root/esmfold" \
     --parent-raw-root "$repo_root/artifacts/features/pdbsol_structure_v4_raw" \
     --output-root "$raw_root" --source-root /home/pc/Code/BIO/protein --workers 96
 
+echo "[$(date --iso-8601=seconds)] V4 extraction complete; building compact geometry caches"
 if [[ ! -f "$compact/metadata.json" ]]; then
     numactl --interleave=all "$python_bin" preparation/build_structure_v4_compact.py \
         --entities "$entities" --raw-root "$raw_root" --status "$status" \
@@ -52,6 +55,7 @@ if [[ ! -f "$surface/metadata.json" ]]; then
         --structure-stats "$stats" --output "$surface"
 fi
 
+echo "[$(date --iso-8601=seconds)] structure caches complete; initializing residue ESM2 stores"
 "$python_bin" -m pls.features.extract_esm2_residue \
     --entities "$entities" --offsets "$compact/offsets.npy" --structure-status "$status" \
     --output "$artifact_root/residue_esm2_raw" --shard-count 2 --initialize-only
@@ -65,15 +69,19 @@ for device in 0 1; do
     command="cd '$repo_root' && export HIP_VISIBLE_DEVICES='$device' PYTHONPATH='$repo_root/src:$repo_root' && { '$python_bin' -m pls.features.extract_esm2_residue --entities '$entities' --offsets '$compact/offsets.npy' --structure-status '$status' --output '$artifact_root/residue_esm2_raw' --shard-count 2 --shard-index '$device' --hip-device '$device' --token-budget 4096 && '$python_bin' preparation/project_esm2_residue_pca.py --entities '$entities' --offsets '$compact/offsets.npy' --structure-status '$status' --source '$artifact_root/residue_esm2_raw' --pca '$pca' --output '$artifact_root/residue_esm2_pca' --shard-count 2 --shard-index '$device' --hip-device '$device' --residue-budget 65536; } >> '$artifact_root/logs/local_residue_esm_g${device}.log' 2>&1"
     tmux new-session -d -s "$session" "bash -lc \"$command\""
 done
+echo "[$(date --iso-8601=seconds)] residue ESM2 shards launched on physical GPUs 0 and 1"
 until ! tmux has-session -t pls_residue_esm_g0 2>/dev/null && ! tmux has-session -t pls_residue_esm_g1 2>/dev/null; do
     sleep 20
 done
 
+echo "[$(date --iso-8601=seconds)] residue ESM2/PCA complete; scoring frozen teacher on physical GPU 2"
 if [[ ! -f "$artifact_root/scores/oracle_report.json" ]]; then
     HIP_VISIBLE_DEVICES=2 "$python_bin" -m pls.oracles.score_editflow \
         --config configs/editflow/pls_oracle_score_local_poc_v1.json \
         --output-root "$artifact_root/scores"
 fi
 
+echo "[$(date --iso-8601=seconds)] teacher scoring complete; training value-only student on physical GPU 3"
 "$python_bin" script/run_experiment.py \
     --config configs/editflow/pls_student_value_poc_v1.json --hip-override 3
+echo "[$(date --iso-8601=seconds)] local EditFlow PLS PoC pipeline complete"
