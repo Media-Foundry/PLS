@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import argparse
+import importlib.metadata
 import json
 import multiprocessing as mp
 import os
 import shutil
+import sys
 import time
 from pathlib import Path
 
@@ -230,6 +232,26 @@ def main() -> None:
         if arguments.shard_index is None
         else f"shard_{arguments.shard_index:03d}_extraction_manifest.jsonl"
     )
+    environment_name = (
+        "environment.json"
+        if arguments.shard_index is None
+        else f"shard_{arguments.shard_index:03d}_environment.json"
+    )
+    environment = {
+        "python": sys.version,
+        "slurm_job_id": os.environ.get("SLURM_JOB_ID"),
+        "slurm_array_task_id": os.environ.get("SLURM_ARRAY_TASK_ID"),
+        "packages": {
+            name: importlib.metadata.version(name)
+            for name in ("biopython", "freesasa", "numpy", "pydssp", "torch")
+        },
+        "external_v4_source_sha256": source_hashes,
+        "test_evaluated": False,
+    }
+    (arguments.output_root / environment_name).write_text(
+        json.dumps(environment, indent=2, sort_keys=True) + "\n"
+    )
+    report["environment_file"] = environment_name
     (arguments.output_root / summary_name).write_text(
         json.dumps(report, indent=2, sort_keys=True) + "\n"
     )
