@@ -41,6 +41,19 @@ def raw_path(root: Path, digest: str) -> Path:
     return root / digest[:2] / f"{digest}.pt"
 
 
+def shard_mutant_indices(plan_path: Path, shard_index: int) -> set[int]:
+    plan = json.loads(plan_path.read_text())
+    if plan.get("test_evaluated") is not False:
+        raise ValueError("feature sharding refuses a plan without a test-free assertion")
+    if not 0 <= shard_index < int(plan["shard_count"]):
+        raise ValueError("shard index is outside the query plan")
+    return {
+        int(row["node_index"])
+        for row in plan["assignments"]
+        if int(row["shard"]) == shard_index
+    }
+
+
 def extraction_status(
     records: list[dict],
     pdb_root: Path,
@@ -91,9 +104,26 @@ def main() -> None:
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--source-root", type=Path, default=Path("/home/pc/Code/BIO/protein"))
     parser.add_argument("--workers", type=int, default=min(32, os.cpu_count() or 1))
+    parser.add_argument("--plan", type=Path)
+    parser.add_argument("--shard-index", type=int)
     parser.add_argument("--dry-run", action="store_true")
     arguments = parser.parse_args()
+    if (arguments.plan is None) != (arguments.shard_index is None):
+        parser.error("--plan and --shard-index must be provided together")
     records = load_safe_records(arguments.manifest)
+    selected_indices = (
+        shard_mutant_indices(arguments.plan, arguments.shard_index)
+        if arguments.plan is not None
+        else None
+    )
+    if selected_indices is not None:
+        selected_records = [row for row in records if row["node_index"] in selected_indices]
+        if len(selected_records) != len(selected_indices) or any(
+            row["kind"] != "single_mutant" for row in selected_records
+        ):
+            raise ValueError("feature shard does not map exactly to safe mutant records")
+    else:
+        selected_records = records
     status_before = extraction_status(
         records,
         arguments.pdb_root,
@@ -101,12 +131,21 @@ def main() -> None:
         arguments.output_root,
     )
     if arguments.dry_run:
-        print(json.dumps({"mode": "dry_run", **status_before}, indent=2, sort_keys=True))
+        print(json.dumps({
+            "mode": "dry_run",
+            "shard_index": arguments.shard_index,
+            "selected_records": len(selected_records),
+            **status_before,
+        }, indent=2, sort_keys=True))
         return
     if arguments.workers < 1:
         parser.error("workers must be positive")
-    anchors = [row for row in records if row["kind"] == "anchor"]
-    mutants = [row for row in records if row["kind"] == "single_mutant"]
+    anchors = (
+        [row for row in records if row["kind"] == "anchor"]
+        if selected_indices is None
+        else []
+    )
+    mutants = [row for row in selected_records if row["kind"] == "single_mutant"]
     missing_parents = [
         row["sequence_sha256"]
         for row in anchors
@@ -156,14 +195,19 @@ def main() -> None:
                     "skipped": sum(row["status"] == "skipped" for row in results),
                     "failed": sum(row["status"] == "failed" for row in results),
                 }), flush=True)
-    status = np.zeros(len(records), dtype=np.uint8)
-    for row in records:
-        status[row["node_index"]] = int(
+    status = np.fromiter(
+        (
             raw_path(arguments.output_root, row["sequence_sha256"]).is_file()
-        )
-    np.save(arguments.output_root / "status.npy", status)
+            for row in records
+        ),
+        dtype=np.uint8,
+        count=len(records),
+    )
+    if selected_indices is None:
+        np.save(arguments.output_root / "status.npy", status)
     report = {
         "schema": "PLS_EditFlow_structure_v4_extraction_v1",
+        "shard_index": arguments.shard_index,
         "records": len(records),
         "anchors": len(anchors),
         "mutants": len(mutants),
@@ -176,14 +220,27 @@ def main() -> None:
         "source_sha256": source_hashes,
         "test_evaluated": False,
     }
-    (arguments.output_root / "extraction_summary.json").write_text(
+    summary_name = (
+        "extraction_summary.json"
+        if arguments.shard_index is None
+        else f"shard_{arguments.shard_index:03d}_extraction_summary.json"
+    )
+    manifest_name = (
+        "extraction_manifest.jsonl"
+        if arguments.shard_index is None
+        else f"shard_{arguments.shard_index:03d}_extraction_manifest.jsonl"
+    )
+    (arguments.output_root / summary_name).write_text(
         json.dumps(report, indent=2, sort_keys=True) + "\n"
     )
-    with (arguments.output_root / "extraction_manifest.jsonl").open("w", encoding="utf-8") as handle:
+    with (arguments.output_root / manifest_name).open("w", encoding="utf-8") as handle:
         for row in sorted(results, key=lambda item: item["sequence_sha256"]):
             handle.write(json.dumps(row, sort_keys=True) + "\n")
     print(json.dumps(report, indent=2, sort_keys=True))
-    if report["mutant_failed"] or report["complete_records"] != len(records):
+    expected_complete = len(records) if selected_indices is None else None
+    if report["mutant_failed"] or (
+        expected_complete is not None and report["complete_records"] != expected_complete
+    ):
         raise SystemExit(1)
 
 
