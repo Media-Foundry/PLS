@@ -177,7 +177,20 @@ def main() -> None:
         config["model"]["layers"] = args.layers_override
     if args.name_suffix:
         config["experiment_name"] += args.name_suffix
-    selected_hip_device = str(config["training"]["hip_device"])
+    training = config["training"]
+    accelerator_backend = str(training.get("accelerator_backend", "rocm"))
+    if accelerator_backend == "rocm":
+        selected_hip_device = str(training["hip_device"])
+        selected_cuda_device = None
+    elif accelerator_backend == "cuda_slurm":
+        if not os.environ.get("SLURM_JOB_ID"):
+            parser.error("cuda_slurm experiments require a Slurm allocation")
+        selected_cuda_device = os.environ.get("CUDA_VISIBLE_DEVICES")
+        if not selected_cuda_device or "," in selected_cuda_device:
+            parser.error("cuda_slurm experiments require exactly one visible GPU")
+        selected_hip_device = None
+    else:
+        parser.error("accelerator_backend must be rocm or cuda_slurm")
     timestamp = datetime.now().astimezone().strftime("%m-%d-%H-%M")
     run_dir = args.outputs_root / f"{config['experiment_name']}+{timestamp}"
     run_dir.mkdir(parents=True, exist_ok=False)
@@ -185,9 +198,13 @@ def main() -> None:
     (run_dir / "config.json").write_text(json.dumps(config, indent=2, sort_keys=True) + "\n")
     environment = {
         "created_at": datetime.now().astimezone().isoformat(), "command": sys.argv,
-        "git_revision": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
+        "git_revision": os.environ.get("PLS_GIT_REVISION")
+        or subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
         "python": sys.version, "torch": torch.__version__, "torch_hip": torch.version.hip,
+        "torch_cuda": torch.version.cuda, "accelerator_backend": accelerator_backend,
         "hip_visible_devices": selected_hip_device,
+        "cuda_visible_devices": selected_cuda_device,
+        "slurm_job_id": os.environ.get("SLURM_JOB_ID"),
         "packages": {name: importlib.metadata.version(name) for name in
                      ("biopython", "fair-esm", "numpy", "scikit-learn", "scipy", "tensorboard")},
     }
@@ -198,9 +215,12 @@ def main() -> None:
     command = [sys.executable, "-m", trainer_module, "--config", str(run_dir / "config.json"),
                "--run-dir", str(run_dir)]
     child_environment = os.environ.copy()
-    # The config records a physical ROCm ordinal. Make the launcher authoritative
-    # so detached tmux jobs do not depend on the parent's shell environment.
-    child_environment["HIP_VISIBLE_DEVICES"] = selected_hip_device
+    if accelerator_backend == "rocm":
+        # The config records a physical ROCm ordinal. Make the launcher authoritative
+        # so detached tmux jobs do not depend on the parent's shell environment.
+        child_environment["HIP_VISIBLE_DEVICES"] = selected_hip_device
+    else:
+        child_environment.pop("HIP_VISIBLE_DEVICES", None)
     source_path = str((Path.cwd() / "src").resolve())
     child_environment["PYTHONPATH"] = source_path + (os.pathsep + child_environment["PYTHONPATH"]
                                                         if child_environment.get("PYTHONPATH") else "")

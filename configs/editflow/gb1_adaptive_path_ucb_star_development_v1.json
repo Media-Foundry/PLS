@@ -1,6 +1,6 @@
 {
   "trainer_module": "pls.training.train_editflow_gb1_confirmatory",
-  "experiment_name": "editflow_gb1_adaptive_path_ucb_development_v1",
+  "experiment_name": "editflow_gb1_adaptive_path_ucb_star_development_v1",
   "evaluate_test": false,
   "data": {
     "landscape": "benchmark/generated/gb1_wu2016_editflow_v1.npz",
@@ -23,8 +23,7 @@
   },
   "model": {"dimension": 96, "layers": 2, "heads": 4, "dropout": 0.1},
   "training": {
-    "accelerator_backend": "rocm",
-    "hip_device": 6,
+    "accelerator_backend": "cuda_slurm",
     "seed": 20260901,
     "ensemble_seeds": [20260901, 20260907, 20260913, 20260919, 20260931],
     "anchor_seed_stride": 1009,
@@ -40,6 +39,7 @@
   "interpretation": {
     "status": "development_candidate",
     "gb1_is_blind_test": false,
+    "hardware_note": "CUDA/Slurm port of the same frozen GB1 development candidate",
     "calibration_claim": "none; raw ensemble uncertainty is not an edge-error upper bound"
   }
 }
