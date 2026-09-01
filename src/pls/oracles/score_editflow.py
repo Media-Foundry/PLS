@@ -5,8 +5,10 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+import importlib.metadata
 import json
 import os
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -90,8 +92,16 @@ def main() -> None:
             "test_evaluated": False,
         }, indent=2, sort_keys=True))
         return
-    if os.environ.get("HIP_VISIBLE_DEVICES") != str(inference["hip_device"]):
-        parser.error("HIP device mismatch")
+    accelerator_backend = str(inference.get("accelerator_backend", "rocm"))
+    if accelerator_backend == "rocm":
+        if os.environ.get("HIP_VISIBLE_DEVICES") != str(inference["hip_device"]):
+            parser.error("HIP device mismatch")
+    elif accelerator_backend == "cuda_slurm":
+        visible = os.environ.get("CUDA_VISIBLE_DEVICES")
+        if not os.environ.get("SLURM_JOB_ID") or not visible or "," in visible:
+            parser.error("cuda_slurm requires one Slurm-assigned visible GPU")
+    else:
+        parser.error("accelerator_backend must be rocm or cuda_slurm")
 
     status = np.load(data["structure_status"], mmap_mode="r")
     if status.shape != (len(nodes),) or np.any(status != 1):
@@ -216,6 +226,24 @@ def main() -> None:
         "logit_mean": float(logits_array.mean()),
         "test_evaluated": False,
     }
+    environment = {
+        "python": sys.version,
+        "accelerator_backend": accelerator_backend,
+        "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
+        "hip_visible_devices": os.environ.get("HIP_VISIBLE_DEVICES"),
+        "slurm_job_id": os.environ.get("SLURM_JOB_ID"),
+        "torch": torch.__version__,
+        "torch_cuda": torch.version.cuda,
+        "torch_hip": torch.version.hip,
+        "packages": {
+            name: importlib.metadata.version(name)
+            for name in ("biopython", "fair-esm", "numpy", "torch")
+        },
+        "test_evaluated": False,
+    }
+    (arguments.output_root / "environment.json").write_text(
+        json.dumps(environment, indent=2, sort_keys=True) + "\n"
+    )
     (arguments.output_root / "oracle_report.json").write_text(
         json.dumps(report, indent=2, sort_keys=True) + "\n"
     )
