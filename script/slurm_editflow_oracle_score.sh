@@ -20,7 +20,7 @@ if [[ "$visible_device" == *,* ]]; then
 fi
 
 export PYTHONPATH="$stage_root/repo/src:$stage_root/repo"
-cd "$stage_root/repo"
+cd "$stage_root"
 exec "$python_bin" -m pls.oracles.score_editflow \
-    --config configs/editflow/pls_oracle_score_star_poc_v1.json \
+    --config "$stage_root/repo/configs/editflow/pls_oracle_score_star_poc_v1.json" \
     --output-root "$stage_root/artifacts/oracles/pls_editflow_poc_v1/scores"
