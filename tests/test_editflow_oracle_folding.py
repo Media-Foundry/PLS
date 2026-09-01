@@ -3,10 +3,24 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from pls.oracles.fold_editflow import load_shard, shard_status
+from pls.oracles.fold_editflow import load_shard, shard_status, validate_visible_device
 
 
 class EditFlowOracleFoldingTests(unittest.TestCase):
+    def test_visible_device_contract_supports_local_rocm_and_star_cuda(self):
+        self.assertEqual(
+            validate_visible_device(7, None, {"HIP_VISIBLE_DEVICES": "7"}),
+            ("rocm", 7),
+        )
+        self.assertEqual(
+            validate_visible_device(None, 1, {"CUDA_VISIBLE_DEVICES": "1"}),
+            ("cuda", 1),
+        )
+        with self.assertRaisesRegex(ValueError, "exactly one"):
+            validate_visible_device(None, None, {})
+        with self.assertRaisesRegex(ValueError, "CUDA device mismatch"):
+            validate_visible_device(None, 0, {"CUDA_VISIBLE_DEVICES": "1"})
+
     def test_load_shard_keeps_only_safe_assigned_mutants(self):
         manifest = {
             "test_evaluated": False,

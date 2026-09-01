@@ -60,13 +60,43 @@ def shard_status(records: list[dict], output_root: Path) -> dict:
     }
 
 
+def validate_visible_device(
+    hip_device: int | None,
+    cuda_device: int | None,
+    environment: dict[str, str],
+) -> tuple[str, int]:
+    """Validate one explicitly masked physical accelerator.
+
+    Local ROCm execution remains restricted to physical devices 6/7.  The
+    separate CUDA path exists for the two-device star host and accepts only
+    physical devices 0/1.  Both expose the selected device as logical cuda:0
+    to ESMFold.
+    """
+    if (hip_device is None) == (cuda_device is None):
+        raise ValueError("select exactly one of hip_device or cuda_device")
+    if hip_device is not None:
+        if hip_device not in {6, 7}:
+            raise ValueError("ROCm execution is restricted to physical devices 6/7")
+        if environment.get("HIP_VISIBLE_DEVICES") != str(hip_device):
+            raise ValueError("HIP device mismatch")
+        return "rocm", hip_device
+    assert cuda_device is not None
+    if cuda_device not in {0, 1}:
+        raise ValueError("star CUDA execution is restricted to physical devices 0/1")
+    if environment.get("CUDA_VISIBLE_DEVICES") != str(cuda_device):
+        raise ValueError("CUDA device mismatch")
+    return "cuda", cuda_device
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--plan", type=Path, required=True)
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--shard-index", type=int, required=True)
-    parser.add_argument("--hip-device", type=int, choices=(6, 7), required=True)
+    device = parser.add_mutually_exclusive_group(required=True)
+    device.add_argument("--hip-device", type=int, choices=(6, 7))
+    device.add_argument("--cuda-device", type=int, choices=(0, 1))
     parser.add_argument("--chunk-size", type=int, default=64)
     parser.add_argument("--num-recycles", type=int, default=3)
     parser.add_argument("--dry-run", action="store_true")
@@ -76,8 +106,12 @@ def main() -> None:
     if arguments.dry_run:
         print(json.dumps({"mode": "dry_run", "shard": arguments.shard_index, **status}, sort_keys=True))
         return
-    if os.environ.get("HIP_VISIBLE_DEVICES") != str(arguments.hip_device):
-        parser.error("HIP device mismatch")
+    try:
+        accelerator_backend, physical_device = validate_visible_device(
+            arguments.hip_device, arguments.cuda_device, dict(os.environ)
+        )
+    except ValueError as error:
+        parser.error(str(error))
     if arguments.chunk_size < 1 or arguments.num_recycles < 0:
         parser.error("invalid ESMFold inference settings")
 
@@ -153,7 +187,8 @@ def main() -> None:
         "schema": "PLS_EditFlow_ESMFold_shard_report_v1",
         "shard_index": arguments.shard_index,
         "shard_count": int(plan["shard_count"]),
-        "hip_device": arguments.hip_device,
+        "accelerator_backend": accelerator_backend,
+        "physical_device": physical_device,
         "chunk_size": arguments.chunk_size,
         "num_recycles": arguments.num_recycles,
         "assigned": len(records),
