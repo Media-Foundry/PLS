@@ -1,0 +1,34 @@
+{
+  "assignments_sha256": "363d4a313cd1a156840f84f1ac76b87cafcd8e36e2b4de48110072bf5fac0602",
+  "cache_accounting_source": "new isolated confirmatory artifact root checked empty before launch",
+  "cache_accounting_status": "observed_at_execution",
+  "estimated_l2_cost_by_shard": [
+    9081020,
+    9081020,
+    9081020,
+    9081020
+  ],
+  "exact_fold_cached": 0,
+  "exact_fold_gpu_seconds": 3060.329340806318,
+  "exact_fold_new_required": 1024,
+  "exact_fold_queries_total": 1024,
+  "exact_fold_parallel_wall_seconds": 890.9236330550048,
+  "maximum_to_minimum_cost_ratio": 1.0,
+  "parent_queries_reusing_exact_sequence_cache": 64,
+  "queries_by_shard": [
+    256,
+    256,
+    256,
+    256
+  ],
+  "residues_by_shard": [
+    44996,
+    44996,
+    44996,
+    44996
+  ],
+  "schema": "PLS_EditFlow_ESMFold_query_plan_report_v2",
+  "shard_count": 4,
+  "test_evaluated": false,
+  "test_sequences_queried": 0
+}

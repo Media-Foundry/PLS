@@ -1,6 +1,10 @@
+import json
+import tempfile
 import unittest
+from pathlib import Path
 
 from preparation.build_pls_editflow_manifest import (mutation_candidates,
+                                                       load_excluded_anchor_identities,
                                                        select_anchors,
                                                        sequence_sha256,
                                                        validate_manifest,
@@ -119,6 +123,27 @@ class PLSEditFlowManifestTests(unittest.TestCase):
         self.assertIsNone(report["exact_fold_cached"])
         self.assertIsNone(report["exact_fold_new_required"])
         self.assertNotIn("queries_requiring_new_fold", report)
+
+    def test_exclusion_loader_rejects_non_test_free_manifests(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "manifest.json"
+            path.write_text(json.dumps({"test_evaluated": True, "nodes": []}))
+            with self.assertRaisesRegex(ValueError, "test freeze"):
+                load_excluded_anchor_identities([path], ("train", "validation"))
+
+    def test_exclusion_loader_returns_only_anchor_identities(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "manifest.json"
+            path.write_text(json.dumps({
+                "test_evaluated": False,
+                "nodes": [
+                    {"kind": "anchor", "split": "train", "component_root_sha256": "c1", "sequence_sha256": "a"},
+                    {"kind": "single_mutant", "split": "train", "component_root_sha256": "c1", "sequence_sha256": "b"},
+                ],
+            }))
+            components, hashes = load_excluded_anchor_identities([path], ("train", "validation"))
+            self.assertEqual(components, {"c1"})
+            self.assertEqual(hashes, {"a"})
 
 
 if __name__ == "__main__":

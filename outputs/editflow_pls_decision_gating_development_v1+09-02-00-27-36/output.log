@@ -1,0 +1,228 @@
+{
+  "certified_gating_train_only": {
+    "calibration_unit": "SI30_component",
+    "envelopes": {
+      "bonferroni_edge": {
+        "anchors": 128,
+        "decision_accuracy": 0.9921875,
+        "decision_accuracy_when_covered": 1.0,
+        "fold_quantile_mean": 1.8033036470413208,
+        "fold_quantile_range": [
+          1.4310951232910156,
+          1.9337480068206787
+        ],
+        "maximum_regret": 0.019710540771484375,
+        "mean_exact_fraction": 0.94189453125,
+        "mean_exact_queries": 15.0703125,
+        "mean_regret": 0.00015398859977722168,
+        "median_exact_queries": 16.0,
+        "p90_exact_queries": 16.0,
+        "simultaneous_coverage": 0.9375,
+        "zero_regret_fraction": 0.9921875
+      },
+      "component_max": {
+        "anchors": 128,
+        "decision_accuracy": 0.9921875,
+        "decision_accuracy_when_covered": 1.0,
+        "fold_quantile_mean": 1.5072691202163697,
+        "fold_quantile_range": [
+          1.2888619303703308,
+          1.7158994674682617
+        ],
+        "maximum_regret": 0.019710540771484375,
+        "mean_exact_fraction": 0.93408203125,
+        "mean_exact_queries": 14.9453125,
+        "mean_regret": 0.00015398859977722168,
+        "median_exact_queries": 16.0,
+        "p90_exact_queries": 16.0,
+        "simultaneous_coverage": 0.9140625,
+        "zero_regret_fraction": 0.9921875
+      }
+    },
+    "familywise_alpha": 0.1,
+    "query_policy": "largest_unqueried_upper_bound_until_unique_interval_winner"
+  },
+  "conformal_candidate_set_train_only": {
+    "alpha": 0.1,
+    "calibration_unit": "SI30_component_maximum_exact_best_rank",
+    "crossfit_coverage": 0.9609375,
+    "crossfit_maximum_regret": 0.31812477111816406,
+    "crossfit_mean_exact_fraction": 0.75,
+    "crossfit_mean_exact_queries": 12.0,
+    "crossfit_mean_regret": 0.003205724060535431,
+    "crossfit_zero_regret_fraction": 0.9609375,
+    "fold_set_size_range": [
+      12,
+      12
+    ],
+    "frozen_future_exact_fraction": 0.75,
+    "frozen_future_set_size": 12,
+    "interpretation": "marginal component-level risk control, not a deterministic per-anchor certificate"
+  },
+  "conformal_margin_set_train_only": {
+    "alpha": 0.1,
+    "calibration_unit": "SI30_component_maximum_anchor_nonconformity",
+    "crossfit_coverage": 0.921875,
+    "crossfit_maximum_regret": 0.6087052822113037,
+    "crossfit_mean_exact_fraction": 0.62939453125,
+    "crossfit_mean_exact_queries": 10.0703125,
+    "crossfit_mean_regret": 0.012109698727726936,
+    "crossfit_median_exact_queries": 12.0,
+    "crossfit_query_range": [
+      1,
+      16
+    ],
+    "fold_quantile_range": [
+      0.23259401321411133,
+      0.3636937141418457
+    ],
+    "frozen_future_margin_quantile": 0.23259401321411133,
+    "interpretation": "variable-size marginal component-level risk control, not a deterministic certificate",
+    "nonconformity": "max_fixed_delta_minus_fixed_delta_of_exact_argmax"
+  },
+  "probe_calibration_train_only": {
+    "0": {
+      "held_out_edges": 2048,
+      "metrics": {
+        "anchor_macro_kendall_tau": 0.5680989583333333,
+        "anchor_macro_top_5_recall": 0.6906249999999999,
+        "edge_mae": 0.13400865350558888,
+        "edge_pearson": 0.6924721244692114,
+        "edge_rmse": 0.3192176945882108,
+        "edge_spearman": 0.6771269839817643,
+        "edges": 2048,
+        "informative_sign_edges": 2048,
+        "mutation_sign_accuracy": 0.77734375,
+        "mutation_sign_balanced_accuracy": 0.7764093137254902,
+        "nodes": 4096
+      },
+      "note": "positive scalar calibration cannot change within-anchor ranking",
+      "probe_count": 0,
+      "slope_mean": 1.0,
+      "slope_standard_deviation": 0.0
+    },
+    "1": {
+      "held_out_edges": 1920,
+      "metrics": {
+        "anchor_macro_kendall_tau": 0.5724702380952381,
+        "anchor_macro_top_5_recall": 0.6890624999999999,
+        "edge_mae": 0.138055385402407,
+        "edge_pearson": 0.681197707197063,
+        "edge_rmse": 0.32247855244714974,
+        "edge_spearman": 0.6770598390347614,
+        "edges": 1920,
+        "informative_sign_edges": 1920,
+        "mutation_sign_accuracy": 0.7796875,
+        "mutation_sign_balanced_accuracy": 0.7788276014594516,
+        "nodes": 3840
+      },
+      "note": "positive scalar calibration cannot change within-anchor ranking",
+      "probe_count": 1,
+      "slope_mean": 1.1534820800123486,
+      "slope_standard_deviation": 0.14999423546171575
+    },
+    "2": {
+      "held_out_edges": 1792,
+      "metrics": {
+        "anchor_macro_kendall_tau": 0.5770947802197802,
+        "anchor_macro_top_5_recall": 0.7140624999999999,
+        "edge_mae": 0.13997348776353963,
+        "edge_pearson": 0.6931835434528093,
+        "edge_rmse": 0.3247325789329973,
+        "edge_spearman": 0.6795237307202879,
+        "edges": 1792,
+        "informative_sign_edges": 1792,
+        "mutation_sign_accuracy": 0.7790178571428571,
+        "mutation_sign_balanced_accuracy": 0.7781733110002785,
+        "nodes": 3584
+      },
+      "note": "positive scalar calibration cannot change within-anchor ranking",
+      "probe_count": 2,
+      "slope_mean": 1.1323420328050298,
+      "slope_standard_deviation": 0.16745848919233974
+    },
+    "4": {
+      "held_out_edges": 1536,
+      "metrics": {
+        "anchor_macro_kendall_tau": 0.5841750841750842,
+        "anchor_macro_top_5_recall": 0.7390625,
+        "edge_mae": 0.14160888023431464,
+        "edge_pearson": 0.6909886261546692,
+        "edge_rmse": 0.3333344843617113,
+        "edge_spearman": 0.6687826077863067,
+        "edges": 1536,
+        "informative_sign_edges": 1536,
+        "mutation_sign_accuracy": 0.7701822916666666,
+        "mutation_sign_balanced_accuracy": 0.7691032608695653,
+        "nodes": 3072
+      },
+      "note": "positive scalar calibration cannot change within-anchor ranking",
+      "probe_count": 4,
+      "slope_mean": 1.1139587428881166,
+      "slope_standard_deviation": 0.24922693932099985
+    }
+  },
+  "protocol": {
+    "current_validation_used_for_method_selection": false,
+    "probe_and_certification_development_split": "old_exhaustive_train_only",
+    "test_evaluated": false,
+    "test_sequences_queried": 0,
+    "top_m_is_prespecified_direct_baseline": true
+  },
+  "schema": "PLS_EditFlow_decision_gating_development_report_v1",
+  "test_evaluated": false,
+  "top_m_validation": {
+    "1": {
+      "beneficial_verified_fraction": 0.9375,
+      "groups": 128,
+      "m": 1,
+      "maximum_regret": 3.134833335876465,
+      "mean_exact_fraction": 0.0625,
+      "mean_exact_queries": 1.0,
+      "mean_regret": 0.13380604909616522,
+      "median_regret": 0.00195428729057312,
+      "regret_p90": 0.29403090476989746,
+      "true_best_inclusion": 0.4921875,
+      "zero_regret_fraction": 0.4921875
+    },
+    "2": {
+      "beneficial_verified_fraction": 0.96875,
+      "groups": 128,
+      "m": 2,
+      "maximum_regret": 1.3706896752119064,
+      "mean_exact_fraction": 0.125,
+      "mean_exact_queries": 2.0,
+      "mean_regret": 0.0789561509154737,
+      "median_regret": 0.0,
+      "regret_p90": 0.2437843143939972,
+      "true_best_inclusion": 0.6640625,
+      "zero_regret_fraction": 0.6640625
+    },
+    "4": {
+      "beneficial_verified_fraction": 0.984375,
+      "groups": 128,
+      "m": 4,
+      "maximum_regret": 1.3706896752119064,
+      "mean_exact_fraction": 0.25,
+      "mean_exact_queries": 4.0,
+      "mean_regret": 0.0403611232759431,
+      "median_regret": 0.0,
+      "regret_p90": 0.03495332002639767,
+      "true_best_inclusion": 0.84375,
+      "zero_regret_fraction": 0.84375
+    },
+    "8": {
+      "beneficial_verified_fraction": 0.9921875,
+      "groups": 128,
+      "m": 8,
+      "maximum_regret": 0.7969479560852051,
+      "mean_exact_fraction": 0.5,
+      "mean_exact_queries": 8.0,
+      "mean_regret": 0.007297975942492485,
+      "median_regret": 0.0,
+      "regret_p90": 0.0,
+      "true_best_inclusion": 0.953125,
+      "zero_regret_fraction": 0.953125
+    }
+  }
+}

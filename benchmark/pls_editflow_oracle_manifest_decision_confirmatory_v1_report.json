@@ -1,0 +1,33 @@
+{
+  "anchors": 64,
+  "anchors_by_split": {
+    "train": 64,
+    "validation": 0
+  },
+  "collision_rejections": 0,
+  "component_unique_anchors": true,
+  "edges_sha256": "85ad1446363339c435a273f0033f7b18ee35bbd9a5696bb9eca3eb462fb14107",
+  "excluded_anchor_hashes": 1191,
+  "excluded_anchor_manifests": [
+    "benchmark/generated/pls_editflow_oracle_manifest_1k_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_scale_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_poc_v1.json"
+  ],
+  "excluded_components": 1152,
+  "mutations_per_anchor": 16,
+  "nodes_sha256": "764cf29a45355d694555f1a6619e192533ece3442afaa133eecb4205109f9502",
+  "priority_anchors_available_by_split": {
+    "train": 0,
+    "validation": 0
+  },
+  "schema": "PLS_EditFlow_sequence_oracle_manifest_report_v1",
+  "selection_used_target_values": false,
+  "single_mutation_edges": 1024,
+  "test_evaluated": false,
+  "test_sequences_queried": 0,
+  "unique_components_by_split": {
+    "train": 64,
+    "validation": 0
+  },
+  "unique_sequence_queries": 1088
+}

@@ -447,6 +447,51 @@ neither sparse residual correction nor selective refolding is an established
 method contribution. The unmodified cached-backbone approximation is the
 positive result. See `analysis/editflow_pls_multifidelity_correction_v1.md`.
 
+## Cached derived-modality decisions
+
+The resulting method object is not a globally corrected fixed-backbone score.
+For an expensive derived modality `G(x)`, define
+
+```text
+T_H(x')     = F(h(x'), G(x'))
+T_L(x' | x) = F(h(x'), G(x)).
+```
+
+`T_L` is a local cached-context oracle conditioned on its anchor, not a global
+sequence potential. Near-perfect node agreement does not imply intervention
+agreement: on the 1k exact subset node Pearson/Spearman are `0.9976/0.9978`,
+while validation edge Spearman is `0.6896`. The scientific question is therefore
+whether the cached oracle already determines the downstream decision, not how
+well a regression globally reconstructs `T_H`.
+
+A direct Top-M verification baseline on the frozen 128-component validation
+report gives exact-best inclusion/zero-regret rates `0.4922`, `0.6641`, `0.8438`,
+and `0.9531` at M=`1,2,4,8`; mean exact regret falls from `0.1338` at one query
+to `0.0073` at eight. This is a decision funnel result, not a calibration model.
+
+Two train-only certification baselines expose the cost of stronger guarantees.
+Cross-fitted simultaneous absolute-error envelopes attain roughly 91--94%
+family coverage and 99.2% decision accuracy, but require about 15 of 16 exact
+queries. A component-safe conformal exact-best rank set uses 12 queries for
+96.1% cross-fit coverage. A variable decision-margin set calibrates
+`max Delta_L - Delta_L(exact argmax)` at the SI30-component maximum; it reaches
+92.2% cross-fit coverage with 10.07/16 mean exact queries. These are marginal
+risk-control statements under component exchangeability, not deterministic
+per-protein certificates.
+
+The decision-margin threshold `0.2325940132`, alpha `0.1`, endpoints, and
+Top-4/8/rank-12/exhaustive baselines were frozen before constructing a new
+64-anchor train-only confirmatory landscape. Those anchors use unique SI30
+components excluded from every prior PLS oracle manifest. Exact confirmatory
+scores were evaluated once with no threshold or endpoint change. The margin set
+achieves `0.9375` exact-best coverage (60/64; two-sided 95% Clopper--Pearson
+`[0.8476, 0.9827]`) using `9.70/16` exact queries on average (`0.6064` fraction),
+with mean regret `0.0271`. Top-4/8 obtain coverage `0.8281/0.9375` at fixed cost
+`0.25/0.50`, but mean regret is higher (`0.1107/0.0952`); rank-12 obtains
+`0.9844` coverage and `0.0204` mean regret at `0.75` cost. The confirmatory
+result supports variable decision-focused reuse, while the wide coverage
+interval and four misses prohibit a per-anchor deterministic guarantee.
+
 The first prequentially calibrated path acquisition is also a development null
 on the primary local curve. It calibrates later-round uncertainty only from
 pre-query predictions on frontier edges whose targets were subsequently

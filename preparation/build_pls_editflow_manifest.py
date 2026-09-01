@@ -94,6 +94,26 @@ def mutation_candidates(sequence: str, alphabet: str, *, salt: str) -> list[dict
     return candidates
 
 
+def load_excluded_anchor_identities(
+    paths: list[Path], allowed_splits: tuple[str, ...]
+) -> tuple[set[str], set[str]]:
+    """Load only safe anchor component/hash identities from prior manifests."""
+    components: set[str] = set()
+    hashes: set[str] = set()
+    for path in paths:
+        manifest = json.loads(path.read_text())
+        if manifest.get("test_evaluated") is not False:
+            raise ValueError("exclusion manifest violates the permanent test freeze")
+        for node in manifest["nodes"]:
+            if node["kind"] != "anchor":
+                continue
+            if node["split"] not in allowed_splits:
+                raise ValueError("exclusion manifest contains a forbidden split")
+            components.add(node["component_root_sha256"])
+            hashes.add(node["sequence_sha256"])
+    return components, hashes
+
+
 def build_manifest(config: dict) -> tuple[dict, dict]:
     if config.get("evaluate_test", False):
         raise ValueError("test evaluation is permanently disabled")
@@ -148,6 +168,13 @@ def build_manifest(config: dict) -> tuple[dict, dict]:
                 "sequence": sequence,
                 "length": length,
             })
+
+    exclusion_manifests = [Path(value) for value in config.get("exclude_anchor_manifests", [])]
+    excluded_components, excluded_anchor_hashes = load_excluded_anchor_identities(
+        exclusion_manifests, allowed_splits
+    )
+    if excluded_components:
+        rows = [row for row in rows if row["component_root_sha256"] not in excluded_components]
 
     status = np.load(config["structure_status"], mmap_mode="r")
     candidates_by_split: dict[str, list[dict]] = defaultdict(list)
@@ -254,6 +281,8 @@ def build_manifest(config: dict) -> tuple[dict, dict]:
             "maximum_length": int(config["maximum_length"]),
             "component_unique_anchors": component_unique,
             "priority_anchor_manifest": priority_manifest_path,
+            "exclude_anchor_manifests": [str(path) for path in exclusion_manifests],
+            "excluded_components": len(excluded_components),
             "label_blind": True,
         },
         "nodes": nodes,
@@ -288,6 +317,9 @@ def build_manifest(config: dict) -> tuple[dict, dict]:
             )
             for split in allowed_splits
         },
+        "excluded_anchor_manifests": [str(path) for path in exclusion_manifests],
+        "excluded_components": len(excluded_components),
+        "excluded_anchor_hashes": len(excluded_anchor_hashes),
         "unique_sequence_queries": len(nodes),
         "single_mutation_edges": len(edges),
         "mutations_per_anchor": mutations_per_anchor,

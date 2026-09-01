@@ -1,0 +1,33 @@
+{
+  "schema": "PLS_EditFlow_decision_gating_confirmatory_provenance_v1",
+  "protocol_config": {
+    "path": "configs/editflow/pls_decision_gating_confirmatory_v1.json",
+    "sha256": "5fa0a2d38bc56e7de12a98aa05124010262ec53ef9424ab4a0c24a1054d539c4",
+    "written_at": "2026-09-02T00:32:07.482856565+08:00"
+  },
+  "landscape_manifest": {
+    "path": "benchmark/generated/pls_editflow_oracle_manifest_decision_confirmatory_v1.json",
+    "sha256": "756d1379bec7fcd1a42ba1f5f5b3aeca3608753a9c0388edb80fd4da7a7a5900",
+    "nodes_sha256": "764cf29a45355d694555f1a6619e192533ece3442afaa133eecb4205109f9502",
+    "edges_sha256": "85ad1446363339c435a273f0033f7b18ee35bbd9a5696bb9eca3eb462fb14107",
+    "written_at": "2026-09-02T00:29:13.335843192+08:00"
+  },
+  "query_plan": {
+    "path": "benchmark/generated/pls_editflow_oracle_query_plan_decision_confirmatory_v1.json",
+    "sha256": "ce451662e3715d784d8c1030587acbda3550ee91e941afee2ccc35241410531e",
+    "assignments_sha256": "363d4a313cd1a156840f84f1ac76b87cafcd8e36e2b4de48110072bf5fac0602",
+    "written_at": "2026-09-02T00:29:33.617201024+08:00"
+  },
+  "execution": {
+    "pipeline_started_at": "2026-09-02T00:33:03+08:00",
+    "first_exact_pdb_written_at": "2026-09-02T00:33:57.900004311+08:00",
+    "exact_scores_written_at": "2026-09-02T00:50:26.052206561+08:00",
+    "evaluation_written_at": "2026-09-02T00:50:29.812473109+08:00",
+    "exact_fold_queries": 1024,
+    "exact_fold_failures": 0,
+    "test_sequences_queried": 0,
+    "test_evaluated": false
+  },
+  "qualification": "The protocol was operationally frozen on disk before any confirmatory exact structure existed, as shown by the ordered run artifacts. It was not separately pushed in an externally timestamped Git commit before execution, so it must not be described as an externally preregistered experiment.",
+  "test_evaluated": false
+}

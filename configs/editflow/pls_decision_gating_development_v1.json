@@ -1,0 +1,23 @@
+{
+  "schema": "PLS_EditFlow_decision_gating_development_config_v1",
+  "evaluate_test": false,
+  "current_exact": {
+    "manifest": "benchmark/generated/pls_editflow_oracle_manifest_1k_exact_calibration_v1.json",
+    "fixed_scores": "artifacts/oracles/pls_editflow_1k_v1/fixed_parent/scores_fp32_a/oracle_logits.npz",
+    "exact_scores": "artifacts/oracles/pls_editflow_1k_v1/exact_calibration/scores_fp32_a/oracle_logits.npz",
+    "top_m": [1, 2, 4, 8]
+  },
+  "exhaustive_train": {
+    "manifest": "benchmark/generated/pls_editflow_oracle_manifest_scale_v1.json",
+    "fixed_scores": "artifacts/oracles/pls_editflow_scale_v1/fixed_parent/scores_fp32_a/oracle_logits.npz",
+    "exact_scores": "artifacts/oracles/pls_editflow_scale_v1/scores_matched_fp32_a/oracle_logits.npz",
+    "probe_counts": [0, 1, 2, 4],
+    "component_folds": 5
+  },
+  "certification": {
+    "familywise_alpha": 0.1,
+    "mutations_per_anchor": 16,
+    "primary_envelope": "component_max",
+    "secondary_envelope": "bonferroni_edge"
+  }
+}
