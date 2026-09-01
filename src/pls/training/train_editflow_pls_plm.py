@@ -175,6 +175,11 @@ def main() -> None:
     landscape = load_landscape(
         Path(data["manifest"]), Path(data["oracle_scores"]), Path(data["oracle_report"])
     )
+    score_archive = np.load(data["oracle_scores"])
+    sequence_only = (
+        score_archive["sequence_only_logits"].astype(np.float64)
+        if "sequence_only_logits" in score_archive.files else None
+    )
     features = load_plm_features(
         Path(data["global_embeddings"]), Path(data["residue_embeddings"]),
         Path(data["offsets"]),
@@ -193,12 +198,18 @@ def main() -> None:
     train_nodes = np.asarray([
         index for index, node in enumerate(landscape["nodes"]) if node["split"] == "train"
     ], dtype=np.int64)
-    value_mean = float(landscape["teacher"][train_nodes].mean())
-    value_std = max(float(landscape["teacher"][train_nodes].std()), 1e-6)
     mode = str(config["model"]["mode"])
+    if mode == "residual_potential":
+        if sequence_only is None or sequence_only.shape != landscape["teacher"].shape:
+            raise ValueError("residual_potential requires matched sequence-only oracle logits")
+        value_target = landscape["teacher"] - sequence_only
+    else:
+        value_target = landscape["teacher"]
+    value_mean = float(value_target[train_nodes].mean())
+    value_std = max(float(value_target[train_nodes].std()), 1e-6)
     dimension = int(config["model"]["dimension"])
     dropout = float(config["model"]["dropout"])
-    if mode == "potential":
+    if mode in {"potential", "residual_potential"}:
         model = PLMPotentialHead(
             features["global"].shape[1], features["pooled"].shape[1], dimension, dropout
         ).to(device)
@@ -211,7 +222,7 @@ def main() -> None:
             features["global"].shape[1], features["pooled"].shape[1], dimension, dropout
         ).to(device)
     else:
-        raise ValueError("model mode must be potential, direct_delta, cycle_delta, or pair_delta")
+        raise ValueError("model mode must be potential, residual_potential, direct_delta, cycle_delta, or pair_delta")
     optimizer = torch.optim.AdamW(
         model.parameters(), lr=training["learning_rate"],
         weight_decay=training["weight_decay"], fused=training.get("fused_optimizer", False),
@@ -221,7 +232,7 @@ def main() -> None:
     global_tensor = torch.from_numpy(features["global"]).to(device)
     pooled_tensor = torch.from_numpy(features["pooled"]).to(device)
     normalized_values = torch.from_numpy(
-        ((landscape["teacher"] - value_mean) / value_std).astype(np.float32)
+        ((value_target - value_mean) / value_std).astype(np.float32)
     ).to(device)
     normalized_delta = torch.from_numpy(
         ((teacher_delta - delta_mean) / delta_std).astype(np.float32)
@@ -232,7 +243,7 @@ def main() -> None:
     for epoch in range(1, int(training["epochs"]) + 1):
         model.train(); optimizer.zero_grad(set_to_none=True)
         with torch.autocast("cuda", dtype=torch.bfloat16, enabled=training.get("amp_bfloat16", True)):
-            if mode == "potential":
+            if mode in {"potential", "residual_potential"}:
                 prediction = model(global_tensor[train_nodes], pooled_tensor[train_nodes])
                 supervised = F.huber_loss(prediction, normalized_values[train_nodes])
                 cycle_loss = prediction.new_zeros(())
@@ -269,10 +280,14 @@ def main() -> None:
         torch.nn.utils.clip_grad_norm_(model.parameters(), float(training.get("max_gradient_norm", 5.0)))
         optimizer.step()
         model.eval()
-        if mode == "potential":
+        if mode in {"potential", "residual_potential"}:
             with torch.inference_mode():
                 normalized = model(global_tensor, pooled_tensor)
-            node_prediction = normalized.float().cpu().numpy() * value_std + value_mean
+            predicted_target = normalized.float().cpu().numpy() * value_std + value_mean
+            node_prediction = (
+                sequence_only + predicted_target if mode == "residual_potential"
+                else predicted_target
+            )
             metrics = validation_metrics(landscape, node_prediction, int(data.get("top_k", 5)))
             metrics["value"]["anchored"] = False
         else:
@@ -314,17 +329,21 @@ def main() -> None:
     (arguments.run_dir / "history.json").write_text(json.dumps(history, indent=2) + "\n")
     state = torch.load(arguments.run_dir / "checkpoints" / "best.pt", map_location=device, weights_only=False)
     model.load_state_dict(state["model"]); model.eval()
-    if mode == "potential":
+    if mode in {"potential", "residual_potential"}:
         with torch.inference_mode(): normalized = model(global_tensor, pooled_tensor)
-        final_prediction = normalized.float().cpu().numpy() * value_std + value_mean
+        predicted_target = normalized.float().cpu().numpy() * value_std + value_mean
+        final_prediction = (
+            sequence_only + predicted_target if mode == "residual_potential"
+            else predicted_target
+        )
     else:
         final_prediction = anchored_delta_predictions(
             model, landscape, validation_edges, features, delta_mean, delta_std, device,
             pair_mode=mode == "pair_delta",
         )
     metrics = validation_metrics(landscape, final_prediction, int(data.get("top_k", 5)))
-    metrics["value"]["anchored"] = mode != "potential"
-    if mode != "potential":
+    metrics["value"]["anchored"] = mode not in {"potential", "residual_potential"}
+    if mode not in {"potential", "residual_potential"}:
         metrics["value"]["anchor_definition"] = "one queried teacher value per validation landscape"
     metrics["protocol"] = {
         "mode": mode,
