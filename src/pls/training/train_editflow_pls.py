@@ -148,8 +148,16 @@ def main() -> None:
     if config.get("evaluate_test", False):
         parser.error("test evaluation is permanently disabled")
     training = config["training"]
-    if os.environ.get("HIP_VISIBLE_DEVICES") != str(training["hip_device"]):
-        parser.error("HIP device mismatch")
+    accelerator_backend = str(training.get("accelerator_backend", "rocm"))
+    if accelerator_backend == "rocm":
+        if os.environ.get("HIP_VISIBLE_DEVICES") != str(training["hip_device"]):
+            parser.error("HIP device mismatch")
+    elif accelerator_backend == "cuda_slurm":
+        visible = os.environ.get("CUDA_VISIBLE_DEVICES")
+        if not os.environ.get("SLURM_JOB_ID") or not visible or "," in visible:
+            parser.error("cuda_slurm requires one Slurm-assigned visible GPU")
+    else:
+        parser.error("accelerator_backend must be rocm or cuda_slurm")
     seed = int(training["seed"])
     random.seed(seed);np.random.seed(seed);torch.manual_seed(seed)
     data = config["data"]
