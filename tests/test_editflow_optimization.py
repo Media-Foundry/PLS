@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from pls.editflow.optimization import (beam_search_paths,
+from pls.editflow.optimization import (adaptive_query_budget, beam_search_paths,
                                        bound_aware_frontier_acquisition,
                                        hybrid_query_budget,
                                        path_aware_frontier_acquisition)
@@ -13,6 +13,21 @@ from pls.training.train_editflow_gb1_active import (
 
 
 class EditFlowOptimizationTests(unittest.TestCase):
+    def test_adaptive_budget_exploits_consensus_and_explores_disagreement(self):
+        concentrated = adaptive_query_budget(
+            80,
+            occupancy=[1.0, 0.0, 0.0],
+            endpoint_votes=[7, 7, 7, 7],
+        )
+        diffuse = adaptive_query_budget(
+            80,
+            occupancy=[1.0, 1.0, 1.0, 1.0],
+            endpoint_votes=[1, 2, 3, 4],
+        )
+        self.assertGreater(concentrated.targeted_budget, diffuse.targeted_budget)
+        self.assertEqual(concentrated.targeted_budget + concentrated.exploration_budget, 80)
+        self.assertEqual(diffuse.targeted_budget + diffuse.exploration_budget, 80)
+
     def test_beam_search_follows_high_potential_edit_path(self):
         # 2^3 graph: 000 -> 100 -> 110 -> 111 is assigned the high path.
         values = np.zeros(8);values[[4, 6, 7]] = [1, 2, 3]
@@ -32,6 +47,7 @@ class EditFlowOptimizationTests(unittest.TestCase):
         self.assertEqual(result.batch.node_indices.tolist(), [4])
         self.assertGreater(result.batch.scores[0], 0)
         self.assertGreaterEqual(len(result.paths), 3)
+        self.assertEqual(len(result.candidate_endpoints), ensemble.shape[0] + 1)
 
     def test_uncertainty_fill_does_not_expand_through_unpurchased_node(self):
         # In the 20^4 GB1 graph, node 8400 is adjacent to prospective node

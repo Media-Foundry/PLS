@@ -281,8 +281,8 @@ reduced mean regret at edit radii 1 and 2 but increased it at radius 4. It also
 had slightly lower global R-squared. The first path round spent an average 77.6
 of 80 queries on path-targeted nodes, exposing an exploitation/coverage tradeoff.
 The post-hoc shortest-bound follow-up was effectively tied with ordinary path
-acquisition. A fixed 50/50 path-versus-frontier-uncertainty portfolio is the next
-explicitly exploratory ablation; it is not part of the confirmatory claim.
+acquisition. A fixed 50/50 path-versus-frontier-uncertainty portfolio was tested
+as an explicitly exploratory ablation and is not part of the confirmatory claim.
 
 That 50/50 portfolio produced a large post-hoc improvement on the v1 anchors,
 but it did not replicate on 16 newly frozen v2 anchors. The v2 prespecified
@@ -293,6 +293,26 @@ and 7 losses). At the secondary 640-query endpoint, hybrid was numerically worse
 an established contribution. Anchor-adaptive allocation based on optimizer-path
 concentration or ensemble disagreement remains a new hypothesis requiring a
 separate unseen-anchor protocol.
+
+The same-protocol GB1 development baseline matrix now includes random, greedy,
+UCB, Thompson sampling, and occupancy-only acquisition, with acquired,
+novel-design, and campaign regret reported separately across all budgets. At
+radius 2, occupancy-only had the lowest normalized budget-curve novel-design
+regret (1.8662) and campaign regret (0.9998); UCB was more competitive at radius
+4. These are descriptive starting-point comparisons within one shared four-site
+landscape, not independent biological replicates or population-level evidence.
+They motivate adaptive exploitation/coverage allocation but do not establish
+that an adaptive policy wins.
+
+The development branch implements two validity-guarded primitives for that next
+step. Path concentration is summarized by normalized occupancy entropy,
+effective support, and endpoint consensus. A deterministic candidate policy
+uses those diagnostics to allocate more path budget only when paths are
+concentrated and ensemble endpoints agree, with UCB retaining the exploration
+budget. Separately, an additive split-conformal edge-error envelope is available,
+but it explicitly requires held-out or cross-fitted edge errors. In-sample
+closed-edge residuals are not evidence for coverage, and raw ensemble standard
+deviation is still not described as a theorem-valid error upper bound.
 
 The uncertainty-only v2 run completed after the prespecified hybrid-versus-path
 comparison. A secondary descriptive comparison on the historical all-candidate
@@ -307,3 +327,10 @@ strict train/validation anchors, 384 single-mutant edges, and 408 unique sequenc
 queries. Mean ESM-2 embeddings are complete for all 408 sequences. Every mutant
 still requires its own ESMFold structure and V4/GVP/surface feature artifacts;
 the pipeline hard-fails rather than substituting a parent structure.
+
+The 384 mutants are partitioned into eight equal 48-sequence/8,436-residue
+ESMFold shards. Code, manifests, embeddings, and the hash-verified ESMFold v1
+checkpoint are staged non-destructively at
+`/data/husrcf/PLS/editflow_oracle_20260901` on star. Slurm array job 60 requests
+one A100 per shard with at most two concurrent tasks; it remains test-free and
+resumable at the exact-sequence PDB level.

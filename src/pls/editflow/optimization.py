@@ -7,7 +7,8 @@ from dataclasses import dataclass
 import numpy as np
 
 from .acquisition import (AcquisitionBatch, ensemble_edge_uncertainty,
-                          frontier_node_acquisition, path_edge_occupancy)
+                          frontier_node_acquisition, path_concentration,
+                          path_edge_occupancy)
 from .hamming import node_neighbors
 
 
@@ -56,6 +57,7 @@ def beam_search_paths(
 class PathAwareAcquisition:
     batch: AcquisitionBatch
     paths: tuple[tuple[int, ...], ...]
+    candidate_endpoints: np.ndarray
     path_edges: np.ndarray
     occupancy: np.ndarray
     uncertainty: np.ndarray
@@ -72,6 +74,58 @@ class BoundAwareAcquisition:
     occupancy: np.ndarray
     uncertainty: np.ndarray
     estimated_path_bounds: np.ndarray
+
+
+@dataclass(frozen=True)
+class AdaptiveBudget:
+    targeted_budget: int
+    exploration_budget: int
+    targeted_fraction: float
+    normalized_path_entropy: float
+    effective_path_support: float
+    endpoint_consensus: float
+
+
+def adaptive_query_budget(
+    total_budget: int,
+    occupancy,
+    endpoint_votes,
+    *,
+    minimum_fraction: float = 0.1,
+    maximum_fraction: float = 0.9,
+) -> AdaptiveBudget:
+    """Allocate path targeting from path concentration and endpoint consensus.
+
+    This is a deterministic development policy, not a proved optimum.  High
+    occupancy concentration and agreement on candidate endpoints allocate more
+    queries to path targeting; diffuse paths or endpoint disagreement retain
+    exploration budget.
+    """
+    if total_budget < 2:
+        raise ValueError("adaptive allocation requires at least two queries")
+    if not 0.0 <= minimum_fraction < maximum_fraction <= 1.0:
+        raise ValueError("fractions must satisfy 0 <= minimum < maximum <= 1")
+    votes = np.asarray(endpoint_votes, dtype=np.int64)
+    if votes.ndim != 1 or not len(votes):
+        raise ValueError("endpoint_votes must be a nonempty one-dimensional array")
+    diagnostics = path_concentration(occupancy)
+    counts = np.unique(votes, return_counts=True)[1]
+    endpoint_consensus = float(counts.max() / len(votes))
+    path_concentration_score = 1.0 - diagnostics.normalized_entropy
+    allocation_score = float(np.sqrt(path_concentration_score * endpoint_consensus))
+    fraction = minimum_fraction + (
+        maximum_fraction - minimum_fraction
+    ) * allocation_score
+    targeted = int(np.floor(total_budget * fraction + 0.5))
+    targeted = min(max(targeted, 1), total_budget - 1)
+    return AdaptiveBudget(
+        targeted_budget=targeted,
+        exploration_budget=total_budget - targeted,
+        targeted_fraction=targeted / total_budget,
+        normalized_path_entropy=diagnostics.normalized_entropy,
+        effective_path_support=diagnostics.effective_support,
+        endpoint_consensus=endpoint_consensus,
+    )
 
 
 def hybrid_query_budget(total_budget: int, targeted_fraction: float) -> int:
@@ -111,11 +165,19 @@ def path_aware_frontier_acquisition(
     mean = ensemble.mean(0);standard_deviation = ensemble.std(0)
     objectives = [*ensemble, mean - conservative_beta * standard_deviation]
     paths = []
+    candidate_endpoints = []
     for objective in objectives:
-        paths.extend(beam_search_paths(
+        objective_paths = beam_search_paths(
             objective, anchor, available, alphabet_size=alphabet_size,
             length=length, steps=steps, beam_width=beam_width,
-        ))
+        )
+        paths.extend(objective_paths)
+        if objective_paths:
+            best = min(
+                objective_paths,
+                key=lambda path: (-objective[path[-1]], len(path), path),
+            )
+            candidate_endpoints.append(int(best[-1]))
     unique_edges = sorted({(source, target) for path in paths for source, target in zip(path[:-1], path[1:])})
     edge_index = np.asarray(unique_edges, dtype=np.int64).T if unique_edges else np.empty((2, 0), dtype=np.int64)
     occupancy = path_edge_occupancy(edge_index, paths)
@@ -129,7 +191,9 @@ def path_aware_frontier_acquisition(
         edge_index, score_uncertainty, occupancy, queried_nodes, budget, reduction="max"
     )
     return PathAwareAcquisition(
-        batch=batch, paths=tuple(paths), path_edges=edge_index,
+        batch=batch, paths=tuple(paths),
+        candidate_endpoints=np.asarray(candidate_endpoints, dtype=np.int64),
+        path_edges=edge_index,
         occupancy=occupancy, uncertainty=uncertainty,
     )
 

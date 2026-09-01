@@ -24,6 +24,109 @@ class CostAwareAcquisitionBatch:
     candidate_edges: int
 
 
+@dataclass(frozen=True)
+class PathConcentration:
+    positive_support: int
+    total_mass: float
+    entropy: float
+    normalized_entropy: float
+    effective_support: float
+    maximum_share: float
+
+
+@dataclass(frozen=True)
+class EdgeErrorEnvelope:
+    values: np.ndarray
+    additive_quantile: float
+    nominal_coverage: float
+    empirical_calibration_coverage: float
+    calibration_count: int
+
+
+def path_concentration(occupancy) -> PathConcentration:
+    """Describe concentration after normalizing nonnegative edge occupancy.
+
+    Raw occupancy sums to the mean traversed path length, not one.  Entropy and
+    effective support are therefore computed after normalization over edges.
+    Empty occupancy has zero support; one positive edge has normalized entropy
+    zero and effective support one.
+    """
+    values = np.asarray(occupancy, dtype=np.float64)
+    if values.ndim != 1:
+        raise ValueError("occupancy must be one-dimensional")
+    if np.any(~np.isfinite(values)) or np.any(values < 0):
+        raise ValueError("occupancy must be finite and nonnegative")
+    positive = values[values > 0]
+    if not len(positive):
+        return PathConcentration(0, 0.0, 0.0, 0.0, 0.0, 0.0)
+    probabilities = positive / positive.sum()
+    entropy = float(-np.sum(probabilities * np.log(probabilities)))
+    normalized_entropy = (
+        entropy / float(np.log(len(probabilities))) if len(probabilities) > 1 else 0.0
+    )
+    return PathConcentration(
+        positive_support=int(len(probabilities)),
+        total_mass=float(positive.sum()),
+        entropy=entropy,
+        normalized_entropy=normalized_entropy,
+        effective_support=float(1.0 / np.sum(probabilities ** 2)),
+        maximum_share=float(probabilities.max()),
+    )
+
+
+def conformal_edge_error_envelope(
+    calibration_uncertainty,
+    calibration_absolute_error,
+    target_uncertainty,
+    *,
+    alpha: float = 0.1,
+) -> EdgeErrorEnvelope:
+    """Additively calibrate uncertainty using out-of-sample edge errors.
+
+    The caller must supply held-out or cross-fitted absolute edit-field errors;
+    in-sample residuals do not justify a conformal coverage claim.  Under the
+    usual exchangeability assumption, the finite-sample ``higher`` quantile of
+    ``absolute_error - uncertainty`` gives a split-conformal additive envelope.
+    The correction is constrained to be nonnegative so calibration never makes
+    the raw uncertainty smaller.
+    """
+    uncertainty = np.asarray(calibration_uncertainty, dtype=np.float64)
+    errors = np.asarray(calibration_absolute_error, dtype=np.float64)
+    targets = np.asarray(target_uncertainty, dtype=np.float64)
+    if uncertainty.ndim != 1 or errors.shape != uncertainty.shape:
+        raise ValueError("calibration arrays must be equal one-dimensional arrays")
+    if targets.ndim != 1:
+        raise ValueError("target_uncertainty must be one-dimensional")
+    if not len(uncertainty):
+        raise ValueError("at least one calibration edge is required")
+    if not 0.0 < alpha < 1.0:
+        raise ValueError("alpha must lie strictly between zero and one")
+    if (
+        np.any(~np.isfinite(uncertainty))
+        or np.any(~np.isfinite(errors))
+        or np.any(~np.isfinite(targets))
+        or np.any(uncertainty < 0)
+        or np.any(errors < 0)
+        or np.any(targets < 0)
+    ):
+        raise ValueError("uncertainty and absolute errors must be finite and nonnegative")
+    scores = errors - uncertainty
+    quantile_level = min(1.0, np.ceil((len(scores) + 1) * (1.0 - alpha)) / len(scores))
+    correction = max(
+        0.0,
+        float(np.quantile(scores, quantile_level, method="higher")),
+    )
+    envelope = targets + correction
+    empirical = float(np.mean(errors <= uncertainty + correction))
+    return EdgeErrorEnvelope(
+        values=envelope,
+        additive_quantile=correction,
+        nominal_coverage=1.0 - alpha,
+        empirical_calibration_coverage=empirical,
+        calibration_count=int(len(scores)),
+    )
+
+
 def ensemble_edge_uncertainty(ensemble_values, edge_index, *, ddof: int = 1) -> np.ndarray:
     """Standard deviation of edit effects across scalar-potential students."""
     values = np.asarray(ensemble_values, dtype=np.float64)

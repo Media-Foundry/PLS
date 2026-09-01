@@ -15,6 +15,7 @@ from torch.utils.tensorboard import SummaryWriter
 from pls.editflow.hamming import (hamming_distance, queried_nodes_sha256,
                                   variants_from_tokens)
 from pls.editflow.optimization import (bound_aware_frontier_acquisition,
+                                       adaptive_query_budget,
                                        hybrid_query_budget,
                                        path_aware_frontier_acquisition)
 from pls.training.train_editflow_gb1 import (connected_query_nodes,
@@ -136,6 +137,42 @@ def acquire_next_round(
             "path_edges": int(acquired.path_edges.shape[1]),
             "occupancy_selected": len(selected),
         }
+    elif mode == "adaptive_path":
+        acquired = path_aware_frontier_acquisition(
+            ensemble,
+            queried,
+            measured,
+            anchor,
+            increment,
+            alphabet_size=20,
+            length=4,
+            steps=int(data_config["beam_steps"]),
+            beam_width=int(data_config["beam_width"]),
+            conservative_beta=float(data_config.get("conservative_beta", 0.0)),
+            score_mode=str(data_config.get("path_score_mode", "occupancy_only")),
+        )
+        allocation = adaptive_query_budget(
+            increment,
+            acquired.occupancy,
+            acquired.candidate_endpoints,
+            minimum_fraction=float(data_config.get("minimum_path_fraction", 0.1)),
+            maximum_fraction=float(data_config.get("maximum_path_fraction", 0.9)),
+        )
+        selected = acquired.batch.node_indices[:allocation.targeted_budget].tolist()
+        details = {
+            "mode": mode,
+            "path_score_mode": str(data_config.get("path_score_mode", "occupancy_only")),
+            "exploration_policy": str(data_config.get("exploration_policy", "ucb")),
+            "targeted_fraction": allocation.targeted_fraction,
+            "path_budget": allocation.targeted_budget,
+            "exploration_budget": allocation.exploration_budget,
+            "normalized_path_entropy": allocation.normalized_path_entropy,
+            "effective_path_support": allocation.effective_path_support,
+            "endpoint_consensus": allocation.endpoint_consensus,
+            "path_count": len(acquired.paths),
+            "path_edges": int(acquired.path_edges.shape[1]),
+            "path_selected": len(selected),
+        }
     elif mode == "bound_aware":
         acquired = bound_aware_frontier_acquisition(
             ensemble,
@@ -217,6 +254,21 @@ def acquire_next_round(
                 excluded_targets=selected,
             )
             details["policy_fill"] = len(fill.node_indices)
+        elif mode == "adaptive_path":
+            exploration_policy = str(data_config.get("exploration_policy", "ucb"))
+            if exploration_policy not in {"random", "greedy", "ucb", "thompson"}:
+                raise ValueError("adaptive exploration_policy is unsupported")
+            fill, edges = frontier_policy_acquisition(
+                ensemble,
+                queried,
+                measured,
+                increment - len(selected),
+                exploration_policy,
+                rng,
+                beta=float(data_config.get("acquisition_beta", 1.0)),
+                excluded_targets=selected,
+            )
+            details["exploration_selected"] = len(fill.node_indices)
         else:
             fill, edges = uncertainty_acquisition(
                 ensemble,
