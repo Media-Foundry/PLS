@@ -23,7 +23,7 @@ for device in 0 1 2 3; do
     second=$((device + 4))
     session="pls_esmfold_g${device}"
     log="$log_root/local_esmfold_g${device}.log"
-    command="cd '$repo_root' && export HIP_VISIBLE_DEVICES='$device' TORCH_HOME='/home/pc/.cache/torch' PYTHONPATH='$repo_root/src' && '$python_bin' -m pls.oracles.fold_editflow --manifest '$manifest' --plan '$plan' --output-root '$output_root' --shard-index '$first' --hip-device '$device' --chunk-size 64 --num-recycles 3 && '$python_bin' -m pls.oracles.fold_editflow --manifest '$manifest' --plan '$plan' --output-root '$output_root' --shard-index '$second' --hip-device '$device' --chunk-size 64 --num-recycles 3"
-    tmux new-session -d -s "$session" "bash -lc \"$command >> '$log' 2>&1\""
+    command="cd '$repo_root' && export HIP_VISIBLE_DEVICES='$device' TORCH_HOME='/home/pc/.cache/torch' PYTHONPATH='$repo_root/src' && { '$python_bin' -m pls.oracles.fold_editflow --manifest '$manifest' --plan '$plan' --output-root '$output_root' --shard-index '$first' --hip-device '$device' --chunk-size 64 --num-recycles 3 && '$python_bin' -m pls.oracles.fold_editflow --manifest '$manifest' --plan '$plan' --output-root '$output_root' --shard-index '$second' --hip-device '$device' --chunk-size 64 --num-recycles 3; } >> '$log' 2>&1"
+    tmux new-session -d -s "$session" "bash -lc \"$command\""
     echo "$session -> shards $first,$second -> $log"
 done
