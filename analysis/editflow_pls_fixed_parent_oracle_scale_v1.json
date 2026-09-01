@@ -1,0 +1,56 @@
+{
+  "definition": {
+    "exact_mutant_plm_features": true,
+    "fixed_parent_coordinates": true,
+    "fixed_parent_plddt": true,
+    "fixed_parent_v4_gvp_surface_features": true,
+    "mutation_aware_structure_channels": false,
+    "new_exact_mutant_folds": 0
+  },
+  "field_fidelity_to_exact_refold": {
+    "all": {
+      "anchor_macro_kendall_tau": 0.5753125,
+      "anchor_macro_top_5_recall": 0.695,
+      "edge_mae": 0.1425681017775787,
+      "edge_pearson": 0.705851309664657,
+      "edge_rmse": 0.35244354217280316,
+      "edge_spearman": 0.696699676394562,
+      "edges": 2560,
+      "mutation_sign_accuracy": 0.7875
+    },
+    "train": {
+      "anchor_macro_kendall_tau": 0.5680989583333333,
+      "anchor_macro_top_5_recall": 0.6906249999999999,
+      "edge_mae": 0.13400865350558888,
+      "edge_pearson": 0.6924721244692114,
+      "edge_rmse": 0.3192176945882108,
+      "edge_spearman": 0.6771269839817643,
+      "edges": 2048,
+      "mutation_sign_accuracy": 0.77734375
+    },
+    "validation": {
+      "anchor_macro_kendall_tau": 0.6041666666666667,
+      "anchor_macro_top_5_recall": 0.7125,
+      "edge_mae": 0.176805894865538,
+      "edge_pearson": 0.7440565211051189,
+      "edge_rmse": 0.46204167121993805,
+      "edge_spearman": 0.7692273098556894,
+      "edges": 512,
+      "mutation_sign_accuracy": 0.828125
+    }
+  },
+  "node_fidelity_to_exact_refold": {
+    "mae": 0.13411120598423568,
+    "maximum_absolute_error": 5.567250907421112,
+    "pearson": 0.9966770343091318,
+    "rmse": 0.3418284839695271,
+    "spearman": 0.9963863710084241
+  },
+  "protocol": {
+    "exact_reference_edges": 2560,
+    "manifest": "benchmark/generated/pls_editflow_oracle_manifest_scale_v1.json",
+    "test_evaluated": false
+  },
+  "schema": "PLS_EditFlow_fixed_parent_oracle_scale_analysis_v1",
+  "test_evaluated": false
+}

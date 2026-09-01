@@ -16,13 +16,14 @@
     "free_workspace_gib_at_launch": 2400
   },
   "fold_budget": {
-    "estimated_local_wall_hours_range": [3, 4],
-    "exact_cached_mutant_folds": 1936,
-    "new_exact_mutant_folds": 16496,
-    "new_folds_by_shard": [4130, 4125, 4146, 4095],
-    "new_l2_cost_by_shard": [146355430, 147210207, 147060593, 145882170],
-    "new_l2_cost_max_to_min_ratio": 1.0091034923975738,
-    "new_residues_by_shard": [729228, 731151, 732683, 724746],
+    "dense_fixed_parent_edges": 18432,
+    "estimated_local_wall_hours_range": [0.5, 1.0],
+    "exact_calibration_edges": 3072,
+    "exact_calibration_mutations_per_train_anchor": 1,
+    "exact_calibration_mutations_per_validation_anchor": 16,
+    "exact_calibration_cached_folds": 822,
+    "exact_calibration_new_folds": 2250,
+    "new_fold_reduction_fraction_vs_exhaustive_remaining": 0.8636032977691562,
     "physical_gpus": [0, 1, 2, 3]
   },
   "landscape": {
@@ -33,6 +34,8 @@
   },
   "manifest_report": "benchmark/pls_editflow_oracle_manifest_1k_v1_report.json",
   "query_plan_report": "benchmark/pls_editflow_oracle_query_plan_1k_v1_report.json",
+  "exact_calibration_manifest_report": "benchmark/pls_editflow_oracle_manifest_1k_exact_calibration_v1_report.json",
+  "exact_calibration_query_plan_report": "benchmark/pls_editflow_oracle_query_plan_1k_exact_calibration_v1_report.json",
   "schema": "PLS_EditFlow_1k_component_protocol_v1",
   "selection_used_target_values": false,
   "test_evaluated": false,

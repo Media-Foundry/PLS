@@ -1,0 +1,19 @@
+{
+  "anchors": 1152,
+  "anchors_by_split": {
+    "train": 1024,
+    "validation": 128
+  },
+  "edges_sha256": "0d47e84a60b0049e1b1d9f974798eabde9a88357759136f439c07366c6d7f067",
+  "mutations_per_anchor_by_split": {
+    "train": 1,
+    "validation": 16
+  },
+  "nodes_sha256": "abf699b7e2e08c558bc2a47b0760216cca20050da36c95aea0c41587bcb5addc",
+  "schema": "PLS_EditFlow_sequence_oracle_subset_report_v1",
+  "selection_used_target_values": false,
+  "single_mutation_edges": 3072,
+  "test_evaluated": false,
+  "test_sequences_queried": 0,
+  "unique_sequence_queries": 4224
+}

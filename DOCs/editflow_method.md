@@ -414,6 +414,18 @@ is zero, and one representative from each reusable prior component is
 prioritized. This protocol tests biological coverage rather than merely scaling
 correlated observations.
 
+An exact-reference ablation then changes the cost conclusion. Reusing the
+parent's complete structural tensor while retaining exact mutant ESM2 tokens
+requires zero mutant folds yet reaches exact-refold edge Spearman `0.6967`, sign
+accuracy `0.7875`, and anchor-macro top-5 recall `0.6950` across all 2,560
+reference edges. Validation-only values are `0.7692`, `0.8281`, and `0.7125`.
+Thus exhaustive mutant folding is not justified for dense supervision. The 1k
+protocol uses the fixed-parent oracle on every edge, one value-blind exact edge
+per train component for correction, and all exact validation edges for final
+field evaluation. This is a multi-fidelity oracle design; fixed-parent scores
+must not be labelled exact ESMFold outputs. See
+`analysis/editflow_pls_fixed_parent_oracle_scale_v1.md`.
+
 The first prequentially calibrated path acquisition is also a development null
 on the primary local curve. It calibrates later-round uncertainty only from
 pre-query predictions on frontier edges whose targets were subsequently
