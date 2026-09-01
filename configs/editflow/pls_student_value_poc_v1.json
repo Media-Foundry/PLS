@@ -1,11 +1,11 @@
 {
   "trainer_module": "pls.training.train_editflow_pls",
-  "experiment_name": "editflow_pls_sequence_student_value_poc_v1",
+  "experiment_name": "editflow_pls_sequence_student_value_fp32_poc_v1",
   "evaluate_test": false,
   "data": {
     "manifest": "benchmark/generated/pls_editflow_oracle_manifest_poc_v1.json",
-    "oracle_scores": "artifacts/oracles/pls_editflow_poc_v1/scores/oracle_logits.npz",
-    "oracle_report": "artifacts/oracles/pls_editflow_poc_v1/scores/oracle_report.json",
+    "oracle_scores": "artifacts/oracles/pls_editflow_poc_v1/scores_matched_fp32_a/oracle_logits.npz",
+    "oracle_report": "artifacts/oracles/pls_editflow_poc_v1/scores_matched_fp32_a/oracle_report.json",
     "top_k": 5
   },
   "model": {"dimension": 128, "layers": 3, "heads": 4, "dropout": 0.1, "max_length": 300},

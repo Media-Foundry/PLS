@@ -1,0 +1,56 @@
+{
+  "global": {
+    "full_sequence_pearson": 0.6391013342415337,
+    "full_std": 4.349877453312649,
+    "residual_mean": 1.5768587937322902,
+    "residual_std": 3.775513778908511,
+    "sequence_std": 1.0302868347918817
+  },
+  "queries": 408,
+  "schema": "PLS_EditFlow_oracle_PoC_analysis_v1",
+  "splits": {
+    "all": {
+      "edges": 384,
+      "full_delta_mean": -0.028189410106278956,
+      "full_delta_mean_abs": 0.20903707571172467,
+      "full_delta_median_abs": 0.09247249364852905,
+      "full_delta_std": 0.5025861072867029,
+      "full_sequence_delta_pearson": 0.526074229644068,
+      "full_sequence_delta_spearman": 0.3052946237835272,
+      "residual_delta_mean_abs": 0.19110043719410896,
+      "residual_delta_std": 0.45694631908545025,
+      "sequence_delta_mean_abs": 0.04869044048245996,
+      "sequence_delta_std": 0.10280170273256774,
+      "sign_agreement": 0.6145833333333334
+    },
+    "train": {
+      "edges": 256,
+      "full_delta_mean": -0.08941127493744716,
+      "full_delta_mean_abs": 0.18442813301226124,
+      "full_delta_median_abs": 0.09085756540298462,
+      "full_delta_std": 0.3933046044179832,
+      "full_sequence_delta_pearson": 0.2940644090124794,
+      "full_sequence_delta_spearman": 0.34887202449073007,
+      "residual_delta_mean_abs": 0.16603018884779885,
+      "residual_delta_std": 0.37745651037983347,
+      "sequence_delta_mean_abs": 0.046385548426769674,
+      "sequence_delta_std": 0.08157726363191353,
+      "sign_agreement": 0.62109375
+    },
+    "validation": {
+      "edges": 128,
+      "full_delta_mean": 0.09425431955605745,
+      "full_delta_mean_abs": 0.2582549611106515,
+      "full_delta_median_abs": 0.0976109504699707,
+      "full_delta_std": 0.6526198446259479,
+      "full_sequence_delta_pearson": 0.6959378901110249,
+      "full_sequence_delta_spearman": 0.2430759018494781,
+      "residual_delta_mean_abs": 0.24124093388672918,
+      "residual_delta_std": 0.566791203236694,
+      "sequence_delta_mean_abs": 0.05330022459384054,
+      "sequence_delta_std": 0.13540130221855845,
+      "sign_agreement": 0.6015625
+    }
+  },
+  "test_evaluated": false
+}
