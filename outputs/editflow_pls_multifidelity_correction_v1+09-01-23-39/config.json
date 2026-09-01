@@ -1,0 +1,39 @@
+{
+  "schema": "PLS_EditFlow_multifidelity_correction_config_v1",
+  "evaluate_test": false,
+  "data": {
+    "dense_manifest": "benchmark/generated/pls_editflow_oracle_manifest_1k_v1.json",
+    "exact_manifest": "benchmark/generated/pls_editflow_oracle_manifest_1k_exact_calibration_v1.json",
+    "fixed_scores": "artifacts/oracles/pls_editflow_1k_v1/fixed_parent/scores_fp32_a/oracle_logits.npz",
+    "exact_scores": "artifacts/oracles/pls_editflow_1k_v1/exact_calibration/scores_fp32_a/oracle_logits.npz",
+    "mean_embeddings": "artifacts/oracles/pls_editflow_1k_v1/esm2_mean/embeddings.npy",
+    "compact_metadata": "artifacts/oracles/pls_editflow_1k_v1/fixed_parent/structure_v4_compact/metadata.json",
+    "compact_offsets": "artifacts/oracles/pls_editflow_1k_v1/fixed_parent/structure_v4_compact/offsets.npy",
+    "compact_features": "artifacts/oracles/pls_editflow_1k_v1/fixed_parent/structure_v4_compact/residue_features.f16",
+    "residue_pca_metadata": "artifacts/oracles/pls_editflow_1k_v1/residue_esm2_pca/pca_metadata.json",
+    "residue_pca": "artifacts/oracles/pls_editflow_1k_v1/residue_esm2_pca/residue_esm2_pca.f16"
+  },
+  "protocol": {
+    "group_folds": 5,
+    "selection_metric": "train_component_grouped_oof_rmse",
+    "top_k": 5,
+    "random_refold_repetitions": 100,
+    "random_seed": 9012026,
+    "refold_fractions": [0.0, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0]
+  },
+  "ridge": {
+    "alphas": [0.1, 1.0, 10.0, 100.0, 1000.0, 10000.0]
+  },
+  "nonlinear": {
+    "estimators": 256,
+    "max_features": 0.5,
+    "minimum_leaf_candidates": [2, 8],
+    "workers": 32
+  },
+  "selective_refolding": {
+    "estimators": 512,
+    "max_features": 0.7,
+    "minimum_leaf": 5,
+    "workers": 32
+  }
+}

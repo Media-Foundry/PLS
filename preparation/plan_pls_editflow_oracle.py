@@ -66,8 +66,14 @@ def build_plan(manifest: dict, shard_count: int) -> tuple[dict, dict]:
         "test_evaluated": False,
     }
     report = {
-        "schema": "PLS_EditFlow_ESMFold_query_plan_report_v1",
-        "queries_requiring_new_fold": len(assignments),
+        "schema": "PLS_EditFlow_ESMFold_query_plan_report_v2",
+        # A query plan assigns every mutant that requires an exact-structure
+        # lookup.  Whether that lookup is already cached is only known when
+        # the plan is executed, so do not mislabel this total as new work.
+        "exact_fold_queries_total": len(assignments),
+        "exact_fold_cached": None,
+        "exact_fold_new_required": None,
+        "cache_accounting_status": "not_observed_at_planning",
         "parent_queries_reusing_exact_sequence_cache": len(nodes) - len(assignments),
         "shard_count": shard_count,
         "queries_by_shard": counts,

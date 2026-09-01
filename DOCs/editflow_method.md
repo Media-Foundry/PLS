@@ -426,6 +426,27 @@ field evaluation. This is a multi-fidelity oracle design; fixed-parent scores
 must not be labelled exact ESMFold outputs. See
 `analysis/editflow_pls_fixed_parent_oracle_scale_v1.md`.
 
+The full 1k-component multi-fidelity run has now completed. It used 3,072 exact
+mutant queries (822 cached and 2,250 newly folded), with zero fold failures and
+zero test queries, then scored 18,432 dense fixed-parent edges and the exact
+subset with the same frozen checkpoint in float32. On the broader 128-component
+validation set, fixed-parent retains edge Pearson `0.7481`, Spearman `0.6896`,
+sign accuracy `0.7842`, macro Kendall `0.5850`, and top-5 recall `0.6844`.
+This supports a strong local cached-backbone oracle, not a global potential:
+the approximation remains conditional on the chosen parent structure.
+
+The first prespecified correction baselines are null. Five-fold component-grouped
+OOF RMSE on 1,024 train edges selects raw fixed-parent over an affine mapping,
+a ridge residual using PLM/local-structure features, and a nonlinear residual.
+On the one-pass exact validation report, affine preserves rank but slightly
+worsens RMSE (`0.3419`), while ridge/nonlinear lower Spearman to `0.6191/0.6562`.
+An ExtraTrees discrepancy model achieves only `0.2013` Spearman against absolute
+validation refolding error. Selective exact refolding is no better than random
+through the 20% budget point; it becomes slightly better only at 50%. Therefore
+neither sparse residual correction nor selective refolding is an established
+method contribution. The unmodified cached-backbone approximation is the
+positive result. See `analysis/editflow_pls_multifidelity_correction_v1.md`.
+
 The first prequentially calibrated path acquisition is also a development null
 on the primary local curve. It calibrates later-round uncertainty only from
 pre-query predictions on frontier edges whose targets were subsequently

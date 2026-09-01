@@ -7,6 +7,13 @@
     27266899
   ],
   "maximum_to_minimum_cost_ratio": 1.000002897292733,
+  "cache_accounting_source": "completed shard execution reports",
+  "cache_accounting_status": "observed_at_execution",
+  "exact_fold_cached": 822,
+  "exact_fold_gpu_seconds": 6355.300808607164,
+  "exact_fold_new_required": 2250,
+  "exact_fold_queries_total": 3072,
+  "exact_fold_parallel_wall_seconds": 1678.3986541570048,
   "parent_queries_reusing_exact_sequence_cache": 1152,
   "queries_by_shard": [
     768,
@@ -14,14 +21,13 @@
     768,
     768
   ],
-  "queries_requiring_new_fold": 3072,
   "residues_by_shard": [
     135465,
     135465,
     135464,
     135465
   ],
-  "schema": "PLS_EditFlow_ESMFold_query_plan_report_v1",
+  "schema": "PLS_EditFlow_ESMFold_query_plan_report_v2",
   "shard_count": 4,
   "test_evaluated": false,
   "test_sequences_queried": 0

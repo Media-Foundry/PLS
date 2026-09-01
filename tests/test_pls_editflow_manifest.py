@@ -5,7 +5,7 @@ from preparation.build_pls_editflow_manifest import (mutation_candidates,
                                                        sequence_sha256,
                                                        validate_manifest,
                                                        write_entities)
-from preparation.plan_pls_editflow_oracle import lpt_shards
+from preparation.plan_pls_editflow_oracle import build_plan, lpt_shards
 
 
 class PLSEditFlowManifestTests(unittest.TestCase):
@@ -105,6 +105,20 @@ class PLSEditFlowManifestTests(unittest.TestCase):
             for shard in range(2)
         ]
         self.assertLess(max(loads) / min(loads), 1.5)
+
+    def test_query_plan_does_not_call_all_mutants_new_folds(self):
+        manifest = {
+            "test_evaluated": False,
+            "nodes": [
+                {"node_index": 0, "kind": "anchor", "split": "train", "length": 4, "sequence_sha256": "a"},
+                {"node_index": 1, "kind": "single_mutant", "split": "train", "length": 4, "sequence_sha256": "b"},
+            ],
+        }
+        _, report = build_plan(manifest, 1)
+        self.assertEqual(report["exact_fold_queries_total"], 1)
+        self.assertIsNone(report["exact_fold_cached"])
+        self.assertIsNone(report["exact_fold_new_required"])
+        self.assertNotIn("queries_requiring_new_fold", report)
 
 
 if __name__ == "__main__":

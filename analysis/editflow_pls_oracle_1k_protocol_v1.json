@@ -22,9 +22,19 @@
     "exact_calibration_mutations_per_train_anchor": 1,
     "exact_calibration_mutations_per_validation_anchor": 16,
     "exact_calibration_cached_folds": 822,
+    "exact_calibration_gpu_seconds": 6355.300808607164,
     "exact_calibration_new_folds": 2250,
+    "exact_calibration_parallel_wall_seconds": 1678.3986541570048,
     "new_fold_reduction_fraction_vs_exhaustive_remaining": 0.8636032977691562,
     "physical_gpus": [0, 1, 2, 3]
+  },
+  "execution": {
+    "exact_fold_failures": 0,
+    "exact_fold_status": "complete",
+    "multifidelity_pipeline_status": "complete",
+    "correction_report": "analysis/editflow_pls_multifidelity_correction_v1.json",
+    "correction_selected_by_train_grouped_oof": "fixed_parent",
+    "validation_access": "one_pass_after_train_grouped_cv_selection"
   },
   "landscape": {
     "exact_nodes": 19584,
