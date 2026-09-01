@@ -48,6 +48,13 @@ def load_safe_nodes(manifest_path: Path, entities_path: Path) -> tuple[list[dict
     return nodes, entities
 
 
+def matched_sequence_only_logits(model: GVPStructureFusion, sequence: torch.Tensor) -> torch.Tensor:
+    """Use the frozen checkpoint's own sequence branch with structure bypassed."""
+    if not model.aligned_fusion or not hasattr(model, "sequence_head"):
+        raise ValueError("matched sequence ablation requires an aligned MoE teacher")
+    return model.sequence_head(model.sequence(sequence)).squeeze(-1)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, required=True)
@@ -181,7 +188,11 @@ def main() -> None:
     state = torch.load(checkpoint, map_location=device, weights_only=False)
     model.load_state_dict(state["model"])
     model.eval()
+    include_sequence_ablation = bool(
+        config["oracle"].get("include_matched_sequence_ablation", False)
+    )
     logits = []
+    sequence_only_logits = []
     with torch.inference_mode():
         for sequence, residue, vectors, coordinates, mask, neighbors, distances, patch, components, _ in loader:
             values = [
@@ -197,21 +208,39 @@ def main() -> None:
                 enabled=bool(inference.get("amp_bfloat16", True)),
             ):
                 prediction = model(*values)
+                if include_sequence_ablation:
+                    sequence_prediction = matched_sequence_only_logits(model, values[0])
             if not torch.isfinite(prediction).all():
                 raise FloatingPointError("frozen oracle produced a non-finite logit")
             logits.extend(prediction.float().cpu().tolist())
+            if include_sequence_ablation:
+                if not torch.isfinite(sequence_prediction).all():
+                    raise FloatingPointError("matched sequence ablation produced a non-finite logit")
+                sequence_only_logits.extend(sequence_prediction.float().cpu().tolist())
     logits_array = np.asarray(logits, dtype=np.float32)
     if logits_array.shape != (len(nodes),):
         raise RuntimeError("frozen oracle output count mismatch")
     arguments.output_root.mkdir(parents=True, exist_ok=False)
+    arrays = {
+        "node_indices": np.arange(len(nodes), dtype=np.int64),
+        "sequence_sha256": np.asarray([node["sequence_sha256"] for node in nodes]),
+        "logits": logits_array,
+    }
+    sequence_array = None
+    if include_sequence_ablation:
+        sequence_array = np.asarray(sequence_only_logits, dtype=np.float32)
+        if sequence_array.shape != logits_array.shape:
+            raise RuntimeError("matched sequence ablation output count mismatch")
+        arrays["sequence_only_logits"] = sequence_array
     np.savez_compressed(
         arguments.output_root / "oracle_logits.npz",
-        node_indices=np.arange(len(nodes), dtype=np.int64),
-        sequence_sha256=np.asarray([node["sequence_sha256"] for node in nodes]),
-        logits=logits_array,
+        **arrays,
     )
     report = {
-        "schema": "PLS_EditFlow_frozen_GVP_oracle_scores_v1",
+        "schema": (
+            "PLS_EditFlow_frozen_GVP_oracle_scores_with_matched_ablation_v2"
+            if include_sequence_ablation else "PLS_EditFlow_frozen_GVP_oracle_scores_v1"
+        ),
         "output": "raw_logit",
         "queries": len(nodes),
         "queries_by_split": {
@@ -226,6 +255,17 @@ def main() -> None:
         "logit_mean": float(logits_array.mean()),
         "test_evaluated": False,
     }
+    if sequence_array is not None:
+        residual = logits_array - sequence_array
+        report["matched_sequence_ablation"] = {
+            "definition": "same_checkpoint_sequence_projection_and_sequence_head",
+            "logit_minimum": float(sequence_array.min()),
+            "logit_maximum": float(sequence_array.max()),
+            "logit_mean": float(sequence_array.mean()),
+            "full_sequence_pearson": float(np.corrcoef(logits_array, sequence_array)[0, 1]),
+            "residual_mean": float(residual.mean()),
+            "residual_standard_deviation": float(residual.std()),
+        }
     environment = {
         "python": sys.version,
         "accelerator_backend": accelerator_backend,
