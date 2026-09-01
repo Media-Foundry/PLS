@@ -1,0 +1,31 @@
+{
+  "comparison": "same_nodes_same_architecture_same_seed_same_edge_rmse_selection",
+  "edge_kd": {
+    "best_epoch": 1,
+    "edge_spearman": 0.07768168216279414,
+    "edge_rmse": 0.668489601398419,
+    "mutation_sign_accuracy": 0.53125,
+    "mutation_sign_balanced_accuracy": 0.5323565323565324,
+    "top_5_recall": 0.32500000000000007,
+    "value_pearson": 0.5983690401849605,
+    "value_r2": -0.0855209633699201,
+    "value_rmse": 5.183104821133659
+  },
+  "queries": {
+    "train": 272,
+    "validation": 136
+  },
+  "schema": "PLS_EditFlow_student_PoC_comparison_v1",
+  "test_evaluated": false,
+  "value_kd": {
+    "best_epoch": 1,
+    "edge_spearman": 0.11706905342295552,
+    "edge_rmse": 0.668648862598566,
+    "mutation_sign_accuracy": 0.5390625,
+    "mutation_sign_balanced_accuracy": 0.5405372405372405,
+    "top_5_recall": 0.35,
+    "value_pearson": 0.6447088221918543,
+    "value_r2": -0.1109762058987287,
+    "value_rmse": 5.243524038207308
+  }
+}

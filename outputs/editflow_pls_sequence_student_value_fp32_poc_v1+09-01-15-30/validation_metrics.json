@@ -1,0 +1,21 @@
+{
+  "edge": {
+    "anchor_macro_kendall_tau": 0.02088716520266642,
+    "anchor_macro_top_5_recall": 0.35,
+    "edge_mae": 0.2565742041915655,
+    "edge_pearson": -0.10017548272783156,
+    "edge_rmse": 0.668648862598566,
+    "edge_spearman": 0.11706905342295552,
+    "edges": 128,
+    "informative_sign_edges": 128,
+    "mutation_sign_accuracy": 0.5390625,
+    "mutation_sign_balanced_accuracy": 0.5405372405372405,
+    "nodes": 136
+  },
+  "value": {
+    "nodes": 136,
+    "pearson": 0.6447088221918543,
+    "r2": -0.1109762058987287,
+    "rmse": 5.243524038207308
+  }
+}

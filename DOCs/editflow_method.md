@@ -333,15 +333,25 @@ primary endpoint and the metric is now known to mix acquisition with student
 generalization, so it cannot establish the method claim. Final checkpoints are
 being re-audited under the three-regret decomposition.
 
-For the PLS world, the current test-free proof-of-concept manifest contains 24
-strict train/validation anchors, 384 single-mutant edges, and 408 unique sequence
-queries. Mean ESM-2 embeddings are complete for all 408 sequences. Every mutant
-still requires its own ESMFold structure and V4/GVP/surface feature artifacts;
-the pipeline hard-fails rather than substituting a parent structure.
+For the PLS world, the test-free proof-of-concept contains 24 strict
+train/validation anchors, 384 single-mutant edges, and 408 unique sequence
+queries. All 384 exact mutant folds and V4/GVP/surface artifacts completed with
+zero failures on authorized local GPUs 0--3; parent structure artifacts were
+never substituted for mutants. The previously queued star Slurm chain was
+cancelled while pending and remains only as a verified fallback staging copy.
 
-The 384 mutants are partitioned into eight equal 48-sequence/8,436-residue
-ESMFold shards. Code, manifests, embeddings, and the hash-verified ESMFold v1
-checkpoint are staged non-destructively at
-`/data/husrcf/PLS/editflow_oracle_20260901` on star. Slurm array job 60 requests
-one A100 per shard with at most two concurrent tasks; it remains test-free and
-resumable at the exact-sequence PDB level.
+Canonical oracle scoring now uses float32 inference. Two immediate replays
+agreed within `2.87e-6` in full logits and exactly in the same-checkpoint
+sequence-only ablation; BF16 replay drift had reached `0.053` and is only
+exploratory. The matched ablation exposes substantial structure/fusion signal:
+across 384 mutation edges, mean absolute full delta is `0.2090`, matched
+sequence-only delta is `0.0487`, residual delta is `0.1911`, delta Spearman is
+`0.3053`, and signs agree on only `61.5%` of edges.
+
+The first controlled PLS student comparison is also null for naive edge loss.
+With identical nodes, architecture, seed, and edge-RMSE model selection, Value
+KD obtains edge Spearman `0.1171` and sign accuracy `0.5391`; adding unit-weight
+graph-Sobolev loss obtains `0.0777` and `0.5312`. Both select epoch 1. This
+strengthens the cross-world conclusion that the edge objective alone is not the
+method contribution. Large teacher deltas on low-confidence structures remain
+a required sensitivity analysis before biological interpretation.

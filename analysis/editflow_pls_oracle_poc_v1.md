@@ -31,3 +31,8 @@ This does not establish biological mutation-effect validity. A few local deltas
 are very large, particularly on low-confidence validation anchor 23, and require
 confidence-stratified sensitivity analysis. The artifact supports a distillation
 question, not a claim that the teacher is an experimental mutation oracle.
+
+The 384 exact mutant folds had zero failures. Their measured per-query ESMFold
+inference time averaged `2.99 s` (median `2.41 s`, p95 `6.60 s`); summed shard
+wall/GPU occupancy including eight model loads was `1571.2 GPU-s`. This is the
+costly derived-modality work that a sequence-only student is intended to avoid.

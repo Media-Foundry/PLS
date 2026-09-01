@@ -7,6 +7,15 @@
     "sequence_std": 1.0302868347918817
   },
   "queries": 408,
+  "runtime": {
+    "exact_mutant_folds": 384,
+    "fold_failures": 0,
+    "mean_fold_inference_seconds": 2.993313932120145,
+    "median_fold_inference_seconds": 2.4145599869953003,
+    "p95_fold_inference_seconds": 6.604550007641955,
+    "per_query_fold_inference_seconds_sum": 1149.4325499341357,
+    "reported_shard_gpu_seconds_including_load": 1571.2226865249977
+  },
   "schema": "PLS_EditFlow_oracle_PoC_analysis_v1",
   "splits": {
     "all": {

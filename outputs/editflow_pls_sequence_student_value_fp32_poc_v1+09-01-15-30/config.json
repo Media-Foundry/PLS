@@ -1,0 +1,35 @@
+{
+  "data": {
+    "manifest": "benchmark/generated/pls_editflow_oracle_manifest_poc_v1.json",
+    "oracle_report": "artifacts/oracles/pls_editflow_poc_v1/scores_matched_fp32_a/oracle_report.json",
+    "oracle_scores": "artifacts/oracles/pls_editflow_poc_v1/scores_matched_fp32_a/oracle_logits.npz",
+    "top_k": 5
+  },
+  "evaluate_test": false,
+  "experiment_name": "editflow_pls_sequence_student_value_fp32_poc_v1",
+  "model": {
+    "dimension": 128,
+    "dropout": 0.1,
+    "heads": 4,
+    "layers": 3,
+    "max_length": 300
+  },
+  "trainer_module": "pls.training.train_editflow_pls",
+  "training": {
+    "amp_bfloat16": true,
+    "anchor_batch_size": 4,
+    "checkpoint_every": 25,
+    "edge_weight": 0.0,
+    "epochs": 250,
+    "fused_optimizer": true,
+    "hip_device": 2,
+    "learning_rate": 0.0005,
+    "loss": "huber",
+    "max_gradient_norm": 5.0,
+    "patience": 30,
+    "seed": 20260921,
+    "selection_metric": "edge_rmse",
+    "value_weight": 1.0,
+    "weight_decay": 0.0001
+  }
+}

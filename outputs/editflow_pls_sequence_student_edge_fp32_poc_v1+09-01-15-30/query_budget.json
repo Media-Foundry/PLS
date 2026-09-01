@@ -1,0 +1,6 @@
+{
+  "teacher_query_cost_unit": "unique exact sequence",
+  "test_evaluated": false,
+  "train_oracle_nodes": 272,
+  "validation_oracle_nodes": 136
+}
