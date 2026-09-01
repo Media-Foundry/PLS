@@ -3,10 +3,25 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from pls.oracles.fold_editflow import load_shard, shard_status, validate_visible_device
+from pls.oracles.fold_editflow import (load_shard,
+                                       remap_esmfold_point_projection_keys,
+                                       shard_status, validate_visible_device)
 
 
 class EditFlowOracleFoldingTests(unittest.TestCase):
+    def test_point_projection_compatibility_remap_is_exact_and_collision_safe(self):
+        source = "trunk.structure_module.ipa.linear_q_points.weight"
+        target = "trunk.structure_module.ipa.linear_q_points.linear.weight"
+        state, applied = remap_esmfold_point_projection_keys(
+            {source: "tensor"}, {target}
+        )
+        self.assertEqual(state, {target: "tensor"})
+        self.assertEqual(applied, {source: target})
+        with self.assertRaisesRegex(ValueError, "already exists"):
+            remap_esmfold_point_projection_keys(
+                {source: "old", target: "new"}, {target}
+            )
+
     def test_visible_device_contract_supports_local_rocm_and_star_cuda(self):
         self.assertEqual(
             validate_visible_device(0, None, {"HIP_VISIBLE_DEVICES": "0"}),

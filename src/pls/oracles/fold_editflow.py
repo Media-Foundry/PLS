@@ -11,12 +11,72 @@ import time
 from pathlib import Path
 
 
+ESMFOLD_POINT_PROJECTION_REMAP = {
+    "trunk.structure_module.ipa.linear_kv_points.weight":
+        "trunk.structure_module.ipa.linear_kv_points.linear.weight",
+    "trunk.structure_module.ipa.linear_kv_points.bias":
+        "trunk.structure_module.ipa.linear_kv_points.linear.bias",
+    "trunk.structure_module.ipa.linear_q_points.weight":
+        "trunk.structure_module.ipa.linear_q_points.linear.weight",
+    "trunk.structure_module.ipa.linear_q_points.bias":
+        "trunk.structure_module.ipa.linear_q_points.linear.bias",
+}
+
+
 def file_sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def remap_esmfold_point_projection_keys(
+    model_state: dict,
+    expected_keys: set[str],
+) -> tuple[dict, dict[str, str]]:
+    """Adapt the four IPA point projections used by wrapped OpenFold Linear.
+
+    Some OpenFold wheels wrap these projections and expose ``.linear.weight``
+    while the official fair-esm v1 checkpoint stores ``.weight``.  Only exact
+    source/target pairs are remapped; collisions and partial pairs hard-fail.
+    """
+    state = dict(model_state)
+    applied: dict[str, str] = {}
+    for source, target in ESMFOLD_POINT_PROJECTION_REMAP.items():
+        source_present = source in state
+        target_expected = target in expected_keys
+        if source_present and target_expected:
+            if target in state:
+                raise ValueError(f"ESMFold remap target already exists: {target}")
+            state[target] = state.pop(source)
+            applied[source] = target
+        elif source_present != target_expected:
+            raise ValueError(
+                f"incomplete ESMFold/OpenFold compatibility pair: {source} -> {target}"
+            )
+    return state, applied
+
+
+def load_esmfold_v1_compatible(torch_module):
+    """Load the official v1 checkpoint with an audited four-key compatibility map."""
+    from esm.esmfold.v1.esmfold import ESMFold
+
+    checkpoint = Path(torch_module.hub.get_dir()) / "checkpoints" / "esmfold_3B_v1.pt"
+    model_data = torch_module.load(checkpoint, map_location="cpu", weights_only=False)
+    model = ESMFold(esmfold_config=model_data["cfg"]["model"])
+    expected = set(model.state_dict())
+    state, remapped = remap_esmfold_point_projection_keys(model_data["model"], expected)
+    missing = sorted(
+        key for key in expected - set(state) if not key.startswith("esm.")
+    )
+    if missing:
+        raise RuntimeError(f"essential ESMFold keys are missing after compatibility remap: {missing}")
+    incompatible = model.load_state_dict(state, strict=False)
+    unexpected = sorted(incompatible.unexpected_keys)
+    if unexpected:
+        raise RuntimeError(f"unexpected ESMFold checkpoint keys after remap: {unexpected}")
+    return model, remapped
 
 
 def load_shard(manifest_path: Path, plan_path: Path, shard_index: int) -> tuple[list[dict], dict]:
@@ -122,7 +182,7 @@ def main() -> None:
     arguments.output_root.mkdir(parents=True, exist_ok=True)
     started = time.monotonic()
     print(json.dumps({"event": "loading_esmfold_v1", "shard": arguments.shard_index}), flush=True)
-    model = esm.pretrained.esmfold_v1()
+    model, checkpoint_key_remaps = load_esmfold_v1_compatible(torch)
     model.eval().requires_grad_(False).to("cuda:0")
     model.set_chunk_size(arguments.chunk_size)
     checkpoint_dir = Path(torch.hub.get_dir()) / "checkpoints"
@@ -198,6 +258,7 @@ def main() -> None:
         "failed": sum(row["status"] == "failed" for row in results),
         "elapsed_seconds": time.monotonic() - started,
         "checkpoint_files": checkpoint_records,
+        "checkpoint_key_remaps": checkpoint_key_remaps,
         "results": results,
         "test_evaluated": False,
     }
