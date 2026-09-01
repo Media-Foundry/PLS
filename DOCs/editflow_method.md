@@ -357,5 +357,17 @@ With identical nodes, architecture, seed, and edge-RMSE model selection, Value
 KD obtains edge Spearman `0.1171` and sign accuracy `0.5391`; adding unit-weight
 graph-Sobolev loss obtains `0.0777` and `0.5312`. Both select epoch 1. This
 strengthens the cross-world conclusion that the edge objective alone is not the
-method contribution. Large teacher deltas on low-confidence structures remain
+method contribution. Large teacher deltas on medium-confidence structures remain
 a required sensitivity analysis before biological interpretation.
+
+The first prequentially calibrated path acquisition is also a development null
+on the primary local curve. It calibrates later-round uncertainty only from
+pre-query predictions on frontier edges whose targets were subsequently
+purchased, so it consumes no extra labels and never inspects unpurchased target
+fitness. Radius-2 novel-design regret AUC is `1.9816`, between UCB (`1.9502`)
+and the prior adaptive candidate (`2.2114`) but worse than occupancy-only
+(`1.8662`). It has the highest final edge Spearman (`0.3671`) and a strong final
+campaign endpoint, yet these secondary observations do not constitute a method
+win. The additive corrections are large enough that the policy becomes a
+support-limited occupancy/UCB hybrid; future calibration must be path-conditional
+or improve candidate-path coverage rather than apply another global quantile.

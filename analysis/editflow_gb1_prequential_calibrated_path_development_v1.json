@@ -1,0 +1,45 @@
+{
+  "calibration": {
+    "from_budget_80": {
+      "calibration_count_mean": 0.0,
+      "correction_mean": 0.0,
+      "new_calibration_edges_mean": 119.3125,
+      "path_selected_mean": 77.5625,
+      "ucb_fill_mean": 2.4375
+    },
+    "from_budget_160": {
+      "calibration_count_mean": 119.3125,
+      "correction_mean": 1.1963073203877963,
+      "empirical_coverage_mean": 0.9190485022465307,
+      "new_calibration_edges_mean": 388.75,
+      "path_selected_mean": 94.0625,
+      "ucb_fill_mean": 65.9375
+    },
+    "from_budget_320": {
+      "calibration_count_mean": 508.0625,
+      "correction_mean": 1.4902003784627293,
+      "empirical_coverage_mean": 0.9047126099055032,
+      "new_calibration_edges_mean": 934.0,
+      "path_selected_mean": 102.5,
+      "ucb_fill_mean": 217.5
+    }
+  },
+  "directory": "outputs/editflow_gb1_prequential_calibrated_path_development_v1+09-01-15-37",
+  "final_edge_spearman": 0.3670634121503248,
+  "final_regret": {
+    "1": {"acquired": 0.0, "campaign": 0.0, "novel_design": 0.007840819338647028},
+    "2": {"acquired": 0.18195662123616785, "campaign": 0.025514567620120943, "novel_design": 0.86835712735774},
+    "3": {"acquired": 0.7760581970214844, "campaign": 0.5560027956962585, "novel_design": 1.5225249007344246},
+    "4": {"acquired": 1.357167899608612, "campaign": 1.2582482695579529, "novel_design": 2.277962177991867}
+  },
+  "final_value_r2": 0.44365762861729213,
+  "normalized_budget_auc": {
+    "1": {"acquired": 0.1071872368484037, "campaign": 0.08592504622876211, "novel_design": 0.13402534885352083},
+    "2": {"acquired": 1.26557872646455, "campaign": 1.027220767606715, "novel_design": 1.981610409019465},
+    "3": {"acquired": 2.771262379986833, "campaign": 2.3750338494927354, "novel_design": 3.066069228140155},
+    "4": {"acquired": 3.02645816175001, "campaign": 2.8596257864098464, "novel_design": 4.18033418432086}
+  },
+  "schema": "PLS_EditFlow_GB1_prequential_calibrated_path_development_v1",
+  "status": "development_only",
+  "test_evaluated": false
+}
