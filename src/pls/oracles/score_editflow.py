@@ -253,6 +253,10 @@ def main() -> None:
         "logit_minimum": float(logits_array.min()),
         "logit_maximum": float(logits_array.max()),
         "logit_mean": float(logits_array.mean()),
+        "inference_precision": (
+            "bfloat16_autocast" if bool(inference.get("amp_bfloat16", True)) else "float32"
+        ),
+        "scoring_config_sha256": file_sha256(arguments.config),
         "test_evaluated": False,
     }
     if sequence_array is not None:
@@ -283,6 +287,9 @@ def main() -> None:
     }
     (arguments.output_root / "environment.json").write_text(
         json.dumps(environment, indent=2, sort_keys=True) + "\n"
+    )
+    (arguments.output_root / "config.json").write_text(
+        json.dumps(config, indent=2, sort_keys=True) + "\n"
     )
     (arguments.output_root / "oracle_report.json").write_text(
         json.dumps(report, indent=2, sort_keys=True) + "\n"

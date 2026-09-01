@@ -23,6 +23,6 @@
     "hip_device": 2,
     "batch_size": 20,
     "workers": 0,
-    "amp_bfloat16": true
+    "amp_bfloat16": false
   }
 }
