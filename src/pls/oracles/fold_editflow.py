@@ -22,6 +22,14 @@ ESMFOLD_POINT_PROJECTION_REMAP = {
         "trunk.structure_module.ipa.linear_q_points.linear.bias",
 }
 
+ESMFOLD_ALLOWED_LEGACY_BUFFERS = {
+    "positional_encoding._float_tensor",
+    "trunk.structure_module.atom_mask",
+    "trunk.structure_module.default_frames",
+    "trunk.structure_module.group_idx",
+    "trunk.structure_module.lit_positions",
+}
+
 
 def file_sha256(path: Path) -> str:
     digest = hashlib.sha256()
@@ -73,10 +81,11 @@ def load_esmfold_v1_compatible(torch_module):
     if missing:
         raise RuntimeError(f"essential ESMFold keys are missing after compatibility remap: {missing}")
     incompatible = model.load_state_dict(state, strict=False)
-    unexpected = sorted(incompatible.unexpected_keys)
-    if unexpected:
-        raise RuntimeError(f"unexpected ESMFold checkpoint keys after remap: {unexpected}")
-    return model, remapped
+    unexpected = set(incompatible.unexpected_keys)
+    unsupported = sorted(unexpected - ESMFOLD_ALLOWED_LEGACY_BUFFERS)
+    if unsupported:
+        raise RuntimeError(f"unexpected ESMFold checkpoint keys after remap: {unsupported}")
+    return model, remapped, sorted(unexpected)
 
 
 def load_shard(manifest_path: Path, plan_path: Path, shard_index: int) -> tuple[list[dict], dict]:
@@ -182,7 +191,7 @@ def main() -> None:
     arguments.output_root.mkdir(parents=True, exist_ok=True)
     started = time.monotonic()
     print(json.dumps({"event": "loading_esmfold_v1", "shard": arguments.shard_index}), flush=True)
-    model, checkpoint_key_remaps = load_esmfold_v1_compatible(torch)
+    model, checkpoint_key_remaps, ignored_legacy_buffers = load_esmfold_v1_compatible(torch)
     model.eval().requires_grad_(False).to("cuda:0")
     model.set_chunk_size(arguments.chunk_size)
     checkpoint_dir = Path(torch.hub.get_dir()) / "checkpoints"
@@ -259,6 +268,7 @@ def main() -> None:
         "elapsed_seconds": time.monotonic() - started,
         "checkpoint_files": checkpoint_records,
         "checkpoint_key_remaps": checkpoint_key_remaps,
+        "ignored_legacy_checkpoint_buffers": ignored_legacy_buffers,
         "results": results,
         "test_evaluated": False,
     }
