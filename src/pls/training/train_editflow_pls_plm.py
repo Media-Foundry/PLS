@@ -15,7 +15,7 @@ from torch.nn import functional as F
 from torch.utils.tensorboard import SummaryWriter
 
 from pls.editflow.mutations import AMINO_ACIDS
-from pls.editflow.plm_student import (PLMMutationDeltaHead, PLMPotentialHead,
+from pls.editflow.plm_student import (PLMMutationDeltaHead, PLMPairDeltaHead, PLMPotentialHead,
                                       commuting_cycle_residual)
 from pls.training.train_editflow_pls import load_landscape, validation_metrics
 
@@ -108,16 +108,48 @@ def delta_inputs(model, features: dict, parents, positions, source_aa, target_aa
     )
 
 
+def pair_delta_inputs(model, features: dict, parents, targets, positions, source_aa, target_aa, device):
+    parents = np.asarray(parents, dtype=np.int64)
+    targets = np.asarray(targets, dtype=np.int64)
+    positions = np.asarray(positions, dtype=np.int64)
+    lengths = features["offsets"][parents + 1] - features["offsets"][parents]
+    target_lengths = features["offsets"][targets + 1] - features["offsets"][targets]
+    if np.any(lengths != target_lengths) or np.any(positions < 0) or np.any(positions >= lengths):
+        raise ValueError("pair edit features require equal valid parent/target coordinates")
+    parent_local_indices = features["offsets"][parents] + positions
+    target_local_indices = features["offsets"][targets] + positions
+    normalized_position = positions / np.maximum(lengths - 1, 1)
+    normalized_log_length = np.log1p(lengths) / math.log1p(2048)
+    return model(
+        torch.from_numpy(features["global"][parents]).to(device),
+        torch.from_numpy(features["global"][targets]).to(device),
+        torch.from_numpy(features["pooled"][parents]).to(device),
+        torch.from_numpy(features["pooled"][targets]).to(device),
+        torch.from_numpy(features["residue"][parent_local_indices]).to(device),
+        torch.from_numpy(features["residue"][target_local_indices]).to(device),
+        torch.from_numpy(np.asarray(source_aa, dtype=np.int64)).to(device),
+        torch.from_numpy(np.asarray(target_aa, dtype=np.int64)).to(device),
+        torch.from_numpy(normalized_position.astype(np.float32)).to(device),
+        torch.from_numpy(normalized_log_length.astype(np.float32)).to(device),
+    )
+
+
 def anchored_delta_predictions(
     model, landscape: dict, records: dict, features: dict,
-    delta_mean: float, delta_std: float, device,
+    delta_mean: float, delta_std: float, device, *, pair_mode: bool = False,
 ) -> np.ndarray:
     prediction = np.full(len(landscape["nodes"]), np.nan, dtype=np.float64)
     with torch.inference_mode():
-        normalized = delta_inputs(
-            model, features, records["source"], records["position"],
-            records["source_aa"], records["target_aa"], device,
-        )
+        if pair_mode:
+            normalized = pair_delta_inputs(
+                model, features, records["source"], records["target"], records["position"],
+                records["source_aa"], records["target_aa"], device,
+            )
+        else:
+            normalized = delta_inputs(
+                model, features, records["source"], records["position"],
+                records["source_aa"], records["target_aa"], device,
+            )
     effects = normalized.float().cpu().numpy() * delta_std + delta_mean
     for source, target, effect in zip(records["source"], records["target"], effects):
         prediction[int(source)] = landscape["teacher"][int(source)]
@@ -174,8 +206,12 @@ def main() -> None:
         model = PLMMutationDeltaHead(
             features["global"].shape[1], features["pooled"].shape[1], dimension, dropout
         ).to(device)
+    elif mode == "pair_delta":
+        model = PLMPairDeltaHead(
+            features["global"].shape[1], features["pooled"].shape[1], dimension, dropout
+        ).to(device)
     else:
-        raise ValueError("model mode must be potential, direct_delta, or cycle_delta")
+        raise ValueError("model mode must be potential, direct_delta, cycle_delta, or pair_delta")
     optimizer = torch.optim.AdamW(
         model.parameters(), lr=training["learning_rate"],
         weight_decay=training["weight_decay"], fused=training.get("fused_optimizer", False),
@@ -201,10 +237,17 @@ def main() -> None:
                 supervised = F.huber_loss(prediction, normalized_values[train_nodes])
                 cycle_loss = prediction.new_zeros(())
             else:
-                prediction = delta_inputs(
-                    model, features, train_edges["source"], train_edges["position"],
-                    train_edges["source_aa"], train_edges["target_aa"], device,
-                )
+                if mode == "pair_delta":
+                    prediction = pair_delta_inputs(
+                        model, features, train_edges["source"], train_edges["target"],
+                        train_edges["position"], train_edges["source_aa"],
+                        train_edges["target_aa"], device,
+                    )
+                else:
+                    prediction = delta_inputs(
+                        model, features, train_edges["source"], train_edges["position"],
+                        train_edges["source_aa"], train_edges["target_aa"], device,
+                    )
                 supervised = F.huber_loss(prediction, normalized_delta)
                 cycle_loss = prediction.new_zeros(())
                 if mode == "cycle_delta" and len(cycles):
@@ -234,7 +277,8 @@ def main() -> None:
             metrics["value"]["anchored"] = False
         else:
             node_prediction = anchored_delta_predictions(
-                model, landscape, validation_edges, features, delta_mean, delta_std, device
+                model, landscape, validation_edges, features, delta_mean, delta_std, device,
+                pair_mode=mode == "pair_delta",
             )
             metrics = validation_metrics(landscape, node_prediction, int(data.get("top_k", 5)))
             metrics["value"]["anchored"] = True
@@ -275,7 +319,8 @@ def main() -> None:
         final_prediction = normalized.float().cpu().numpy() * value_std + value_mean
     else:
         final_prediction = anchored_delta_predictions(
-            model, landscape, validation_edges, features, delta_mean, delta_std, device
+            model, landscape, validation_edges, features, delta_mean, delta_std, device,
+            pair_mode=mode == "pair_delta",
         )
     metrics = validation_metrics(landscape, final_prediction, int(data.get("top_k", 5)))
     metrics["value"]["anchored"] = mode != "potential"

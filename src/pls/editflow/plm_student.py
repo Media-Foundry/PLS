@@ -83,6 +83,56 @@ class PLMMutationDeltaHead(nn.Module):
         return self.head(features).squeeze(-1)
 
 
+class PLMPairDeltaHead(nn.Module):
+    """Predict an edit effect from exact parent/target frozen-PLM responses."""
+
+    def __init__(self, global_dimension: int, residue_dimension: int, dimension=256, dropout=.1):
+        super().__init__()
+        self.amino_acid = nn.Embedding(len(AMINO_ACIDS), 32)
+        self.global_delta = nn.Sequential(
+            nn.LayerNorm(global_dimension), nn.Linear(global_dimension, dimension), nn.GELU()
+        )
+        self.pooled_delta = nn.Sequential(
+            nn.LayerNorm(residue_dimension), nn.Linear(residue_dimension, dimension), nn.GELU()
+        )
+        self.parent_local = nn.Sequential(
+            nn.LayerNorm(residue_dimension), nn.Linear(residue_dimension, dimension), nn.GELU()
+        )
+        self.local_delta = nn.Sequential(
+            nn.LayerNorm(residue_dimension), nn.Linear(residue_dimension, dimension), nn.GELU()
+        )
+        input_dimension = dimension * 4 + 32 * 3 + 2
+        self.head = nn.Sequential(
+            nn.LayerNorm(input_dimension), nn.Linear(input_dimension, dimension),
+            nn.GELU(), nn.Dropout(dropout), nn.Linear(dimension, 1),
+        )
+
+    def forward(
+        self,
+        parent_global: torch.Tensor,
+        target_global: torch.Tensor,
+        parent_pooled: torch.Tensor,
+        target_pooled: torch.Tensor,
+        parent_local: torch.Tensor,
+        target_local: torch.Tensor,
+        source_residue: torch.Tensor,
+        target_residue: torch.Tensor,
+        normalized_position: torch.Tensor,
+        normalized_log_length: torch.Tensor,
+    ) -> torch.Tensor:
+        source = self.amino_acid(source_residue)
+        target = self.amino_acid(target_residue)
+        features = torch.cat((
+            self.global_delta(target_global - parent_global),
+            self.pooled_delta(target_pooled - parent_pooled),
+            self.parent_local(parent_local),
+            self.local_delta(target_local - parent_local),
+            source, target, target - source,
+            normalized_position[:, None], normalized_log_length[:, None],
+        ), dim=-1)
+        return self.head(features).squeeze(-1)
+
+
 def commuting_cycle_residual(
     anchor_to_i: torch.Tensor,
     after_i_to_j: torch.Tensor,
