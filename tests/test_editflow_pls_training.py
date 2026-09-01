@@ -5,10 +5,18 @@ from pathlib import Path
 
 import numpy as np
 
-from pls.training.train_editflow_pls import load_landscape, validation_metrics
+from pls.training.train_editflow_pls import (load_landscape, selection_score,
+                                             validation_metrics)
 
 
 class EditFlowPLSTrainingTests(unittest.TestCase):
+    def test_selection_metric_is_explicit_and_minimized(self):
+        metrics = {"value": {"rmse": 1.25}, "edge": {"edge_rmse": 0.5}}
+        self.assertEqual(selection_score(metrics, "value_rmse"), 1.25)
+        self.assertEqual(selection_score(metrics, "edge_rmse"), 0.5)
+        with self.assertRaisesRegex(ValueError, "selection_metric"):
+            selection_score(metrics, "r2")
+
     def test_load_and_validation_metrics_use_only_safe_groups(self):
         nodes = [
             {"node_index": 0, "anchor_rank": 0, "kind": "anchor", "split": "train", "sequence_sha256": "a", "sequence": "AC"},

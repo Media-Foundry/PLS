@@ -139,6 +139,15 @@ def validation_metrics(landscape, prediction, top_k):
     return {"value": value, "edge": field}
 
 
+def selection_score(metrics: dict, name: str) -> float:
+    """Return a minimized, explicitly configured early-stopping score."""
+    if name == "value_rmse":
+        return float(metrics["value"]["rmse"])
+    if name == "edge_rmse":
+        return float(metrics["edge"]["edge_rmse"])
+    raise ValueError("selection_metric must be value_rmse or edge_rmse")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, required=True)
@@ -187,6 +196,9 @@ def main() -> None:
     train_groups = list(landscape["groups"]["train"])
     validation_groups = list(landscape["groups"]["validation"])
     anchor_batch_size = int(training["anchor_batch_size"])
+    selection_metric = str(training.get("selection_metric", "edge_rmse"))
+    # Validate before training rather than failing after the first epoch.
+    selection_score({"value": {"rmse": 0.0}, "edge": {"edge_rmse": 0.0}}, selection_metric)
     for epoch in range(1, int(training["epochs"]) + 1):
         model.train();rng = random.Random(seed + epoch);rng.shuffle(train_groups);total = 0.0;batches = 0
         for start in range(0, len(train_groups), anchor_batch_size):
@@ -224,8 +236,10 @@ def main() -> None:
         }
         if epoch % int(training["checkpoint_every"]) == 0:
             torch.save(state, arguments.run_dir / "checkpoints" / f"epoch_{epoch:03d}.pt")
-        if metrics["edge"]["edge_rmse"] < best:
-            best = metrics["edge"]["edge_rmse"];stale = 0
+        current_selection_score = selection_score(metrics, selection_metric)
+        writer.add_scalar(f"selection/{selection_metric}", current_selection_score, epoch)
+        if current_selection_score < best:
+            best = current_selection_score;stale = 0
             torch.save(state, arguments.run_dir / "checkpoints" / "best.pt")
         else:
             stale += 1
