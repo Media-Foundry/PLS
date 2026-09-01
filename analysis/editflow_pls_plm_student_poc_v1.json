@@ -1,0 +1,53 @@
+{
+  "group_cv_ridge_diagnostic": {
+    "best_direct_feature": "local_target_minus_parent_residue_plm",
+    "best_direct_validation_edge_spearman": 0.08813633034242813,
+    "best_potential_feature": "pooled_residue_plm",
+    "best_potential_validation_edge_spearman": -0.01595403772202893,
+    "selection": "four-fold train-anchor Group-CV edge RMSE",
+    "validation_used_for_alpha_selection": false
+  },
+  "methods": {
+    "cycle_delta": {
+      "additional_teacher_queries": 0,
+      "best_epoch": 8,
+      "edge_pearson": 0.02455606267517053,
+      "edge_rmse": 0.660432700968839,
+      "edge_spearman": 0.07434535799304157,
+      "mutation_sign_accuracy": 0.4921875,
+      "top_5_recall": 0.4,
+      "unlabelled_commuting_cycles": 1900
+    },
+    "direct_delta": {
+      "best_epoch": 8,
+      "edge_pearson": 0.033025891378778684,
+      "edge_rmse": 0.6599415037376829,
+      "edge_spearman": 0.08557269730818531,
+      "mutation_sign_accuracy": 0.5,
+      "top_5_recall": 0.375
+    },
+    "plm_potential": {
+      "best_epoch": 1,
+      "edge_pearson": 0.683097521410415,
+      "edge_rmse": 0.5383261611015376,
+      "edge_spearman": 0.10283144112799852,
+      "mutation_sign_accuracy": 0.6015625,
+      "top_5_recall": 0.45,
+      "value_pearson": -0.032097749131346914
+    },
+    "raw_token_potential": {
+      "edge_pearson": -0.10017548272783156,
+      "edge_rmse": 0.668648862598566,
+      "edge_spearman": 0.11706905342295552,
+      "mutation_sign_accuracy": 0.5390625,
+      "top_5_recall": 0.35,
+      "value_pearson": 0.6447088221918543
+    }
+  },
+  "schema": "PLS_EditFlow_PLM_student_PoC_v1",
+  "test_evaluated": false,
+  "train_independent_anchors": 16,
+  "train_oracle_edges": 256,
+  "validation_independent_anchors": 8,
+  "validation_oracle_edges": 128
+}

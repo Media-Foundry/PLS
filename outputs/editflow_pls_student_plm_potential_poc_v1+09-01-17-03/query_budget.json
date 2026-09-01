@@ -1,0 +1,11 @@
+{
+  "additional_teacher_queries_for_cycles": 0,
+  "mode": "potential",
+  "selection_metric": "validation_edge_rmse",
+  "test_evaluated": false,
+  "train_oracle_edges": 256,
+  "train_oracle_nodes": 272,
+  "unlabelled_commuting_cycles": 0,
+  "validation_oracle_edges": 128,
+  "validation_oracle_nodes": 136
+}

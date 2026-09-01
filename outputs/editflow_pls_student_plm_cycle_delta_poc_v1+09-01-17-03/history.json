@@ -1,0 +1,1684 @@
+[
+  {
+    "epoch": 1,
+    "supervised_loss": 0.26933014392852783,
+    "cycle_loss": 0.01778566464781761,
+    "objective": 0.2711087167263031,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9826066178518883,
+        "pearson": 0.9915888722854056,
+        "rmse": 0.6560892228494273,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.36446435924153775,
+        "edge_rmse": 0.6762812914093981,
+        "edge_pearson": -0.050892546258440814,
+        "edge_spearman": 0.1161245650979674,
+        "mutation_sign_accuracy": 0.515625,
+        "mutation_sign_balanced_accuracy": 0.5079365079365079,
+        "anchor_macro_kendall_tau": 0.029166666666666657,
+        "anchor_macro_top_5_recall": 0.425,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 2,
+    "supervised_loss": 0.6401681900024414,
+    "cycle_loss": 0.023925697430968285,
+    "objective": 0.6425607800483704,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9831713900271092,
+        "pearson": 0.9916368867534735,
+        "rmse": 0.6453495433250696,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.2727460596652236,
+        "edge_rmse": 0.6652110831433456,
+        "edge_pearson": -0.019534693411331464,
+        "edge_spearman": 0.06973310748947079,
+        "mutation_sign_accuracy": 0.546875,
+        "mutation_sign_balanced_accuracy": 0.545054945054945,
+        "anchor_macro_kendall_tau": 0.016666666666666663,
+        "anchor_macro_top_5_recall": 0.375,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 3,
+    "supervised_loss": 0.22841963171958923,
+    "cycle_loss": 0.015250835567712784,
+    "objective": 0.22994472086429596,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9805675711400924,
+        "pearson": 0.9915130805417877,
+        "rmse": 0.6934807779853327,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.33598866482498124,
+        "edge_rmse": 0.7148236242422592,
+        "edge_pearson": -0.007405899842860518,
+        "edge_spearman": 0.038958066288225596,
+        "mutation_sign_accuracy": 0.5078125,
+        "mutation_sign_balanced_accuracy": 0.5151404151404151,
+        "anchor_macro_kendall_tau": 0.06041666666666667,
+        "anchor_macro_top_5_recall": 0.375,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 4,
+    "supervised_loss": 0.22544246912002563,
+    "cycle_loss": 0.014893892221152782,
+    "objective": 0.2269318550825119,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9797717343250046,
+        "pearson": 0.9915441736358241,
+        "rmse": 0.7075387157539963,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3633896885730792,
+        "edge_rmse": 0.7293142148168992,
+        "edge_pearson": 0.014935767125208402,
+        "edge_spearman": 0.046420069584325215,
+        "mutation_sign_accuracy": 0.5,
+        "mutation_sign_balanced_accuracy": 0.5076923076923077,
+        "anchor_macro_kendall_tau": 0.08541666666666667,
+        "anchor_macro_top_5_recall": 0.4,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 5,
+    "supervised_loss": 0.2591952383518219,
+    "cycle_loss": 0.014374254271388054,
+    "objective": 0.2606326639652252,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.981063532576892,
+        "pearson": 0.9916524260563812,
+        "rmse": 0.6845739469449766,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.32797605771338567,
+        "edge_rmse": 0.7056426729500298,
+        "edge_pearson": 0.031804829602518764,
+        "edge_spearman": 0.053996520783739246,
+        "mutation_sign_accuracy": 0.5,
+        "mutation_sign_balanced_accuracy": 0.5069597069597069,
+        "anchor_macro_kendall_tau": 0.10416666666666667,
+        "anchor_macro_top_5_recall": 0.42500000000000004,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 6,
+    "supervised_loss": 0.1903993785381317,
+    "cycle_loss": 0.012153247371315956,
+    "objective": 0.19161470234394073,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9825503632674314,
+        "pearson": 0.9917420078116516,
+        "rmse": 0.6571493453712913,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.288957229902735,
+        "edge_rmse": 0.6773740406928336,
+        "edge_pearson": 0.04097488750393534,
+        "edge_spearman": 0.06870307635964108,
+        "mutation_sign_accuracy": 0.4765625,
+        "mutation_sign_balanced_accuracy": 0.4804639804639804,
+        "anchor_macro_kendall_tau": 0.09166666666666667,
+        "anchor_macro_top_5_recall": 0.45000000000000007,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 7,
+    "supervised_loss": 0.1424708366394043,
+    "cycle_loss": 0.011133888736367226,
+    "objective": 0.1435842216014862,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9833094091709083,
+        "pearson": 0.9917660229695909,
+        "rmse": 0.6426976911662539,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.27735902680433355,
+        "edge_rmse": 0.6624776165047658,
+        "edge_pearson": 0.036323584462752904,
+        "edge_spearman": 0.07485465116279069,
+        "mutation_sign_accuracy": 0.5,
+        "mutation_sign_balanced_accuracy": 0.4989010989010989,
+        "anchor_macro_kendall_tau": 0.10208333333333335,
+        "anchor_macro_top_5_recall": 0.45000000000000007,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 8,
+    "supervised_loss": 0.15595245361328125,
+    "cycle_loss": 0.012563852593302727,
+    "objective": 0.15720884501934052,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9834122901456442,
+        "pearson": 0.9917417427610754,
+        "rmse": 0.6407138316956438,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.279413170152111,
+        "edge_rmse": 0.660432700968839,
+        "edge_pearson": 0.02455606267517053,
+        "edge_spearman": 0.07434535799304157,
+        "mutation_sign_accuracy": 0.4921875,
+        "mutation_sign_balanced_accuracy": 0.4892551892551893,
+        "anchor_macro_kendall_tau": 0.07291666666666666,
+        "anchor_macro_top_5_recall": 0.4,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 9,
+    "supervised_loss": 0.17394331097602844,
+    "cycle_loss": 0.01057745423167944,
+    "objective": 0.17500105500221252,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9832170556261166,
+        "pearson": 0.9916869001100551,
+        "rmse": 0.6444733481701739,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.2775092482625041,
+        "edge_rmse": 0.6643079218502732,
+        "edge_pearson": 0.008690462528545474,
+        "edge_spearman": 0.0791979490935726,
+        "mutation_sign_accuracy": 0.5078125,
+        "mutation_sign_balanced_accuracy": 0.5056166056166056,
+        "anchor_macro_kendall_tau": 0.07291666666666666,
+        "anchor_macro_top_5_recall": 0.375,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 10,
+    "supervised_loss": 0.14966809749603271,
+    "cycle_loss": 0.010071348398923874,
+    "objective": 0.1506752371788025,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9827506367392295,
+        "pearson": 0.9915996786393522,
+        "rmse": 0.6533673356378047,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.27829884650418535,
+        "edge_rmse": 0.6734756342907637,
+        "edge_pearson": -0.011122312689317841,
+        "edge_spearman": 0.08628799670390037,
+        "mutation_sign_accuracy": 0.5,
+        "mutation_sign_balanced_accuracy": 0.5013431013431013,
+        "anchor_macro_kendall_tau": 0.09583333333333333,
+        "anchor_macro_top_5_recall": 0.4,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 11,
+    "supervised_loss": 0.12031984329223633,
+    "cycle_loss": 0.010470615699887276,
+    "objective": 0.12136690318584442,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9820480274414826,
+        "pearson": 0.9914865285589045,
+        "rmse": 0.6665411590498193,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.2895176968886517,
+        "edge_rmse": 0.6870549006460063,
+        "edge_pearson": -0.03145265064814679,
+        "edge_spearman": 0.07861998718183483,
+        "mutation_sign_accuracy": 0.5546875,
+        "mutation_sign_balanced_accuracy": 0.5581196581196581,
+        "anchor_macro_kendall_tau": 0.09166666666666667,
+        "anchor_macro_top_5_recall": 0.375,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 12,
+    "supervised_loss": 0.10560225695371628,
+    "cycle_loss": 0.01106756366789341,
+    "objective": 0.10670901089906693,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.981342234990525,
+        "pearson": 0.9913725644200219,
+        "rmse": 0.6795175752793814,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.30492981037241407,
+        "edge_rmse": 0.7004306843351225,
+        "edge_pearson": -0.04798276536512343,
+        "edge_spearman": 0.0657274308734664,
+        "mutation_sign_accuracy": 0.515625,
+        "mutation_sign_balanced_accuracy": 0.5208791208791208,
+        "anchor_macro_kendall_tau": 0.08333333333333333,
+        "anchor_macro_top_5_recall": 0.375,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 13,
+    "supervised_loss": 0.10696274042129517,
+    "cycle_loss": 0.011330196633934975,
+    "objective": 0.10809575766324997,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9809644725662984,
+        "pearson": 0.9912963823066423,
+        "rmse": 0.6863621750633918,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.31445248308591545,
+        "edge_rmse": 0.707485936303761,
+        "edge_pearson": -0.056586138991786106,
+        "edge_spearman": 0.05658304339864494,
+        "mutation_sign_accuracy": 0.515625,
+        "mutation_sign_balanced_accuracy": 0.5211233211233212,
+        "anchor_macro_kendall_tau": 0.0875,
+        "anchor_macro_top_5_recall": 0.4,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 14,
+    "supervised_loss": 0.10855576395988464,
+    "cycle_loss": 0.011518090963363647,
+    "objective": 0.10970757156610489,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9810026640324844,
+        "pearson": 0.9912604108778212,
+        "rmse": 0.6856732963564499,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3146448634797707,
+        "edge_rmse": 0.706775856385771,
+        "edge_pearson": -0.05947160561171366,
+        "edge_spearman": 0.040051043764878225,
+        "mutation_sign_accuracy": 0.53125,
+        "mutation_sign_balanced_accuracy": 0.5365079365079365,
+        "anchor_macro_kendall_tau": 0.07291666666666666,
+        "anchor_macro_top_5_recall": 0.375,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 15,
+    "supervised_loss": 0.09812317788600922,
+    "cycle_loss": 0.012654618360102177,
+    "objective": 0.09938863664865494,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9812421591677424,
+        "pearson": 0.9912290713989694,
+        "rmse": 0.6813375235899854,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.30978141678497195,
+        "edge_rmse": 0.7023066441145687,
+        "edge_pearson": -0.06300857627840654,
+        "edge_spearman": 0.027644891045596042,
+        "mutation_sign_accuracy": 0.515625,
+        "mutation_sign_balanced_accuracy": 0.5199023199023198,
+        "anchor_macro_kendall_tau": 0.07083333333333333,
+        "anchor_macro_top_5_recall": 0.375,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 16,
+    "supervised_loss": 0.08587794750928879,
+    "cycle_loss": 0.015364350751042366,
+    "objective": 0.08741438388824463,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9814895476528952,
+        "pearson": 0.9911853680810033,
+        "rmse": 0.6768296886193377,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3044507367594633,
+        "edge_rmse": 0.6976600741828602,
+        "edge_pearson": -0.06952036652150713,
+        "edge_spearman": 0.018002655191356895,
+        "mutation_sign_accuracy": 0.4921875,
+        "mutation_sign_balanced_accuracy": 0.49511599511599513,
+        "anchor_macro_kendall_tau": 0.06041666666666666,
+        "anchor_macro_top_5_recall": 0.35000000000000003,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 17,
+    "supervised_loss": 0.07214100658893585,
+    "cycle_loss": 0.014288714155554771,
+    "objective": 0.0735698789358139,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9816126394256077,
+        "pearson": 0.991118021587203,
+        "rmse": 0.6745755262016226,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3009862878534477,
+        "edge_rmse": 0.6953365367464759,
+        "edge_pearson": -0.08077122852708611,
+        "edge_spearman": 0.00872665262772386,
+        "mutation_sign_accuracy": 0.4765625,
+        "mutation_sign_balanced_accuracy": 0.4782661782661783,
+        "anchor_macro_kendall_tau": 0.049999999999999996,
+        "anchor_macro_top_5_recall": 0.32500000000000007,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 18,
+    "supervised_loss": 0.06953977048397064,
+    "cycle_loss": 0.013568232767283916,
+    "objective": 0.07089659571647644,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.981535316151297,
+        "pearson": 0.9910123008107184,
+        "rmse": 0.6759924143541794,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.30055918628931977,
+        "edge_rmse": 0.6967970316246453,
+        "edge_pearson": -0.09985841409205246,
+        "edge_spearman": 0.0053275498992858454,
+        "mutation_sign_accuracy": 0.4609375,
+        "mutation_sign_balanced_accuracy": 0.46141636141636144,
+        "anchor_macro_kendall_tau": 0.04999999999999999,
+        "anchor_macro_top_5_recall": 0.32500000000000007,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 19,
+    "supervised_loss": 0.06721464544534683,
+    "cycle_loss": 0.017242230474948883,
+    "objective": 0.06893886625766754,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9813109903024635,
+        "pearson": 0.9908880085537138,
+        "rmse": 0.6800863045321545,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3022761812317185,
+        "edge_rmse": 0.7010169170305129,
+        "edge_pearson": -0.11984727358483506,
+        "edge_spearman": 0.008801043764878226,
+        "mutation_sign_accuracy": 0.4921875,
+        "mutation_sign_balanced_accuracy": 0.49242979242979246,
+        "anchor_macro_kendall_tau": 0.06041666666666667,
+        "anchor_macro_top_5_recall": 0.32500000000000007,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 20,
+    "supervised_loss": 0.06284984946250916,
+    "cycle_loss": 0.01610369235277176,
+    "objective": 0.06446021795272827,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9810034324079264,
+        "pearson": 0.9907642467194179,
+        "rmse": 0.6856594296792872,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3051493202801794,
+        "edge_rmse": 0.7067615629421163,
+        "edge_pearson": -0.1361577679031591,
+        "edge_spearman": 0.014872505035707745,
+        "mutation_sign_accuracy": 0.484375,
+        "mutation_sign_balanced_accuracy": 0.48473748473748474,
+        "anchor_macro_kendall_tau": 0.05,
+        "anchor_macro_top_5_recall": 0.30000000000000004,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 21,
+    "supervised_loss": 0.06051582098007202,
+    "cycle_loss": 0.019268689677119255,
+    "objective": 0.06244269013404846,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9806944818416553,
+        "pearson": 0.9906671211877822,
+        "rmse": 0.6912125515179762,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3082337458617985,
+        "edge_rmse": 0.7124855899153261,
+        "edge_pearson": -0.14563049956169744,
+        "edge_spearman": 0.009121497894158578,
+        "mutation_sign_accuracy": 0.484375,
+        "mutation_sign_balanced_accuracy": 0.48498168498168504,
+        "anchor_macro_kendall_tau": 0.04375,
+        "anchor_macro_top_5_recall": 0.30000000000000004,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 22,
+    "supervised_loss": 0.054294705390930176,
+    "cycle_loss": 0.0204596146941185,
+    "objective": 0.056340668350458145,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9804919307181005,
+        "pearson": 0.9906277105196171,
+        "rmse": 0.6948291486119503,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3109433479839936,
+        "edge_rmse": 0.7162134928712655,
+        "edge_pearson": -0.14542014385582006,
+        "edge_spearman": 0.008526368796923641,
+        "mutation_sign_accuracy": 0.4921875,
+        "mutation_sign_balanced_accuracy": 0.49340659340659343,
+        "anchor_macro_kendall_tau": 0.029166666666666674,
+        "anchor_macro_top_5_recall": 0.30000000000000004,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 23,
+    "supervised_loss": 0.04696858674287796,
+    "cycle_loss": 0.01829616352915764,
+    "objective": 0.048798203468322754,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9804800134975246,
+        "pearson": 0.9906590235256373,
+        "rmse": 0.6950413471614715,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3126119150838349,
+        "edge_rmse": 0.7164322221295851,
+        "edge_pearson": -0.1350191172344387,
+        "edge_spearman": 0.0007954129280351584,
+        "mutation_sign_accuracy": 0.484375,
+        "mutation_sign_balanced_accuracy": 0.4862026862026862,
+        "anchor_macro_kendall_tau": 0.016666666666666663,
+        "anchor_macro_top_5_recall": 0.325,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 24,
+    "supervised_loss": 0.04253949224948883,
+    "cycle_loss": 0.016542619094252586,
+    "objective": 0.044193755835294724,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9805453094574124,
+        "pearson": 0.9907108669694902,
+        "rmse": 0.6938778881518075,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.31449397109099664,
+        "edge_rmse": 0.7152329560326048,
+        "edge_pearson": -0.12102234880052076,
+        "edge_spearman": -0.007994186046511628,
+        "mutation_sign_accuracy": 0.5,
+        "mutation_sign_balanced_accuracy": 0.5028083028083028,
+        "anchor_macro_kendall_tau": 0.020833333333333332,
+        "anchor_macro_top_5_recall": 0.35000000000000003,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 25,
+    "supervised_loss": 0.04028401896357536,
+    "cycle_loss": 0.021321618929505348,
+    "objective": 0.04241618141531944,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9805926426438307,
+        "pearson": 0.9907435107688632,
+        "rmse": 0.6930332730011335,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.31602188310353085,
+        "edge_rmse": 0.7143623466627984,
+        "edge_pearson": -0.11096464312111465,
+        "edge_spearman": -0.011839635597875847,
+        "mutation_sign_accuracy": 0.5,
+        "mutation_sign_balanced_accuracy": 0.503052503052503,
+        "anchor_macro_kendall_tau": 0.010416666666666661,
+        "anchor_macro_top_5_recall": 0.35000000000000003,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 26,
+    "supervised_loss": 0.038402803242206573,
+    "cycle_loss": 0.018836351111531258,
+    "objective": 0.040286436676979065,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9805373738655402,
+        "pearson": 0.9907336277584626,
+        "rmse": 0.6940193905396778,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3175079550710507,
+        "edge_rmse": 0.7153788133554714,
+        "edge_pearson": -0.10949497174669776,
+        "edge_spearman": -0.021556262589269362,
+        "mutation_sign_accuracy": 0.5,
+        "mutation_sign_balanced_accuracy": 0.503052503052503,
+        "anchor_macro_kendall_tau": 0.020833333333333343,
+        "anchor_macro_top_5_recall": 0.35000000000000003,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 27,
+    "supervised_loss": 0.03933965414762497,
+    "cycle_loss": 0.023019568994641304,
+    "objective": 0.041641611605882645,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9803959436078133,
+        "pearson": 0.990687116743496,
+        "rmse": 0.6965364626887701,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.31887389588519,
+        "edge_rmse": 0.7179733519399734,
+        "edge_pearson": -0.11402827180025944,
+        "edge_spearman": -0.029006821095037535,
+        "mutation_sign_accuracy": 0.515625,
+        "mutation_sign_balanced_accuracy": 0.5186813186813187,
+        "anchor_macro_kendall_tau": -0.002083333333333333,
+        "anchor_macro_top_5_recall": 0.32500000000000007,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 28,
+    "supervised_loss": 0.0343015193939209,
+    "cycle_loss": 0.02320754900574684,
+    "objective": 0.03662227466702461,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9802334638415021,
+        "pearson": 0.9906194374144481,
+        "rmse": 0.6994169775580757,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3199301469430793,
+        "edge_rmse": 0.7209425187055508,
+        "edge_pearson": -0.12228175968996478,
+        "edge_spearman": -0.03419703351034609,
+        "mutation_sign_accuracy": 0.515625,
+        "mutation_sign_balanced_accuracy": 0.5186813186813187,
+        "anchor_macro_kendall_tau": -0.0020833333333333277,
+        "anchor_macro_top_5_recall": 0.32500000000000007,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 29,
+    "supervised_loss": 0.029217451810836792,
+    "cycle_loss": 0.019137732684612274,
+    "objective": 0.03113122470676899,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9801365247752039,
+        "pearson": 0.9905638750785677,
+        "rmse": 0.7011299206909887,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3204399931419175,
+        "edge_rmse": 0.72270818007247,
+        "edge_pearson": -0.13167146481606734,
+        "edge_spearman": -0.0355646859549533,
+        "mutation_sign_accuracy": 0.5234375,
+        "mutation_sign_balanced_accuracy": 0.5266178266178266,
+        "anchor_macro_kendall_tau": 3.469446951953614e-18,
+        "anchor_macro_top_5_recall": 0.32500000000000007,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 30,
+    "supervised_loss": 0.026854492723941803,
+    "cycle_loss": 0.02370627224445343,
+    "objective": 0.029225120320916176,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9800879027896621,
+        "pearson": 0.9905218717601273,
+        "rmse": 0.7019875121326861,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.32056874071713537,
+        "edge_rmse": 0.7235921650969059,
+        "edge_pearson": -0.14079373761938282,
+        "edge_spearman": -0.030998214612708293,
+        "mutation_sign_accuracy": 0.515625,
+        "mutation_sign_balanced_accuracy": 0.5184371184371184,
+        "anchor_macro_kendall_tau": -0.002083333333333333,
+        "anchor_macro_top_5_recall": 0.32500000000000007,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 31,
+    "supervised_loss": 0.02751387283205986,
+    "cycle_loss": 0.023597972467541695,
+    "objective": 0.029873669147491455,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9801275492872505,
+        "pearson": 0.9905108126712344,
+        "rmse": 0.7012883086961361,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.32001341390423477,
+        "edge_rmse": 0.7228714426912333,
+        "edge_pearson": -0.14752689856490456,
+        "edge_spearman": -0.03680072331074895,
+        "mutation_sign_accuracy": 0.46875,
+        "mutation_sign_balanced_accuracy": 0.4708180708180708,
+        "anchor_macro_kendall_tau": -0.00833333333333333,
+        "anchor_macro_top_5_recall": 0.32500000000000007,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 32,
+    "supervised_loss": 0.020783478394150734,
+    "cycle_loss": 0.023803850635886192,
+    "objective": 0.02316386252641678,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9800802425683132,
+        "pearson": 0.9904769529975654,
+        "rmse": 0.7021225271087005,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3206307982618455,
+        "edge_rmse": 0.7237313353486928,
+        "edge_pearson": -0.154186304384883,
+        "edge_spearman": -0.038042483061710305,
+        "mutation_sign_accuracy": 0.46875,
+        "mutation_sign_balanced_accuracy": 0.4708180708180708,
+        "anchor_macro_kendall_tau": -1.734723475976807e-18,
+        "anchor_macro_top_5_recall": 0.32500000000000007,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 33,
+    "supervised_loss": 0.018984384834766388,
+    "cycle_loss": 0.02174796164035797,
+    "objective": 0.021159181371331215,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9800360397244496,
+        "pearson": 0.9904564586652943,
+        "rmse": 0.702901116259539,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.32158454656018876,
+        "edge_rmse": 0.7245338866756595,
+        "edge_pearson": -0.15741014216501606,
+        "edge_spearman": -0.03902101263504853,
+        "mutation_sign_accuracy": 0.4765625,
+        "mutation_sign_balanced_accuracy": 0.4787545787545788,
+        "anchor_macro_kendall_tau": 0.004166666666666666,
+        "anchor_macro_top_5_recall": 0.32500000000000007,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 34,
+    "supervised_loss": 0.016027938574552536,
+    "cycle_loss": 0.021314989775419235,
+    "objective": 0.01815943792462349,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9799368875363628,
+        "pearson": 0.9904283325173237,
+        "rmse": 0.7046444543017151,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3234259085729718,
+        "edge_rmse": 0.726330878397922,
+        "edge_pearson": -0.1561649224369541,
+        "edge_spearman": -0.03710401025453213,
+        "mutation_sign_accuracy": 0.4765625,
+        "mutation_sign_balanced_accuracy": 0.4785103785103785,
+        "anchor_macro_kendall_tau": 0.006249999999999993,
+        "anchor_macro_top_5_recall": 0.30000000000000004,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 35,
+    "supervised_loss": 0.016520967707037926,
+    "cycle_loss": 0.02039797231554985,
+    "objective": 0.01856076531112194,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9799050055865406,
+        "pearson": 0.9904311499181292,
+        "rmse": 0.7052041013005993,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.32493835102650337,
+        "edge_rmse": 0.7269077493202869,
+        "edge_pearson": -0.1483842881242658,
+        "edge_spearman": -0.03403680644570591,
+        "mutation_sign_accuracy": 0.4765625,
+        "mutation_sign_balanced_accuracy": 0.4785103785103785,
+        "anchor_macro_kendall_tau": 0.008333333333333326,
+        "anchor_macro_top_5_recall": 0.30000000000000004,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 36,
+    "supervised_loss": 0.01136302575469017,
+    "cycle_loss": 0.021289780735969543,
+    "objective": 0.01349200401455164,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9798611230575357,
+        "pearson": 0.9904335138723603,
+        "rmse": 0.7059736776071267,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.32729015054064803,
+        "edge_rmse": 0.727701010419983,
+        "edge_pearson": -0.13792389811572336,
+        "edge_spearman": -0.031410227064640174,
+        "mutation_sign_accuracy": 0.4765625,
+        "mutation_sign_balanced_accuracy": 0.4785103785103785,
+        "anchor_macro_kendall_tau": 0.010416666666666663,
+        "anchor_macro_top_5_recall": 0.30000000000000004,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 37,
+    "supervised_loss": 0.008698990568518639,
+    "cycle_loss": 0.02400633879005909,
+    "objective": 0.011099624447524548,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9798266454501607,
+        "pearson": 0.9904387458281225,
+        "rmse": 0.7065777300241285,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.32944918773137033,
+        "edge_rmse": 0.7283236533996601,
+        "edge_pearson": -0.128655351511328,
+        "edge_spearman": -0.033321507049990845,
+        "mutation_sign_accuracy": 0.4765625,
+        "mutation_sign_balanced_accuracy": 0.4785103785103785,
+        "anchor_macro_kendall_tau": 0.02083333333333333,
+        "anchor_macro_top_5_recall": 0.30000000000000004,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 38,
+    "supervised_loss": 0.0060427007265388966,
+    "cycle_loss": 0.024562934413552284,
+    "objective": 0.008498994633555412,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9798355944642311,
+        "pearson": 0.9904570027646712,
+        "rmse": 0.7064209917028765,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.33051858047838323,
+        "edge_rmse": 0.7281620912361342,
+        "edge_pearson": -0.12113901551958561,
+        "edge_spearman": -0.03487227613990111,
+        "mutation_sign_accuracy": 0.46875,
+        "mutation_sign_balanced_accuracy": 0.4708180708180708,
+        "anchor_macro_kendall_tau": 0.018750000000000006,
+        "anchor_macro_top_5_recall": 0.30000000000000004,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 39,
+    "supervised_loss": 0.005346647463738918,
+    "cycle_loss": 0.023278651759028435,
+    "objective": 0.007674512453377247,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9799251577740252,
+        "pearson": 0.9905041167139893,
+        "rmse": 0.7048504069993529,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3302216926822439,
+        "edge_rmse": 0.7265431695794824,
+        "edge_pearson": -0.11304290554409574,
+        "edge_spearman": -0.033321507049990845,
+        "mutation_sign_accuracy": 0.46875,
+        "mutation_sign_balanced_accuracy": 0.4708180708180708,
+        "anchor_macro_kendall_tau": 0.014583333333333328,
+        "anchor_macro_top_5_recall": 0.30000000000000004,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 40,
+    "supervised_loss": 0.004489092156291008,
+    "cycle_loss": 0.02241901494562626,
+    "objective": 0.006730993743985891,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.980017452331727,
+        "pearson": 0.9905506475425343,
+        "rmse": 0.7032282572493812,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.32931609119987115,
+        "edge_rmse": 0.7248710958895569,
+        "edge_pearson": -0.1093123986852808,
+        "edge_spearman": -0.03018563449917597,
+        "mutation_sign_accuracy": 0.46875,
+        "mutation_sign_balanced_accuracy": 0.4708180708180708,
+        "anchor_macro_kendall_tau": 0.018749999999999996,
+        "anchor_macro_top_5_recall": 0.30000000000000004,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 41,
+    "supervised_loss": 0.004653003998100758,
+    "cycle_loss": 0.022347960621118546,
+    "objective": 0.006887800060212612,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.980035222356235,
+        "pearson": 0.990578414398176,
+        "rmse": 0.7029155052670815,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3288681401172653,
+        "edge_rmse": 0.724548718525146,
+        "edge_pearson": -0.10712366047886943,
+        "edge_spearman": -0.024331624244643836,
+        "mutation_sign_accuracy": 0.4609375,
+        "mutation_sign_balanced_accuracy": 0.4628815628815629,
+        "anchor_macro_kendall_tau": 0.020833333333333332,
+        "anchor_macro_top_5_recall": 0.30000000000000004,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 42,
+    "supervised_loss": 0.0061964793130755424,
+    "cycle_loss": 0.02138821966946125,
+    "objective": 0.008335301652550697,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9800309215699506,
+        "pearson": 0.9905978993578852,
+        "rmse": 0.702991211759487,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.32819392878445797,
+        "edge_rmse": 0.7246267549913291,
+        "edge_pearson": -0.1059603123681125,
+        "edge_spearman": -0.02062351217725691,
+        "mutation_sign_accuracy": 0.46875,
+        "mutation_sign_balanced_accuracy": 0.4708180708180708,
+        "anchor_macro_kendall_tau": 0.018750000000000003,
+        "anchor_macro_top_5_recall": 0.325,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 43,
+    "supervised_loss": 0.006076817866414785,
+    "cycle_loss": 0.020303204655647278,
+    "objective": 0.0081071387976408,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9800757839519116,
+        "pearson": 0.990627792021769,
+        "rmse": 0.7022011003511673,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3269354767689947,
+        "edge_rmse": 0.7238123267932024,
+        "edge_pearson": -0.10385461499556731,
+        "edge_spearman": -0.01886101446621498,
+        "mutation_sign_accuracy": 0.4765625,
+        "mutation_sign_balanced_accuracy": 0.4787545787545788,
+        "anchor_macro_kendall_tau": 0.027083333333333327,
+        "anchor_macro_top_5_recall": 0.325,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 44,
+    "supervised_loss": 0.005876566749066114,
+    "cycle_loss": 0.02019493654370308,
+    "objective": 0.00789606012403965,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9800447224223414,
+        "pearson": 0.9906267645608757,
+        "rmse": 0.7027482472474299,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3270501157385297,
+        "edge_rmse": 0.7243763129047073,
+        "edge_pearson": -0.10355944294988564,
+        "edge_spearman": -0.02204266617835561,
+        "mutation_sign_accuracy": 0.4765625,
+        "mutation_sign_balanced_accuracy": 0.4787545787545788,
+        "anchor_macro_kendall_tau": 0.027083333333333327,
+        "anchor_macro_top_5_recall": 0.325,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 45,
+    "supervised_loss": 0.005037457216531038,
+    "cycle_loss": 0.019587980583310127,
+    "objective": 0.0069962553679943085,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9800750921377427,
+        "pearson": 0.9906392541183813,
+        "rmse": 0.7022132912562603,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3265723861695733,
+        "edge_rmse": 0.723824892890545,
+        "edge_pearson": -0.10049346866999263,
+        "edge_spearman": -0.016297381431972166,
+        "mutation_sign_accuracy": 0.4765625,
+        "mutation_sign_balanced_accuracy": 0.4787545787545788,
+        "anchor_macro_kendall_tau": 0.027083333333333334,
+        "anchor_macro_top_5_recall": 0.325,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 46,
+    "supervised_loss": 0.008048160932958126,
+    "cycle_loss": 0.019381297752261162,
+    "objective": 0.009986290708184242,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.980124761013431,
+        "pearson": 0.9906497351968406,
+        "rmse": 0.7013375053270627,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3258210345811676,
+        "edge_rmse": 0.7229221534176671,
+        "edge_pearson": -0.09773609164545836,
+        "edge_spearman": -0.008686595861563817,
+        "mutation_sign_accuracy": 0.4765625,
+        "mutation_sign_balanced_accuracy": 0.4787545787545788,
+        "anchor_macro_kendall_tau": 0.027083333333333338,
+        "anchor_macro_top_5_recall": 0.325,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 47,
+    "supervised_loss": 0.007732360623776913,
+    "cycle_loss": 0.022534387186169624,
+    "objective": 0.009985798969864845,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9802736668009269,
+        "pearson": 0.990686509267371,
+        "rmse": 0.6987053469452685,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3241311516612768,
+        "edge_rmse": 0.7202089866597942,
+        "edge_pearson": -0.09393379429086121,
+        "edge_spearman": -0.007587895989745467,
+        "mutation_sign_accuracy": 0.4765625,
+        "mutation_sign_balanced_accuracy": 0.4787545787545788,
+        "anchor_macro_kendall_tau": 0.027083333333333338,
+        "anchor_macro_top_5_recall": 0.325,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 48,
+    "supervised_loss": 0.004755746573209763,
+    "cycle_loss": 0.01740185171365738,
+    "objective": 0.006495931651443243,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9804006817632972,
+        "pearson": 0.9907128677349033,
+        "rmse": 0.6964522837455731,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3225583193998318,
+        "edge_rmse": 0.71788658227141,
+        "edge_pearson": -0.09226826872863172,
+        "edge_spearman": -0.010500595129097234,
+        "mutation_sign_accuracy": 0.484375,
+        "mutation_sign_balanced_accuracy": 0.4866910866910867,
+        "anchor_macro_kendall_tau": 0.025000000000000005,
+        "anchor_macro_top_5_recall": 0.325,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 49,
+    "supervised_loss": 0.0038386532105505466,
+    "cycle_loss": 0.020016811788082123,
+    "objective": 0.0058403341099619865,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9804443071276034,
+        "pearson": 0.9907149488576015,
+        "rmse": 0.6956767488480502,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3216168202634435,
+        "edge_rmse": 0.7170871791967001,
+        "edge_pearson": -0.09310748383658168,
+        "edge_spearman": -0.013670802050906426,
+        "mutation_sign_accuracy": 0.484375,
+        "mutation_sign_balanced_accuracy": 0.4866910866910867,
+        "anchor_macro_kendall_tau": 0.02500000000000001,
+        "anchor_macro_top_5_recall": 0.325,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 50,
+    "supervised_loss": 0.004589213989675045,
+    "cycle_loss": 0.01836966909468174,
+    "objective": 0.006426180712878704,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.980337847439855,
+        "pearson": 0.9906748945759806,
+        "rmse": 0.6975677840329236,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3223336208902765,
+        "edge_rmse": 0.7190364136489482,
+        "edge_pearson": -0.09754418808475307,
+        "edge_spearman": -0.009710904596227796,
+        "mutation_sign_accuracy": 0.484375,
+        "mutation_sign_balanced_accuracy": 0.4866910866910867,
+        "anchor_macro_kendall_tau": 0.016666666666666663,
+        "anchor_macro_top_5_recall": 0.325,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 51,
+    "supervised_loss": 0.003610714804381132,
+    "cycle_loss": 0.01914614625275135,
+    "objective": 0.005525329615920782,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9801842908526065,
+        "pearson": 0.9906227757071571,
+        "rmse": 0.7002864030393097,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.32366683159489185,
+        "edge_rmse": 0.7218387019787335,
+        "edge_pearson": -0.10270030033247887,
+        "edge_spearman": 0.00021745101629738143,
+        "mutation_sign_accuracy": 0.484375,
+        "mutation_sign_balanced_accuracy": 0.4866910866910867,
+        "anchor_macro_kendall_tau": 0.02291666666666667,
+        "anchor_macro_top_5_recall": 0.325,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 52,
+    "supervised_loss": 0.0038760146126151085,
+    "cycle_loss": 0.020542440935969353,
+    "objective": 0.005930258892476559,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9800711655532385,
+        "pearson": 0.9905880851148994,
+        "rmse": 0.7022824801332137,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.32468507273006253,
+        "edge_rmse": 0.7238962111524941,
+        "edge_pearson": -0.10685177047636155,
+        "edge_spearman": 0.0024091283647683574,
+        "mutation_sign_accuracy": 0.484375,
+        "mutation_sign_balanced_accuracy": 0.4866910866910867,
+        "anchor_macro_kendall_tau": 0.025,
+        "anchor_macro_top_5_recall": 0.325,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 53,
+    "supervised_loss": 0.006628911942243576,
+    "cycle_loss": 0.020683320239186287,
+    "objective": 0.008697244338691235,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9800642197532244,
+        "pearson": 0.9905880350579482,
+        "rmse": 0.7024048527868296,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.32482917528250255,
+        "edge_rmse": 0.7240223499966305,
+        "edge_pearson": -0.10882859388161353,
+        "edge_spearman": -0.000314731734114631,
+        "mutation_sign_accuracy": 0.4765625,
+        "mutation_sign_balanced_accuracy": 0.47899877899877896,
+        "anchor_macro_kendall_tau": 0.029166666666666674,
+        "anchor_macro_top_5_recall": 0.325,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 54,
+    "supervised_loss": 0.004185626748949289,
+    "cycle_loss": 0.017530592158436775,
+    "objective": 0.005938685964792967,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9801181300893539,
+        "pearson": 0.9906069172649842,
+        "rmse": 0.7014544882708457,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.32434362373896874,
+        "edge_rmse": 0.7230427366760703,
+        "edge_pearson": -0.10965512105237565,
+        "edge_spearman": -0.006637978392235854,
+        "mutation_sign_accuracy": 0.46875,
+        "mutation_sign_balanced_accuracy": 0.47106227106227105,
+        "anchor_macro_kendall_tau": 0.024999999999999994,
+        "anchor_macro_top_5_recall": 0.325,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 55,
+    "supervised_loss": 0.005242687184363604,
+    "cycle_loss": 0.01930016092956066,
+    "objective": 0.00717270327731967,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9801206286322047,
+        "pearson": 0.9906042091820866,
+        "rmse": 0.7014104112003628,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3248814696271438,
+        "edge_rmse": 0.7229973030717531,
+        "edge_pearson": -0.1111945568218439,
+        "edge_spearman": -0.017521973997436366,
+        "mutation_sign_accuracy": 0.46875,
+        "mutation_sign_balanced_accuracy": 0.47106227106227105,
+        "anchor_macro_kendall_tau": 0.018750000000000006,
+        "anchor_macro_top_5_recall": 0.325,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 56,
+    "supervised_loss": 0.004802120849490166,
+    "cycle_loss": 0.017310652881860733,
+    "objective": 0.006533185951411724,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9800485106322371,
+        "pearson": 0.9905747524843131,
+        "rmse": 0.7026815409786575,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.32661422397359274,
+        "edge_rmse": 0.7243075536566974,
+        "edge_pearson": -0.11391499190751399,
+        "edge_spearman": -0.020640679362754072,
+        "mutation_sign_accuracy": 0.46875,
+        "mutation_sign_balanced_accuracy": 0.47106227106227105,
+        "anchor_macro_kendall_tau": 0.025,
+        "anchor_macro_top_5_recall": 0.30000000000000004,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 57,
+    "supervised_loss": 0.003957903012633324,
+    "cycle_loss": 0.015354664996266365,
+    "objective": 0.005493369419127703,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9799321142853894,
+        "pearson": 0.9905315403648566,
+        "rmse": 0.7047282709280351,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3287250104767736,
+        "edge_rmse": 0.726417274598797,
+        "edge_pearson": -0.11654373074538477,
+        "edge_spearman": -0.02700398278703534,
+        "mutation_sign_accuracy": 0.46875,
+        "mutation_sign_balanced_accuracy": 0.47106227106227105,
+        "anchor_macro_kendall_tau": 0.016666666666666663,
+        "anchor_macro_top_5_recall": 0.275,
+        "informative_sign_edges": 128
+      }
+    }
+  },
+  {
+    "epoch": 58,
+    "supervised_loss": 0.00363232777453959,
+    "cycle_loss": 0.0158242154866457,
+    "objective": 0.0052147493697702885,
+    "validation": {
+      "value": {
+        "nodes": 136,
+        "r2": 0.9797824068128478,
+        "pearson": 0.990479227856479,
+        "rmse": 0.7073520414553996,
+        "anchored": true,
+        "anchor_definition": "one queried teacher value per validation landscape"
+      },
+      "edge": {
+        "nodes": 136,
+        "edges": 128,
+        "edge_mae": 0.3309635200712364,
+        "edge_rmse": 0.7291217953542237,
+        "edge_pearson": -0.11882795984960204,
+        "edge_spearman": -0.03265198681560154,
+        "mutation_sign_accuracy": 0.46875,
+        "mutation_sign_balanced_accuracy": 0.47106227106227105,
+        "anchor_macro_kendall_tau": 0.014583333333333334,
+        "anchor_macro_top_5_recall": 0.275,
+        "informative_sign_edges": 128
+      }
+    }
+  }
+]
