@@ -1,0 +1,35 @@
+{
+  "anchors": 128,
+  "anchors_by_split": {
+    "train": 128,
+    "validation": 0
+  },
+  "collision_rejections": 0,
+  "component_unique_anchors": true,
+  "edges_sha256": "67e487abfcfc41c00e0bc09814c3c005207e8a2d1e714c72ab5282ad6de1a464",
+  "excluded_anchor_hashes": 1255,
+  "excluded_anchor_manifests": [
+    "benchmark/generated/pls_editflow_oracle_manifest_1k_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_1k_exact_calibration_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_scale_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_poc_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_decision_confirmatory_v1.json"
+  ],
+  "excluded_components": 1216,
+  "mutations_per_anchor": 16,
+  "nodes_sha256": "5b518d406a11b649c32c7d7ab64f6c76620ce74f889049f51cf23b579d44ed88",
+  "priority_anchors_available_by_split": {
+    "train": 0,
+    "validation": 0
+  },
+  "schema": "PLS_EditFlow_sequence_oracle_manifest_report_v1",
+  "selection_used_target_values": false,
+  "single_mutation_edges": 2048,
+  "test_evaluated": false,
+  "test_sequences_queried": 0,
+  "unique_components_by_split": {
+    "train": 128,
+    "validation": 0
+  },
+  "unique_sequence_queries": 2176
+}

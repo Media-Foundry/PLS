@@ -1,0 +1,27 @@
+{
+  "schema": "PLS_EditFlow_oracle_landscape_build_v1",
+  "entities": "benchmark/generated/sequence_entities.csv",
+  "entity_split": "benchmark/generated/strict_si30_entity_split.csv",
+  "observation_split": "benchmark/generated/strict_si30_observation_split.csv",
+  "structure_status": "artifacts/features/pdbsol_structure_v4_pooled/status.npy",
+  "source_dataset": "PDBSol_ProtSolM",
+  "allowed_splits": ["train", "validation"],
+  "anchor_counts": {"train": 128, "validation": 0},
+  "component_unique_anchors": true,
+  "exclude_anchor_manifests": [
+    "benchmark/generated/pls_editflow_oracle_manifest_1k_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_1k_exact_calibration_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_scale_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_poc_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_decision_confirmatory_v1.json"
+  ],
+  "anchor_salt": "PLS-cost-aware-conformal-calibration-anchor-v2",
+  "mutation_salt": "PLS-cost-aware-conformal-calibration-mutation-v2",
+  "mutations_per_anchor": 16,
+  "fold_shards": 4,
+  "minimum_length": 40,
+  "maximum_length": 300,
+  "alphabet": "ACDEFGHIKLMNPQRSTVWY",
+  "oracle_manifest": "configs/oracles/pls_gvp_bidir_v49_teacher_v1.json",
+  "evaluate_test": false
+}

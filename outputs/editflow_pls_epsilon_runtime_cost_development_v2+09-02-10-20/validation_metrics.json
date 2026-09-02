@@ -1,0 +1,376 @@
+{
+  "alpha": 0.1,
+  "anchors": 128,
+  "cost_proxy": "frozen_monotone_predicted_marginal_esmfold_gpu_seconds",
+  "matrix": [
+    {
+      "component_epsilon_coverage": 0.898876404494382,
+      "component_exact_best_coverage": 0.898876404494382,
+      "cost_fraction": 0.6630441823628627,
+      "cost_saving_fraction": 0.33695581763713733,
+      "epsilon": 0.0,
+      "exact_best_coverage": 0.90625,
+      "failure_conditional_mean_regret": 0.16284493605295816,
+      "failure_count": 12,
+      "fold_quantile_range": [
+        0.19726896286010742,
+        0.24965190887451172
+      ],
+      "length_cost_gamma": 0.0,
+      "marginal_epsilon_coverage": 0.90625,
+      "maximum_regret": 0.6087052822113037,
+      "mean_queries": 9.2578125,
+      "mean_regret": 0.015266712754964828,
+      "median_queries": 9.0,
+      "median_regret": 0.0,
+      "query_fraction": 0.57861328125,
+      "query_range": [
+        1,
+        16
+      ],
+      "regret_cvar95": 0.24749161515917098,
+      "regret_p95": 0.06221270561218258,
+      "regret_p99": 0.3307385122776034,
+      "zero_regret_fraction": 0.90625
+    },
+    {
+      "component_epsilon_coverage": 0.9213483146067416,
+      "component_exact_best_coverage": 0.9213483146067416,
+      "cost_fraction": 0.6604770482244459,
+      "cost_saving_fraction": 0.33952295177555414,
+      "epsilon": 0.0,
+      "exact_best_coverage": 0.921875,
+      "failure_conditional_mean_regret": 0.189137864112854,
+      "failure_count": 10,
+      "fold_quantile_range": [
+        0.2299128583692217,
+        0.33493780106164195
+      ],
+      "length_cost_gamma": 0.5,
+      "marginal_epsilon_coverage": 0.921875,
+      "maximum_regret": 0.6087052822113037,
+      "mean_queries": 9.921875,
+      "mean_regret": 0.014776395633816719,
+      "median_queries": 11.5,
+      "median_regret": 0.0,
+      "query_fraction": 0.6201171875,
+      "query_range": [
+        1,
+        16
+      ],
+      "regret_cvar95": 0.25465013299669537,
+      "regret_p95": 0.061525815725326484,
+      "regret_p99": 0.3307385122776034,
+      "zero_regret_fraction": 0.921875
+    },
+    {
+      "component_epsilon_coverage": 0.9213483146067416,
+      "component_exact_best_coverage": 0.9213483146067416,
+      "cost_fraction": 0.6513964352598627,
+      "cost_saving_fraction": 0.3486035647401373,
+      "epsilon": 0.0,
+      "exact_best_coverage": 0.9375,
+      "failure_conditional_mean_regret": 0.12882989645004272,
+      "failure_count": 8,
+      "fold_quantile_range": [
+        0.3084555113764077,
+        0.43923890018027106
+      ],
+      "length_cost_gamma": 1.0,
+      "marginal_epsilon_coverage": 0.9375,
+      "maximum_regret": 0.31812477111816406,
+      "mean_queries": 10.8984375,
+      "mean_regret": 0.00805186852812767,
+      "median_queries": 13.0,
+      "median_regret": 0.0,
+      "query_fraction": 0.68115234375,
+      "query_range": [
+        1,
+        16
+      ],
+      "regret_cvar95": 0.14441837583269393,
+      "regret_p95": 0.027433109283447166,
+      "regret_p99": 0.25964425206184416,
+      "zero_regret_fraction": 0.9375
+    },
+    {
+      "component_epsilon_coverage": 0.9101123595505618,
+      "component_exact_best_coverage": 0.8651685393258427,
+      "cost_fraction": 0.5706124343123373,
+      "cost_saving_fraction": 0.4293875656876627,
+      "epsilon": 0.05,
+      "exact_best_coverage": 0.875,
+      "failure_conditional_mean_regret": 0.16878022626042366,
+      "failure_count": 16,
+      "fold_quantile_range": [
+        0.14633798599243164,
+        0.23299217224121094
+      ],
+      "length_cost_gamma": 0.0,
+      "marginal_epsilon_coverage": 0.9140625,
+      "maximum_regret": 0.6087052822113037,
+      "mean_queries": 7.75,
+      "mean_regret": 0.021097528282552958,
+      "median_queries": 7.0,
+      "median_regret": 0.0,
+      "query_fraction": 0.484375,
+      "query_range": [
+        1,
+        16
+      ],
+      "regret_cvar95": 0.3292794908796038,
+      "regret_p95": 0.1236426234245294,
+      "regret_p99": 0.4317173945903783,
+      "zero_regret_fraction": 0.875
+    },
+    {
+      "component_epsilon_coverage": 0.8651685393258427,
+      "component_exact_best_coverage": 0.8089887640449438,
+      "cost_fraction": 0.5136223874232222,
+      "cost_saving_fraction": 0.4863776125767778,
+      "epsilon": 0.05,
+      "exact_best_coverage": 0.84375,
+      "failure_conditional_mean_regret": 0.1501336067914963,
+      "failure_count": 20,
+      "fold_quantile_range": [
+        0.1347675841903009,
+        0.3091801414767506
+      ],
+      "length_cost_gamma": 0.5,
+      "marginal_epsilon_coverage": 0.890625,
+      "maximum_regret": 0.6087052822113037,
+      "mean_queries": 7.90625,
+      "mean_regret": 0.023458376061171293,
+      "median_queries": 7.0,
+      "median_regret": 0.0,
+      "query_fraction": 0.494140625,
+      "query_range": [
+        1,
+        16
+      ],
+      "regret_cvar95": 0.32593640259334017,
+      "regret_p95": 0.1858806967735286,
+      "regret_p99": 0.3491809630393982,
+      "zero_regret_fraction": 0.84375
+    },
+    {
+      "component_epsilon_coverage": 0.9101123595505618,
+      "component_exact_best_coverage": 0.8651685393258427,
+      "cost_fraction": 0.530217336256852,
+      "cost_saving_fraction": 0.46978266374314803,
+      "epsilon": 0.05,
+      "exact_best_coverage": 0.8984375,
+      "failure_conditional_mean_regret": 0.13884134934498712,
+      "failure_count": 13,
+      "fold_quantile_range": [
+        0.19726737773935818,
+        0.3566320169937824
+      ],
+      "length_cost_gamma": 1.0,
+      "marginal_epsilon_coverage": 0.9375,
+      "maximum_regret": 0.34963202476501465,
+      "mean_queries": 9.015625,
+      "mean_regret": 0.014101074542850256,
+      "median_queries": 9.0,
+      "median_regret": 0.0,
+      "query_fraction": 0.5634765625,
+      "query_range": [
+        1,
+        16
+      ],
+      "regret_cvar95": 0.23245462349482945,
+      "regret_p95": 0.07483264803886391,
+      "regret_p99": 0.3295189750194552,
+      "zero_regret_fraction": 0.8984375
+    },
+    {
+      "component_epsilon_coverage": 0.8876404494382022,
+      "component_exact_best_coverage": 0.7865168539325843,
+      "cost_fraction": 0.4958625794409435,
+      "cost_saving_fraction": 0.5041374205590565,
+      "epsilon": 0.1,
+      "exact_best_coverage": 0.8203125,
+      "failure_conditional_mean_regret": 0.20916083843811697,
+      "failure_count": 23,
+      "fold_quantile_range": [
+        0.11214160919189453,
+        0.20497941970825195
+      ],
+      "length_cost_gamma": 0.0,
+      "marginal_epsilon_coverage": 0.9140625,
+      "maximum_regret": 0.6715772151947021,
+      "mean_queries": 6.546875,
+      "mean_regret": 0.037583588156849146,
+      "median_queries": 4.5,
+      "median_regret": 0.0,
+      "query_fraction": 0.4091796875,
+      "query_range": [
+        1,
+        16
+      ],
+      "regret_cvar95": 0.4819577762058803,
+      "regret_p95": 0.2692670881748197,
+      "regret_p99": 0.6418395543098452,
+      "zero_regret_fraction": 0.8203125
+    },
+    {
+      "component_epsilon_coverage": 0.8764044943820225,
+      "component_exact_best_coverage": 0.7640449438202247,
+      "cost_fraction": 0.38482086984919084,
+      "cost_saving_fraction": 0.6151791301508092,
+      "epsilon": 0.1,
+      "exact_best_coverage": 0.796875,
+      "failure_conditional_mean_regret": 0.16746984766079828,
+      "failure_count": 26,
+      "fold_quantile_range": [
+        0.11200036875472946,
+        0.21420366725297066
+      ],
+      "length_cost_gamma": 0.5,
+      "marginal_epsilon_coverage": 0.90625,
+      "maximum_regret": 0.6715772151947021,
+      "mean_queries": 5.8828125,
+      "mean_regret": 0.03401731280609965,
+      "median_queries": 4.0,
+      "median_regret": 0.0,
+      "query_fraction": 0.36767578125,
+      "query_range": [
+        1,
+        16
+      ],
+      "regret_cvar95": 0.42422614778791157,
+      "regret_p95": 0.24651360511779777,
+      "regret_p99": 0.5691158449649817,
+      "zero_regret_fraction": 0.796875
+    },
+    {
+      "component_epsilon_coverage": 0.898876404494382,
+      "component_exact_best_coverage": 0.7865168539325843,
+      "cost_fraction": 0.4145130100690721,
+      "cost_saving_fraction": 0.5854869899309278,
+      "epsilon": 0.1,
+      "exact_best_coverage": 0.8203125,
+      "failure_conditional_mean_regret": 0.13128608465194702,
+      "failure_count": 23,
+      "fold_quantile_range": [
+        0.15382853060870652,
+        0.2652117784513871
+      ],
+      "length_cost_gamma": 1.0,
+      "marginal_epsilon_coverage": 0.9296875,
+      "maximum_regret": 0.6087052822113037,
+      "mean_queries": 7.1640625,
+      "mean_regret": 0.02359046833589673,
+      "median_queries": 6.0,
+      "median_regret": 0.0,
+      "query_fraction": 0.44775390625,
+      "query_range": [
+        1,
+        16
+      ],
+      "regret_cvar95": 0.32593640259334017,
+      "regret_p95": 0.18194911479949893,
+      "regret_p99": 0.3491809630393982,
+      "zero_regret_fraction": 0.8203125
+    },
+    {
+      "component_epsilon_coverage": 0.8876404494382022,
+      "component_exact_best_coverage": 0.7415730337078652,
+      "cost_fraction": 0.4231316568717906,
+      "cost_saving_fraction": 0.5768683431282093,
+      "epsilon": 0.2,
+      "exact_best_coverage": 0.7890625,
+      "failure_conditional_mean_regret": 0.2071649432182312,
+      "failure_count": 27,
+      "fold_quantile_range": [
+        0.07299995422363281,
+        0.1365957260131836
+      ],
+      "length_cost_gamma": 0.0,
+      "marginal_epsilon_coverage": 0.9140625,
+      "maximum_regret": 0.6715772151947021,
+      "mean_queries": 5.6953125,
+      "mean_regret": 0.043698855210095644,
+      "median_queries": 4.0,
+      "median_regret": 0.0,
+      "query_fraction": 0.35595703125,
+      "query_range": [
+        1,
+        16
+      ],
+      "regret_cvar95": 0.5207891293934414,
+      "regret_p95": 0.3240545451641077,
+      "regret_p99": 0.6418395543098452,
+      "zero_regret_fraction": 0.7890625
+    },
+    {
+      "component_epsilon_coverage": 0.9101123595505618,
+      "component_exact_best_coverage": 0.7528089887640449,
+      "cost_fraction": 0.3505223574707902,
+      "cost_saving_fraction": 0.6494776425292098,
+      "epsilon": 0.2,
+      "exact_best_coverage": 0.7890625,
+      "failure_conditional_mean_regret": 0.16314085986879137,
+      "failure_count": 27,
+      "fold_quantile_range": [
+        0.09951108361578247,
+        0.1756849161991306
+      ],
+      "length_cost_gamma": 0.5,
+      "marginal_epsilon_coverage": 0.9296875,
+      "maximum_regret": 0.6715772151947021,
+      "mean_queries": 5.375,
+      "mean_regret": 0.03441252512857318,
+      "median_queries": 4.0,
+      "median_regret": 0.0,
+      "query_fraction": 0.3359375,
+      "query_range": [
+        1,
+        16
+      ],
+      "regret_cvar95": 0.42755610602242605,
+      "regret_p95": 0.26512460708618146,
+      "regret_p99": 0.5691158449649817,
+      "zero_regret_fraction": 0.7890625
+    },
+    {
+      "component_epsilon_coverage": 0.9213483146067416,
+      "component_exact_best_coverage": 0.7528089887640449,
+      "cost_fraction": 0.3451807925978464,
+      "cost_saving_fraction": 0.6548192074021536,
+      "epsilon": 0.2,
+      "exact_best_coverage": 0.7890625,
+      "failure_conditional_mean_regret": 0.12200008719055741,
+      "failure_count": 27,
+      "fold_quantile_range": [
+        0.13565016399943786,
+        0.23948777190141918
+      ],
+      "length_cost_gamma": 1.0,
+      "marginal_epsilon_coverage": 0.9453125,
+      "maximum_regret": 0.6087052822113037,
+      "mean_queries": 6.0390625,
+      "mean_regret": 0.025734393391758204,
+      "median_queries": 4.0,
+      "median_regret": 0.0,
+      "query_fraction": 0.37744140625,
+      "query_range": [
+        1,
+        16
+      ],
+      "regret_cvar95": 0.32593640259334017,
+      "regret_p95": 0.1858806967735286,
+      "regret_p99": 0.3491809630393982,
+      "zero_regret_fraction": 0.7890625
+    }
+  ],
+  "quantile": "correct direct finite-sample order statistic",
+  "runtime_cost_model": "configs/editflow/pls_esmfold_runtime_cost_model_v1.json",
+  "schema": "PLS_EditFlow_epsilon_cost_development_report_v1",
+  "score_normalization_frozen_before_calibration": true,
+  "selection_status": "no method selected; confirmatory v1 was not used for tuning",
+  "status": "exploratory_group_crossfit_on_old_train_components_only",
+  "test_evaluated": false,
+  "test_sequences_queried": 0,
+  "unique_si30_components": 89
+}

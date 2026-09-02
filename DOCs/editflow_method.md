@@ -560,3 +560,59 @@ campaign endpoint, yet these secondary observations do not constitute a method
 win. The additive corrections are large enough that the policy becomes a
 support-limited occupancy/UCB hybrid; future calibration must be path-conditional
 or improve candidate-path coverage rather than apply another global quantile.
+
+## Frozen runtime-cost protocol v2
+
+The operational objective is now explicit:
+
+```text
+minimize E[sum_{j in C(X)} c(X,j)]
+subject to P(R(C;X) <= epsilon) >= 1-alpha.
+```
+
+The candidate cost is no longer query count or length squared. A label-free
+weighted isotonic model is fit to per-length median marginal inference time from
+5,814 historical folds across 20 homogeneous ROCm ESMFold shards. The first
+successful sequence in each process is removed as compilation/warm-up, because
+candidate-specific gating controls marginal work; process startup is accounted
+for separately at deployment. Five-fold cross-validation grouped by complete
+runtime report gives Spearman `0.9339`, median absolute error `0.0641` seconds,
+and median absolute percentage error `2.97%`. The fitted knots, report hashes,
+ESMFold checkpoint hash, recycle count, chunk size, and reference cost are
+frozen in `configs/editflow/pls_esmfold_runtime_cost_model_v1.json`.
+
+The score scale is
+
+```text
+a_gamma(x) = (c_hat(x) / c0)^(-gamma),
+S_epsilon,gamma(x) = min_{j in J_epsilon(x)} (max L - L_j) / a_gamma(x).
+```
+
+Both `c_hat` and `c0` are frozen before conformal calibration; calibration
+covariates no longer estimate a fold-specific median length. Runtime-cost
+development on the old 89 SI30 components gives the following pre-selection
+points:
+
+| Policy | Component target coverage | Predicted GPU-cost fraction | Mean regret | CVaR95 |
+| --- | ---: | ---: | ---: | ---: |
+| epsilon=0, gamma=0 | 0.8989 | 0.6630 | 0.0153 | 0.2475 |
+| epsilon=0, gamma=1 | 0.9213 | 0.6514 | 0.0081 | 0.1444 |
+| epsilon=0.2, gamma=0 | 0.8876 | 0.4231 | 0.0437 | 0.5208 |
+| epsilon=0.2, gamma=1 | 0.9213 | 0.3452 | 0.0257 | 0.3259 |
+
+The `0.2` tolerance is approximately `1.021` development exact mutation-effect
+IQRs, so it is a broad oracle-score tolerance rather than a biologically
+calibrated solubility change. Protocol v2 therefore freezes `epsilon=0,gamma=1`
+as the primary exact-best risk endpoint and `epsilon=0.2,gamma=1` as a secondary
+cost--risk frontier point.
+
+Method selection, calibration, and confirmation are disjoint. The old 89
+components select the policies. A new label-blind manifest supplies 128 fresh
+SI30 components only for final quantiles. A second 128-component manifest has
+zero component overlap with calibration and every prior PLS oracle manifest.
+The confirmatory order is fixed-parent scoring, label-free candidate selection,
+selected-only exact folding and deployment freeze, then retrospective folding
+of unselected mutations. This makes selected-stage GPU-seconds and wall time
+directly measured rather than replayed. Length quartiles `[106,148,219]` and
+parent-pLDDT strata `[0.7,0.8,0.9]` are predefined descriptive diagnostics;
+the formal guarantee remains marginal over exchangeable SI30 components.

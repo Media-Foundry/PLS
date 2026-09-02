@@ -1,0 +1,101 @@
+{
+  "schema": "PLS_cost_aware_conformal_protocol_v2",
+  "status": "frozen_before_fresh_calibration_exact_scores",
+  "method_name": "Cost-Aware Conformal Gating for Cached Derived-Modality Oracles",
+  "evaluate_test": false,
+  "runtime_cost_model": "configs/editflow/pls_esmfold_runtime_cost_model_v1.json",
+  "runtime_cost_model_sha256": "1f6d6ab1773e6af8daced429e32d71f15c3662ee2c011327648d5b6ae437e7fb",
+  "method_selection": {
+    "development_report": "analysis/editflow_pls_epsilon_runtime_cost_development_v2.json",
+    "development_report_sha256": "a658d1520bb20bd83e9fc87c85a9f22182610ad03b9eff3ba69f3bc43651887e",
+    "components": 89,
+    "confirmatory_v1_used_for_selection": false,
+    "selection_complete": true
+  },
+  "primary_policy_id": "exact_best_runtime_gamma1",
+  "policies": [
+    {
+      "policy_id": "exact_best_runtime_gamma1",
+      "role": "primary",
+      "alpha": 0.1,
+      "epsilon": 0.0,
+      "gamma": 1.0,
+      "risk_event": "high_fidelity_decision_regret_equals_zero"
+    },
+    {
+      "policy_id": "tolerant_runtime_gamma1",
+      "role": "secondary",
+      "alpha": 0.1,
+      "epsilon": 0.2,
+      "gamma": 1.0,
+      "risk_event": "high_fidelity_decision_regret_at_most_0.2_raw_logit"
+    }
+  ],
+  "epsilon_interpretation": {
+    "units": "frozen_PLS_teacher_raw_logit",
+    "development_exact_mutation_delta_iqr": 0.19588802754878998,
+    "epsilon_0.2_as_development_iqr_fraction": 1.0209914434417686,
+    "claim": "user-specified oracle-score tolerance; no direct experimental-solubility interpretation",
+    "reason_primary_is_epsilon_zero": "the 0.2 tolerance is approximately one full development mutation-effect IQR and is therefore retained as a secondary cost-risk frontier point rather than the sole primary endpoint"
+  },
+  "fresh_calibration": {
+    "components": 128,
+    "anchors_per_component": 1,
+    "mutations_per_anchor": 16,
+    "manifest": "benchmark/generated/pls_editflow_oracle_manifest_cost_calibration_v2.json",
+    "manifest_sha256": "ed03c0d5261850e2296b4640f0dc24deb707e62ed827b78569c5c062568b0dd9",
+    "fixed_scores": "artifacts/oracles/pls_editflow_cost_calibration_v2/fixed_parent/scores_fp32_a/oracle_logits.npz",
+    "exact_scores": "artifacts/oracles/pls_editflow_cost_calibration_v2/exact/scores_fp32_a/oracle_logits.npz",
+    "exact_query_plan": "benchmark/generated/pls_editflow_oracle_query_plan_cost_calibration_v2.json",
+    "exact_query_plan_sha256": "954897d0c7ce20a48d80aaca7b66afccfab8c631c3ee53024b6ff36f2139f412",
+    "use": "quantile calibration only; no policy, epsilon, gamma, or cost-model selection"
+  },
+  "fresh_confirmatory": {
+    "components": 128,
+    "anchors_per_component": 1,
+    "mutations_per_anchor": 16,
+    "manifest": "benchmark/generated/pls_editflow_oracle_manifest_cost_confirmatory_v2.json",
+    "manifest_sha256": "dda1f9f7b5acff8cc17f734d4c1ba921f88a936516f90bbac5ae3631d8b03195",
+    "fixed_scores": "artifacts/oracles/pls_editflow_cost_confirmatory_v2/fixed_parent/scores_fp32_a/oracle_logits.npz",
+    "selected_exact_scores": "artifacts/oracles/pls_editflow_cost_confirmatory_v2/exact_selected/scores_fp32_a/oracle_logits.npz",
+    "retrospective_full_exact_scores": "artifacts/oracles/pls_editflow_cost_confirmatory_v2/exact_full/scores_fp32_a/oracle_logits.npz",
+    "calibration_component_overlap": 0,
+    "prior_oracle_component_overlap": 0
+  },
+  "execution_order": [
+    "build and score cached-parent oracle for every confirmatory candidate",
+    "apply the frozen primary policy and persist the selected candidate manifest before any confirmatory mutant refold",
+    "refold and score only the selected candidates; freeze deployment outputs and measured costs",
+    "only after deployment freeze, refold unselected candidates for retrospective coverage and regret audit"
+  ],
+  "primary_endpoint": {
+    "cost": "measured selected-stage ESMFold inference GPU-seconds divided by retrospective exhaustive ESMFold inference GPU-seconds",
+    "risk": "component-level probability of zero high-fidelity decision regret",
+    "target": "marginal risk at most 0.1 under SI30-component exchangeability"
+  },
+  "secondary_endpoints": [
+    "measured end-to-end selected-stage wall time",
+    "CPU structure/geometry/vector/patch/scoring time",
+    "exact query fraction",
+    "epsilon=0.2 component coverage",
+    "mean regret",
+    "failure-conditional mean regret",
+    "CVaR95",
+    "maximum regret"
+  ],
+  "predefined_strata": {
+    "length_quartile_boundaries_from_method_development": [106, 148, 219],
+    "parent_plddt_boundaries": [0.7, 0.8, 0.9],
+    "report_per_stratum": ["coverage", "mean_exact_queries", "measured_gpu_seconds", "mean_regret"],
+    "interpretation": "descriptive conditional diagnostics; finite-sample guarantee remains marginal over SI30 components"
+  },
+  "compute_contract": {
+    "local_physical_gpus": [0, 1, 2, 3],
+    "fold_shards": 4,
+    "calibration_exact_mutant_folds": 2048,
+    "confirmatory_exact_mutant_folds_before_retrospective": "determined by frozen candidate sets",
+    "test_folds": 0
+  },
+  "test_sequences_queried": 0,
+  "test_evaluated": false
+}

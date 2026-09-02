@@ -403,7 +403,7 @@ def write_entities(manifest: dict, path: Path) -> None:
     """Materialize the safe manifest nodes for existing feature extractors."""
     fields = ["entity_id", "sequence_sha256", "sequence", "length"]
     with path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         for node in manifest["nodes"]:
             writer.writerow({

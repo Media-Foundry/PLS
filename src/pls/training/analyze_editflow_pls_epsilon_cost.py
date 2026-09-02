@@ -20,6 +20,11 @@ from pls.editflow.decision_gating import (
     margin_candidate_indices,
     regret_summary,
 )
+from pls.editflow.runtime_cost import (
+    load_runtime_cost_model,
+    predict_runtime_seconds,
+    runtime_cost_scale,
+)
 
 
 def _score_map(path: Path) -> dict[str, float]:
@@ -66,22 +71,54 @@ def _load_train_anchors(section: dict) -> list[dict]:
     return sorted(result, key=lambda row: row["anchor"])
 
 
-def _scale(length: int, median_length: float, gamma: float, size: int) -> np.ndarray:
-    value = (float(length) / median_length) ** (-gamma)
+def _scale(
+    length: int,
+    reference_length: float,
+    gamma: float,
+    size: int,
+    runtime_model: dict | None,
+) -> np.ndarray:
+    if runtime_model is not None:
+        value = float(runtime_cost_scale(runtime_model, [length], gamma=gamma)[0])
+    else:
+        value = (float(length) / reference_length) ** (-gamma)
     return np.full(size, value, dtype=np.float64)
 
 
-def _crossfit(anchors: list[dict], *, folds: int, alpha: float, epsilon: float, gamma: float) -> dict:
+def _unit_cost(length: int, runtime_model: dict | None) -> float:
+    if runtime_model is not None:
+        return float(predict_runtime_seconds(runtime_model, [length])[0])
+    return float(length**2)
+
+
+def _crossfit(
+    anchors: list[dict],
+    *,
+    folds: int,
+    alpha: float,
+    epsilon: float,
+    gamma: float,
+    runtime_model: dict | None,
+    frozen_reference_length: float | None,
+) -> dict:
     groups = np.asarray([row["component"] for row in anchors])
     splitter = GroupKFold(n_splits=folds)
     dummy = np.zeros(len(anchors))
     records, quantiles = [], []
     for calibration, held_out in splitter.split(dummy, dummy, groups):
-        median_length = float(np.median([anchors[index]["length"] for index in calibration]))
+        # Legacy v1 derived the length reference inside each calibration fold.
+        # New runtime-cost protocols freeze the score form before calibration.
+        reference_length = (
+            float(frozen_reference_length)
+            if frozen_reference_length is not None
+            else float(np.median([anchors[index]["length"] for index in calibration]))
+        )
         anchor_scores: dict[str, list[float]] = {}
         for index in calibration:
             row = anchors[index]
-            scale = _scale(row["length"], median_length, gamma, len(row["low"]))
+            scale = _scale(
+                row["length"], reference_length, gamma, len(row["low"]), runtime_model
+            )
             anchor_scores.setdefault(row["component"], []).append(
                 epsilon_optimal_nonconformity(
                     row["low"], row["exact"], epsilon, scale=scale
@@ -92,11 +129,14 @@ def _crossfit(anchors: list[dict], *, folds: int, alpha: float, epsilon: float, 
         quantiles.append(quantile)
         for index in held_out:
             row = anchors[index]
-            scale = _scale(row["length"], median_length, gamma, len(row["low"]))
+            scale = _scale(
+                row["length"], reference_length, gamma, len(row["low"]), runtime_model
+            )
             chosen = margin_candidate_indices(row["low"], quantile, scale=scale)
             regret = float(np.max(row["exact"]) - np.max(row["exact"][chosen]))
-            full_cost = float(len(row["low"]) * row["length"] ** 2)
-            selected_cost = float(len(chosen) * row["length"] ** 2)
+            unit_cost = _unit_cost(row["length"], runtime_model)
+            full_cost = float(len(row["low"]) * unit_cost)
+            selected_cost = float(len(chosen) * unit_cost)
             records.append({
                 "component": row["component"],
                 "queries": int(len(chosen)),
@@ -125,8 +165,8 @@ def _crossfit(anchors: list[dict], *, folds: int, alpha: float, epsilon: float, 
         "median_queries": float(np.median(queries)),
         "query_range": [int(np.min(queries)), int(np.max(queries))],
         "query_fraction": float(np.sum(queries) / sum(len(row["low"]) for row in anchors)),
-        "length_squared_cost_fraction": cost / full_cost,
-        "length_squared_cost_saving_fraction": 1.0 - cost / full_cost,
+        "cost_fraction": cost / full_cost,
+        "cost_saving_fraction": 1.0 - cost / full_cost,
         "fold_quantile_range": [float(np.min(quantiles)), float(np.max(quantiles))],
         **regret_summary(regrets),
     }
@@ -146,6 +186,14 @@ def main() -> None:
         raise ValueError("invalid development protocol status")
 
     anchors = _load_train_anchors(config["data"])
+    runtime_model = (
+        load_runtime_cost_model(config["runtime_cost_model"])
+        if config.get("runtime_cost_model")
+        else None
+    )
+    frozen_reference_length = config.get("frozen_reference_length")
+    if runtime_model is not None and frozen_reference_length is not None:
+        raise ValueError("runtime model and length reference are mutually exclusive")
     matrix = []
     for epsilon in config["epsilon_grid"]:
         for gamma in config["length_cost_gamma_grid"]:
@@ -155,6 +203,12 @@ def main() -> None:
                 alpha=float(config["alpha"]),
                 epsilon=float(epsilon),
                 gamma=float(gamma),
+                runtime_model=runtime_model,
+                frozen_reference_length=(
+                    float(frozen_reference_length)
+                    if frozen_reference_length is not None
+                    else None
+                ),
             ))
     result = {
         "schema": "PLS_EditFlow_epsilon_cost_development_report_v1",
@@ -163,6 +217,9 @@ def main() -> None:
         "unique_si30_components": len({row["component"] for row in anchors}),
         "alpha": float(config["alpha"]),
         "cost_proxy": config["cost_proxy"],
+        "runtime_cost_model": config.get("runtime_cost_model"),
+        "score_normalization_frozen_before_calibration": runtime_model is not None
+        or frozen_reference_length is not None,
         "matrix": matrix,
         "selection_status": "no method selected; confirmatory v1 was not used for tuning",
         "quantile": "correct direct finite-sample order statistic",
@@ -189,7 +246,7 @@ def main() -> None:
         "",
         f"Exploratory five-fold cross-fitting uses only the old 128 train anchors from {result['unique_si30_components']} SI30 components. Calibration uses the maximum anchor nonconformity per component. The held-out confirmatory 64 components and the PLS test split were not used for method tuning.",
         "",
-        "| Epsilon | Cost gamma | Anchor epsilon cov. | Component epsilon cov. | Exact coverage | Mean queries | Query fraction | Length^2 cost fraction | Mean regret | CVaR95 | Max regret |",
+        "| Epsilon | Cost gamma | Anchor epsilon cov. | Component epsilon cov. | Exact coverage | Mean queries | Query fraction | Cost fraction | Mean regret | CVaR95 | Max regret |",
         "| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for row in matrix:
@@ -198,12 +255,12 @@ def main() -> None:
             f"{row['marginal_epsilon_coverage']:.4f} | {row['component_epsilon_coverage']:.4f} | "
             f"{row['exact_best_coverage']:.4f} | "
             f"{row['mean_queries']:.2f} | {row['query_fraction']:.4f} | "
-            f"{row['length_squared_cost_fraction']:.4f} | {row['mean_regret']:.4f} | "
+            f"{row['cost_fraction']:.4f} | {row['mean_regret']:.4f} | "
             f"{row['regret_cvar95']:.4f} | {row['maximum_regret']:.4f} |"
         )
     lines.extend([
         "",
-        "`gamma=0` is the ordinary margin score. Positive gamma tightens candidate sets for longer, more expensive anchors using a label-free length proxy. This matrix is development evidence, not a new confirmatory result.",
+        "`gamma=0` is the ordinary margin score. Positive gamma tightens candidate sets for more expensive anchors. New runtime-cost protocols use a label-free monotone model and a reference cost frozen before conformal calibration. This matrix is development evidence, not a new confirmatory result.",
         "",
         "PLS test queries/evaluations: **0**.",
         "",
