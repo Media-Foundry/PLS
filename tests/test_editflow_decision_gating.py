@@ -4,9 +4,14 @@ import numpy as np
 
 from pls.editflow.decision_gating import (
     certified_best_from_intervals,
+    empirical_upper_cvar,
+    epsilon_optimal_nonconformity,
     exact_best_rank,
     finite_sample_quantile,
+    legacy_conservative_quantile,
+    margin_candidate_indices,
     query_until_certified,
+    regret_summary,
     shrinkage_slope,
     top_m_exact_verification,
 )
@@ -38,8 +43,29 @@ class EditFlowDecisionGatingTests(unittest.TestCase):
 
     def test_finite_quantile_and_shrinkage_are_well_formed(self):
         self.assertEqual(finite_sample_quantile([1.0, 2.0, 3.0], alpha=0.25), 3.0)
+        values = np.arange(1.0, 11.0)
+        self.assertEqual(finite_sample_quantile(values, alpha=0.2), 9.0)
+        self.assertEqual(legacy_conservative_quantile(values, alpha=0.2), 10.0)
         slope = shrinkage_slope([1.0], [2.0], global_slope=1.0, shrinkage=1.0)
         self.assertAlmostEqual(slope, 1.5)
+
+    def test_epsilon_margin_and_scaled_candidate_sets(self):
+        low = np.asarray([1.0, 0.8, 0.5])
+        exact = np.asarray([0.0, 0.9, 1.0])
+        self.assertAlmostEqual(epsilon_optimal_nonconformity(low, exact, 0.0), 0.5)
+        self.assertAlmostEqual(epsilon_optimal_nonconformity(low, exact, 0.15), 0.2)
+        np.testing.assert_array_equal(margin_candidate_indices(low, 0.21), [0, 1])
+        np.testing.assert_array_equal(
+            margin_candidate_indices(low, 0.21, scale=[1.0, 0.5, 4.0]), [0, 2]
+        )
+
+    def test_tail_regret_metrics_remain_informative(self):
+        regrets = np.asarray([0.0] * 60 + [0.1, 0.2, 0.3, 1.0])
+        summary = regret_summary(regrets)
+        self.assertEqual(summary["failure_count"], 4)
+        self.assertAlmostEqual(summary["failure_conditional_mean_regret"], 0.4)
+        self.assertAlmostEqual(summary["regret_cvar95"], 0.4)
+        self.assertAlmostEqual(empirical_upper_cvar(regrets, level=0.95), 0.4)
 
     def test_exact_best_rank_uses_cheap_order(self):
         self.assertEqual(exact_best_rank([3.0, 2.0, 1.0], [0.0, 5.0, 1.0]), 2)

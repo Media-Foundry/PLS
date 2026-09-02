@@ -1,0 +1,32 @@
+{
+  "schema": "PLS_EditFlow_decision_gating_confirmatory_protocol_v1",
+  "evaluate_test": false,
+  "status": "frozen_before_confirmatory_exact_scores",
+  "landscape_manifest": "benchmark/generated/pls_editflow_oracle_manifest_decision_confirmatory_v1.json",
+  "fixed_scores": "artifacts/oracles/pls_editflow_decision_confirmatory_v1/fixed_parent/scores_fp32_a/oracle_logits.npz",
+  "exact_scores": "artifacts/oracles/pls_editflow_decision_confirmatory_v1/exact/scores_fp32_a/oracle_logits.npz",
+  "calibration_source": "old exhaustive train anchors only",
+  "primary_method": {
+    "name": "component_safe_conformal_decision_margin_set",
+    "alpha": 0.1,
+    "nonconformity": "max_fixed_delta_minus_fixed_delta_of_exact_argmax",
+    "calibration_unit": "SI30_component_maximum_anchor_nonconformity",
+    "frozen_margin_quantile": 0.23259401321411133
+  },
+  "primary_endpoints": [
+    "exact_best_candidate_set_coverage",
+    "mean_exact_query_fraction",
+    "exact_best_regret"
+  ],
+  "baselines": [
+    {"name": "fixed_top_m", "m": 4},
+    {"name": "fixed_top_m", "m": 8},
+    {"name": "component_safe_conformal_rank_set", "m": 12},
+    {"name": "exhaustive_exact", "m": 16}
+  ],
+  "confirmatory_anchors": 64,
+  "mutations_per_anchor": 16,
+  "selection": "label-blind, train-only, unique SI30 components excluded from every prior PLS oracle manifest",
+  "test_sequences_queried": 0,
+  "test_evaluated": false
+}

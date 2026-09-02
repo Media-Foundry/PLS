@@ -6,7 +6,31 @@ import numpy as np
 
 
 def finite_sample_quantile(values, *, alpha: float) -> float:
-    """One-sided split-conformal higher quantile."""
+    """Return the split-conformal finite-sample order statistic.
+
+    For ``n`` calibration scores this is the one-based order statistic
+    ``ceil((n + 1) * (1 - alpha))``, clipped to ``n``.  Indexing the sorted
+    scores directly avoids the subtly different ``(n - 1) * q`` convention
+    used by :func:`numpy.quantile`.
+    """
+    values = np.asarray(values, dtype=np.float64)
+    if values.ndim != 1 or not len(values):
+        raise ValueError("values must be a nonempty one-dimensional array")
+    if np.any(~np.isfinite(values)):
+        raise ValueError("values must be finite")
+    if not 0 < alpha < 1:
+        raise ValueError("alpha must lie strictly between zero and one")
+    rank = min(len(values), int(np.ceil((len(values) + 1) * (1.0 - alpha))))
+    return float(np.sort(values)[rank - 1])
+
+
+def legacy_conservative_quantile(values, *, alpha: float) -> float:
+    """Reproduce the conservative quantile used by frozen v1 protocols.
+
+    Do not use this helper for new protocols.  The confirmatory v1 margin is
+    stored as a literal threshold, so correcting :func:`finite_sample_quantile`
+    cannot alter that frozen result.
+    """
     values = np.asarray(values, dtype=np.float64)
     if values.ndim != 1 or not len(values):
         raise ValueError("values must be a nonempty one-dimensional array")
@@ -16,6 +40,87 @@ def finite_sample_quantile(values, *, alpha: float) -> float:
         raise ValueError("alpha must lie strictly between zero and one")
     level = min(1.0, np.ceil((len(values) + 1) * (1.0 - alpha)) / len(values))
     return float(np.quantile(values, level, method="higher"))
+
+
+def margin_candidate_indices(low, threshold: float, scale=None) -> np.ndarray:
+    """Return a fixed or candidate-scaled low-fidelity decision set.
+
+    With no scale this is ``max(low) - low[j] <= threshold``.  Positive
+    candidate-specific scales support future cost-aware conformal scores via
+    ``(max(low) - low[j]) / scale[j] <= threshold``.
+    """
+    low = np.asarray(low, dtype=np.float64)
+    if low.ndim != 1 or not len(low) or np.any(~np.isfinite(low)):
+        raise ValueError("low must be a finite nonempty one-dimensional array")
+    if threshold < 0 or not np.isfinite(threshold):
+        raise ValueError("threshold must be finite and nonnegative")
+    gaps = float(np.max(low)) - low
+    if scale is not None:
+        scale = np.asarray(scale, dtype=np.float64)
+        if scale.shape != low.shape or np.any(~np.isfinite(scale)) or np.any(scale <= 0):
+            raise ValueError("scale must be finite, positive, and match low")
+        gaps = gaps / scale
+    return np.flatnonzero(gaps <= threshold + 1e-12)
+
+
+def epsilon_optimal_nonconformity(low, exact, epsilon: float, scale=None) -> float:
+    """Score the cheapest low-fidelity inclusion of an exact epsilon-optimum.
+
+    The score is the minimum (possibly scaled) low-fidelity gap among exact
+    candidates within ``epsilon`` of the exact optimum.  It reduces to the
+    exact-argmax margin score at ``epsilon=0`` when the optimum is unique.
+    """
+    low = np.asarray(low, dtype=np.float64)
+    exact = np.asarray(exact, dtype=np.float64)
+    if low.ndim != 1 or exact.shape != low.shape or not len(low):
+        raise ValueError("low and exact must be equal nonempty one-dimensional arrays")
+    if np.any(~np.isfinite(low)) or np.any(~np.isfinite(exact)):
+        raise ValueError("low and exact must be finite")
+    if epsilon < 0 or not np.isfinite(epsilon):
+        raise ValueError("epsilon must be finite and nonnegative")
+    gaps = float(np.max(low)) - low
+    if scale is not None:
+        scale = np.asarray(scale, dtype=np.float64)
+        if scale.shape != low.shape or np.any(~np.isfinite(scale)) or np.any(scale <= 0):
+            raise ValueError("scale must be finite, positive, and match low")
+        gaps = gaps / scale
+    acceptable = exact >= float(np.max(exact)) - epsilon - 1e-12
+    return float(np.min(gaps[acceptable]))
+
+
+def empirical_upper_cvar(values, *, level: float = 0.95) -> float:
+    """Average the worst ``ceil((1-level)*n)`` empirical outcomes."""
+    values = np.asarray(values, dtype=np.float64)
+    if values.ndim != 1 or not len(values) or np.any(~np.isfinite(values)):
+        raise ValueError("values must be a finite nonempty one-dimensional array")
+    if not 0 <= level < 1:
+        raise ValueError("level must lie in [0, 1)")
+    count = max(1, int(np.ceil((1.0 - level) * len(values))))
+    return float(np.mean(np.sort(values)[-count:]))
+
+
+def regret_summary(regrets, *, tolerance: float = 1e-12) -> dict:
+    """Report decision regret with metrics that remain informative at high coverage."""
+    regrets = np.asarray(regrets, dtype=np.float64)
+    if regrets.ndim != 1 or not len(regrets) or np.any(~np.isfinite(regrets)):
+        raise ValueError("regrets must be a finite nonempty one-dimensional array")
+    if np.any(regrets < -tolerance):
+        raise ValueError("regrets cannot be negative")
+    regrets = np.maximum(regrets, 0.0)
+    failures = regrets[regrets > tolerance]
+    return {
+        "zero_regret_fraction": float(np.mean(regrets <= tolerance)),
+        "mean_regret": float(np.mean(regrets)),
+        "median_regret": float(np.median(regrets)),
+        "maximum_regret": float(np.max(regrets)),
+        "regret_p95": float(np.quantile(regrets, 0.95)),
+        "regret_p99": float(np.quantile(regrets, 0.99)),
+        "regret_cvar95": empirical_upper_cvar(regrets, level=0.95),
+        "failure_count": int(len(failures)),
+        "failure_conditional_mean_regret": (
+            float(np.mean(failures)) if len(failures) else 0.0
+        ),
+    }
 
 
 def top_m_exact_verification(low, exact, groups, m: int, *, tolerance: float = 1e-12) -> dict:
@@ -54,10 +159,8 @@ def top_m_exact_verification(low, exact, groups, m: int, *, tolerance: float = 1
         "true_best_inclusion": float(np.mean(inclusions)),
         "zero_regret_fraction": float(np.mean(zero_regret)),
         "beneficial_verified_fraction": float(np.mean(beneficial)),
-        "mean_regret": float(np.mean(regret_values)),
-        "median_regret": float(np.median(regret_values)),
-        "maximum_regret": float(np.max(regret_values)),
         "regret_p90": float(np.quantile(regret_values, 0.9)),
+        **regret_summary(regret_values, tolerance=tolerance),
     }
 
 

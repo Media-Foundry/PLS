@@ -492,6 +492,63 @@ with mean regret `0.0271`. Top-4/8 obtain coverage `0.8281/0.9375` at fixed cost
 result supports variable decision-focused reuse, while the wide coverage
 interval and four misses prohibit a per-anchor deterministic guarantee.
 
+The method should therefore be called **Conformal Decision Gating for Cached
+Scientific Oracles**, not deterministic certification.  For low-fidelity
+candidate scores `L_j` and high-fidelity maximizer `j*`, the calibration score is
+
+```text
+S(x) = max_j L_j - L_j*.
+C_alpha(x) = {j : L_j >= max_k L_k - q_alpha}.
+```
+
+Under exchangeability of the SI30-component calibration units, split conformal
+validity gives marginal inclusion of the high-fidelity optimum, and hence zero
+decision regret, with probability at least `1-alpha`. It does not give a
+deterministic per-protein guarantee. Confirmatory v1 used a frozen threshold
+produced by a conservative one-order-higher NumPy quantile convention. That
+threshold and result remain unchanged. New protocols directly select the
+one-based order statistic `ceil((n+1)*(1-alpha))`.
+
+Tail-risk and measured-cost replay sharpen the confirmatory interpretation.
+Margin and Top-8 both miss 4/64 exact optima, but their failure-conditional mean
+regrets are `0.4336` and `1.5226`; empirical CVaR95 has the same values, while
+maximum regrets are `1.3061` and `4.5960`. Margin therefore reduces failure
+severity rather than improving exact-best coverage. Its 621/1,024 query count
+suggests a 39.4% saving, but the retained anchors are longer: recorded ESMFold
+inference falls only from `3060.3` to `2236.8` GPU-seconds (26.9%), and a replay
+on the original four shard assignments estimates wall time `693.0` versus the
+measured exhaustive `890.9` seconds (22.2%). Only the exhaustive wall time was
+directly measured; the selected wall time is a counterfactual replay. See
+`analysis/editflow_pls_decision_gating_confirmatory_v1_cost_audit.md`.
+
+## Train-only epsilon-regret and cost-aware extension
+
+For scientific tasks where near-optimal mutations are interchangeable, define
+
+```text
+J_epsilon(x) = {j : H_j >= max_k H_k - epsilon}
+S_epsilon(x) = min_{j in J_epsilon(x)} [max_k L_k - L_j].
+```
+
+Conformalizing `S_epsilon` controls the marginal event that the exact-verified
+set contains an epsilon-optimal decision. A label-free length scale can trade
+coverage allocation against folding cost:
+
+```text
+a_gamma(x) = (length(x) / median_calibration_length)^(-gamma)
+C(x) = {j : (max L - L_j) / a_gamma(x) <= q}.
+```
+
+Five-fold development on the old 128 train anchors, grouped into 89 SI30
+components and calibrated by the maximum anchor score per component, shows a
+useful Pareto direction. At `epsilon=0.2, gamma=1`, component epsilon-coverage
+is `0.9213`, the length-squared cost fraction is `0.3694`, and mean regret is
+`0.0262`. The exact-best version `epsilon=0, gamma=1` gives component coverage
+`0.9326` at cost fraction `0.6852`. These are train-only exploratory results;
+the already-seen 64 confirmatory components were not used to select them and
+must not be relabelled as confirmation. See
+`analysis/editflow_pls_epsilon_cost_development_v1.md`.
+
 The first prequentially calibrated path acquisition is also a development null
 on the primary local curve. It calibrates later-round uncertainty only from
 pre-query predictions on frontier edges whose targets were subsequently

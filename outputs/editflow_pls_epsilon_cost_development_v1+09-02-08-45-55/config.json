@@ -1,0 +1,18 @@
+{
+  "schema": "PLS_EditFlow_epsilon_cost_development_config_v1",
+  "evaluate_test": false,
+  "data": {
+    "manifest": "benchmark/generated/pls_editflow_oracle_manifest_scale_v1.json",
+    "fixed_scores": "artifacts/oracles/pls_editflow_scale_v1/fixed_parent/scores_fp32_a/oracle_logits.npz",
+    "exact_scores": "artifacts/oracles/pls_editflow_scale_v1/scores_matched_fp32_a/oracle_logits.npz",
+    "split": "train"
+  },
+  "component_folds": 5,
+  "alpha": 0.1,
+  "epsilon_grid": [0.0, 0.05, 0.1, 0.2],
+  "length_cost_gamma_grid": [0.0, 0.5, 1.0],
+  "cost_proxy": "sequence_length_squared",
+  "status": "train_only_exploratory_method_development",
+  "test_sequences_queried": 0,
+  "test_evaluated": false
+}
