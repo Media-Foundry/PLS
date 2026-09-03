@@ -1,0 +1,19 @@
+{
+  "cause": "pool_surface_patches derives label_stride from the batch-wide maximum component id, so group ordering, top-64 patch selection and index_add_ accumulation order depend on batch composition",
+  "consequence": "frozen scores are reproducible only when the batching is reproduced; they are not a pure function of a single sequence",
+  "nodes_sampled": 256,
+  "reproducing_the_scorer_batching": {
+    "max_absolute_gap": 1.9073486328125e-06,
+    "median_absolute_gap": 2.384185791015625e-07,
+    "p99_absolute_gap": 1.6450881958007758e-06
+  },
+  "schema": "PLS_teacher_batch_dependence_v1",
+  "scorer_batch_size": 20,
+  "scoring_one_sequence_at_a_time": {
+    "max_absolute_gap": 0.07176637649536133,
+    "median_absolute_gap": 7.152557373046875e-07,
+    "p99_absolute_gap": 0.009762334823608377
+  },
+  "test_evaluated": false,
+  "test_sequences_queried": 0
+}

@@ -1,0 +1,405 @@
+{
+  "anchors": 8,
+  "interpretation": "epsilon = 1 is a real single substitution; the linear regime is where the correlation between epsilon * d and the measured change stays high",
+  "mutant_folds_required": 0,
+  "per_anchor": [
+    {
+      "anchor_rank": 0,
+      "base_logit": -1.8281280994415283,
+      "by_epsilon": {
+        "0.01": {
+          "correlation": 0.6449935222824766,
+          "mean_absolute_actual": 0.00024269893765449524,
+          "mean_absolute_predicted": 0.0001245599934918573,
+          "median_ratio": 1.4461396313292652
+        },
+        "0.05": {
+          "correlation": 0.9635171231909101,
+          "mean_absolute_actual": 0.0006707385182380676,
+          "mean_absolute_predicted": 0.0006227999674592866,
+          "median_ratio": 1.0672563708279363
+        },
+        "0.1": {
+          "correlation": 0.9590128692818107,
+          "mean_absolute_actual": 0.0014746710658073425,
+          "mean_absolute_predicted": 0.0012455999349185731,
+          "median_ratio": 1.0768736416560025
+        },
+        "0.2": {
+          "correlation": 0.8138608512166675,
+          "mean_absolute_actual": 0.0038811564445495605,
+          "mean_absolute_predicted": 0.0024911998698371463,
+          "median_ratio": 1.2768761672696964
+        },
+        "0.5": {
+          "correlation": 0.17613684073198083,
+          "mean_absolute_actual": 0.07025932148098946,
+          "mean_absolute_predicted": 0.006227999674592866,
+          "median_ratio": -3.2222637966354295
+        },
+        "1.0": {
+          "correlation": 0.26558920750610876,
+          "mean_absolute_actual": 0.12342429906129837,
+          "mean_absolute_predicted": 0.012455999349185731,
+          "median_ratio": 1.9950659157973143
+        }
+      },
+      "length": 82
+    },
+    {
+      "anchor_rank": 1,
+      "base_logit": 8.801724433898926,
+      "by_epsilon": {
+        "0.01": {
+          "correlation": 0.7255990440615491,
+          "mean_absolute_actual": 0.00022366642951965332,
+          "mean_absolute_predicted": 0.00021210135717410596,
+          "median_ratio": 0.9336526825935694
+        },
+        "0.05": {
+          "correlation": 0.898747028765132,
+          "mean_absolute_actual": 0.0013338327407836914,
+          "mean_absolute_predicted": 0.0010605067858705298,
+          "median_ratio": 1.1171924719047208
+        },
+        "0.1": {
+          "correlation": 0.9632691729266456,
+          "mean_absolute_actual": 0.0026217103004455566,
+          "mean_absolute_predicted": 0.0021210135717410596,
+          "median_ratio": 1.2131017896570404
+        },
+        "0.2": {
+          "correlation": 0.943256945650723,
+          "mean_absolute_actual": 0.006259322166442871,
+          "mean_absolute_predicted": 0.004242027143482119,
+          "median_ratio": 1.2861483367602786
+        },
+        "0.5": {
+          "correlation": 0.2708156356878794,
+          "mean_absolute_actual": 0.0995836853981018,
+          "mean_absolute_predicted": 0.010605067858705297,
+          "median_ratio": 1.4146404682073497
+        },
+        "1.0": {
+          "correlation": -0.2628667144906412,
+          "mean_absolute_actual": 0.22674483060836792,
+          "mean_absolute_predicted": 0.021210135717410594,
+          "median_ratio": -2.3131396218216365
+        }
+      },
+      "length": 54
+    },
+    {
+      "anchor_rank": 2,
+      "base_logit": 0.01451382040977478,
+      "by_epsilon": {
+        "0.01": {
+          "correlation": 0.9485143344800172,
+          "mean_absolute_actual": 0.00036655180156230927,
+          "mean_absolute_predicted": 0.00027178432956134204,
+          "median_ratio": 1.3181470273712348
+        },
+        "0.05": {
+          "correlation": 0.9953285055569083,
+          "mean_absolute_actual": 0.0014625005424022675,
+          "mean_absolute_predicted": 0.00135892164780671,
+          "median_ratio": 1.0448817643389021
+        },
+        "0.1": {
+          "correlation": 0.9947343384493167,
+          "mean_absolute_actual": 0.0029646391049027443,
+          "mean_absolute_predicted": 0.00271784329561342,
+          "median_ratio": 1.0711769041263364
+        },
+        "0.2": {
+          "correlation": 0.965097925709138,
+          "mean_absolute_actual": 0.006666290573775768,
+          "mean_absolute_predicted": 0.00543568659122684,
+          "median_ratio": 1.2481433068880061
+        },
+        "0.5": {
+          "correlation": 0.2994158966784449,
+          "mean_absolute_actual": 0.04629651457071304,
+          "mean_absolute_predicted": 0.013589216478067101,
+          "median_ratio": 1.2723404194627181
+        },
+        "1.0": {
+          "correlation": 0.16810373051060432,
+          "mean_absolute_actual": 0.09204158652573824,
+          "mean_absolute_predicted": 0.027178432956134202,
+          "median_ratio": 1.5253925685275167
+        }
+      },
+      "length": 70
+    },
+    {
+      "anchor_rank": 3,
+      "base_logit": 4.021237850189209,
+      "by_epsilon": {
+        "0.01": {
+          "correlation": 0.9612964457818106,
+          "mean_absolute_actual": 0.0006773471832275391,
+          "mean_absolute_predicted": 0.0005686934944242239,
+          "median_ratio": 0.8648850055444389
+        },
+        "0.05": {
+          "correlation": 0.9918147712035046,
+          "mean_absolute_actual": 0.00303708016872406,
+          "mean_absolute_predicted": 0.0028434674721211197,
+          "median_ratio": 1.0302635878564779
+        },
+        "0.1": {
+          "correlation": 0.9797733006081762,
+          "mean_absolute_actual": 0.006409123539924622,
+          "mean_absolute_predicted": 0.005686934944242239,
+          "median_ratio": 1.1058569346682383
+        },
+        "0.2": {
+          "correlation": 0.8891423367979397,
+          "mean_absolute_actual": 0.015341170132160187,
+          "mean_absolute_predicted": 0.011373869888484479,
+          "median_ratio": 1.3478125374758205
+        },
+        "0.5": {
+          "correlation": 0.3357100247002387,
+          "mean_absolute_actual": 0.12051019072532654,
+          "mean_absolute_predicted": 0.028434674721211195,
+          "median_ratio": 2.0289556376703777
+        },
+        "1.0": {
+          "correlation": 0.009009623976782493,
+          "mean_absolute_actual": 0.20639289170503616,
+          "mean_absolute_predicted": 0.05686934944242239,
+          "median_ratio": 0.740964320703098
+        }
+      },
+      "length": 54
+    },
+    {
+      "anchor_rank": 4,
+      "base_logit": 2.7912425994873047,
+      "by_epsilon": {
+        "0.01": {
+          "correlation": 0.9194372167818567,
+          "mean_absolute_actual": 0.0007537603378295898,
+          "mean_absolute_predicted": 0.0006132023710233625,
+          "median_ratio": 1.1975143106407427
+        },
+        "0.05": {
+          "correlation": 0.9950363340379524,
+          "mean_absolute_actual": 0.003377966582775116,
+          "mean_absolute_predicted": 0.0030660118551168124,
+          "median_ratio": 1.0986544280514459
+        },
+        "0.1": {
+          "correlation": 0.9798681810222033,
+          "mean_absolute_actual": 0.0071399882435798645,
+          "mean_absolute_predicted": 0.006132023710233625,
+          "median_ratio": 1.1412468699168914
+        },
+        "0.2": {
+          "correlation": 0.8892493304687317,
+          "mean_absolute_actual": 0.01772058755159378,
+          "mean_absolute_predicted": 0.01226404742046725,
+          "median_ratio": 1.3352916721950518
+        },
+        "0.5": {
+          "correlation": 0.2535470984333161,
+          "mean_absolute_actual": 0.245592150837183,
+          "mean_absolute_predicted": 0.030660118551168125,
+          "median_ratio": 0.7752628775837314
+        },
+        "1.0": {
+          "correlation": 0.27859505593923367,
+          "mean_absolute_actual": 0.45300382748246193,
+          "mean_absolute_predicted": 0.06132023710233625,
+          "median_ratio": 0.8268358023186815
+        }
+      },
+      "length": 70
+    },
+    {
+      "anchor_rank": 5,
+      "base_logit": -4.495965957641602,
+      "by_epsilon": {
+        "0.01": {
+          "correlation": 0.2156471282258974,
+          "mean_absolute_actual": 6.058812141418457e-05,
+          "mean_absolute_predicted": 8.77557300555054e-05,
+          "median_ratio": -0.04869211705095286
+        },
+        "0.05": {
+          "correlation": 0.9085962927873936,
+          "mean_absolute_actual": 0.00022599101066589355,
+          "mean_absolute_predicted": 0.0004387786502775271,
+          "median_ratio": 0.15833002432721877
+        },
+        "0.1": {
+          "correlation": 0.9493158134590952,
+          "mean_absolute_actual": 0.0007303506135940552,
+          "mean_absolute_predicted": 0.0008775573005550542,
+          "median_ratio": 0.7541488500497168
+        },
+        "0.2": {
+          "correlation": 0.8714468444827397,
+          "mean_absolute_actual": 0.0019400566816329956,
+          "mean_absolute_predicted": 0.0017551146011101084,
+          "median_ratio": 0.87469295968824
+        },
+        "0.5": {
+          "correlation": 0.09849672265121702,
+          "mean_absolute_actual": 0.01872284710407257,
+          "mean_absolute_predicted": 0.0043877865027752705,
+          "median_ratio": 0.38251770726415385
+        },
+        "1.0": {
+          "correlation": -0.10445128241304548,
+          "mean_absolute_actual": 0.05388100445270538,
+          "mean_absolute_predicted": 0.008775573005550541,
+          "median_ratio": 2.3617109474572917
+        }
+      },
+      "length": 86
+    },
+    {
+      "anchor_rank": 6,
+      "base_logit": 5.611767768859863,
+      "by_epsilon": {
+        "0.01": {
+          "correlation": 0.7448201549582619,
+          "mean_absolute_actual": 0.00028152763843536377,
+          "mean_absolute_predicted": 0.00019345140492077917,
+          "median_ratio": -0.5083041897935752
+        },
+        "0.05": {
+          "correlation": 0.9700294838637312,
+          "mean_absolute_actual": 0.0008919388055801392,
+          "mean_absolute_predicted": 0.0009672570246038959,
+          "median_ratio": 0.8373201382879445
+        },
+        "0.1": {
+          "correlation": 0.9634567589815703,
+          "mean_absolute_actual": 0.0020276308059692383,
+          "mean_absolute_predicted": 0.0019345140492077917,
+          "median_ratio": 1.0359845868818285
+        },
+        "0.2": {
+          "correlation": 0.9036686493913041,
+          "mean_absolute_actual": 0.004782065749168396,
+          "mean_absolute_predicted": 0.0038690280984155835,
+          "median_ratio": 1.0903999187797297
+        },
+        "0.5": {
+          "correlation": 0.3182430513826423,
+          "mean_absolute_actual": 0.06529156863689423,
+          "mean_absolute_predicted": 0.009672570246038958,
+          "median_ratio": 1.0238217624574992
+        },
+        "1.0": {
+          "correlation": 0.1903197852717232,
+          "mean_absolute_actual": 0.1411226987838745,
+          "mean_absolute_predicted": 0.019345140492077917,
+          "median_ratio": 0.8447501381557949
+        }
+      },
+      "length": 69
+    },
+    {
+      "anchor_rank": 7,
+      "base_logit": -3.1668152809143066,
+      "by_epsilon": {
+        "0.01": {
+          "correlation": 0.7715159178811795,
+          "mean_absolute_actual": 0.0002304762601852417,
+          "mean_absolute_predicted": 0.00016944908442383165,
+          "median_ratio": 1.048944964001807
+        },
+        "0.05": {
+          "correlation": 0.9722636000413043,
+          "mean_absolute_actual": 0.0009955689311027527,
+          "mean_absolute_predicted": 0.0008472454221191584,
+          "median_ratio": 1.1870762406240707
+        },
+        "0.1": {
+          "correlation": 0.9760980699724515,
+          "mean_absolute_actual": 0.0020156577229499817,
+          "mean_absolute_predicted": 0.0016944908442383167,
+          "median_ratio": 1.1596271363205695
+        },
+        "0.2": {
+          "correlation": 0.8926437675716116,
+          "mean_absolute_actual": 0.00493495911359787,
+          "mean_absolute_predicted": 0.0033889816884766335,
+          "median_ratio": 1.0705025123408354
+        },
+        "0.5": {
+          "correlation": 0.49139634049693576,
+          "mean_absolute_actual": 0.08263986557722092,
+          "mean_absolute_predicted": 0.008472454221191583,
+          "median_ratio": 3.5434630161481095
+        },
+        "1.0": {
+          "correlation": 0.4370054708134081,
+          "mean_absolute_actual": 0.13452132791280746,
+          "mean_absolute_predicted": 0.016944908442383166,
+          "median_ratio": 3.1668233634923224
+        }
+      },
+      "length": 80
+    }
+  ],
+  "pooled": [
+    {
+      "correlation": 0.845979063718779,
+      "epsilon": 0.01,
+      "mean_absolute_actual": 0.0003545770887285471,
+      "mean_absolute_predicted": 0.00028012472063437604,
+      "median_ratio": 0.8625933286578831,
+      "samples": 256
+    },
+    {
+      "correlation": 0.9796504581344908,
+      "epsilon": 0.05,
+      "mean_absolute_actual": 0.0014994521625339985,
+      "mean_absolute_predicted": 0.00140062360317188,
+      "median_ratio": 1.0170248105838202,
+      "samples": 256
+    },
+    {
+      "correlation": 0.9775948992418364,
+      "epsilon": 0.1,
+      "mean_absolute_actual": 0.0031729714246466756,
+      "mean_absolute_predicted": 0.00280124720634376,
+      "median_ratio": 1.0581928104767755,
+      "samples": 256
+    },
+    {
+      "correlation": 0.8916492722534687,
+      "epsilon": 0.2,
+      "mean_absolute_actual": 0.007690701051615179,
+      "mean_absolute_predicted": 0.00560249441268752,
+      "median_ratio": 1.1851566605022228,
+      "samples": 256
+    },
+    {
+      "correlation": 0.24845526320862715,
+      "epsilon": 0.5,
+      "mean_absolute_actual": 0.0936120180413127,
+      "mean_absolute_predicted": 0.0140062360317188,
+      "median_ratio": 1.1829877166509104,
+      "samples": 256
+    },
+    {
+      "correlation": 0.14841199211225412,
+      "epsilon": 1.0,
+      "mean_absolute_actual": 0.17889155831653625,
+      "mean_absolute_predicted": 0.0280124720634376,
+      "median_ratio": 1.2416455899075975,
+      "samples": 256
+    }
+  ],
+  "samples_per_anchor": 32,
+  "schema": "PLS_cached_parent_linear_regime_v1",
+  "test_evaluated": false,
+  "test_sequences_queried": 0
+}

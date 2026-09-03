@@ -1,0 +1,83 @@
+{
+  "anchors": 8,
+  "anchors_by_split": {
+    "train": 8,
+    "validation": 0
+  },
+  "collision_rejections": 0,
+  "edges_sha256": "42d83d66185a3af6554a8782424393d35357668795cc3fe6d2dd4d7e13a27665",
+  "excluded_anchor_hashes": 1511,
+  "excluded_anchor_manifests": [
+    "benchmark/generated/pls_editflow_oracle_manifest_1k_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_1k_exact_calibration_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_scale_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_poc_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_decision_confirmatory_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_cost_calibration_v2.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_cost_confirmatory_v2.json"
+  ],
+  "excluded_components": 1472,
+  "exhaustive_neighborhood": true,
+  "mutations_per_anchor": null,
+  "neighborhood_sizes": [
+    {
+      "anchor_rank": 0,
+      "length": 82,
+      "materialized": 1558,
+      "theoretical": 1558
+    },
+    {
+      "anchor_rank": 1,
+      "length": 54,
+      "materialized": 1026,
+      "theoretical": 1026
+    },
+    {
+      "anchor_rank": 2,
+      "length": 70,
+      "materialized": 1330,
+      "theoretical": 1330
+    },
+    {
+      "anchor_rank": 3,
+      "length": 54,
+      "materialized": 1026,
+      "theoretical": 1026
+    },
+    {
+      "anchor_rank": 4,
+      "length": 70,
+      "materialized": 1330,
+      "theoretical": 1330
+    },
+    {
+      "anchor_rank": 5,
+      "length": 86,
+      "materialized": 1634,
+      "theoretical": 1634
+    },
+    {
+      "anchor_rank": 6,
+      "length": 69,
+      "materialized": 1311,
+      "theoretical": 1311
+    },
+    {
+      "anchor_rank": 7,
+      "length": 80,
+      "materialized": 1520,
+      "theoretical": 1520
+    }
+  ],
+  "nodes_sha256": "e2092da4793926e96bb201653bbdd125bb9b090f7e53a7db56666118320200b2",
+  "schema": "PLS_EditFlow_neighborhood_manifest_report_v1",
+  "selection_used_target_values": false,
+  "single_mutation_edges": 10735,
+  "test_evaluated": false,
+  "test_sequences_queried": 0,
+  "unique_components_by_split": {
+    "train": 8,
+    "validation": 0
+  },
+  "unique_sequence_queries": 10743
+}
