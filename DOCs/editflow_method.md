@@ -1,35 +1,57 @@
-# EditFlow: path-aware oracle distillation for discrete scientific design
+# Cost-Aware Conformal Gating for Cached Derived-Modality Oracles
+
+The earlier names EditFlow, Path-OLD, OLD, and intervention distillation refer
+to historical stages of this same branch. They are retained only so that older
+commits, configs, module paths, and `outputs/` directories remain readable. They
+are not the current method name, and the sections they named are now framing and
+negative controls rather than the headline claim.
 
 ## Scope
 
-EditFlow studies a budgeted-oracle setting rather than classical offline black-box
-optimization. Experimental labels are fixed and unavailable outside the original
-dataset, while an expensive computational oracle can be queried at a measured
-cost. In PLS, that oracle combines a protein language model, ESMFold-derived
-geometry, GVP message passing, surface-patch tokens, and confidence-aware fusion.
+This work studies a budgeted-oracle setting rather than classical offline
+black-box optimization. Experimental labels are fixed and unavailable outside the
+original dataset, while an expensive computational oracle can be queried at a
+measured cost. In PLS, that oracle combines a protein language model,
+ESMFold-derived geometry, GVP message passing, surface-patch tokens, and
+confidence-aware fusion.
 
-The target deployment model consumes only a sequence and is cheap enough for
-large-scale edit search. PLS test entities remain permanently frozen: oracle
-construction, edge acquisition, student training, hyperparameter selection, and
+PLS test entities remain permanently frozen: oracle construction, candidate
+scoring, gating calibration, student training, hyperparameter selection, and
 optimization evaluation use training/validation anchors only.
 
-Development evidence has narrowed the primary question. Global edge metrics and
-several path-acquisition heuristics did not reliably reduce design regret, while
-PLS students could fit oracle values without preserving mutation directions.
-The active method question is therefore how to distill an expensive scientific
-oracle for sequence interventions rather than predictions. Path acquisition is
-retained as a downstream evaluation setting, not assumed to be the headline
-algorithm.
+Development evidence has narrowed the primary question twice. First, global edge
+metrics and several path-acquisition heuristics did not reliably reduce design
+regret, while students could fit oracle values without preserving mutation
+directions. Second, for local single edits the expensive modality can frequently
+be cached from the parent instead of recomputed per mutant, which converts the
+problem from reconstructing the oracle into deciding which candidates must be
+evaluated exactly at all. The active method question is therefore how much
+expensive computation a decision actually requires under an explicit risk
+constraint, not how faithfully a cheap student reproduces the oracle. Path
+acquisition and graph-Sobolev distillation are retained as regret framing and as
+evaluated negative results, not as the headline algorithm.
 
 The method claim is deliberately narrower than Sobolev training, Jacobian
 matching, MatchOpt, HodgeRank, or conservative model-based optimization. Edge
 labels contain no oracle information beyond their queried endpoint values. The
 contribution target is the combination of:
 
-1. path-dependent regret bounds on a discrete edit graph;
-2. graph-Sobolev distillation under exactly matched queried-node identities;
-3. regret-aware acquisition of costly oracle queries along likely design paths;
-4. validation on both a derived-modality PLS oracle and a measured GB1 landscape.
+1. the cached derived-modality oracle: recomputing the cheap modality for a
+   mutant while reusing the parent's expensive predicted structure preserves
+   local intervention ranking at a small fraction of the fold cost, together
+   with the general observation that near-perfect node agreement does not imply
+   near-perfect intervention agreement;
+2. conformal decision gating: component-level marginally valid decision sets
+   over the cached oracle, controlling exact or epsilon-optimal decision regret
+   instead of reconstruction error;
+3. a cost-aware, epsilon-optimal formulation driven by a frozen label-free
+   runtime model, with direct evidence that query count materially overstates
+   real accelerator savings;
+4. a frozen selection/calibration/confirmation protocol in which selected-stage
+   compute is measured rather than replayed, validated on a derived-modality PLS
+   oracle, with the discrete edit graph supplying the path-dependent regret
+   framing and a measured GB1 landscape supplying acquisition-side negative
+   controls.
 
 ## Edit graph and losses
 
@@ -492,8 +514,8 @@ with mean regret `0.0271`. Top-4/8 obtain coverage `0.8281/0.9375` at fixed cost
 result supports variable decision-focused reuse, while the wide coverage
 interval and four misses prohibit a per-anchor deterministic guarantee.
 
-The method should therefore be called **Conformal Decision Gating for Cached
-Scientific Oracles**, not deterministic certification.  For low-fidelity
+The method should therefore be called **Cost-Aware Conformal Gating for Cached
+Derived-Modality Oracles**, not deterministic certification.  For low-fidelity
 candidate scores `L_j` and high-fidelity maximizer `j*`, the calibration score is
 
 ```text

@@ -1,0 +1,155 @@
+{
+  "calibration_artifact": "analysis/editflow_pls_cost_aware_conformal_calibration_v2.json",
+  "calibration_artifact_sha256": "5ef3d3742842aa7d218931b1c8fc915bad573cc1c5e49e5edcdee00447e6b466",
+  "candidates_per_component": 16,
+  "components": 128,
+  "length_summary": {
+    "beyond_runtime_knot_support": 0,
+    "maximum": 300.0,
+    "median": 179.5,
+    "minimum": 42.0
+  },
+  "policies": [
+    {
+      "alpha": 0.1,
+      "calibration_components": 128,
+      "candidates_per_component": 16,
+      "epsilon": 0.0,
+      "exact_query_fraction": 0.65771484375,
+      "finite_sample_order_rank": 117,
+      "gamma": 1.0,
+      "in_sample_epsilon_coverage": 0.9140625,
+      "in_sample_regret": {
+        "failure_conditional_mean_regret": 0.33225739815018396,
+        "failure_count": 11,
+        "maximum_regret": 1.1514714658260345,
+        "mean_regret": 0.028553370153531432,
+        "median_regret": 0.0,
+        "regret_cvar95": 0.5070651727063316,
+        "regret_p95": 0.10794399976730282,
+        "regret_p99": 0.8795086789131179,
+        "zero_regret_fraction": 0.9140625
+      },
+      "length_strata": [
+        {
+          "components": 20,
+          "in_sample_epsilon_coverage": 0.95,
+          "length_stratum": "<=106",
+          "mean_regret": 0.01470620632171631,
+          "mean_selected_queries": 9.6,
+          "predicted_cost_fraction": 0.607923831985392
+        },
+        {
+          "components": 27,
+          "in_sample_epsilon_coverage": 0.9629629629629629,
+          "length_stratum": "107-148",
+          "mean_regret": 0.006269861150670935,
+          "mean_selected_queries": 13.962962962962964,
+          "predicted_cost_fraction": 0.8698717463464454
+        },
+        {
+          "components": 42,
+          "in_sample_epsilon_coverage": 0.9047619047619048,
+          "length_stratum": "149-219",
+          "mean_regret": 0.02882708396230425,
+          "mean_selected_queries": 10.380952380952381,
+          "predicted_cost_fraction": 0.6317580530599469
+        },
+        {
+          "components": 39,
+          "in_sample_epsilon_coverage": 0.8717948717948718,
+          "length_stratum": ">=220",
+          "mean_regret": 0.050786755788020596,
+          "mean_selected_queries": 8.76923076923077,
+          "predicted_cost_fraction": 0.5556255561858965
+        }
+      ],
+      "maximum_selected_queries": 16,
+      "mean_selected_queries": 10.5234375,
+      "minimum_selected_queries": 1,
+      "policy_id": "exact_best_runtime_gamma1",
+      "predicted_exhaustive_gpu_seconds": 5531.131131737475,
+      "predicted_gpu_cost_fraction": 0.6161841945195073,
+      "predicted_selected_gpu_seconds": 3408.195581191427,
+      "quantile": 0.3915251122391252,
+      "role": "primary"
+    },
+    {
+      "alpha": 0.1,
+      "calibration_components": 128,
+      "candidates_per_component": 16,
+      "epsilon": 0.2,
+      "exact_query_fraction": 0.26953125,
+      "finite_sample_order_rank": 117,
+      "gamma": 1.0,
+      "in_sample_epsilon_coverage": 0.9140625,
+      "in_sample_regret": {
+        "failure_conditional_mean_regret": 0.20366610688242046,
+        "failure_count": 33,
+        "maximum_regret": 1.21790811419487,
+        "mean_regret": 0.05250766818062402,
+        "median_regret": 0.0,
+        "regret_cvar95": 0.6315207183361053,
+        "regret_p95": 0.28128137588500945,
+        "regret_p99": 0.9199031496047988,
+        "zero_regret_fraction": 0.7421875
+      },
+      "length_strata": [
+        {
+          "components": 20,
+          "in_sample_epsilon_coverage": 0.9,
+          "length_stratum": "<=106",
+          "mean_regret": 0.032825890183448794,
+          "mean_selected_queries": 3.75,
+          "predicted_cost_fraction": 0.23767659666058003
+        },
+        {
+          "components": 27,
+          "in_sample_epsilon_coverage": 0.9259259259259259,
+          "length_stratum": "107-148",
+          "mean_regret": 0.03181843845932572,
+          "mean_selected_queries": 6.185185185185185,
+          "predicted_cost_fraction": 0.3850920972564905
+        },
+        {
+          "components": 42,
+          "in_sample_epsilon_coverage": 0.9047619047619048,
+          "length_stratum": "149-219",
+          "mean_regret": 0.05892774036952427,
+          "mean_selected_queries": 4.309523809523809,
+          "predicted_cost_fraction": 0.2638028105683965
+        },
+        {
+          "components": 39,
+          "in_sample_epsilon_coverage": 0.9230769230769231,
+          "length_stratum": ">=220",
+          "mean_regret": 0.07001027665459193,
+          "mean_selected_queries": 3.3076923076923075,
+          "predicted_cost_fraction": 0.210557904341654
+        }
+      ],
+      "maximum_selected_queries": 16,
+      "mean_selected_queries": 4.3125,
+      "minimum_selected_queries": 1,
+      "policy_id": "tolerant_runtime_gamma1",
+      "predicted_exhaustive_gpu_seconds": 5531.131131737475,
+      "predicted_gpu_cost_fraction": 0.24704345490616592,
+      "predicted_selected_gpu_seconds": 1366.4297443234773,
+      "quantile": 0.13904068405910333,
+      "role": "secondary"
+    }
+  ],
+  "predicted_unit_cost_seconds": {
+    "maximum": 6.566718743328656,
+    "median": 2.1999631413700946,
+    "minimum": 1.0869925405685434,
+    "reference_cost_seconds": 1.5793070328515264
+  },
+  "protocol_sha256": "406d1ff12dcf8c832e70ab8495f89e8bd0216536ab7f5079e3cda7ea16c4d6b7",
+  "runtime_cost_model_sha256": "1f6d6ab1773e6af8daced429e32d71f15c3662ee2c011327648d5b6ae437e7fb",
+  "schema": "PLS_cost_aware_conformal_calibration_expected_cost_v2",
+  "status": "in_sample_projection_on_fresh_calibration_components",
+  "test_evaluated": false,
+  "test_sequences_queried": 0,
+  "warning": "coverage and regret here are in-sample on the same 128 components that produced the quantiles; they are a deployment-cost projection, not confirmatory evidence"
+}

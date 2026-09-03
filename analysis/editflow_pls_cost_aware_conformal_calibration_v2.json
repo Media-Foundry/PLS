@@ -1,0 +1,37 @@
+{
+  "calibration_manifest": "benchmark/generated/pls_editflow_oracle_manifest_cost_calibration_v2.json",
+  "calibration_manifest_sha256": "ed03c0d5261850e2296b4640f0dc24deb707e62ed827b78569c5c062568b0dd9",
+  "exact_scores_sha256": "550125c2aeed92e3e673f455e400603e176ac130a75282cacf647e0ddcb15ef2",
+  "fixed_scores_sha256": "fc9ddf98d6db3f49b24e111626bef0397c4d66c655e36722c84cc3c7ec0d0dce",
+  "policies": [
+    {
+      "alpha": 0.1,
+      "calibration_components": 128,
+      "epsilon": 0.0,
+      "finite_sample_order_rank": 117,
+      "gamma": 1.0,
+      "policy_id": "exact_best_runtime_gamma1",
+      "quantile": 0.3915251122391252,
+      "risk_event": "high_fidelity_decision_regret_equals_zero",
+      "role": "primary"
+    },
+    {
+      "alpha": 0.1,
+      "calibration_components": 128,
+      "epsilon": 0.2,
+      "finite_sample_order_rank": 117,
+      "gamma": 1.0,
+      "policy_id": "tolerant_runtime_gamma1",
+      "quantile": 0.13904068405910333,
+      "risk_event": "high_fidelity_decision_regret_at_most_0.2_raw_logit",
+      "role": "secondary"
+    }
+  ],
+  "protocol": "configs/editflow/pls_cost_aware_conformal_protocol_v2.json",
+  "protocol_sha256": "406d1ff12dcf8c832e70ab8495f89e8bd0216536ab7f5079e3cda7ea16c4d6b7",
+  "runtime_cost_model_sha256": "1f6d6ab1773e6af8daced429e32d71f15c3662ee2c011327648d5b6ae437e7fb",
+  "schema": "PLS_cost_aware_conformal_calibration_v2",
+  "status": "frozen_quantiles_from_fresh_calibration_components",
+  "test_evaluated": false,
+  "test_sequences_queried": 0
+}
