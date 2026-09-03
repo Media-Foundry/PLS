@@ -1,0 +1,63 @@
+{
+  "components": 128,
+  "epsilon": 0.2,
+  "measured_exhaustive_gpu_seconds": 5053.774519654631,
+  "rows": [
+    {
+      "coverage": 0.9375,
+      "coverage_clopper_pearson_95": [
+        0.880563216606146,
+        0.9726333151136292
+      ],
+      "maximum_regret": 0.8567957878112793,
+      "mean_regret": 0.039733330835588276,
+      "measured_gpu_cost_fraction": 0.2517637322119604,
+      "method": "top_4",
+      "regret_cvar95": 0.5432568469217846,
+      "risk_event": "epsilon_optimal_0.2"
+    },
+    {
+      "coverage": 0.96875,
+      "coverage_clopper_pearson_95": [
+        0.9219204745615296,
+        0.9914210644627388
+      ],
+      "maximum_regret": 0.8567957878112793,
+      "mean_regret": 0.020718576502986252,
+      "measured_gpu_cost_fraction": 0.5000635354178385,
+      "method": "top_8",
+      "regret_cvar95": 0.3569889175040381,
+      "risk_event": "epsilon_optimal_0.2"
+    },
+    {
+      "coverage": 0.9765625,
+      "coverage_clopper_pearson_95": [
+        0.9330336979545443,
+        0.995140296464276
+      ],
+      "maximum_regret": 0.5964843779802322,
+      "mean_regret": 0.012653608457185328,
+      "measured_gpu_cost_fraction": 0.7503311971251074,
+      "method": "rank_12",
+      "regret_cvar95": 0.23138026893138885,
+      "risk_event": "epsilon_optimal_0.2"
+    },
+    {
+      "coverage": 0.90625,
+      "coverage_clopper_pearson_95": [
+        0.841963633474165,
+        0.9506145040346635
+      ],
+      "maximum_regret": 1.0488887429237366,
+      "mean_regret": 0.057369286310859025,
+      "measured_gpu_cost_fraction": 0.23136284832942763,
+      "method": "tolerant_runtime_gamma1",
+      "regret_cvar95": 0.6937083963836942,
+      "risk_event": "epsilon_optimal_0.2"
+    }
+  ],
+  "schema": "PLS_cost_aware_confirmatory_epsilon_baseline_supplement_v2",
+  "status": "descriptive_supplement_to_a_frozen_result",
+  "test_evaluated": false,
+  "test_sequences_queried": 0
+}

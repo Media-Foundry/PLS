@@ -1,0 +1,28 @@
+{
+  "schema": "PLS_EditFlow_oracle_score_v1",
+  "evaluate_test": false,
+  "data": {
+    "manifest": "benchmark/generated/pls_editflow_oracle_manifest_cost_confirmatory_v2.json",
+    "entities": "benchmark/generated/pls_editflow_entities_cost_confirmatory_v2.csv",
+    "embedding_dir": "artifacts/oracles/pls_editflow_cost_confirmatory_v2/esm2_mean",
+    "structure_dir": "artifacts/oracles/pls_editflow_cost_confirmatory_v2/exact_full/structure_v4_raw",
+    "structure_status": "artifacts/oracles/pls_editflow_cost_confirmatory_v2/exact_full/structure_v4_raw/status.npy",
+    "structure_stats": "artifacts/features/pdbsol_structure_v4_train_stats.json",
+    "compact_structure_dir": "artifacts/oracles/pls_editflow_cost_confirmatory_v2/exact_full/structure_v4_compact",
+    "geometry_dir": "artifacts/oracles/pls_editflow_cost_confirmatory_v2/exact_full/structure_v4_geometry",
+    "residue_esm_dir": "artifacts/oracles/pls_editflow_cost_confirmatory_v2/residue_esm2_pca",
+    "vector_dir": "artifacts/oracles/pls_editflow_cost_confirmatory_v2/exact_full/structure_v4_vectors",
+    "surface_patch_dir": "artifacts/oracles/pls_editflow_cost_confirmatory_v2/exact_full/surface_patch_components"
+  },
+  "oracle": {
+    "manifest": "configs/oracles/pls_gvp_bidir_v49_teacher_v1.json",
+    "include_matched_sequence_ablation": true
+  },
+  "inference": {
+    "accelerator_backend": "rocm",
+    "hip_device": 1,
+    "batch_size": 20,
+    "workers": 0,
+    "amp_bfloat16": false
+  }
+}

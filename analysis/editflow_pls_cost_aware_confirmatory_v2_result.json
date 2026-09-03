@@ -1,0 +1,217 @@
+{
+  "candidates_per_component": 16,
+  "components": 128,
+  "exact_scores_sha256": "7b5dabb17b8e8ede00b0ce9f9df46a60cf137fc7dc00f52a1675e12f21edc838",
+  "interpretation": "component-level marginal risk control under SI30-component exchangeability; not a per-protein certificate",
+  "policies_and_baselines": {
+    "exact_best_runtime_gamma1": {
+      "alpha": 0.1,
+      "components": 128,
+      "coverage": 0.9296875,
+      "coverage_clopper_pearson_95": [
+        0.8707206120454714,
+        0.9673463726807808
+      ],
+      "epsilon": 0.0,
+      "exact_query_fraction": 0.60791015625,
+      "failure_conditional_mean_regret": 0.3072711047199037,
+      "gamma": 1.0,
+      "maximum_regret": 0.726294994354248,
+      "mean_exact_queries": 9.7265625,
+      "mean_regret": 0.02160499955061823,
+      "measured_gpu_cost_fraction": 0.6012189214826934,
+      "measured_gpu_seconds": 3038.424866123474,
+      "median_exact_queries": 12.0,
+      "median_regret": 0.0,
+      "misses": 9,
+      "quantile": 0.3915251122391252,
+      "query_range": [
+        1,
+        16
+      ],
+      "regret_cvar95": 0.39220557255404337,
+      "role": "primary"
+    },
+    "exhaustive": {
+      "components": 128,
+      "coverage": 1.0,
+      "coverage_clopper_pearson_95": [
+        1.0,
+        1.0
+      ],
+      "epsilon": 0.0,
+      "exact_query_fraction": 1.0,
+      "failure_conditional_mean_regret": 0.0,
+      "maximum_regret": 0.0,
+      "mean_exact_queries": 16.0,
+      "mean_regret": 0.0,
+      "measured_gpu_cost_fraction": 1.0,
+      "measured_gpu_seconds": 5053.774519654631,
+      "median_exact_queries": 16.0,
+      "median_regret": 0.0,
+      "misses": 0,
+      "query_range": [
+        16,
+        16
+      ],
+      "regret_cvar95": 0.0,
+      "role": "reference"
+    },
+    "rank_12": {
+      "components": 128,
+      "coverage": 0.9453125,
+      "coverage_clopper_pearson_95": [
+        0.8905679484317433,
+        0.9777328541900766
+      ],
+      "epsilon": 0.0,
+      "exact_query_fraction": 0.75,
+      "failure_conditional_mean_regret": 0.23138026893138885,
+      "maximum_regret": 0.5964843779802322,
+      "mean_exact_queries": 12.0,
+      "mean_regret": 0.012653608457185328,
+      "measured_gpu_cost_fraction": 0.7503311971251074,
+      "measured_gpu_seconds": 3792.004685332824,
+      "median_exact_queries": 12.0,
+      "median_regret": 0.0,
+      "misses": 7,
+      "query_range": [
+        12,
+        12
+      ],
+      "regret_cvar95": 0.23138026893138885,
+      "role": "fixed_budget_baseline"
+    },
+    "tolerant_runtime_gamma1": {
+      "alpha": 0.1,
+      "components": 128,
+      "coverage": 0.90625,
+      "coverage_clopper_pearson_95": [
+        0.841963633474165,
+        0.9506145040346635
+      ],
+      "epsilon": 0.2,
+      "exact_query_fraction": 0.2431640625,
+      "failure_conditional_mean_regret": 0.2719729128811095,
+      "gamma": 1.0,
+      "maximum_regret": 1.0488887429237366,
+      "mean_exact_queries": 3.890625,
+      "mean_regret": 0.057369286310859025,
+      "measured_gpu_cost_fraction": 0.23136284832942763,
+      "measured_gpu_seconds": 1169.2556676819804,
+      "median_exact_queries": 3.0,
+      "median_regret": 0.0,
+      "misses": 12,
+      "quantile": 0.13904068405910333,
+      "query_range": [
+        1,
+        16
+      ],
+      "regret_cvar95": 0.6937083963836942,
+      "role": "secondary"
+    },
+    "top_4": {
+      "components": 128,
+      "coverage": 0.796875,
+      "coverage_clopper_pearson_95": [
+        0.7167127633951633,
+        0.8628136845472303
+      ],
+      "epsilon": 0.0,
+      "exact_query_fraction": 0.25,
+      "failure_conditional_mean_regret": 0.19561024411366537,
+      "maximum_regret": 0.8567957878112793,
+      "mean_exact_queries": 4.0,
+      "mean_regret": 0.039733330835588276,
+      "measured_gpu_cost_fraction": 0.2517637322119604,
+      "measured_gpu_seconds": 1272.3571348259575,
+      "median_exact_queries": 4.0,
+      "median_regret": 0.0,
+      "misses": 26,
+      "query_range": [
+        4,
+        4
+      ],
+      "regret_cvar95": 0.5432568469217846,
+      "role": "fixed_budget_baseline"
+    },
+    "top_8": {
+      "components": 128,
+      "coverage": 0.90625,
+      "coverage_clopper_pearson_95": [
+        0.841963633474165,
+        0.9506145040346635
+      ],
+      "epsilon": 0.0,
+      "exact_query_fraction": 0.5,
+      "failure_conditional_mean_regret": 0.2209981493651867,
+      "maximum_regret": 0.8567957878112793,
+      "mean_exact_queries": 8.0,
+      "mean_regret": 0.020718576502986252,
+      "measured_gpu_cost_fraction": 0.5000635354178385,
+      "measured_gpu_seconds": 2527.2083535030833,
+      "median_exact_queries": 8.0,
+      "median_regret": 0.0,
+      "misses": 12,
+      "query_range": [
+        8,
+        8
+      ],
+      "regret_cvar95": 0.3569889175040381,
+      "role": "fixed_budget_baseline"
+    }
+  },
+  "primary_endpoint": {
+    "coverage_clopper_pearson_95": [
+      0.8707206120454714,
+      0.9673463726807808
+    ],
+    "definition": "measured selected-stage ESMFold GPU-seconds divided by measured retrospective exhaustive ESMFold GPU-seconds",
+    "measured_exhaustive_gpu_seconds": 5053.774519654631,
+    "measured_gpu_cost_fraction": 0.6012189214826934,
+    "measured_selected_gpu_seconds": 3038.424866123474,
+    "observed_coverage": 0.9296875,
+    "risk_target": "component-level marginal probability of zero exact decision regret at least 0.9"
+  },
+  "primary_policy_id": "exact_best_runtime_gamma1",
+  "primary_policy_length_strata": [
+    {
+      "components": 24,
+      "coverage": 0.9583333333333334,
+      "length_stratum": "<=106",
+      "mean_exact_queries": 8.833333333333334,
+      "mean_regret": 0.030262291431427002,
+      "measured_gpu_cost_fraction": 0.5510626020050093
+    },
+    {
+      "components": 29,
+      "coverage": 1.0,
+      "length_stratum": "107-148",
+      "mean_exact_queries": 10.620689655172415,
+      "mean_regret": 0.0,
+      "measured_gpu_cost_fraction": 0.6649423151700363
+    },
+    {
+      "components": 43,
+      "coverage": 0.9302325581395349,
+      "length_stratum": "149-219",
+      "mean_exact_queries": 9.627906976744185,
+      "mean_regret": 0.020272299300792607,
+      "measured_gpu_cost_fraction": 0.6030104757081313
+    },
+    {
+      "components": 32,
+      "coverage": 0.84375,
+      "length_stratum": ">=220",
+      "mean_exact_queries": 9.71875,
+      "mean_regret": 0.03648237744346261,
+      "measured_gpu_cost_fraction": 0.5938611672662375
+    }
+  ],
+  "protocol_sha256": "406d1ff12dcf8c832e70ab8495f89e8bd0216536ab7f5079e3cda7ea16c4d6b7",
+  "schema": "PLS_cost_aware_conformal_confirmatory_result_v2",
+  "selection_artifact_sha256": "a9cbe4a627f47ce8cb025d53ec372dbbeaebf7d0fdb2f8bb236fc38f2553100d",
+  "status": "one_pass_confirmatory_evaluation",
+  "test_evaluated": false,
+  "test_sequences_queried": 0
+}
