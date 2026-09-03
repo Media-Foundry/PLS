@@ -1,0 +1,14 @@
+{
+  "anchors": 128,
+  "edges_sha256": "d46b8a8d8990c463872ba9b9e9631ace0393b47d41f6b62d58e43946f8ede79a",
+  "nodes_sha256": "d32fa303353e81b009da6e1ed3c9b14c6a504dcde8a0ee52ba8f4fbe3811f2e0",
+  "policy_id": "exact_best_runtime_gamma1",
+  "schema": "PLS_EditFlow_selected_subset_report_v1",
+  "selected_mutants": 1245,
+  "selection_artifact_sha256": "a9cbe4a627f47ce8cb025d53ec372dbbeaebf7d0fdb2f8bb236fc38f2553100d",
+  "selection_used_exact_scores": false,
+  "selection_used_target_values": false,
+  "test_evaluated": false,
+  "test_sequences_queried": 0,
+  "unique_sequence_queries": 1373
+}

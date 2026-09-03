@@ -1,0 +1,49 @@
+{
+  "campaign_finished_at": "2026-09-03T20:39:01+08:00",
+  "campaign_started_at": "2026-09-03T20:25:19+08:00",
+  "denominator_status": "the measured exhaustive denominator requires the retrospective folds of the unselected candidates and must not be replaced by a prediction",
+  "fold_failures": 0,
+  "fold_plan_assignments_sha256": "00f2a7dab3da2cf7a428d8605cf7c54f0a20e753a28192655b72254042434c29",
+  "length_summary": {
+    "maximum": 299.0,
+    "median": 165.0,
+    "minimum": 51.0
+  },
+  "measured": {
+    "maximum_seconds_per_fold": 6.95963933801977,
+    "mean_seconds_per_fold": 2.4405019005007826,
+    "median_seconds_per_fold": 1.8297324070008472,
+    "selected_esmfold_gpu_seconds_marginal": 3021.801565284375,
+    "selected_esmfold_gpu_seconds_total": 3038.424866123474,
+    "selected_stage_wall_seconds": 816.8299558489816,
+    "shard_wall_imbalance_ratio": 1.0146936773346409,
+    "shard_wall_seconds": [
+      811.8790922040353,
+      805.0015232129954,
+      816.8299558489816,
+      808.4714587409981
+    ],
+    "warmup_excluded_folds": 4
+  },
+  "policy_id": "exact_best_runtime_gamma1",
+  "predicted": {
+    "exhaustive_gpu_seconds": 5135.854236096271,
+    "gpu_cost_fraction": 0.6009131131233422,
+    "query_fraction": 0.60791015625,
+    "selected_gpu_seconds": 3086.2021575603144
+  },
+  "protocol_sha256": "406d1ff12dcf8c832e70ab8495f89e8bd0216536ab7f5079e3cda7ea16c4d6b7",
+  "runtime_model_accuracy_on_selected_stage": {
+    "measured_over_predicted_marginal": 0.9791327369407166,
+    "measured_over_predicted_total": 0.9845190661539136,
+    "median_absolute_percentage_error_marginal": 5.44477718833639,
+    "note": "the frozen model predicts marginal inference seconds; totals include one warm-up fold per shard and are therefore expected to exceed it"
+  },
+  "schema": "PLS_cost_aware_confirmatory_selected_stage_cost_v2",
+  "selected_folds": 1245,
+  "selection_artifact_sha256": "a9cbe4a627f47ce8cb025d53ec372dbbeaebf7d0fdb2f8bb236fc38f2553100d",
+  "status": "selected_stage_measured_denominator_pending_retrospective_folds",
+  "test_evaluated": false,
+  "test_sequences_queried": 0,
+  "unselected_not_yet_folded": 803
+}
