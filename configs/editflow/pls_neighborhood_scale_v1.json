@@ -1,0 +1,34 @@
+{
+  "schema": "PLS_EditFlow_neighborhood_build_v1",
+  "entities": "benchmark/generated/sequence_entities.csv",
+  "entity_split": "benchmark/generated/strict_si30_entity_split.csv",
+  "observation_split": "benchmark/generated/strict_si30_observation_split.csv",
+  "structure_status": "artifacts/features/pdbsol_structure_v4_pooled/status.npy",
+  "source_dataset": "PDBSol_ProtSolM",
+  "allowed_splits": [
+    "train",
+    "validation"
+  ],
+  "anchor_counts": {
+    "train": 64,
+    "validation": 0
+  },
+  "component_unique_anchors": true,
+  "exclude_anchor_manifests": [
+    "benchmark/generated/pls_editflow_oracle_manifest_1k_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_1k_exact_calibration_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_scale_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_poc_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_decision_confirmatory_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_cost_calibration_v2.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_cost_confirmatory_v2.json",
+    "benchmark/generated/pls_editflow_neighborhood_pilot_v1.json"
+  ],
+  "anchor_salt": "PLS-neighborhood-scale-anchor-v1",
+  "mutation_salt": "PLS-neighborhood-scale-mutation-v1",
+  "minimum_length": 50,
+  "maximum_length": 300,
+  "alphabet": "ACDEFGHIKLMNPQRSTVWY",
+  "oracle_manifest": "configs/oracles/pls_gvp_bidir_v49_teacher_v1.json",
+  "evaluate_test": false
+}

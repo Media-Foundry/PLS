@@ -1,0 +1,420 @@
+{
+  "anchors": 64,
+  "anchors_by_split": {
+    "train": 64,
+    "validation": 0
+  },
+  "collision_rejections": 1,
+  "edges_sha256": "75d329a3fc60431cc4674bbd051d7f15f2025167bb8070dbd23db9181033defa",
+  "excluded_anchor_hashes": 1519,
+  "excluded_anchor_manifests": [
+    "benchmark/generated/pls_editflow_oracle_manifest_1k_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_1k_exact_calibration_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_scale_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_poc_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_decision_confirmatory_v1.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_cost_calibration_v2.json",
+    "benchmark/generated/pls_editflow_oracle_manifest_cost_confirmatory_v2.json",
+    "benchmark/generated/pls_editflow_neighborhood_pilot_v1.json"
+  ],
+  "excluded_components": 1480,
+  "exhaustive_neighborhood": true,
+  "mutations_per_anchor": null,
+  "neighborhood_sizes": [
+    {
+      "anchor_rank": 0,
+      "length": 135,
+      "materialized": 2565,
+      "theoretical": 2565
+    },
+    {
+      "anchor_rank": 1,
+      "length": 181,
+      "materialized": 3439,
+      "theoretical": 3439
+    },
+    {
+      "anchor_rank": 2,
+      "length": 218,
+      "materialized": 4142,
+      "theoretical": 4142
+    },
+    {
+      "anchor_rank": 3,
+      "length": 110,
+      "materialized": 2090,
+      "theoretical": 2090
+    },
+    {
+      "anchor_rank": 4,
+      "length": 241,
+      "materialized": 4579,
+      "theoretical": 4579
+    },
+    {
+      "anchor_rank": 5,
+      "length": 170,
+      "materialized": 3230,
+      "theoretical": 3230
+    },
+    {
+      "anchor_rank": 6,
+      "length": 225,
+      "materialized": 4275,
+      "theoretical": 4275
+    },
+    {
+      "anchor_rank": 7,
+      "length": 205,
+      "materialized": 3895,
+      "theoretical": 3895
+    },
+    {
+      "anchor_rank": 8,
+      "length": 231,
+      "materialized": 4389,
+      "theoretical": 4389
+    },
+    {
+      "anchor_rank": 9,
+      "length": 110,
+      "materialized": 2090,
+      "theoretical": 2090
+    },
+    {
+      "anchor_rank": 10,
+      "length": 125,
+      "materialized": 2375,
+      "theoretical": 2375
+    },
+    {
+      "anchor_rank": 11,
+      "length": 54,
+      "materialized": 1026,
+      "theoretical": 1026
+    },
+    {
+      "anchor_rank": 12,
+      "length": 188,
+      "materialized": 3572,
+      "theoretical": 3572
+    },
+    {
+      "anchor_rank": 13,
+      "length": 108,
+      "materialized": 2052,
+      "theoretical": 2052
+    },
+    {
+      "anchor_rank": 14,
+      "length": 275,
+      "materialized": 5225,
+      "theoretical": 5225
+    },
+    {
+      "anchor_rank": 15,
+      "length": 255,
+      "materialized": 4845,
+      "theoretical": 4845
+    },
+    {
+      "anchor_rank": 16,
+      "length": 157,
+      "materialized": 2983,
+      "theoretical": 2983
+    },
+    {
+      "anchor_rank": 17,
+      "length": 180,
+      "materialized": 3420,
+      "theoretical": 3420
+    },
+    {
+      "anchor_rank": 18,
+      "length": 70,
+      "materialized": 1330,
+      "theoretical": 1330
+    },
+    {
+      "anchor_rank": 19,
+      "length": 165,
+      "materialized": 3135,
+      "theoretical": 3135
+    },
+    {
+      "anchor_rank": 20,
+      "length": 199,
+      "materialized": 3781,
+      "theoretical": 3781
+    },
+    {
+      "anchor_rank": 21,
+      "length": 73,
+      "materialized": 1387,
+      "theoretical": 1387
+    },
+    {
+      "anchor_rank": 22,
+      "length": 213,
+      "materialized": 4047,
+      "theoretical": 4047
+    },
+    {
+      "anchor_rank": 23,
+      "length": 124,
+      "materialized": 2356,
+      "theoretical": 2356
+    },
+    {
+      "anchor_rank": 24,
+      "length": 52,
+      "materialized": 988,
+      "theoretical": 988
+    },
+    {
+      "anchor_rank": 25,
+      "length": 246,
+      "materialized": 4674,
+      "theoretical": 4674
+    },
+    {
+      "anchor_rank": 26,
+      "length": 110,
+      "materialized": 2089,
+      "theoretical": 2090
+    },
+    {
+      "anchor_rank": 27,
+      "length": 215,
+      "materialized": 4085,
+      "theoretical": 4085
+    },
+    {
+      "anchor_rank": 28,
+      "length": 129,
+      "materialized": 2451,
+      "theoretical": 2451
+    },
+    {
+      "anchor_rank": 29,
+      "length": 197,
+      "materialized": 3743,
+      "theoretical": 3743
+    },
+    {
+      "anchor_rank": 30,
+      "length": 239,
+      "materialized": 4541,
+      "theoretical": 4541
+    },
+    {
+      "anchor_rank": 31,
+      "length": 296,
+      "materialized": 5624,
+      "theoretical": 5624
+    },
+    {
+      "anchor_rank": 32,
+      "length": 116,
+      "materialized": 2204,
+      "theoretical": 2204
+    },
+    {
+      "anchor_rank": 33,
+      "length": 92,
+      "materialized": 1748,
+      "theoretical": 1748
+    },
+    {
+      "anchor_rank": 34,
+      "length": 181,
+      "materialized": 3439,
+      "theoretical": 3439
+    },
+    {
+      "anchor_rank": 35,
+      "length": 119,
+      "materialized": 2261,
+      "theoretical": 2261
+    },
+    {
+      "anchor_rank": 36,
+      "length": 152,
+      "materialized": 2888,
+      "theoretical": 2888
+    },
+    {
+      "anchor_rank": 37,
+      "length": 102,
+      "materialized": 1938,
+      "theoretical": 1938
+    },
+    {
+      "anchor_rank": 38,
+      "length": 115,
+      "materialized": 2185,
+      "theoretical": 2185
+    },
+    {
+      "anchor_rank": 39,
+      "length": 102,
+      "materialized": 1938,
+      "theoretical": 1938
+    },
+    {
+      "anchor_rank": 40,
+      "length": 247,
+      "materialized": 4693,
+      "theoretical": 4693
+    },
+    {
+      "anchor_rank": 41,
+      "length": 138,
+      "materialized": 2622,
+      "theoretical": 2622
+    },
+    {
+      "anchor_rank": 42,
+      "length": 94,
+      "materialized": 1786,
+      "theoretical": 1786
+    },
+    {
+      "anchor_rank": 43,
+      "length": 186,
+      "materialized": 3534,
+      "theoretical": 3534
+    },
+    {
+      "anchor_rank": 44,
+      "length": 156,
+      "materialized": 2964,
+      "theoretical": 2964
+    },
+    {
+      "anchor_rank": 45,
+      "length": 112,
+      "materialized": 2128,
+      "theoretical": 2128
+    },
+    {
+      "anchor_rank": 46,
+      "length": 91,
+      "materialized": 1729,
+      "theoretical": 1729
+    },
+    {
+      "anchor_rank": 47,
+      "length": 247,
+      "materialized": 4693,
+      "theoretical": 4693
+    },
+    {
+      "anchor_rank": 48,
+      "length": 208,
+      "materialized": 3952,
+      "theoretical": 3952
+    },
+    {
+      "anchor_rank": 49,
+      "length": 124,
+      "materialized": 2356,
+      "theoretical": 2356
+    },
+    {
+      "anchor_rank": 50,
+      "length": 179,
+      "materialized": 3401,
+      "theoretical": 3401
+    },
+    {
+      "anchor_rank": 51,
+      "length": 205,
+      "materialized": 3895,
+      "theoretical": 3895
+    },
+    {
+      "anchor_rank": 52,
+      "length": 125,
+      "materialized": 2375,
+      "theoretical": 2375
+    },
+    {
+      "anchor_rank": 53,
+      "length": 217,
+      "materialized": 4123,
+      "theoretical": 4123
+    },
+    {
+      "anchor_rank": 54,
+      "length": 222,
+      "materialized": 4218,
+      "theoretical": 4218
+    },
+    {
+      "anchor_rank": 55,
+      "length": 249,
+      "materialized": 4731,
+      "theoretical": 4731
+    },
+    {
+      "anchor_rank": 56,
+      "length": 143,
+      "materialized": 2717,
+      "theoretical": 2717
+    },
+    {
+      "anchor_rank": 57,
+      "length": 123,
+      "materialized": 2337,
+      "theoretical": 2337
+    },
+    {
+      "anchor_rank": 58,
+      "length": 230,
+      "materialized": 4370,
+      "theoretical": 4370
+    },
+    {
+      "anchor_rank": 59,
+      "length": 232,
+      "materialized": 4408,
+      "theoretical": 4408
+    },
+    {
+      "anchor_rank": 60,
+      "length": 144,
+      "materialized": 2736,
+      "theoretical": 2736
+    },
+    {
+      "anchor_rank": 61,
+      "length": 182,
+      "materialized": 3458,
+      "theoretical": 3458
+    },
+    {
+      "anchor_rank": 62,
+      "length": 165,
+      "materialized": 3135,
+      "theoretical": 3135
+    },
+    {
+      "anchor_rank": 63,
+      "length": 106,
+      "materialized": 2014,
+      "theoretical": 2014
+    }
+  ],
+  "nodes_sha256": "a68fbe30035a27fbf73c7c4e43bd90586cf7890552743266e0180333ad1b22bd",
+  "schema": "PLS_EditFlow_neighborhood_manifest_report_v1",
+  "selection_used_target_values": false,
+  "single_mutation_edges": 201399,
+  "test_evaluated": false,
+  "test_sequences_queried": 0,
+  "unique_components_by_split": {
+    "train": 64,
+    "validation": 0
+  },
+  "unique_sequence_queries": 201463
+}

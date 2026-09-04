@@ -6,16 +6,20 @@ set -euo pipefail
 
 repo_root=${PLS_REPO_ROOT:-/media/PM983/Code/PLS}
 python_bin=${PLS_PYTHON:-/home/pc/anaconda3/envs/BIO/bin/python}
-artifact_root="$repo_root/artifacts/oracles/pls_editflow_neighborhood_pilot_v1"
-manifest="$repo_root/benchmark/generated/pls_editflow_neighborhood_pilot_v1.json"
-entities="$repo_root/benchmark/generated/pls_editflow_entities_neighborhood_pilot_v1.csv"
+# Run name selects the manifest, entities, artifacts and configs.
+run=${PLS_NEIGHBORHOOD_RUN:-pls_editflow_neighborhood_pilot_v1}
+entities_name="pls_editflow_entities_${run#pls_editflow_}"
+tag=${PLS_NEIGHBORHOOD_TAG:-pilot}
+artifact_root="$repo_root/artifacts/oracles/${run}"
+manifest="$repo_root/benchmark/generated/${run}.json"
+entities="$repo_root/benchmark/generated/${entities_name}.csv"
 parent_raw="$repo_root/artifacts/features/pdbsol_structure_v4_raw"
 fixed="$artifact_root/fixed_parent"
 stats="$repo_root/artifacts/features/pdbsol_structure_v4_train_stats.json"
 pca="$repo_root/artifacts/plm/esm2_t33_650M_UR50D_residue_pdbsol/train_pca_256.npz"
-score_config="$repo_root/configs/editflow/pls_oracle_score_neighborhood_pilot_fixed_v1.json"
+score_config="$repo_root/configs/editflow/pls_oracle_score_neighborhood_${tag}_fixed_v1.json"
 log="$artifact_root/logs/cached_build.log"
-nodes=10743
+nodes=${PLS_NEIGHBORHOOD_NODES:?set the node count}
 
 mkdir -p "$artifact_root/logs" "$fixed"
 export PYTHONPATH="$repo_root/src:$repo_root"
@@ -73,9 +77,9 @@ note "initializing sharded residue ESM2 and PCA caches"
 note "running residue ESM2 and PCA across authorized GPUs 0-3"
 for device in 0 1 2 3; do
     command="cd '$repo_root' && export HIP_VISIBLE_DEVICES='$device' PYTHONPATH='$repo_root/src:$repo_root' && { '$python_bin' -m pls.features.extract_esm2_residue --entities '$entities' --offsets '$fixed/structure_v4_compact/offsets.npy' --structure-status '$fixed/structure_v4_raw/status.npy' --output '$artifact_root/residue_esm2_raw' --shard-count 4 --shard-index '$device' --hip-device '$device' --token-budget 8192 && '$python_bin' preparation/project_esm2_residue_pca.py --entities '$entities' --offsets '$fixed/structure_v4_compact/offsets.npy' --structure-status '$fixed/structure_v4_raw/status.npy' --source '$artifact_root/residue_esm2_raw' --pca '$pca' --output '$artifact_root/residue_esm2_pca' --shard-count 4 --shard-index '$device' --hip-device '$device' --residue-budget 65536; } >> '$artifact_root/logs/residue_g${device}.log' 2>&1"
-    tmux new-session -d -s "pls_nbhd_residue_g${device}" "bash -lc \"$command\""
+    tmux new-session -d -s "pls_nbhd_${tag}_residue_g${device}" "bash -lc \"$command\""
 done
-while tmux list-sessions 2>/dev/null | grep -q 'pls_nbhd_residue_g'; do sleep 20; done
+while tmux list-sessions 2>/dev/null | grep -q 'pls_nbhd_${tag}_residue_g'; do sleep 20; done
 
 note "scoring the cached-parent oracle over the whole neighborhood"
 HIP_VISIBLE_DEVICES=1 "$python_bin" -m pls.oracles.score_editflow \
