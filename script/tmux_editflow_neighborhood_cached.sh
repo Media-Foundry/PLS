@@ -10,6 +10,16 @@ python_bin=${PLS_PYTHON:-/home/pc/anaconda3/envs/BIO/bin/python}
 run=${PLS_NEIGHBORHOOD_RUN:-pls_editflow_neighborhood_pilot_v1}
 entities_name="pls_editflow_entities_${run#pls_editflow_}"
 tag=${PLS_NEIGHBORHOOD_TAG:-pilot}
+# GCD 4 is reserved and must never appear in this list.
+read -r -a devices <<< "${PLS_FOLD_DEVICES:-0 1 2 3 5 6 7}"
+shards=${#devices[@]}
+lead=${devices[0]}
+for d in "${devices[@]}"; do
+    if [[ "$d" == "4" ]]; then
+        echo "REFUSING: GCD 4 is reserved and must not be used" >&2
+        exit 3
+    fi
+done
 artifact_root="$repo_root/artifacts/oracles/${run}"
 manifest="$repo_root/benchmark/generated/${run}.json"
 entities="$repo_root/benchmark/generated/${entities_name}.csv"
@@ -51,9 +61,9 @@ numactl --interleave=all "$python_bin" preparation/build_surface_patch_component
     --output "$fixed/surface_patch_components"
 
 note "extracting mean ESM2 on authorized GPU 0"
-HIP_VISIBLE_DEVICES=0 "$python_bin" -m pls.features.extract_esm2 \
+HIP_VISIBLE_DEVICES="$lead" "$python_bin" -m pls.features.extract_esm2 \
     --entities "$entities" --output-dir "$artifact_root/esm2_mean" \
-    --token-budget 8192 --maximum-residues 300 --hip-device 0 --precision float16 \
+    --token-budget 8192 --maximum-residues 300 --hip-device "$lead" --precision float16 \
     >> "$artifact_root/logs/esm2_mean.log" 2>&1
 "$python_bin" - <<PY
 import numpy as np
@@ -67,22 +77,23 @@ note "initializing sharded residue ESM2 and PCA caches"
 "$python_bin" -m pls.features.extract_esm2_residue \
     --entities "$entities" --offsets "$fixed/structure_v4_compact/offsets.npy" \
     --structure-status "$fixed/structure_v4_raw/status.npy" \
-    --output "$artifact_root/residue_esm2_raw" --shard-count 4 --initialize-only
+    --output "$artifact_root/residue_esm2_raw" --shard-count "$shards" --initialize-only
 "$python_bin" preparation/project_esm2_residue_pca.py \
     --entities "$entities" --offsets "$fixed/structure_v4_compact/offsets.npy" \
     --structure-status "$fixed/structure_v4_raw/status.npy" \
     --source "$artifact_root/residue_esm2_raw" --pca "$pca" \
-    --output "$artifact_root/residue_esm2_pca" --shard-count 4 --initialize-only
+    --output "$artifact_root/residue_esm2_pca" --shard-count "$shards" --initialize-only
 
 note "running residue ESM2 and PCA across authorized GPUs 0-3"
-for device in 0 1 2 3; do
-    command="cd '$repo_root' && export HIP_VISIBLE_DEVICES='$device' PYTHONPATH='$repo_root/src:$repo_root' && { '$python_bin' -m pls.features.extract_esm2_residue --entities '$entities' --offsets '$fixed/structure_v4_compact/offsets.npy' --structure-status '$fixed/structure_v4_raw/status.npy' --output '$artifact_root/residue_esm2_raw' --shard-count 4 --shard-index '$device' --hip-device '$device' --token-budget 8192 && '$python_bin' preparation/project_esm2_residue_pca.py --entities '$entities' --offsets '$fixed/structure_v4_compact/offsets.npy' --structure-status '$fixed/structure_v4_raw/status.npy' --source '$artifact_root/residue_esm2_raw' --pca '$pca' --output '$artifact_root/residue_esm2_pca' --shard-count 4 --shard-index '$device' --hip-device '$device' --residue-budget 65536; } >> '$artifact_root/logs/residue_g${device}.log' 2>&1"
+for index in "${!devices[@]}"; do
+    device=${devices[$index]}
+    command="cd '$repo_root' && export HIP_VISIBLE_DEVICES='$device' PYTHONPATH='$repo_root/src:$repo_root' && { '$python_bin' -m pls.features.extract_esm2_residue --entities '$entities' --offsets '$fixed/structure_v4_compact/offsets.npy' --structure-status '$fixed/structure_v4_raw/status.npy' --output '$artifact_root/residue_esm2_raw' --shard-count '$shards' --shard-index '$index' --hip-device '$device' --token-budget 8192 && '$python_bin' preparation/project_esm2_residue_pca.py --entities '$entities' --offsets '$fixed/structure_v4_compact/offsets.npy' --structure-status '$fixed/structure_v4_raw/status.npy' --source '$artifact_root/residue_esm2_raw' --pca '$pca' --output '$artifact_root/residue_esm2_pca' --shard-count '$shards' --shard-index '$index' --hip-device '$device' --residue-budget 65536; } >> '$artifact_root/logs/residue_g${device}.log' 2>&1"
     tmux new-session -d -s "pls_nbhd_${tag}_residue_g${device}" "bash -lc \"$command\""
 done
 while tmux list-sessions 2>/dev/null | grep -q 'pls_nbhd_${tag}_residue_g'; do sleep 20; done
 
 note "scoring the cached-parent oracle over the whole neighborhood"
-HIP_VISIBLE_DEVICES=1 "$python_bin" -m pls.oracles.score_editflow \
+HIP_VISIBLE_DEVICES="$lead" "$python_bin" -m pls.oracles.score_editflow \
     --config "$score_config" --output-root "$fixed/scores_fp32_a" \
     >> "$artifact_root/logs/score_fixed.log" 2>&1
 note "cached-parent stage complete; zero mutants folded"

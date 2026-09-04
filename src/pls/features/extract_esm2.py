@@ -46,7 +46,7 @@ def main() -> None:
     parser.add_argument("--maximum-residues", type=int, default=1022)
     parser.add_argument("--limit", type=int)
     parser.add_argument("--device", default="cuda:0")
-    parser.add_argument("--hip-device", type=int, choices=(0, 1, 2, 3, 6, 7), default=7)
+    parser.add_argument("--hip-device", type=int, choices=(0, 1, 2, 3, 5, 6, 7), default=7)
     parser.add_argument("--precision", choices=("float16", "float32"), default="float16")
     args = parser.parse_args()
     if args.token_budget < args.maximum_residues + 2:

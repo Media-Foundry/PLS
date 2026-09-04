@@ -11,6 +11,16 @@ python_bin=${PLS_PYTHON:-/home/pc/anaconda3/envs/BIO/bin/python}
 run=${PLS_NEIGHBORHOOD_RUN:-pls_editflow_neighborhood_pilot_v1}
 entities_name="pls_editflow_entities_${run#pls_editflow_}"
 tag=${PLS_NEIGHBORHOOD_TAG:-pilot}
+# Physical accelerators to shard across. GCD 4 is reserved and must never
+# appear here. Shard index is positional; hip device is physical.
+read -r -a devices <<< "${PLS_FOLD_DEVICES:-0 1 2 3 5 6 7}"
+shards=${#devices[@]}
+for d in "${devices[@]}"; do
+    if [[ "$d" == "4" ]]; then
+        echo "REFUSING: GCD 4 is reserved and must not be used" >&2
+        exit 3
+    fi
+done
 artifact_root="$repo_root/artifacts/oracles/${run}"
 manifest="$repo_root/benchmark/generated/${run}.json"
 entities="$repo_root/benchmark/generated/${entities_name}.csv"
@@ -31,18 +41,19 @@ note() { echo "[$(date --iso-8601=seconds)] $*"; }
 fold_stage() {
     note "planning the exhaustive neighborhood fold set with LPT balancing"
     "$python_bin" preparation/plan_pls_editflow_oracle.py \
-        --manifest "$manifest" --shards 4 --output "$plan" --report "$plan_report" \
+        --manifest "$manifest" --shards "$shards" --output "$plan" --report "$plan_report" \
         --runtime-cost-model "$repo_root/configs/editflow/pls_esmfold_runtime_cost_model_v1.json"
-    for device in 0 1 2 3; do
-        session="pls_nbhd_${tag}_fold_g${device}"
+    for index in "${!devices[@]}"; do
+        session="pls_nbhd_${tag}_fold_g${devices[$index]}"
         tmux has-session -t "$session" 2>/dev/null && { echo "session exists: $session" >&2; exit 2; }
     done
-    for device in 0 1 2 3; do
+    for index in "${!devices[@]}"; do
+        device=${devices[$index]}
         session="pls_nbhd_${tag}_fold_g${device}"
         log="$log_root/esmfold_g${device}.log"
-        command="cd '$repo_root' && export HIP_VISIBLE_DEVICES='$device' TORCH_HOME='/home/pc/.cache/torch' PYTHONPATH='$repo_root/src:$repo_root' && '$python_bin' -m pls.oracles.fold_editflow --manifest '$manifest' --plan '$plan' --output-root '$exact/esmfold' --shard-index '$device' --hip-device '$device' --chunk-size 64 --num-recycles 3 >> '$log' 2>&1"
+        command="cd '$repo_root' && export HIP_VISIBLE_DEVICES='$device' TORCH_HOME='/home/pc/.cache/torch' PYTHONPATH='$repo_root/src:$repo_root' && '$python_bin' -m pls.oracles.fold_editflow --manifest '$manifest' --plan '$plan' --output-root '$exact/esmfold' --shard-index '$index' --hip-device '$device' --chunk-size 64 --num-recycles 3 >> '$log' 2>&1"
         tmux new-session -d -s "$session" "bash -lc \"$command\""
-        echo "$session -> shard $device -> $log"
+        echo "$session -> shard $index -> GCD $device -> $log"
     done
     date --iso-8601=seconds > "$log_root/neighborhood_fold_started_at.txt"
 }

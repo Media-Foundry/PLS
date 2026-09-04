@@ -145,7 +145,8 @@ def validate_visible_device(
     if (hip_device is None) == (cuda_device is None):
         raise ValueError("select exactly one of hip_device or cuda_device")
     if hip_device is not None:
-        if hip_device not in {0, 1, 2, 3, 6, 7}:
+        # GCD 4 is reserved for unrelated work and must never be selected.
+        if hip_device not in {0, 1, 2, 3, 5, 6, 7}:
             raise ValueError("ROCm execution is restricted to authorized physical devices")
         if environment.get("HIP_VISIBLE_DEVICES") != str(hip_device):
             raise ValueError("HIP device mismatch")
@@ -165,7 +166,7 @@ def main() -> None:
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--shard-index", type=int, required=True)
     device = parser.add_mutually_exclusive_group(required=True)
-    device.add_argument("--hip-device", type=int, choices=(0, 1, 2, 3, 6, 7))
+    device.add_argument("--hip-device", type=int, choices=(0, 1, 2, 3, 5, 6, 7))
     device.add_argument("--cuda-device", type=int, choices=(0, 1))
     parser.add_argument("--chunk-size", type=int, default=64)
     parser.add_argument("--num-recycles", type=int, default=3)
