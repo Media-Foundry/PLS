@@ -10,6 +10,10 @@
       "catastrophic_mean": 0.04880689538043481,
       "reliable_mean": -0.008814884185658551
     },
+    "neighborhood_fraction_tm_below_0.5": {
+      "catastrophic_mean": 0.2745995423340961,
+      "reliable_mean": 0.054575982887740015
+    },
     "neighborhood_fraction_tm_below_0.7": {
       "catastrophic_mean": 0.5881006864988558,
       "reliable_mean": 0.10423004933531461
@@ -80,6 +84,7 @@
         "tm_score": 0.9968549639427414
       },
       "length": 82,
+      "neighborhood_fraction_tm_below_0.5": 0.04942233632862644,
       "neighborhood_fraction_tm_below_0.7": 0.05327342747111682,
       "neighborhood_fraction_tm_below_0.9": 0.15019255455712452,
       "neighborhood_mean_plddt_change": -0.005007126316474404,
@@ -110,6 +115,7 @@
         "tm_score": 0.8397038584675952
       },
       "length": 54,
+      "neighborhood_fraction_tm_below_0.5": 0.038011695906432746,
       "neighborhood_fraction_tm_below_0.7": 0.05847953216374269,
       "neighborhood_fraction_tm_below_0.9": 0.15009746588693956,
       "neighborhood_mean_plddt_change": -0.022537466094223746,
@@ -140,6 +146,7 @@
         "tm_score": 0.9967203071078542
       },
       "length": 70,
+      "neighborhood_fraction_tm_below_0.5": 0.0015037593984962407,
       "neighborhood_fraction_tm_below_0.7": 0.014285714285714285,
       "neighborhood_fraction_tm_below_0.9": 0.11654135338345864,
       "neighborhood_mean_plddt_change": -0.006277204241071426,
@@ -170,6 +177,7 @@
         "tm_score": 0.9961920652737533
       },
       "length": 54,
+      "neighborhood_fraction_tm_below_0.5": 0.007797270955165692,
       "neighborhood_fraction_tm_below_0.7": 0.011695906432748537,
       "neighborhood_fraction_tm_below_0.9": 0.08284600389863547,
       "neighborhood_mean_plddt_change": -0.013533883813950728,
@@ -200,6 +208,7 @@
         "tm_score": 0.9816268875950267
       },
       "length": 70,
+      "neighborhood_fraction_tm_below_0.5": 0.23684210526315788,
       "neighborhood_fraction_tm_below_0.7": 0.3157894736842105,
       "neighborhood_fraction_tm_below_0.9": 0.5578947368421052,
       "neighborhood_mean_plddt_change": -0.005625878486674276,
@@ -230,6 +239,7 @@
         "tm_score": 0.9817053373577718
       },
       "length": 86,
+      "neighborhood_fraction_tm_below_0.5": 0.0030599755201958386,
       "neighborhood_fraction_tm_below_0.7": 0.0030599755201958386,
       "neighborhood_fraction_tm_below_0.9": 0.01591187270501836,
       "neighborhood_mean_plddt_change": -0.00879272485260528,
@@ -260,6 +270,7 @@
         "tm_score": 0.6296018633301904
       },
       "length": 69,
+      "neighborhood_fraction_tm_below_0.5": 0.2745995423340961,
       "neighborhood_fraction_tm_below_0.7": 0.5881006864988558,
       "neighborhood_fraction_tm_below_0.9": 0.9443173150266971,
       "neighborhood_mean_plddt_change": -0.0472183160909742,
@@ -290,6 +301,7 @@
         "tm_score": 0.6433850846510504
       },
       "length": 80,
+      "neighborhood_fraction_tm_below_0.5": 0.045394736842105265,
       "neighborhood_fraction_tm_below_0.7": 0.2730263157894737,
       "neighborhood_fraction_tm_below_0.9": 0.7388157894736842,
       "neighborhood_mean_plddt_change": -0.0035762576053017044,

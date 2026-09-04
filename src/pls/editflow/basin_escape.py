@@ -153,6 +153,10 @@ def main() -> None:
             "neighborhood_rmsd_p90": float(np.percentile(rmsds, 90)),
             "neighborhood_tm_median": float(np.median(tms)),
             "neighborhood_tm_p10": float(np.percentile(tms, 10)),
+            # TM ~ 0.5 is the classical approximate same-fold transition
+            # (Xu and Zhang 2010); 0.7 is used here only as a stringent
+            # operational marker of substantial drift, not as a fold criterion.
+            "neighborhood_fraction_tm_below_0.5": float(np.mean(tms < 0.5)),
             "neighborhood_fraction_tm_below_0.7": float(np.mean(tms < 0.7)),
             "neighborhood_fraction_tm_below_0.9": float(np.mean(tms < 0.9)),
             "neighborhood_mean_plddt_change": float(plddt_change.mean()),
@@ -172,6 +176,7 @@ def main() -> None:
         # unusual, or is the whole NEIGHBORHOOD unstable?
         for name in ("neighborhood_rmsd_median", "neighborhood_rmsd_p90",
                      "neighborhood_tm_median", "neighborhood_tm_p10",
+                     "neighborhood_fraction_tm_below_0.5",
                      "neighborhood_fraction_tm_below_0.7",
                      "neighborhood_fraction_tm_below_0.9",
                      "neighborhood_mean_plddt_change"):
@@ -217,7 +222,7 @@ def main() -> None:
         "Kabsch-superposed on the identity alignment, over EVERY mutant in every",
         "neighborhood.",
         "",
-        "| Anchor | L | Mutants | Cached rank of best | Best RMSD | Best TM | Best RMSD pct | Nbhd median RMSD | Nbhd median TM | Frac TM<0.7 |",
+        "| Anchor | L | Mutants | Cached rank of best | Best TM | Best RMSD pct | Nbhd median TM | Nbhd TM p10 | Frac TM<0.7 | Frac TM<0.5 |",
         "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for row in results:
@@ -226,11 +231,12 @@ def main() -> None:
             f"| {mark}{row['anchor_rank']}{mark} | {row['length']} | "
             f"{row['neighborhood_mutants']} | "
             f"{mark}{row['cached_rank_of_exact_best']}{mark} | "
-            f"{row['exact_best']['rmsd']:.3f} | {row['exact_best']['tm_score']:.4f} | "
+            f"{row['exact_best']['tm_score']:.4f} | "
             f"{row['exact_best']['rmsd_percentile_in_neighborhood']:.3f} | "
-            f"{row['neighborhood_rmsd_median']:.3f} | "
             f"{row['neighborhood_tm_median']:.4f} | "
-            f"{row['neighborhood_fraction_tm_below_0.7']:.3f} |")
+            f"{row['neighborhood_tm_p10']:.4f} | "
+            f"{row['neighborhood_fraction_tm_below_0.7']:.3f} | "
+            f"{row['neighborhood_fraction_tm_below_0.5']:.3f} |")
     if contrast:
         lines += [
             "",
@@ -251,10 +257,11 @@ def main() -> None:
         "2.425, TM 0.6434 against 0.6296) and was still ranked first, and in both",
         "classes the optimum sits at an ordinary percentile of its own neighborhood.",
         "",
-        "What separates the classes is the neighborhood as a whole. The catastrophic",
-        "anchor is the only one whose **median** mutant loses the fold. The parent",
-        "structure stops being a valid proxy for the entire neighborhood, not just for",
-        "the optimum.",
+        "What separates the classes is the neighborhood as a whole. TM < 0.7 is used",
+        "here as a stringent operational marker of substantial structural drift; the",
+        "classical approximate same-fold transition is nearer TM = 0.5, so both are",
+        "reported. The parent structure stops being a good proxy across the entire",
+        "neighborhood, not just for the optimum.",
         "",
         "One catastrophic anchor out of eight. This is a lead, not a finding.",
         "",
