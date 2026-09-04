@@ -1,0 +1,84 @@
+{
+  "schema": "PLS_neighborhood_scale_analysis_protocol_v1",
+  "status": "frozen_before_any_scale_exact_fold",
+  "purpose": "Fix the n=64 analysis before the exact field exists, so that neither the budget grid, the primary metric, nor the baseline set can be chosen after seeing the outcome.",
+  "run": "pls_editflow_neighborhood_scale_v1",
+  "manifest": "benchmark/generated/pls_editflow_neighborhood_scale_v1.json",
+  "anchors": 64,
+  "exchangeability_unit": "SI30 sequence-identity component",
+
+  "budget_grid": [1, 2, 4, 8, 16, 32, 64, 128, 256],
+
+  "primary_metric": {
+    "name": "exact_decision_regret",
+    "definition": "R_K(x) = max over the complete neighborhood of the exact effect, minus the best exact effect among the K candidates the policy folds",
+    "reported": ["mean", "median", "cvar95", "maximum"],
+    "tail_thresholds": [0.0, 0.02, 0.05, 0.1, 0.2],
+    "tail_statistic": "P(R_K <= epsilon)",
+    "rationale": "exact-best identity is the wrong headline: a near miss that costs 0.002 is not a failure, and the pilot showed the loss distribution is what separates policies"
+  },
+  "secondary_metrics": [
+    "exact_best_recall",
+    "cached_parent_rank_of_exact_best",
+    "measured_gpu_cost_fraction"
+  ],
+
+  "frozen_baselines": {
+    "cached_parent": "TopB of the cached-parent field",
+    "sequence_only": "TopB of the teacher's matched sequence-only ablation",
+    "hybrid_union": {
+      "form": "Top(B-m) of cached-parent, unioned with Top(m) of sequence-only, truncated to B",
+      "m_values": [1, 2, 4, 8],
+      "rationale": "the pilot showed the sequence branch may act as a hedge against catastrophic misses rather than as a second oracle; it must be judged at MATCHED total exact budget, on tail risk, not on hit rate"
+    },
+    "one_backward_gradient": "TopB of the frozen gradient field, retained only as a sealed negative control",
+    "random_control": "uniform without replacement, 20 draws per anchor"
+  },
+  "baseline_comparison_rule": "every policy is charged the same total exact budget B and compared on E[R_B], CVaR95(R_B) and max R_B before any statement about hit rate",
+
+  "failure_detection": {
+    "status": "exploratory_only",
+    "event_definitions": [
+      "Y_K = 1[R_K > epsilon] for epsilon in the tail thresholds",
+      "Y_K = 1[cached_parent_rank_of_exact_best > K]"
+    ],
+    "evaluation": "ROC AUC and precision-recall average precision for predicting Y_K, not correlation against log rank",
+    "candidate_label_free_signals": [
+      "top_margin", "top8_dispersion", "top32_dispersion",
+      "median_absolute_deviation", "top_margin_over_mad",
+      "beneficial_fraction", "effective_support_tau_mad",
+      "struct_seq_rank_disagreement", "struct_seq_top8_disjoint",
+      "struct_seq_top32_disjoint", "top_gap_struct_minus_seq",
+      "parent_mean_plddt", "parent_min_plddt", "length", "surface_patch_count"
+    ],
+    "competing_hypotheses": {
+      "H_unreliable": "higher structure-versus-sequence disagreement implies the cached field is unreliable",
+      "H_informative": "higher disagreement instead means the parent geometry is contributing real constraint, and agreement is what signals the structure branch adds nothing"
+    },
+    "confirmation_rule": "any detector that looks good on these 64 components is exploratory and must be confirmed on a fresh, disjoint component batch before it is claimed or used to set a budget"
+  },
+
+  "mechanism_diagnosis": {
+    "status": "post_hoc_explanatory_only_never_a_detector_feature",
+    "question": "does the cached-parent field fail exactly when the best mutation leaves the parent's structural basin",
+    "measurements_on_the_exact_best_mutant_against_its_parent": [
+      "backbone C-alpha RMSD after superposition",
+      "TM-score",
+      "mean and minimum pLDDT change",
+      "per-residue exposure change at and around the mutated site",
+      "secondary structure change",
+      "surface patch count change"
+    ],
+    "rationale": "these require the mutant's own exact structure and therefore cannot inform a pre-fold budget; they exist to explain the regime, not to predict it"
+  },
+
+  "prohibited": [
+    "choosing the budget grid, the primary metric, the epsilon thresholds or the baseline set after seeing the scale exact field",
+    "tuning any hybrid m, detector threshold or feature subset on the scale exact field and then reporting it as confirmatory",
+    "evaluating, scoring, inspecting or selecting on the repository test split",
+    "comparing logits produced under different batchings; the canonical scorer tuple must be identical across the cached-parent, exact and sequence-only fields"
+  ],
+
+  "test_evaluated": false,
+  "test_sequences_queried": 0
+}
