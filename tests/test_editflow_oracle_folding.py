@@ -21,6 +21,14 @@ class EditFlowOracleFoldingTests(unittest.TestCase):
             remap_esmfold_point_projection_keys(
                 {source: "old", target: "new"}, {target}
             )
+        # A checkpoint that already carries the alias is accepted only when the
+        # two entries are provably the same value.
+        state, applied = remap_esmfold_point_projection_keys(
+            {source: "tensor", target: "tensor"}, {target}
+        )
+        self.assertEqual(state, {target: "tensor"})
+        self.assertIn(source, applied)
+        self.assertIn("already materialized", applied[source])
 
     def test_visible_device_contract_supports_local_rocm_and_star_cuda(self):
         self.assertEqual(

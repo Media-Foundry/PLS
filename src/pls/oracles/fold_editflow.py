@@ -39,6 +39,19 @@ def file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _values_identical(existing, incoming) -> bool:
+    """Bitwise equality that also works for the plain values used in tests."""
+    existing_shape = getattr(existing, "shape", None)
+    incoming_shape = getattr(incoming, "shape", None)
+    if (existing_shape is None) != (incoming_shape is None):
+        return False
+    if existing_shape is not None:
+        if existing_shape != incoming_shape:
+            return False
+        return bool((existing == incoming).all())
+    return bool(existing == incoming)
+
+
 def remap_esmfold_point_projection_keys(
     model_state: dict,
     expected_keys: set[str],
@@ -47,7 +60,12 @@ def remap_esmfold_point_projection_keys(
 
     Some OpenFold wheels wrap these projections and expose ``.linear.weight``
     while the official fair-esm v1 checkpoint stores ``.weight``.  Only exact
-    source/target pairs are remapped; collisions and partial pairs hard-fail.
+    source/target pairs are remapped; partial pairs hard-fail.
+
+    A checkpoint may arrive with the alias already materialized alongside the
+    source, which is how the dd workstation's copy is stored.  That is accepted
+    only when the two tensors are bitwise identical, so the checkpoint is
+    provably the same weights; any other collision still hard-fails.
     """
     state = dict(model_state)
     applied: dict[str, str] = {}
@@ -56,7 +74,13 @@ def remap_esmfold_point_projection_keys(
         target_expected = target in expected_keys
         if source_present and target_expected:
             if target in state:
-                raise ValueError(f"ESMFold remap target already exists: {target}")
+                if not _values_identical(state[target], state[source]):
+                    raise ValueError(
+                        f"ESMFold remap target already exists and differs: {target}"
+                    )
+                state.pop(source)
+                applied[source] = f"{target} (already materialized, bitwise identical)"
+                continue
             state[target] = state.pop(source)
             applied[source] = target
         elif source_present != target_expected:
@@ -137,10 +161,10 @@ def validate_visible_device(
     """Validate one explicitly masked physical accelerator.
 
     Local ROCm execution is restricted to the explicitly authorized physical
-    devices 0--3 or 6/7.  The
-    separate CUDA path exists for the two-device star host and accepts only
-    physical devices 0/1.  Both expose the selected device as logical cuda:0
-    to ESMFold.
+    devices 0--3 and 5--7; GCD 4 is reserved for unrelated work.  The separate
+    CUDA path serves the two-device star host and the dd workstation, whose
+    devices 6 and 7 host a resident vLLM testbed and are therefore excluded.
+    Both expose the selected device as logical cuda:0 to ESMFold.
     """
     if (hip_device is None) == (cuda_device is None):
         raise ValueError("select exactly one of hip_device or cuda_device")
@@ -152,8 +176,8 @@ def validate_visible_device(
             raise ValueError("HIP device mismatch")
         return "rocm", hip_device
     assert cuda_device is not None
-    if cuda_device not in {0, 1}:
-        raise ValueError("star CUDA execution is restricted to physical devices 0/1")
+    if cuda_device not in {0, 1, 2, 3, 4, 5}:
+        raise ValueError("CUDA execution is restricted to authorized physical devices")
     if environment.get("CUDA_VISIBLE_DEVICES") != str(cuda_device):
         raise ValueError("CUDA device mismatch")
     return "cuda", cuda_device
@@ -167,7 +191,7 @@ def main() -> None:
     parser.add_argument("--shard-index", type=int, required=True)
     device = parser.add_mutually_exclusive_group(required=True)
     device.add_argument("--hip-device", type=int, choices=(0, 1, 2, 3, 5, 6, 7))
-    device.add_argument("--cuda-device", type=int, choices=(0, 1))
+    device.add_argument("--cuda-device", type=int, choices=(0, 1, 2, 3, 4, 5))
     parser.add_argument("--chunk-size", type=int, default=64)
     parser.add_argument("--num-recycles", type=int, default=3)
     parser.add_argument("--dry-run", action="store_true")
