@@ -4,18 +4,19 @@ Post-hoc mechanism diagnosis. It needs the mutant's own exact structure and
 therefore can never be a pre-fold detector feature. No new folds.
 
 Displacement is the exact mutant's C-alpha coordinates against the parent's,
-Kabsch-superposed on the identity alignment.
+Kabsch-superposed on the identity alignment, over EVERY mutant in every
+neighborhood.
 
-| Anchor | L | Cached rank of best | Best RMSD | Best TM | Best RMSD pct in own nbhd | Nbhd median RMSD | Nbhd median TM |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 0 | 82 | 8 | 0.183 | 0.9969 | 0.016 | 0.507 | 0.9800 |
-| 1 | 54 | 1 | 1.755 | 0.8397 | 0.891 | 0.245 | 0.9902 |
-| 2 | 70 | 2 | 0.169 | 0.9967 | 0.426 | 0.194 | 0.9957 |
-| 3 | 54 | 1 | 0.150 | 0.9962 | 0.160 | 0.367 | 0.9807 |
-| 4 | 70 | 1 | 0.405 | 0.9816 | 0.078 | 1.160 | 0.8860 |
-| 5 | 86 | 1 | 0.871 | 0.9817 | 0.953 | 0.254 | 0.9944 |
-| **6** | 69 | **1016** | 2.425 | 0.6296 | 0.445 | 2.608 | 0.6434 |
-| 7 | 80 | 1 | 2.645 | 0.6434 | 0.719 | 1.932 | 0.8095 |
+| Anchor | L | Mutants | Cached rank of best | Best RMSD | Best TM | Best RMSD pct | Nbhd median RMSD | Nbhd median TM | Frac TM<0.7 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 0 | 82 | 1558 | 8 | 0.183 | 0.9969 | 0.028 | 0.531 | 0.9786 | 0.053 |
+| 1 | 54 | 1026 | 1 | 1.755 | 0.8397 | 0.883 | 0.251 | 0.9901 | 0.058 |
+| 2 | 70 | 1330 | 2 | 0.169 | 0.9967 | 0.408 | 0.204 | 0.9953 | 0.014 |
+| 3 | 54 | 1026 | 1 | 0.150 | 0.9962 | 0.135 | 0.375 | 0.9796 | 0.012 |
+| 4 | 70 | 1330 | 1 | 0.405 | 0.9816 | 0.069 | 1.216 | 0.8742 | 0.316 |
+| 5 | 86 | 1634 | 1 | 0.871 | 0.9817 | 0.948 | 0.265 | 0.9942 | 0.003 |
+| **6** | 69 | 1311 | **1016** | 2.425 | 0.6296 | 0.455 | 2.594 | 0.6527 | 0.588 |
+| 7 | 80 | 1520 | 1 | 2.645 | 0.6434 | 0.712 | 1.869 | 0.8176 | 0.273 |
 
 ## Catastrophic against reliable anchors
 
@@ -25,11 +26,15 @@ Kabsch-superposed on the identity alignment.
 | `tm_score` | 0.6296 | 0.9195 |
 | `maximum_deviation` | 4.6554 | 3.4820 |
 | `mean_plddt_change` | 0.0488 | -0.0088 |
-| `min_plddt_change` | 0.0171 | -0.0276 |
-| `exact_best_rmsd_percentile` | 0.4453 | 0.4632 |
-| `neighborhood_rmsd_median` | 2.6082 | 0.6656 |
-| `neighborhood_rmsd_p90` | 6.9425 | 2.7443 |
-| `neighborhood_tm_median` | 0.6434 | 0.9481 |
+| `rmsd_percentile_in_neighborhood` | 0.4546 | 0.4546 |
+| `tm_percentile_in_neighborhood` | 0.4561 | 0.5613 |
+| `neighborhood_rmsd_median` | 2.5941 | 0.6729 |
+| `neighborhood_rmsd_p90` | 6.7663 | 2.7371 |
+| `neighborhood_tm_median` | 0.6527 | 0.9471 |
+| `neighborhood_tm_p10` | 0.2703 | 0.7475 |
+| `neighborhood_fraction_tm_below_0.7` | 0.5881 | 0.1042 |
+| `neighborhood_fraction_tm_below_0.9` | 0.9443 | 0.2589 |
+| `neighborhood_mean_plddt_change` | -0.0472 | -0.0093 |
 
 ## Reading
 

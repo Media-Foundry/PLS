@@ -20,24 +20,32 @@ from pathlib import Path
 import numpy as np
 
 
-def kabsch_rmsd(mobile: np.ndarray, target: np.ndarray) -> tuple[float, np.ndarray]:
-    mobile_centered = mobile - mobile.mean(0)
-    target_centered = target - target.mean(0)
-    covariance = mobile_centered.T @ target_centered
+def batched_kabsch(mobile: np.ndarray, target: np.ndarray) -> np.ndarray:
+    """Per-structure C-alpha deviations after optimal superposition.
+
+    mobile is (n, L, 3), target is (L, 3). A single substitution preserves length
+    and residue order, so the alignment is the identity and only the rigid motion
+    has to be solved. Batched so a whole neighborhood costs one pass.
+    """
+    mobile_centered = mobile - mobile.mean(axis=1, keepdims=True)
+    target_centered = target - target.mean(axis=0)
+    covariance = np.einsum("nli,lj->nij", mobile_centered, target_centered)
     u, _s, vt = np.linalg.svd(covariance)
-    sign = np.sign(np.linalg.det(vt.T @ u.T))
-    correction = np.diag([1.0, 1.0, sign])
-    rotation = vt.T @ correction @ u.T
-    aligned = mobile_centered @ rotation.T
-    deviations = np.linalg.norm(aligned - target_centered, axis=1)
-    return float(np.sqrt(np.mean(np.square(deviations)))), deviations
+    sign = np.sign(np.linalg.det(np.einsum("nji,nkj->nik", vt, u)))
+    correction = np.zeros((sign.size, 3, 3))
+    correction[:, 0, 0] = 1.0
+    correction[:, 1, 1] = 1.0
+    correction[:, 2, 2] = sign
+    rotation = np.einsum("nji,njk,nlk->nil", vt, correction, u)
+    aligned = np.einsum("nli,nji->nlj", mobile_centered, rotation)
+    return np.linalg.norm(aligned - target_centered, axis=-1)
 
 
-def tm_score(deviations: np.ndarray) -> float:
-    length = deviations.size
-    d0 = 1.24 * np.cbrt(max(length - 15, 1)) - 1.8
-    d0 = max(d0, 0.5)
-    return float(np.mean(1.0 / (1.0 + np.square(deviations / d0))))
+def tm_from_deviations(deviations: np.ndarray) -> np.ndarray:
+    """TM-score per structure from its per-residue deviations."""
+    length = deviations.shape[-1]
+    d0 = max(1.24 * np.cbrt(max(length - 15, 1)) - 1.8, 0.5)
+    return np.mean(1.0 / (1.0 + np.square(deviations / d0)), axis=-1)
 
 
 class Tree:
@@ -112,58 +120,61 @@ def main() -> None:
         best = int(np.argmax(high))
         cached_rank_of_best = int(np.where(order_low == best)[0][0]) + 1
 
-        def displacement(local: int) -> dict:
-            node = int(indices[local])
-            mutant = exact_tree.ca(node)
-            parent = parent_tree.ca(node)
-            rmsd, deviations = kabsch_rmsd(mutant, parent)
+        # Whole neighborhood in one pass: no sampling, no new folds.
+        parent_ca = parent_tree.ca(int(indices[0]))
+        mutant_ca = np.stack([exact_tree.ca(int(i)) for i in indices])
+        deviations = batched_kabsch(mutant_ca, parent_ca)
+        rmsds = np.sqrt(np.mean(np.square(deviations), axis=1))
+        tms = tm_from_deviations(deviations)
+        maxima = deviations.max(axis=1)
+        parent_plddt = parent_tree.plddt(int(indices[0]))
+        plddt_change = np.asarray([
+            exact_tree.plddt(int(i)).mean() for i in indices]) - parent_plddt.mean()
+
+        def entry(local: int) -> dict:
             return {
-                "rmsd": rmsd,
-                "tm_score": tm_score(deviations),
-                "maximum_deviation": float(deviations.max()),
-                "mean_plddt_change": float(
-                    exact_tree.plddt(node).mean() - parent_tree.plddt(node).mean()),
-                "min_plddt_change": float(
-                    exact_tree.plddt(node).min() - parent_tree.plddt(node).min()),
+                "rmsd": float(rmsds[local]),
+                "tm_score": float(tms[local]),
+                "maximum_deviation": float(maxima[local]),
+                "mean_plddt_change": float(plddt_change[local]),
+                "rmsd_percentile_in_neighborhood": float(np.mean(rmsds <= rmsds[local])),
+                "tm_percentile_in_neighborhood": float(np.mean(tms <= tms[local])),
             }
 
-        # The whole neighborhood, so the exact best can be judged against its peers.
-        sample = np.linspace(0, indices.size - 1, min(256, indices.size)).astype(int)
-        population = [displacement(int(i)) for i in sample]
-        rmsds = np.asarray([p["rmsd"] for p in population])
-        tms = np.asarray([p["tm_score"] for p in population])
-
-        best_row = displacement(best)
-        top1_row = displacement(int(order_low[0]))
         results.append({
             "anchor_rank": rank,
             "length": row["length"],
             "cached_rank_of_exact_best": cached_rank_of_best,
             "catastrophic": bool(cached_rank_of_best > 8),
-            "exact_best": best_row,
-            "cached_top1": top1_row,
-            "neighborhood_sample": int(sample.size),
+            "exact_best": entry(best),
+            "cached_top1": entry(int(order_low[0])),
+            "neighborhood_mutants": int(indices.size),
             "neighborhood_rmsd_median": float(np.median(rmsds)),
             "neighborhood_rmsd_p90": float(np.percentile(rmsds, 90)),
             "neighborhood_tm_median": float(np.median(tms)),
-            "exact_best_rmsd_percentile": float(np.mean(rmsds <= best_row["rmsd"])),
-            "exact_best_tm_percentile": float(np.mean(tms <= best_row["tm_score"])),
+            "neighborhood_tm_p10": float(np.percentile(tms, 10)),
+            "neighborhood_fraction_tm_below_0.7": float(np.mean(tms < 0.7)),
+            "neighborhood_fraction_tm_below_0.9": float(np.mean(tms < 0.9)),
+            "neighborhood_mean_plddt_change": float(plddt_change.mean()),
         })
 
     catastrophic = [r for r in results if r["catastrophic"]]
     reliable = [r for r in results if not r["catastrophic"]]
     contrast = {}
     if catastrophic and reliable:
-        for name in ("rmsd", "tm_score", "maximum_deviation",
-                     "mean_plddt_change", "min_plddt_change"):
+        for name in ("rmsd", "tm_score", "maximum_deviation", "mean_plddt_change",
+                     "rmsd_percentile_in_neighborhood", "tm_percentile_in_neighborhood"):
             contrast[name] = {
                 "catastrophic_mean": float(np.mean([r["exact_best"][name] for r in catastrophic])),
                 "reliable_mean": float(np.mean([r["exact_best"][name] for r in reliable])),
             }
         # The controls that decide between the two readings: is the OPTIMUM
         # unusual, or is the whole NEIGHBORHOOD unstable?
-        for name in ("exact_best_rmsd_percentile", "neighborhood_rmsd_median",
-                     "neighborhood_rmsd_p90", "neighborhood_tm_median"):
+        for name in ("neighborhood_rmsd_median", "neighborhood_rmsd_p90",
+                     "neighborhood_tm_median", "neighborhood_tm_p10",
+                     "neighborhood_fraction_tm_below_0.7",
+                     "neighborhood_fraction_tm_below_0.9",
+                     "neighborhood_mean_plddt_change"):
             contrast[name] = {
                 "catastrophic_mean": float(np.mean([r[name] for r in catastrophic])),
                 "reliable_mean": float(np.mean([r[name] for r in reliable])),
@@ -189,6 +200,7 @@ def main() -> None:
         "per_anchor": results,
         "contrast": contrast,
         "superposition": "Kabsch on the identity alignment; a single substitution preserves length and residue order",
+        "neighborhood_coverage": "every mutant in every neighborhood, not a sample",
         "mutant_folds_required": 0,
         "test_sequences_queried": 0,
         "test_evaluated": False,
@@ -202,20 +214,23 @@ def main() -> None:
         "therefore can never be a pre-fold detector feature. No new folds.",
         "",
         "Displacement is the exact mutant's C-alpha coordinates against the parent's,",
-        "Kabsch-superposed on the identity alignment.",
+        "Kabsch-superposed on the identity alignment, over EVERY mutant in every",
+        "neighborhood.",
         "",
-        "| Anchor | L | Cached rank of best | Best RMSD | Best TM | Best RMSD pct in own nbhd | Nbhd median RMSD | Nbhd median TM |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| Anchor | L | Mutants | Cached rank of best | Best RMSD | Best TM | Best RMSD pct | Nbhd median RMSD | Nbhd median TM | Frac TM<0.7 |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for row in results:
         mark = "**" if row["catastrophic"] else ""
         lines.append(
             f"| {mark}{row['anchor_rank']}{mark} | {row['length']} | "
+            f"{row['neighborhood_mutants']} | "
             f"{mark}{row['cached_rank_of_exact_best']}{mark} | "
             f"{row['exact_best']['rmsd']:.3f} | {row['exact_best']['tm_score']:.4f} | "
-            f"{row['exact_best_rmsd_percentile']:.3f} | "
+            f"{row['exact_best']['rmsd_percentile_in_neighborhood']:.3f} | "
             f"{row['neighborhood_rmsd_median']:.3f} | "
-            f"{row['neighborhood_tm_median']:.4f} |")
+            f"{row['neighborhood_tm_median']:.4f} | "
+            f"{row['neighborhood_fraction_tm_below_0.7']:.3f} |")
     if contrast:
         lines += [
             "",
