@@ -1,0 +1,261 @@
+{
+  "anchors": 8,
+  "catastrophic_anchors": 1,
+  "contrast": {
+    "exact_best_rmsd_percentile": {
+      "catastrophic_mean": 0.4453125,
+      "reliable_mean": 0.46316964285714285
+    },
+    "maximum_deviation": {
+      "catastrophic_mean": 4.655373824381577,
+      "reliable_mean": 3.4820497213544157
+    },
+    "mean_plddt_change": {
+      "catastrophic_mean": 0.04880689538043481,
+      "reliable_mean": -0.008814884185658551
+    },
+    "min_plddt_change": {
+      "catastrophic_mean": 0.01708984375,
+      "reliable_mean": -0.027553013392857144
+    },
+    "neighborhood_rmsd_median": {
+      "catastrophic_mean": 2.6081899797686123,
+      "reliable_mean": 0.6655502676707854
+    },
+    "neighborhood_rmsd_p90": {
+      "catastrophic_mean": 6.942535863843346,
+      "reliable_mean": 2.7442847290067234
+    },
+    "neighborhood_tm_median": {
+      "catastrophic_mean": 0.6434135554668473,
+      "reliable_mean": 0.9480726936101513
+    },
+    "rmsd": {
+      "catastrophic_mean": 2.4254082333325537,
+      "reliable_mean": 0.8825675820540543
+    },
+    "tm_score": {
+      "catastrophic_mean": 0.6296018633301907,
+      "reliable_mean": 0.9194555006279704
+    }
+  },
+  "hypothesis_tested": "the cached-parent field succeeds while the optimum stays in the parent's structural basin and fails when the best mutation escapes it",
+  "mutant_folds_required": 0,
+  "per_anchor": [
+    {
+      "anchor_rank": 0,
+      "cached_rank_of_exact_best": 8,
+      "cached_top1": {
+        "maximum_deviation": 1.656679090674471,
+        "mean_plddt_change": 0.007681497713414642,
+        "min_plddt_change": 0.0126953125,
+        "rmsd": 0.36859275831549426,
+        "tm_score": 0.988148116345188
+      },
+      "catastrophic": false,
+      "exact_best": {
+        "maximum_deviation": 0.7123217727518792,
+        "mean_plddt_change": 0.0028760956554877426,
+        "min_plddt_change": -0.00634765625,
+        "rmsd": 0.18261667627532197,
+        "tm_score": 0.9968549639427414
+      },
+      "exact_best_rmsd_percentile": 0.015625,
+      "exact_best_tm_percentile": 0.984375,
+      "length": 82,
+      "neighborhood_rmsd_median": 0.5065292831272351,
+      "neighborhood_rmsd_p90": 1.4936003069750243,
+      "neighborhood_sample": 256,
+      "neighborhood_tm_median": 0.9800044211895258
+    },
+    {
+      "anchor_rank": 1,
+      "cached_rank_of_exact_best": 1,
+      "cached_top1": {
+        "maximum_deviation": 8.280893074850594,
+        "mean_plddt_change": -0.0377378110532407,
+        "min_plddt_change": -0.05712890625,
+        "rmsd": 1.7547859468495266,
+        "tm_score": 0.8397038584675953
+      },
+      "catastrophic": false,
+      "exact_best": {
+        "maximum_deviation": 8.280893074850594,
+        "mean_plddt_change": -0.0377378110532407,
+        "min_plddt_change": -0.05712890625,
+        "rmsd": 1.7547859468495266,
+        "tm_score": 0.8397038584675953
+      },
+      "exact_best_rmsd_percentile": 0.890625,
+      "exact_best_tm_percentile": 0.12109375,
+      "length": 54,
+      "neighborhood_rmsd_median": 0.244617496633504,
+      "neighborhood_rmsd_p90": 1.8494857396766458,
+      "neighborhood_sample": 256,
+      "neighborhood_tm_median": 0.9902477088400219
+    },
+    {
+      "anchor_rank": 2,
+      "cached_rank_of_exact_best": 2,
+      "cached_top1": {
+        "maximum_deviation": 0.8106115279286952,
+        "mean_plddt_change": -0.008942522321428559,
+        "min_plddt_change": -0.0048828125,
+        "rmsd": 0.23793613392196777,
+        "tm_score": 0.993607600965842
+      },
+      "catastrophic": false,
+      "exact_best": {
+        "maximum_deviation": 0.5807191856794806,
+        "mean_plddt_change": -0.01090262276785714,
+        "min_plddt_change": -0.033203125,
+        "rmsd": 0.1689225040842013,
+        "tm_score": 0.9967203071078542
+      },
+      "exact_best_rmsd_percentile": 0.42578125,
+      "exact_best_tm_percentile": 0.57421875,
+      "length": 70,
+      "neighborhood_rmsd_median": 0.19397981041638374,
+      "neighborhood_rmsd_p90": 1.4561970232943096,
+      "neighborhood_sample": 256,
+      "neighborhood_tm_median": 0.9956933189243694
+    },
+    {
+      "anchor_rank": 3,
+      "cached_rank_of_exact_best": 1,
+      "cached_top1": {
+        "maximum_deviation": 0.6403060008835629,
+        "mean_plddt_change": -0.0080385561342593,
+        "min_plddt_change": -0.00390625,
+        "rmsd": 0.15048391296333116,
+        "tm_score": 0.9961920652737533
+      },
+      "catastrophic": false,
+      "exact_best": {
+        "maximum_deviation": 0.6403060008835629,
+        "mean_plddt_change": -0.0080385561342593,
+        "min_plddt_change": -0.00390625,
+        "rmsd": 0.15048391296333116,
+        "tm_score": 0.9961920652737533
+      },
+      "exact_best_rmsd_percentile": 0.16015625,
+      "exact_best_tm_percentile": 0.83984375,
+      "length": 54,
+      "neighborhood_rmsd_median": 0.3672667614612271,
+      "neighborhood_rmsd_p90": 0.8668038193971107,
+      "neighborhood_sample": 256,
+      "neighborhood_tm_median": 0.9806619251327707
+    },
+    {
+      "anchor_rank": 4,
+      "cached_rank_of_exact_best": 1,
+      "cached_top1": {
+        "maximum_deviation": 1.0284499895244643,
+        "mean_plddt_change": 0.005904715401785721,
+        "min_plddt_change": -0.010498046875,
+        "rmsd": 0.40511051502477513,
+        "tm_score": 0.9816268875950266
+      },
+      "catastrophic": false,
+      "exact_best": {
+        "maximum_deviation": 1.0284499895244643,
+        "mean_plddt_change": 0.005904715401785721,
+        "min_plddt_change": -0.010498046875,
+        "rmsd": 0.40511051502477513,
+        "tm_score": 0.9816268875950266
+      },
+      "exact_best_rmsd_percentile": 0.078125,
+      "exact_best_tm_percentile": 0.92578125,
+      "length": 70,
+      "neighborhood_rmsd_median": 1.1604166122848363,
+      "neighborhood_rmsd_p90": 8.85367864601662,
+      "neighborhood_sample": 256,
+      "neighborhood_tm_median": 0.8860271761055489
+    },
+    {
+      "anchor_rank": 5,
+      "cached_rank_of_exact_best": 1,
+      "cached_top1": {
+        "maximum_deviation": 7.538122796210515,
+        "mean_plddt_change": 0.004962300145348819,
+        "min_plddt_change": 0.00927734375,
+        "rmsd": 0.8706451290787662,
+        "tm_score": 0.9817053373577715
+      },
+      "catastrophic": false,
+      "exact_best": {
+        "maximum_deviation": 7.538122796210515,
+        "mean_plddt_change": 0.004962300145348819,
+        "min_plddt_change": 0.00927734375,
+        "rmsd": 0.8706451290787662,
+        "tm_score": 0.9817053373577715
+      },
+      "exact_best_rmsd_percentile": 0.953125,
+      "exact_best_tm_percentile": 0.25,
+      "length": 86,
+      "neighborhood_rmsd_median": 0.2538804946070564,
+      "neighborhood_rmsd_p90": 0.7601227478075994,
+      "neighborhood_sample": 256,
+      "neighborhood_tm_median": 0.994410389731679
+    },
+    {
+      "anchor_rank": 6,
+      "cached_rank_of_exact_best": 1016,
+      "cached_top1": {
+        "maximum_deviation": 32.235015138858074,
+        "mean_plddt_change": -0.11592079936594202,
+        "min_plddt_change": -0.052490234375,
+        "rmsd": 12.560063704999406,
+        "tm_score": 0.17255128367467637
+      },
+      "catastrophic": true,
+      "exact_best": {
+        "maximum_deviation": 4.655373824381577,
+        "mean_plddt_change": 0.04880689538043481,
+        "min_plddt_change": 0.01708984375,
+        "rmsd": 2.4254082333325537,
+        "tm_score": 0.6296018633301907
+      },
+      "exact_best_rmsd_percentile": 0.4453125,
+      "exact_best_tm_percentile": 0.47265625,
+      "length": 69,
+      "neighborhood_rmsd_median": 2.6081899797686123,
+      "neighborhood_rmsd_p90": 6.942535863843346,
+      "neighborhood_sample": 256,
+      "neighborhood_tm_median": 0.6434135554668473
+    },
+    {
+      "anchor_rank": 7,
+      "cached_rank_of_exact_best": 1,
+      "cached_top1": {
+        "maximum_deviation": 5.5935352295804135,
+        "mean_plddt_change": -0.018768310546875,
+        "min_plddt_change": -0.091064453125,
+        "rmsd": 2.6454083901024577,
+        "tm_score": 0.6433850846510507
+      },
+      "catastrophic": false,
+      "exact_best": {
+        "maximum_deviation": 5.5935352295804135,
+        "mean_plddt_change": -0.018768310546875,
+        "min_plddt_change": -0.091064453125,
+        "rmsd": 2.6454083901024577,
+        "tm_score": 0.6433850846510507
+      },
+      "exact_best_rmsd_percentile": 0.71875,
+      "exact_best_tm_percentile": 0.1953125,
+      "length": 80,
+      "neighborhood_rmsd_median": 1.932161415165255,
+      "neighborhood_rmsd_p90": 3.930104819879755,
+      "neighborhood_sample": 256,
+      "neighborhood_tm_median": 0.8094639153471432
+    }
+  ],
+  "reading": "the optimum's own displacement does not separate the classes: on the pilot a reliable anchor's optimum moved further than the catastrophic anchor's (RMSD 2.645 against 2.425, TM 0.6434 against 0.6296) and was still ranked first, and the optimum sits at an ordinary percentile of its own neighborhood in both classes. What separates them is the neighborhood as a whole: the catastrophic anchor is the only one whose MEDIAN mutant loses the fold. The parent structure stops being a valid proxy for the entire neighborhood, not just for the optimum. This quantity still requires folding and so remains explanatory, not a pre-fold detector.",
+  "schema": "PLS_basin_escape_diagnosis_v1",
+  "status": "post_hoc_explanatory_only_never_a_detector_feature",
+  "superposition": "Kabsch on the identity alignment; a single substitution preserves length and residue order",
+  "test_evaluated": false,
+  "test_sequences_queried": 0,
+  "verdict": "the literal hypothesis is NOT supported; see reading"
+}
