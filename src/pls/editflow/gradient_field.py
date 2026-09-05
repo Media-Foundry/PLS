@@ -71,6 +71,11 @@ def main() -> None:
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--full-precision", action="store_true",
                         help="skip the float16 round-trip the caches impose")
+    parser.add_argument("--max-deviation", type=float, default=3e-2,
+                        help=("reject an anchor whose differentiable recomputation "
+                              "misses the batch-of-one cached-parent logit by more "
+                              "than this; the default is calibrated on the pilot, "
+                              "where the worst anchor was 9.2e-3"))
     arguments = parser.parse_args()
 
     config = json.loads(arguments.score_config.read_text())
@@ -183,7 +188,7 @@ def main() -> None:
         # and ~1.3e-2 on the residue PCA, which propagates to a few times 1e-3 in
         # the logit. Cached-parent mutation effects have median |effect| 0.110 and
         # sd 0.366, so this is a low single-digit percent perturbation.
-        if deviation > 3e-2:
+        if deviation > arguments.max_deviation:
             raise SystemExit(
                 f"differentiable recomputation does not reproduce the batch-of-one "
                 f"cached-parent logit for anchor {anchor['anchor_rank']}: "
@@ -220,10 +225,18 @@ def main() -> None:
         lengths=np.asarray([r["length"] for r in results], dtype=np.int64),
         sequences=np.asarray([r["sequence"] for r in results]),
         alphabet=np.asarray(list(AMINO_ACIDS)),
+        absolute_deviations=np.asarray(
+            [r["absolute_deviation"] for r in results], dtype=np.float64),
+        anchor_logit_batch_of_one=np.asarray(
+            [r["anchor_logit_batch_of_one"] for r in results], dtype=np.float64),
         **{f"field_{r['anchor_rank']}": r["field"] for r in results},
     )
+    deviations = sorted(r["absolute_deviation"] for r in results)
     print(json.dumps({
         "anchors": len(results),
+        "max_deviation_allowed": arguments.max_deviation,
+        "median_absolute_deviation": deviations[len(deviations) // 2],
+        "anchors_above_pilot_tolerance_3e-2": sum(d > 3e-2 for d in deviations),
         "maximum_absolute_deviation": max(r["absolute_deviation"] for r in results),
         "test_sequences_queried": 0,
         "test_evaluated": False,
