@@ -86,7 +86,9 @@ def main() -> None:
             "test_evaluated": False,
             "test_sequences_queried": 0,
         }
-        path = arguments.output_dir / f"pls_editflow_oracle_query_plan_neighborhood_scale_{name}_v1.json"
+        # Derive the campaign name from the manifest so two runs cannot collide.
+        campaign = arguments.manifest.stem.replace("pls_editflow_", "")
+        path = arguments.output_dir / f"pls_editflow_oracle_query_plan_{campaign}_{name}.json"
         path.write_text(json.dumps(plan, indent=2, sort_keys=True) + "\n")
         lengths = np.asarray([by_anchor[r][0]["length"] for r in ranks], dtype=float)
         report_machines.append({
