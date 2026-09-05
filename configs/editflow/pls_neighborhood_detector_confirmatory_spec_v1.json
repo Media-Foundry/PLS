@@ -1,0 +1,48 @@
+{
+  "schema": "PLS_neighborhood_detector_confirmatory_spec_v1",
+  "status": "frozen_before_any_confirmatory_component_is_folded",
+  "purpose": "Confirm on a fresh disjoint component batch the single detector that looked best on the exploratory n=64 batch, with the operating point, direction, event and success criterion all fixed in advance.",
+
+  "detector": {
+    "signal": "struct_seq_top8_disjoint",
+    "definition": "1 - |topK(cached_parent field) intersect topK(sequence_only field)| / 8, with K = 8, both fields computed with zero mutant folds",
+    "direction": "higher means the cached-parent field is LESS trustworthy",
+    "hypothesis_selected": "H_unreliable",
+    "hypothesis_rejected": "H_informative",
+    "operating_threshold": 1.0,
+    "rule": "flag the component when the two top-8 sets are completely disjoint"
+  },
+
+  "event": {
+    "primary": "rank_gt_8",
+    "definition": "the cached-parent rank of the exact best single mutant exceeds 8",
+    "secondary": "regret_gt_0.05 at budget 8"
+  },
+
+  "exploratory_values_being_tested": {
+    "batch": "pls_editflow_neighborhood_scale_v1, 64 components",
+    "roc_auc": 0.719,
+    "average_precision": 0.693,
+    "base_rate": 0.4531,
+    "precision_at_threshold": 0.7037,
+    "recall_at_threshold": 0.6552,
+    "selection_bias_warning": "0.72 was the maximum over roughly 15 signals and 5 events, about 675 evaluated rows, so it is optimistically biased and the confirmatory value is expected to be lower"
+  },
+
+  "success_criteria": {
+    "primary": "ROC AUC of the signal for the primary event is greater than 0.5 at one-sided alpha 0.05 on the fresh batch, by a DeLong or bootstrap interval",
+    "secondary": "precision at threshold 1.0 exceeds the fresh batch's own base rate",
+    "interpretation_if_primary_fails": "the detector is not confirmed and must not be used to set a budget; report it as an exploratory finding that did not replicate",
+    "interpretation_if_primary_passes_but_auc_is_low": "report the confirmed AUC, not the exploratory 0.72; a detector near 0.6 has little deployment value at a 45 percent base rate"
+  },
+
+  "prohibited": [
+    "changing the signal, direction, threshold, or event after seeing the fresh batch",
+    "reporting the best of several signals on the fresh batch as if it had been pre-specified",
+    "pooling the fresh batch with the exploratory 64 components for the confirmatory test",
+    "evaluating, scoring, inspecting or selecting on the repository test split"
+  ],
+
+  "test_evaluated": false,
+  "test_sequences_queried": 0
+}
