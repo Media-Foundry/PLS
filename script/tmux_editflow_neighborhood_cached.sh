@@ -90,10 +90,21 @@ for index in "${!devices[@]}"; do
     command="cd '$repo_root' && export HIP_VISIBLE_DEVICES='$device' PYTHONPATH='$repo_root/src:$repo_root' && { '$python_bin' -m pls.features.extract_esm2_residue --entities '$entities' --offsets '$fixed/structure_v4_compact/offsets.npy' --structure-status '$fixed/structure_v4_raw/status.npy' --output '$artifact_root/residue_esm2_raw' --shard-count '$shards' --shard-index '$index' --hip-device '$device' --token-budget 8192 && '$python_bin' preparation/project_esm2_residue_pca.py --entities '$entities' --offsets '$fixed/structure_v4_compact/offsets.npy' --structure-status '$fixed/structure_v4_raw/status.npy' --source '$artifact_root/residue_esm2_raw' --pca '$pca' --output '$artifact_root/residue_esm2_pca' --shard-count '$shards' --shard-index '$index' --hip-device '$device' --residue-budget 65536; } >> '$artifact_root/logs/residue_g${device}.log' 2>&1"
     tmux new-session -d -s "pls_nbhd_${tag}_residue_g${device}" "bash -lc \"$command\""
 done
-while tmux list-sessions 2>/dev/null | grep -q 'pls_nbhd_${tag}_residue_g'; do sleep 20; done
+# Double quotes: the tag must expand, or this loop matches nothing and the
+# scoring step below runs against a half-written PCA cache.
+while tmux list-sessions 2>/dev/null | grep -q "pls_nbhd_${tag}_residue_g"; do sleep 20; done
+for index in "${!devices[@]}"; do
+    log="$artifact_root/logs/residue_g${devices[$index]}.log"
+    grep -q '"complete": true' "$log" || {
+        echo "REFUSING: residue shard ${devices[$index]} did not report completion" >&2
+        exit 4
+    }
+done
 
 note "scoring the cached-parent oracle over the whole neighborhood"
-HIP_VISIBLE_DEVICES="$lead" "$python_bin" -m pls.oracles.score_editflow \
+# score_editflow asserts HIP_VISIBLE_DEVICES equals the config's hip_device.
+score_device=$("$python_bin" -c "import json,sys; print(json.load(open(sys.argv[1]))['inference']['hip_device'])" "$score_config")
+HIP_VISIBLE_DEVICES="$score_device" "$python_bin" -m pls.oracles.score_editflow \
     --config "$score_config" --output-root "$fixed/scores_fp32_a" \
     >> "$artifact_root/logs/score_fixed.log" 2>&1
 note "cached-parent stage complete; zero mutants folded"
